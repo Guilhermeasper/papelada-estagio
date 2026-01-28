@@ -45,15 +45,16 @@ export const documentOptions: IDocumentOption[] = [
  */
 function getDefaultEvaluationData(): IAdvisorEvaluationData & ISupervisorEvaluationData {
   return {
-    communication: 'Bom',
-    attendance: 'Bom',
-    cooperation: 'Bom',
-    independence: 'Bom',
-    knowledgeLevel: 'Bom',
-    overallPerformance: 'Bom',
-    detailedComments: '',
-    finalGrade: 8,
-    evaluationDate: new Date().toISOString().split('T')[0],
+    // Return empty data to let the user fill manually
+    communication: undefined,
+    attendance: undefined,
+    cooperation: undefined,
+    independence: undefined,
+    knowledgeLevel: undefined,
+    overallPerformance: undefined,
+    detailedComments: undefined,
+    finalGrade: undefined,
+    evaluationDate: undefined,
   };
 }
 

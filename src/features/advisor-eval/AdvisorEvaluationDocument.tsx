@@ -21,15 +21,15 @@ export type Rating = 'Ótimo' | 'Bom' | 'Regular' | 'Ruim';
 // Advisor Evaluation Data
 // ============================================
 export interface IAdvisorEvaluationData {
-  communication: Rating;
-  attendance: Rating;
-  cooperation: Rating;
-  independence: Rating;
-  knowledgeLevel: Rating;
-  overallPerformance: Rating;
+  communication?: Rating;
+  attendance?: Rating;
+  cooperation?: Rating;
+  independence?: Rating;
+  knowledgeLevel?: Rating;
+  overallPerformance?: Rating;
   detailedComments?: string;
-  finalGrade: number;
-  evaluationDate: string; // ISO format
+  finalGrade?: number;
+  evaluationDate?: string; // ISO format
 }
 
 // ============================================
@@ -165,7 +165,8 @@ const styles = StyleSheet.create({
 // ============================================
 // Helper Functions
 // ============================================
-function formatDateLong(isoDate: string): string {
+function formatDateLong(isoDate?: string): string {
+  if (!isoDate) return '';
   const date = new Date(isoDate);
   const day = date.getDate();
   const months = [
@@ -182,7 +183,7 @@ function formatDatePtBr(isoDate: string): string {
   return `${day}/${month}/${year}`;
 }
 
-function renderRating(selected: Rating): string {
+function renderRating(selected?: Rating): string {
   const options: Rating[] = ['Ótimo', 'Bom', 'Regular', 'Ruim'];
   return options.map((option) => 
     `${option} ( ${option === selected ? 'X' : ' '} )`
@@ -348,7 +349,7 @@ export function AdvisorEvaluationDocument({ data, evaluation }: AdvisorEvaluatio
 
         {/* 4. Final Grade */}
         <Text style={styles.sectionNumber}>
-          4. Dê uma nota de 0 a 10 para o estagiário: {evaluation.finalGrade}
+          4. Dê uma nota de 0 a 10 para o estagiário: {evaluation.finalGrade ?? '   '}
         </Text>
 
         {/* Date */}
