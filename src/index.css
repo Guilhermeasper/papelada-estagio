@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+/* CIn-UFPE Theme */
+@theme {
+  /* Colors */
+  --color-cin-red: #DB1E2F;
+  --color-cin-dark: #AF0421;
+  --color-cin-black: #231F20;
+  --color-cin-gray: #E0E1E0;
+  --color-cin-white: #FFFFFF;
+  
+  /* Font Families */
+  --font-sans: "Montserrat", sans-serif;
+  --font-serif: "Merriweather", serif;
+}
+
+/* Base Styles */
+body {
+  @apply bg-cin-white text-cin-black font-sans;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus styles */
+*:focus-visible {
+  @apply outline-2 outline-offset-2 outline-cin-red;
+}
