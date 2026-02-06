@@ -34,18 +34,18 @@ export function MobileStepPopover({ currentStep, steps, onStepClick }: MobileSte
       <button
         // @ts-expect-error - popoverTarget is a new attribute
         popovertarget="steps-popover"
-        className="w-full flex items-center justify-between bg-white border border-cin-gray rounded-lg p-3 shadow-sm hover:bg-cin-gray/20 transition-colors"
+        className="w-full flex items-center justify-between bg-surface-elevated border border-border rounded-lg p-3 shadow-sm hover:bg-text-secondary/10 transition-colors"
       >
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-cin-red text-white rounded-full flex items-center justify-center text-sm font-semibold">
             {currentStep}
           </div>
           <div className="text-left">
-            <p className="text-xs text-cin-black/60">Passo {currentStep} de {steps.length}</p>
+            <p className="text-xs text-text-secondary">Passo {currentStep} de {steps.length}</p>
             <p className="text-sm font-semibold text-cin-red">{currentStepInfo?.title}</p>
           </div>
         </div>
-        <svg className="w-5 h-5 text-cin-black/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
@@ -57,19 +57,19 @@ export function MobileStepPopover({ currentStep, steps, onStepClick }: MobileSte
         popover="auto"
         className="
           fixed inset-0 m-0 w-full h-full max-w-none max-h-none
-          bg-white p-0 border-none
+          bg-surface p-0 border-none
           backdrop:bg-black/50
         "
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-cin-gray bg-white sticky top-0">
-          <h2 className="text-lg font-bold text-cin-black">Navegação</h2>
+        <div className="flex items-center justify-between p-4 border-b border-border bg-surface-elevated sticky top-0">
+          <h2 className="text-lg font-bold text-text-primary">Navegação</h2>
           <button
             onClick={closePopover}
-            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-cin-gray/30 transition-colors"
+            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-text-secondary/20 transition-colors"
             aria-label="Fechar"
           >
-            <svg className="w-6 h-6 text-cin-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -90,7 +90,7 @@ export function MobileStepPopover({ currentStep, steps, onStepClick }: MobileSte
                     disabled={!isClickable}
                     className={`
                       w-full flex items-start gap-4 p-4 rounded-xl transition-all
-                      ${isCurrent ? 'bg-cin-red/10 border-2 border-cin-red' : 'bg-cin-gray/20 border-2 border-transparent'}
+                      ${isCurrent ? 'bg-cin-red/10 border-2 border-cin-red' : 'bg-text-secondary/10 border-2 border-transparent'}
                       ${isClickable ? 'hover:bg-cin-red/5 cursor-pointer' : 'opacity-50 cursor-not-allowed'}
                     `}
                   >
@@ -99,7 +99,7 @@ export function MobileStepPopover({ currentStep, steps, onStepClick }: MobileSte
                       className={`
                         flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center
                         font-semibold text-sm
-                        ${isCompleted ? 'bg-cin-red text-white' : isCurrent ? 'bg-cin-red text-white' : 'bg-cin-gray text-cin-black/60'}
+                        ${isCompleted ? 'bg-cin-red text-white' : isCurrent ? 'bg-cin-red text-white' : 'bg-border text-text-secondary'}
                       `}
                     >
                       {isCompleted ? (
@@ -117,14 +117,14 @@ export function MobileStepPopover({ currentStep, steps, onStepClick }: MobileSte
 
                     {/* Step Info */}
                     <div className="flex-1 text-left">
-                      <p className={`font-medium ${isCurrent ? 'text-cin-red' : isCompleted ? 'text-cin-red/80' : 'text-cin-black/60'}`}>
+                      <p className={`font-medium ${isCurrent ? 'text-cin-red' : isCompleted ? 'text-cin-red/80' : 'text-text-secondary'}`}>
                         {step.title}
                       </p>
-                      <p className="text-xs text-cin-black/50 mt-0.5">{step.description}</p>
+                      <p className="text-xs text-text-secondary mt-0.5">{step.description}</p>
                       {step.requirements && step.requirements.length > 0 && (
                         <ul className="mt-2 space-y-1">
                           {step.requirements.map((req, i) => (
-                            <li key={i} className="flex items-start gap-1.5 text-xs text-cin-black/50">
+                            <li key={i} className="flex items-start gap-1.5 text-xs text-text-secondary">
                               <span className="text-cin-red mt-0.5">•</span>
                               <span>{req}</span>
                             </li>
@@ -135,7 +135,7 @@ export function MobileStepPopover({ currentStep, steps, onStepClick }: MobileSte
 
                     {/* Status indicator */}
                     {isClickable && !isCurrent && (
-                      <svg className="w-5 h-5 text-cin-black/30 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-text-secondary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     )}

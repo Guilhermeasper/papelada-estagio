@@ -4,4 +4,5 @@ export { ErrorBoundary } from './ErrorBoundary';
 export { Input } from './Input';
 export { Select } from './Select';
 export { TextArea } from './TextArea';
+export { ThemeToggle } from './ThemeToggle';
 

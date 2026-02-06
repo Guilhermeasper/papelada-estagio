@@ -2,21 +2,37 @@
 
 /* CIn-UFPE Theme */
 @theme {
-  /* Colors */
+  /* Brand Colors - Constant across themes */
   --color-cin-red: #DB1E2F;
   --color-cin-dark: #AF0421;
   --color-cin-black: #231F20;
   --color-cin-gray: #E0E1E0;
   --color-cin-white: #FFFFFF;
   
+  /* Semantic Colors - Light mode defaults */
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+  --color-text-primary: #231F20;
+  --color-text-secondary: #6B6B6B;
+  --color-border: #E0E1E0;
+  
   /* Font Families */
   --font-sans: "Montserrat", sans-serif;
   --font-serif: "Merriweather", serif;
 }
 
+/* Dark Mode - Institutional colors */
+.dark {
+  --color-surface: #231F20;
+  --color-surface-elevated: #2E2A2B;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #E0E1E0;
+  --color-border: #AF0421;
+}
+
 /* Base Styles */
 body {
-  @apply bg-cin-white text-cin-black font-sans;
+  @apply bg-surface text-text-primary font-sans;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

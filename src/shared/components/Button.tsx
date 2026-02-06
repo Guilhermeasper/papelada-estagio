@@ -31,9 +31,9 @@ export function Button({
       active:bg-cin-dark
     `,
     secondary: `
-      bg-cin-black text-white
-      hover:bg-cin-black/90
-      active:bg-cin-black/80
+      bg-surface-elevated text-text-primary border border-border
+      hover:bg-text-secondary/10
+      active:bg-text-secondary/20
     `,
     outline: `
       border-2 border-cin-red text-cin-red
@@ -41,9 +41,9 @@ export function Button({
       active:bg-cin-dark
     `,
     ghost: `
-      text-cin-black
-      hover:bg-cin-gray
-      active:bg-cin-gray/80
+      text-text-primary
+      hover:bg-text-secondary/10
+      active:bg-text-secondary/20
     `,
   };
   

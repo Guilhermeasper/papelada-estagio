@@ -6,6 +6,7 @@
  */
 
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
+import { ThemeToggle } from '../shared/components';
 import {
     ICompanyData,
     IInternshipContent,
@@ -89,8 +90,8 @@ function StepLoading() {
   return (
     <div className="flex items-center justify-center py-12">
       <div className="flex flex-col items-center gap-4">
-        <div className="w-8 h-8 border-4 border-cin-gray border-t-cin-red rounded-full animate-spin" />
-        <p className="text-cin-black/60 text-sm">Carregando...</p>
+        <div className="w-8 h-8 border-4 border-border border-t-cin-red rounded-full animate-spin" />
+        <p className="text-text-secondary text-sm">Carregando...</p>
       </div>
     </div>
   );
@@ -116,12 +117,12 @@ function ExitConfirmDialog({ isOpen, onSaveAndExit, onExitWithoutSaving, onCance
       />
       
       {/* Dialog */}
-      <div className="relative bg-white rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
-        <h2 className="text-xl font-bold text-cin-black mb-3">
+      <div className="relative bg-surface-elevated rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
+        <h2 className="text-xl font-bold text-text-primary mb-3">
           Deseja salvar seu progresso?
         </h2>
         
-        <p className="text-cin-black/70 mb-6">
+        <p className="text-text-secondary mb-6">
           Você tem dados não finalizados. O que deseja fazer?
         </p>
         
@@ -135,14 +136,14 @@ function ExitConfirmDialog({ isOpen, onSaveAndExit, onExitWithoutSaving, onCance
           
           <button
             onClick={onExitWithoutSaving}
-            className="w-full py-3 px-4 bg-gray-100 text-cin-black rounded-lg font-medium hover:bg-gray-200 transition-colors"
+            className="w-full py-3 px-4 bg-text-secondary/20 text-text-primary rounded-lg font-medium hover:bg-text-secondary/30 transition-colors"
           >
             Sair sem salvar
           </button>
           
           <button
             onClick={onCancel}
-            className="w-full py-2 px-4 text-cin-black/60 hover:text-cin-black transition-colors text-sm"
+            className="w-full py-2 px-4 text-text-secondary hover:text-text-primary transition-colors text-sm"
           >
             Cancelar
           </button>
@@ -295,14 +296,14 @@ export function WizardContainer() {
   // Show loading while initializing
   if (!isInitialized) {
     return (
-      <div className="min-h-screen bg-cin-gray/30 flex items-center justify-center">
+      <div className="min-h-screen bg-surface flex items-center justify-center">
         <StepLoading />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-cin-gray/30">
+    <div className="min-h-screen bg-surface">
       {/* Exit Confirmation Dialog */}
       <ExitConfirmDialog
         isOpen={showExitDialog}
@@ -312,7 +313,7 @@ export function WizardContainer() {
       />
 
       {/* Header */}
-      <header className="bg-white border-b border-cin-gray">
+      <header className="bg-surface-elevated border-b border-border">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-center gap-4">
             {/* Logo placeholder */}
@@ -320,21 +321,26 @@ export function WizardContainer() {
               <span className="text-white font-bold text-lg">CIn</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-cin-black">
+              <h1 className="text-xl font-bold text-text-primary">
                 Documentos de Estágio
               </h1>
-              <p className="text-sm text-cin-black/60">
+              <p className="text-sm text-text-secondary">
                 Centro de Informática - UFPE
               </p>
             </div>
             
             {/* Progress indicator - shows if there's saved progress */}
             {hasProgress() && (
-              <div className="ml-auto flex items-center gap-2 text-sm text-cin-black/50">
+              <div className="ml-auto flex items-center gap-2 text-sm text-text-secondary">
                 <div className="w-2 h-2 bg-green-500 rounded-full" />
                 <span>Progresso salvo</span>
               </div>
             )}
+            
+            {/* Theme Toggle */}
+            <div className={hasProgress() ? '' : 'ml-auto'}>
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </header>
@@ -356,7 +362,7 @@ export function WizardContainer() {
 
           {/* Form Card */}
           <div className="flex-1 min-w-0">
-            <div className="bg-white rounded-xl shadow-sm border border-cin-gray p-6 md:p-8">
+            <div className="bg-surface-elevated rounded-xl shadow-sm border border-border p-6 md:p-8">
               <Suspense fallback={<StepLoading />}>
                 <StepComponent {...stepProps} />
               </Suspense>
@@ -366,9 +372,9 @@ export function WizardContainer() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-cin-gray mt-auto">
+      <footer className="bg-surface-elevated border-t border-border mt-auto">
         <div className="max-w-4xl mx-auto px-4 py-4">
-          <p className="text-center text-sm text-cin-black/40">
+          <p className="text-center text-sm text-text-secondary">
             © {new Date().getFullYear()} Centro de Informática - UFPE
           </p>
         </div>
