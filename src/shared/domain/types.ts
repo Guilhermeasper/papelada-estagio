@@ -100,7 +100,7 @@ export interface IDocumentGenerator {
 }
 
 // Tipo para os passos do wizard
-export type WizardStep = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type WizardStep = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
 // Informação de cada passo
 export interface IStepInfo {

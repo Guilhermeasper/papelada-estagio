@@ -7,13 +7,13 @@
 
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  ICompanyData,
-  IInternshipContent,
-  IInternshipData,
-  IInternshipGeneral,
-  IStudentData,
-  ISupervisionData,
-  WizardStep
+    ICompanyData,
+    IInternshipContent,
+    IInternshipData,
+    IInternshipGeneral,
+    IStudentData,
+    ISupervisionData,
+    WizardStep
 } from '../shared/domain/types';
 import { useWizardPersistence } from '../shared/hooks';
 import { StepIndicator } from './StepIndicator';
@@ -205,15 +205,6 @@ export function WizardContainer() {
   // Data update handlers with persistence
   const handleStudentUpdate = (studentData: IStudentData) => {
     const newData = { ...data, student: studentData };
-    const newCompleted = [...new Set([...completedSteps, 1 as WizardStep])];
-    setData(newData);
-    setCompletedSteps(newCompleted);
-    persistProgress(newData, 2 as WizardStep, newCompleted);
-    nextStep();
-  };
-
-  const handleCompanyUpdate = (companyData: ICompanyData) => {
-    const newData = { ...data, company: companyData };
     const newCompleted = [...new Set([...completedSteps, 2 as WizardStep])];
     setData(newData);
     setCompletedSteps(newCompleted);
@@ -221,8 +212,8 @@ export function WizardContainer() {
     nextStep();
   };
 
-  const handleGeneralUpdate = (generalData: IInternshipGeneral) => {
-    const newData = { ...data, general: generalData };
+  const handleCompanyUpdate = (companyData: ICompanyData) => {
+    const newData = { ...data, company: companyData };
     const newCompleted = [...new Set([...completedSteps, 3 as WizardStep])];
     setData(newData);
     setCompletedSteps(newCompleted);
@@ -230,8 +221,8 @@ export function WizardContainer() {
     nextStep();
   };
 
-  const handleContentUpdate = (contentData: IInternshipContent) => {
-    const newData = { ...data, content: contentData };
+  const handleGeneralUpdate = (generalData: IInternshipGeneral) => {
+    const newData = { ...data, general: generalData };
     const newCompleted = [...new Set([...completedSteps, 4 as WizardStep])];
     setData(newData);
     setCompletedSteps(newCompleted);
@@ -239,12 +230,21 @@ export function WizardContainer() {
     nextStep();
   };
 
-  const handleSupervisionUpdate = (supervisionData: ISupervisionData) => {
-    const newData = { ...data, supervision: supervisionData };
+  const handleContentUpdate = (contentData: IInternshipContent) => {
+    const newData = { ...data, content: contentData };
     const newCompleted = [...new Set([...completedSteps, 5 as WizardStep])];
     setData(newData);
     setCompletedSteps(newCompleted);
     persistProgress(newData, 6 as WizardStep, newCompleted);
+    nextStep();
+  };
+
+  const handleSupervisionUpdate = (supervisionData: ISupervisionData) => {
+    const newData = { ...data, supervision: supervisionData };
+    const newCompleted = [...new Set([...completedSteps, 6 as WizardStep])];
+    setData(newData);
+    setCompletedSteps(newCompleted);
+    persistProgress(newData, 7 as WizardStep, newCompleted);
     nextStep();
   };
 
@@ -269,18 +269,20 @@ export function WizardContainer() {
   const stepProps = useMemo(() => {
     switch (currentStep) {
       case 1:
-        return { data: data.student, onNext: handleStudentUpdate };
+        return { onNext: nextStep };
       case 2:
-        return { data: data.company, onNext: handleCompanyUpdate, onBack: prevStep };
+        return { data: data.student, onNext: handleStudentUpdate };
       case 3:
-        return { data: data.general, onNext: handleGeneralUpdate, onBack: prevStep };
+        return { data: data.company, onNext: handleCompanyUpdate, onBack: prevStep };
       case 4:
-        return { data: data.content, onNext: handleContentUpdate, onBack: prevStep };
+        return { data: data.general, onNext: handleGeneralUpdate, onBack: prevStep };
       case 5:
-        return { data: data.supervision, onNext: handleSupervisionUpdate, onBack: prevStep };
+        return { data: data.content, onNext: handleContentUpdate, onBack: prevStep };
       case 6:
-        return { data, onNext: nextStep, onBack: prevStep, onEdit: (step: number) => goToStep(step as WizardStep) };
+        return { data: data.supervision, onNext: handleSupervisionUpdate, onBack: prevStep };
       case 7:
+        return { data, onNext: nextStep, onBack: prevStep, onEdit: (step: number) => goToStep(step as WizardStep) };
+      case 8:
       default:
         return { data, onBack: prevStep };
     }

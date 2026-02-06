@@ -15,6 +15,10 @@ import {
 } from '../shared/domain/types';
 
 // Step component prop types
+interface Step0Props {
+  onNext: () => void;
+}
+
 interface Step1Props {
   data: IStudentData;
   onNext: (data: IStudentData) => void;
@@ -57,9 +61,12 @@ interface Step7Props {
 }
 
 // Union type for all step props
-type StepProps = Step1Props | Step2Props | Step3Props | Step4Props | Step5Props | Step6Props | Step7Props;
+type StepProps = Step0Props | Step1Props | Step2Props | Step3Props | Step4Props | Step5Props | Step6Props | Step7Props;
 
 // Lazy load step components for code splitting
+const Step0_Checklist = lazy(() => 
+  import('./steps/Step0_Checklist').then(m => ({ default: m.Step0_Checklist }))
+);
 const Step1_StudentForm = lazy(() => 
   import('./steps/Step1_StudentForm').then(m => ({ default: m.Step1_StudentForm }))
 );
@@ -84,13 +91,14 @@ const Step7_DownloadStep = lazy(() =>
 
 // Registry of step components
 export const STEP_REGISTRY: Record<WizardStep, LazyExoticComponent<ComponentType<StepProps>>> = {
-  1: Step1_StudentForm as LazyExoticComponent<ComponentType<StepProps>>,
-  2: Step2_CompanyForm as LazyExoticComponent<ComponentType<StepProps>>,
-  3: Step3_InternshipGeneral as LazyExoticComponent<ComponentType<StepProps>>,
-  4: Step4_InternshipContent as LazyExoticComponent<ComponentType<StepProps>>,
-  5: Step5_SupervisionForm as LazyExoticComponent<ComponentType<StepProps>>,
-  6: Step6_ReviewStep as LazyExoticComponent<ComponentType<StepProps>>,
-  7: Step7_DownloadStep as LazyExoticComponent<ComponentType<StepProps>>,
+  1: Step0_Checklist as LazyExoticComponent<ComponentType<StepProps>>,
+  2: Step1_StudentForm as LazyExoticComponent<ComponentType<StepProps>>,
+  3: Step2_CompanyForm as LazyExoticComponent<ComponentType<StepProps>>,
+  4: Step3_InternshipGeneral as LazyExoticComponent<ComponentType<StepProps>>,
+  5: Step4_InternshipContent as LazyExoticComponent<ComponentType<StepProps>>,
+  6: Step5_SupervisionForm as LazyExoticComponent<ComponentType<StepProps>>,
+  7: Step6_ReviewStep as LazyExoticComponent<ComponentType<StepProps>>,
+  8: Step7_DownloadStep as LazyExoticComponent<ComponentType<StepProps>>,
 };
 
 // Loading fallback component

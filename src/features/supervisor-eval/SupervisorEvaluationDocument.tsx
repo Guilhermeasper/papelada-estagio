@@ -354,7 +354,7 @@ export function SupervisorEvaluationDocument({ data, evaluation }: SupervisorEva
 
         {/* Date */}
         <View style={styles.dateSection}>
-          <Text>Data: {formatDateLong(evaluation.evaluationDate)}</Text>
+          <Text>Data: {formatDateLong(general.endDate)}</Text>
         </View>
 
         {/* Signature */}

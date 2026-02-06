@@ -4,11 +4,11 @@
  */
 
 import {
-  Document,
-  Page,
-  StyleSheet,
-  Text,
-  View,
+    Document,
+    Page,
+    StyleSheet,
+    Text,
+    View,
 } from '@react-pdf/renderer';
 import type { IInternshipData } from '../../shared/domain/types';
 
@@ -354,7 +354,7 @@ export function AdvisorEvaluationDocument({ data, evaluation }: AdvisorEvaluatio
 
         {/* Date */}
         <View style={styles.dateSection}>
-          <Text>Data: {formatDateLong(evaluation.evaluationDate)}</Text>
+          <Text>Data: {formatDateLong(general.endDate)}</Text>
         </View>
 
         {/* Signature */}
