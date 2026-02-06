@@ -339,15 +339,35 @@ export function WizardContainer() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        {/* Step Indicator */}
-        <StepIndicator currentStep={currentStep} steps={STEPS} onStepClick={goToStep} />
+      <main className="max-w-6xl mx-auto px-4 py-8">
+        <div className="flex gap-8">
+          {/* Left Sidebar - Step Indicator */}
+          <aside className="hidden md:block w-64 flex-shrink-0">
+            <div className="sticky top-8">
+              <StepIndicator currentStep={currentStep} steps={STEPS} onStepClick={goToStep} />
+            </div>
+          </aside>
 
-        {/* Form Card */}
-        <div className="bg-white rounded-xl shadow-sm border border-cin-gray p-6 md:p-8">
-          <Suspense fallback={<StepLoading />}>
-            <StepComponent {...stepProps} />
-          </Suspense>
+          {/* Mobile Step Indicator */}
+          <div className="md:hidden mb-6 w-full">
+            <div className="text-center">
+              <p className="text-sm text-cin-black/60">
+                Passo {currentStep} de {STEPS.length}
+              </p>
+              <p className="text-lg font-semibold text-cin-red">
+                {STEPS.find((s) => s.step === currentStep)?.title}
+              </p>
+            </div>
+          </div>
+
+          {/* Form Card */}
+          <div className="flex-1 min-w-0">
+            <div className="bg-white rounded-xl shadow-sm border border-cin-gray p-6 md:p-8">
+              <Suspense fallback={<StepLoading />}>
+                <StepComponent {...stepProps} />
+              </Suspense>
+            </div>
+          </div>
         </div>
       </main>
 
