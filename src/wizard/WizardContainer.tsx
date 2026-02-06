@@ -16,6 +16,7 @@ import {
     WizardStep
 } from '../shared/domain/types';
 import { useWizardPersistence } from '../shared/hooks';
+import { MobileStepPopover } from './MobileStepPopover';
 import { StepIndicator } from './StepIndicator';
 import { STEPS, TOTAL_STEPS } from './stepConfig';
 import { STEP_REGISTRY } from './stepRegistry';
@@ -340,25 +341,18 @@ export function WizardContainer() {
 
       {/* Main Content */}
       <main className="max-w-6xl mx-auto px-4 py-8">
+        {/* Mobile Step Popover */}
+        <div className="md:hidden mb-4">
+          <MobileStepPopover currentStep={currentStep} steps={STEPS} onStepClick={goToStep} />
+        </div>
+
         <div className="flex gap-8">
-          {/* Left Sidebar - Step Indicator */}
+          {/* Left Sidebar - Step Indicator (Desktop only) */}
           <aside className="hidden md:block w-64 flex-shrink-0">
             <div className="sticky top-8">
               <StepIndicator currentStep={currentStep} steps={STEPS} onStepClick={goToStep} />
             </div>
           </aside>
-
-          {/* Mobile Step Indicator */}
-          <div className="md:hidden mb-6 w-full">
-            <div className="text-center">
-              <p className="text-sm text-cin-black/60">
-                Passo {currentStep} de {STEPS.length}
-              </p>
-              <p className="text-lg font-semibold text-cin-red">
-                {STEPS.find((s) => s.step === currentStep)?.title}
-              </p>
-            </div>
-          </div>
 
           {/* Form Card */}
           <div className="flex-1 min-w-0">
