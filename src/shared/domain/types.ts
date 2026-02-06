@@ -107,6 +107,7 @@ export interface IStepInfo {
   step: WizardStep;
   title: string;
   description: string;
+  requirements?: string[];  // Bullet points shown on hover
 }
 
 // Documentos disponíveis para geração

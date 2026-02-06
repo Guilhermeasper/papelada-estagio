@@ -341,7 +341,7 @@ export function WizardContainer() {
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 py-8">
         {/* Step Indicator */}
-        <StepIndicator currentStep={currentStep} steps={STEPS} />
+        <StepIndicator currentStep={currentStep} steps={STEPS} onStepClick={goToStep} />
 
         {/* Form Card */}
         <div className="bg-white rounded-xl shadow-sm border border-cin-gray p-6 md:p-8">
