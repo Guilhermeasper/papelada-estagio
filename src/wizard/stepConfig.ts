@@ -11,8 +11,12 @@ export const STEPS: IStepInfo[] = [
     title: 'Checklist', 
     description: 'Documentos necessários',
     requirements: [
-      'Verificar documentos necessários',
-      'Preparar informações do estágio',
+      'Plano de Atividades (Modelo CIn)',
+      'Declaração da Empresa (Vínculo CLT)',
+      'Cópia da CTPS (foto e contrato)',
+      'Relatório Final de Estágio',
+      'Avaliação pelo Professor Orientador',
+      'Avaliação pelo Supervisor',
     ]
   },
   { 
@@ -21,9 +25,11 @@ export const STEPS: IStepInfo[] = [
     description: 'Informações pessoais e acadêmicas',
     requirements: [
       'Nome completo',
-      'E-mail institucional',
-      'Endereço e telefone',
-      'Curso e matrícula',
+      'E-mail',
+      'Endereço residencial completo',
+      'Telefone',
+      'Curso e Ano de Ingresso',
+      'Matrícula',
     ]
   },
   { 
@@ -31,7 +37,7 @@ export const STEPS: IStepInfo[] = [
     title: 'Empresa', 
     description: 'Dados da empresa concedente',
     requirements: [
-      'Razão social da empresa',
+      'Razão Social',
       'Endereço completo',
       'CNPJ',
     ]
@@ -41,10 +47,11 @@ export const STEPS: IStepInfo[] = [
     title: 'Info. Gerais', 
     description: 'Período e carga horária',
     requirements: [
-      'Data de início e término',
-      'Carga horária diária',
-      'Horário de trabalho',
-      'Modalidade (remoto/presencial)',
+      'Período de vigência (Início e Fim)',
+      'Carga horária diária (máx. 8h para CLT)',
+      'Dias da semana',
+      'Horário de trabalho (entrada, intervalo, saída)',
+      'Modalidade (Presencial ou Remoto)',
     ]
   },
   { 
@@ -52,9 +59,9 @@ export const STEPS: IStepInfo[] = [
     title: 'Conteúdo', 
     description: 'Atividades e objetivos',
     requirements: [
-      'Atividades a serem desenvolvidas',
-      'Objetivos do estágio',
-      'Cronograma de atividades',
+      'Lista de atividades a serem desenvolvidas',
+      'Objetivos/metas a serem atingidas',
+      'Cronograma detalhado (datas e tarefas)',
     ]
   },
   { 
@@ -62,8 +69,9 @@ export const STEPS: IStepInfo[] = [
     title: 'Supervisão', 
     description: 'Supervisor e orientador',
     requirements: [
-      'Dados do supervisor (empresa)',
-      'Dados do orientador (UFPE)',
+      'Supervisor (Empresa): Nome, E-mail, Telefone, Cargo, CPF',
+      'Professor Orientador (CIn): Nome, E-mail, SIAPE, Cargo',
+      'Data para emissão do parecer',
     ]
   },
   { 
