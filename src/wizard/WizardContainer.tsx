@@ -624,20 +624,22 @@ export function WizardContainer() {
 
           {/* Form Card */}
           <div className="flex-1 min-w-0">
-            {/* Return to highest step button - shown when reviewing a previous step */}
+            {/* Return to working step button - shown when reviewing a previous step */}
             {(() => {
-              const highestCompleted = Math.max(...completedSteps, currentStep);
-              const highestStepInfo = STEPS.find(s => s.step === highestCompleted);
-              if (currentStep < highestCompleted && highestStepInfo) {
+              const highestCompleted = completedSteps.length > 0 ? Math.max(...completedSteps) : 0;
+              // Working step is the next step after the highest completed
+              const workingStep = Math.min(highestCompleted + 1, TOTAL_STEPS) as WizardStep;
+              const workingStepInfo = STEPS.find(s => s.step === workingStep);
+              if (currentStep < workingStep && workingStepInfo) {
                 return (
                   <button
-                    onClick={() => goToStep(highestCompleted as WizardStep)}
+                    onClick={() => goToStep(workingStep)}
                     className="mb-4 w-full flex items-center justify-center gap-2 py-3 px-4 bg-cin-red/10 hover:bg-cin-red/20 text-cin-red rounded-lg font-medium transition-colors border border-cin-red/20"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
-                    Voltar para Passo {highestCompleted}: {highestStepInfo.title}
+                    Voltar para Passo {workingStep}: {workingStepInfo.title}
                   </button>
                 );
               }

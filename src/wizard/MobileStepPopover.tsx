@@ -17,9 +17,9 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
   const popoverRef = useRef<HTMLDivElement>(null);
   const currentStepInfo = steps.find((s) => s.step === currentStep);
 
-  // A step is clickable if it's completed (reviewable) or is the current step
+  // A step is clickable if it's completed (reviewable), step 1, or is the current step
   const isStepClickable = (step: WizardStep) => 
-    completedSteps.includes(step) || step === currentStep;
+    step === 1 || completedSteps.includes(step) || step === currentStep;
 
   const handleStepClick = (step: IStepInfo) => {
     if (isStepClickable(step.step) && onStepClick) {
