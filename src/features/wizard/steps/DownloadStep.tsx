@@ -1,12 +1,7 @@
 import { useState } from 'react';
-import {
-    documentOptions,
-    downloadPdf,
-    generateDocument,
-    getDocumentInfo
-} from '../../../core/document-generation';
 import { Button } from '../../../shared/components';
 import { DocumentType } from '../../../shared/domain/types';
+import { pdfService } from '../../../shared/services';
 import type { IStep8Props } from '../step-types';
 
 export function DownloadStep({ data, onBack }: IStep8Props) {
@@ -14,6 +9,8 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
   const [generating, setGenerating] = useState<DocumentType | null>(null);
   const [generated, setGenerated] = useState<Set<DocumentType>>(new Set());
   const [error, setError] = useState<string | null>(null);
+
+  const documentOptions = pdfService.getDocumentOptions();
 
   const toggleDocument = (id: DocumentType) => {
     const newSelected = new Set(selectedDocs);
@@ -38,9 +35,15 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
     setGenerating(type);
 
     try {
-      const pdfBytes = await generateDocument(type, data);
-      const info = getDocumentInfo(type);
-      downloadPdf(pdfBytes, info?.filename || `${type}.pdf`);
+      const result = await pdfService.generateDocument(type, data);
+      if (!result.success || !result.pdfBytes) {
+        throw new Error(result.error || 'Falha ao gerar documento');
+      }
+      const info = pdfService.getDocumentInfo(type);
+      const downloadResult = pdfService.downloadPdf(result.pdfBytes, info?.filename || `${type}.pdf`);
+      if (!downloadResult.success) {
+        throw new Error(downloadResult.error || 'Falha ao fazer download');
+      }
       setGenerated(prev => new Set([...prev, type]));
     } catch (err) {
       console.error('Erro ao gerar PDF:', err);
