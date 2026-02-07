@@ -106,8 +106,8 @@ function StepLoading(): ReactNode {
   return (
     <div className="flex items-center justify-center py-12">
       <div className="flex flex-col items-center gap-4">
-        <div className="w-8 h-8 border-4 border-cin-gray border-t-cin-red rounded-full animate-spin" />
-        <p className="text-cin-black/60 text-sm">Carregando...</p>
+        <div className="w-8 h-8 border-4 border-border border-t-cin-red rounded-full animate-spin" />
+        <p className="text-text-secondary text-sm">Carregando...</p>
       </div>
     </div>
   );

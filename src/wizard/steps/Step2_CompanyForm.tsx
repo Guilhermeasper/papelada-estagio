@@ -31,8 +31,8 @@ export function Step2_CompanyForm({ data, onNext, onBack }: Step2Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-cin-black">Dados da Empresa</h2>
-        <p className="text-cin-black/60 mt-1">
+        <h2 className="text-2xl font-bold text-text-primary">Dados da Empresa</h2>
+        <p className="text-text-secondary mt-1">
           Informações da empresa concedente do estágio.
         </p>
       </div>
@@ -63,7 +63,7 @@ export function Step2_CompanyForm({ data, onNext, onBack }: Step2Props) {
         />
       </div>
 
-      <div className="flex justify-between pt-6 border-t border-cin-gray">
+      <div className="flex justify-between pt-6 border-t border-border">
         <Button type="button" variant="ghost" onClick={onBack}>
           <svg
             className="w-4 h-4"

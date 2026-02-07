@@ -70,15 +70,15 @@ export function Step3_InternshipGeneral({ data, onNext, onBack }: Step3Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-cin-black">Informações Gerais</h2>
-        <p className="text-cin-black/60 mt-1">
+        <h2 className="text-2xl font-bold text-text-primary">Informações Gerais</h2>
+        <p className="text-text-secondary mt-1">
           Configuração do período e carga horária do estágio.
         </p>
       </div>
 
       {/* Período e Carga Horária */}
-      <div className="bg-cin-gray/30 rounded-lg p-6 space-y-6">
-        <h3 className="font-semibold text-cin-black">Período e Carga Horária</h3>
+      <div className="bg-surface-elevated rounded-lg p-6 space-y-6 border border-border">
+        <h3 className="font-semibold text-text-primary">Período e Carga Horária</h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Input
@@ -95,7 +95,7 @@ export function Step3_InternshipGeneral({ data, onNext, onBack }: Step3Props) {
             control={control}
             render={({ field }) => (
               <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-medium text-cin-black">
+                <label className="text-sm font-medium text-text-primary">
                   Horas por Dia <span className="text-cin-red">*</span>
                 </label>
                 <input
@@ -106,8 +106,8 @@ export function Step3_InternshipGeneral({ data, onNext, onBack }: Step3Props) {
                   onChange={(e) => field.onChange(Number(e.target.value))}
                   className={`
                     w-full px-4 py-2.5 
-                    border border-cin-gray rounded-md
-                    bg-white text-cin-black
+                    border border-border rounded-md
+                    bg-surface-elevated text-text-primary
                     focus:border-cin-red focus:ring-2 focus:ring-cin-red/20
                     ${errors.hoursPerDay ? 'border-cin-red' : ''}
                   `}
@@ -131,28 +131,28 @@ export function Step3_InternshipGeneral({ data, onNext, onBack }: Step3Props) {
 
         {/* Info Card */}
         {periodInfo && (
-          <div className="bg-white rounded-md p-4 border border-cin-gray">
+          <div className="bg-surface rounded-md p-4 border border-border">
             <div className="flex items-center gap-2 mb-2">
               <svg className="w-5 h-5 text-cin-red" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
               </svg>
-              <span className="font-medium text-cin-black">Resumo do Período</span>
+              <span className="font-medium text-text-primary">Resumo do Período</span>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
               <div>
-                <span className="text-cin-black/60">Início:</span>
+                <span className="text-text-secondary">Início:</span>
                 <p className="font-medium">{formatDatePtBr(startDate)}</p>
               </div>
               <div>
-                <span className="text-cin-black/60">Término:</span>
+                <span className="text-text-secondary">Término:</span>
                 <p className="font-medium">{formatDatePtBr(endDate)}</p>
               </div>
               <div>
-                <span className="text-cin-black/60">Dias úteis:</span>
+                <span className="text-text-secondary">Dias úteis:</span>
                 <p className="font-medium">{periodInfo.workdays} dias</p>
               </div>
               <div>
-                <span className="text-cin-black/60">Total de horas:</span>
+                <span className="text-text-secondary">Total de horas:</span>
                 <p className={`font-medium ${periodInfo.totalHours >= 300 ? 'text-green-600' : 'text-cin-red'}`}>
                   {periodInfo.totalHours}h
                   {periodInfo.totalHours >= 300 ? ' ✓' : ' (mín. 300h)'}
@@ -196,7 +196,7 @@ export function Step3_InternshipGeneral({ data, onNext, onBack }: Step3Props) {
         />
       </div>
 
-      <div className="flex justify-between pt-6 border-t border-cin-gray">
+      <div className="flex justify-between pt-6 border-t border-border">
         <Button type="button" variant="ghost" onClick={onBack}>
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />

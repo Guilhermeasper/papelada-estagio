@@ -67,8 +67,8 @@ export function Step7_DownloadStep({ data, onBack }: Step7Props) {
   return (
     <div className="space-y-8">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-cin-black">Download dos Documentos</h2>
-        <p className="text-cin-black/60 mt-1">
+        <h2 className="text-2xl font-bold text-text-primary">Download dos Documentos</h2>
+        <p className="text-text-secondary mt-1">
           Selecione os documentos que deseja gerar e fazer download.
         </p>
       </div>
@@ -76,7 +76,7 @@ export function Step7_DownloadStep({ data, onBack }: Step7Props) {
       {/* Seleção de documentos */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-cin-black/60">
+          <span className="text-sm text-text-secondary">
             {selectedDocs.size} de {documentOptions.length} selecionados
           </span>
           <button
@@ -101,7 +101,7 @@ export function Step7_DownloadStep({ data, onBack }: Step7Props) {
                   relative rounded-lg border-2 p-4 cursor-pointer transition-all
                   ${isSelected 
                     ? 'border-cin-red bg-cin-red/5' 
-                    : 'border-cin-gray hover:border-cin-black/30'
+                    : 'border-border hover:border-text-secondary'
                   }
                 `}
                 onClick={() => toggleDocument(doc.id)}
@@ -109,7 +109,7 @@ export function Step7_DownloadStep({ data, onBack }: Step7Props) {
                 <div className="flex items-start gap-3">
                   <div className={`
                     flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center mt-0.5
-                    ${isSelected ? 'bg-cin-red border-cin-red' : 'border-cin-gray'}
+                    ${isSelected ? 'bg-cin-red border-cin-red' : 'border-border'}
                   `}>
                     {isSelected && (
                       <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -120,14 +120,14 @@ export function Step7_DownloadStep({ data, onBack }: Step7Props) {
 
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <h3 className="font-medium text-cin-black">{doc.label}</h3>
+                      <h3 className="font-medium text-text-primary">{doc.label}</h3>
                       {isGenerated && (
                         <span className="text-xs text-green-600 bg-green-100 px-2 py-0.5 rounded">
                           ✓ Gerado
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-cin-black/60 mt-1">{doc.description}</p>
+                    <p className="text-sm text-text-secondary mt-1">{doc.description}</p>
                   </div>
 
                   <Button
@@ -165,10 +165,10 @@ export function Step7_DownloadStep({ data, onBack }: Step7Props) {
 
       {/* Download em lote */}
       {selectedDocs.size > 1 && (
-        <div className="bg-cin-gray/20 rounded-lg p-4 flex items-center justify-between">
+        <div className="bg-surface-elevated rounded-lg p-4 flex items-center justify-between border border-border">
           <div>
-            <p className="font-medium text-cin-black">Download em lote</p>
-            <p className="text-sm text-cin-black/60">
+            <p className="font-medium text-text-primary">Download em lote</p>
+            <p className="text-sm text-text-secondary">
               Baixe todos os {selectedDocs.size} documentos selecionados
             </p>
           </div>
@@ -182,7 +182,7 @@ export function Step7_DownloadStep({ data, onBack }: Step7Props) {
       )}
 
 
-      <div className="flex justify-between pt-6 border-t border-cin-gray">
+      <div className="flex justify-between pt-6 border-t border-border">
         <Button type="button" variant="ghost" onClick={onBack}>
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -190,7 +190,7 @@ export function Step7_DownloadStep({ data, onBack }: Step7Props) {
           Voltar
         </Button>
 
-        <div className="text-sm text-cin-black/60">
+        <div className="text-sm text-text-secondary">
           {generated.size > 0 && `${generated.size} documento(s) gerado(s)`}
         </div>
       </div>
