@@ -299,6 +299,86 @@ function ImportConfirmDialog({ isOpen, previewData, onConfirm, onCancel, error }
   );
 }
 
+// Mobile Header Actions Dropdown Component
+interface HeaderActionsDropdownProps {
+  hasProgress: boolean;
+  onImport: () => void;
+  onExport: () => void;
+  onReset: () => void;
+}
+
+function HeaderActionsDropdown({ hasProgress, onImport, onExport, onReset }: HeaderActionsDropdownProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div ref={dropdownRef} className="relative md:hidden">
+      {/* Menu trigger button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="p-2 rounded-lg text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors"
+        aria-label="Opções"
+      >
+        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+        </svg>
+      </button>
+
+      {/* Dropdown menu */}
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-48 bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg shadow-lg border border-border dark:border-border-dark py-1 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+          <button
+            onClick={() => { onImport(); setIsOpen(false); }}
+            className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-text-primary dark:text-text-primary-dark hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+            </svg>
+            Importar
+          </button>
+
+          {hasProgress && (
+            <>
+              <button
+                onClick={() => { onExport(); setIsOpen(false); }}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-text-primary dark:text-text-primary-dark hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Exportar
+              </button>
+
+              <div className="border-t border-border dark:border-border-dark my-1" />
+
+              <button
+                onClick={() => { onReset(); setIsOpen(false); }}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-cin-red hover:bg-cin-red/10 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                Limpar dados
+              </button>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function WizardContainer() {
   const [currentStep, setCurrentStep] = useState<WizardStep>(1);
   const [data, setData] = useState<IInternshipData>(createInitialData);
@@ -562,45 +642,57 @@ export function WizardContainer() {
               </p>
             </div>
             
-            {/* Progress tools and indicator */}
+            {/* Mobile: Dropdown menu for actions */}
             <div className="ml-auto flex items-center gap-2">
-              {/* Import button - always visible */}
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark transition-colors px-3 py-1.5 rounded-md hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10"
-                title="Importar progresso de arquivo JSON"
-              >
-                Importar
-              </button>
-
-              {/* Export and clear - only when there's progress */}
+              {/* Saved indicator - visible on both mobile and desktop when there's progress */}
               {hasProgress() && (
-                <>
-                  <div className="flex items-center gap-2 text-sm text-text-secondary dark:text-text-secondary-dark">
-                    <div className="w-2 h-2 bg-green-500 rounded-full" />
-                    <span className="hidden sm:inline">Salvo</span>
-                  </div>
-
-                  <button
-                    onClick={handleExport}
-                    className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark transition-colors px-3 py-1.5 rounded-md hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10"
-                    title="Exportar progresso como JSON"
-                  >
-                    Exportar
-                  </button>
-
-                  <button
-                    onClick={() => setShowResetDialog(true)}
-                    className="text-sm font-medium text-cin-red hover:text-red-700 dark:hover:text-red-400 transition-colors px-3 py-1.5 rounded-md hover:bg-cin-red/10 border border-transparent hover:border-cin-red/20"
-                  >
-                    Limpar
-                  </button>
-                </>
+                <div className="flex items-center gap-2 text-sm text-text-secondary dark:text-text-secondary-dark">
+                  <div className="w-2 h-2 bg-green-500 rounded-full" />
+                  <span className="hidden sm:inline">Salvo</span>
+                </div>
               )}
-            </div>
-            
-            {/* Theme Toggle */}
-            <div className={hasProgress() ? '' : 'ml-auto'}>
+
+              {/* Mobile: Actions dropdown */}
+              <HeaderActionsDropdown
+                hasProgress={hasProgress()}
+                onImport={() => fileInputRef.current?.click()}
+                onExport={handleExport}
+                onReset={() => setShowResetDialog(true)}
+              />
+
+              {/* Desktop: Individual action buttons */}
+              <div className="hidden md:flex items-center gap-2">
+                {/* Import button */}
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark transition-colors px-3 py-1.5 rounded-md hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10"
+                  title="Importar progresso de arquivo JSON"
+                >
+                  Importar
+                </button>
+
+                {/* Export and clear - only when there's progress */}
+                {hasProgress() && (
+                  <>
+                    <button
+                      onClick={handleExport}
+                      className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark transition-colors px-3 py-1.5 rounded-md hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10"
+                      title="Exportar progresso como JSON"
+                    >
+                      Exportar
+                    </button>
+
+                    <button
+                      onClick={() => setShowResetDialog(true)}
+                      className="text-sm font-medium text-cin-red hover:text-red-700 dark:hover:text-red-400 transition-colors px-3 py-1.5 rounded-md hover:bg-cin-red/10 border border-transparent hover:border-cin-red/20"
+                    >
+                      Limpar
+                    </button>
+                  </>
+                )}
+              </div>
+
+              {/* Theme Toggle */}
               <ThemeToggle />
             </div>
           </div>
