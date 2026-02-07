@@ -1,7 +1,4 @@
-/**
- * PdfService - Consolidated PDF generation service
- * Handles all document generation, download, and metadata
- */
+
 
 import { pdf } from '@react-pdf/renderer';
 import React from 'react';
@@ -14,9 +11,7 @@ import {
 import { ReportDocument } from '../../features/report/ReportDocument';
 import { DocumentType, IDocumentOption, IInternshipData } from '../domain/types';
 
-// ============================================
-// Document Metadata
-// ============================================
+
 
 export const documentOptions: IDocumentOption[] = [
   {
@@ -49,9 +44,7 @@ export function getDocumentInfo(type: DocumentType): IDocumentOption | undefined
   return documentOptions.find((opt) => opt.id === type);
 }
 
-// ============================================
-// Evaluation Wrapper Components
-// ============================================
+
 
 function getDefaultEvaluationData(): IEvaluationFormData {
   return {
@@ -81,9 +74,7 @@ function SupervisorEvalWrapper({ data }: { data: IInternshipData }) {
   });
 }
 
-// ============================================
-// Document Component Map
-// ============================================
+
 
 type DocumentComponent = React.ComponentType<{ data: IInternshipData }>;
 
@@ -94,9 +85,7 @@ const DOCUMENT_COMPONENTS: Record<DocumentType, DocumentComponent> = {
   'supervisor-eval': SupervisorEvalWrapper,
 };
 
-// ============================================
-// Core Generation Functions
-// ============================================
+
 
 async function generateDocument(
   type: DocumentType,
@@ -137,9 +126,7 @@ function downloadPdf(pdfBytes: Uint8Array, filename: string): void {
   URL.revokeObjectURL(url);
 }
 
-// ============================================
-// Service Interface (with error handling)
-// ============================================
+
 
 export interface GenerationResult {
   success: boolean;
@@ -153,23 +140,17 @@ export interface DownloadResult {
 }
 
 export const pdfService = {
-  /**
-   * Get all available document options
-   */
+
   getDocumentOptions(): IDocumentOption[] {
     return documentOptions;
   },
 
-  /**
-   * Get info for a specific document type
-   */
+
   getDocumentInfo(type: DocumentType): IDocumentOption | undefined {
     return getDocumentInfo(type);
   },
 
-  /**
-   * Generate a single document with error handling
-   */
+
   async generateDocument(
     type: DocumentType, 
     data: IInternshipData
@@ -183,9 +164,7 @@ export const pdfService = {
     }
   },
 
-  /**
-   * Generate multiple documents with error handling
-   */
+
   async generateDocuments(
     types: DocumentType[], 
     data: IInternshipData
@@ -199,9 +178,7 @@ export const pdfService = {
     return results;
   },
 
-  /**
-   * Download a PDF with error handling
-   */
+
   downloadPdf(pdfBytes: Uint8Array, filename: string): DownloadResult {
     try {
       downloadPdf(pdfBytes, filename);
@@ -212,9 +189,7 @@ export const pdfService = {
     }
   },
 
-  /**
-   * Generate and download a document in one operation
-   */
+
   async generateAndDownload(
     type: DocumentType, 
     data: IInternshipData

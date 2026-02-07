@@ -1,6 +1,4 @@
-/**
- * PDFSection - Numbered section wrapper with title
- */
+
 
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import type { Style } from '@react-pdf/types';

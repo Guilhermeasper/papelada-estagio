@@ -1,7 +1,4 @@
-/**
- * ActivityPlanDocument - Plano de Atividades PDF Component
- * Renders the internship activity plan using @react-pdf/renderer
- */
+
 
 import { Document, Text } from '@react-pdf/renderer';
 import {
@@ -29,26 +26,22 @@ import {
   ActivityPlanSignatureSection,
 } from './pdf-components';
 
-// ============================================
-// Props Interface
-// ============================================
+
 interface ActivityPlanDocumentProps {
   data: IInternshipData;
 }
 
-// ============================================
-// Main Component
-// ============================================
+
 export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
   const { student, company, general, content, supervision } = data;
   const { activityPlan, header } = PDF_CONTENT;
   
-  // Calculate evaluation date (12 days after end date)
+
   const endDateObj = new Date(general.endDate);
   endDateObj.setDate(endDateObj.getDate() + 12);
   const evalDate = endDateObj.toISOString().split('T')[0];
 
-  // Evaluation table columns
+
   const evalColumns: ColumnConfig[] = [
     { key: 'topic', header: 'TÓPICO', width: 98 },
     { key: 'description', header: 'DESCRIÇÃO', width: 205 },
@@ -70,14 +63,14 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
   return (
     <Document>
       <ActivityPlanPage>
-        {/* Header */}
+
         <PDFLogoHeader 
           logos={[{ src: '/image1.png', width: 76, height: 73 }]}
           title={headerTitle}
           subtitle={docSubtitle}
         />
 
-        {/* Section 1: Student Data */}
+
         <PDFSection title={activityPlan.sections.student} number="1">
           <PDFFieldRow label="Nome" value={student.fullName} />
           <PDFFieldRow label="E-mail" value={student.email} />
@@ -88,14 +81,14 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
           <PDFFieldRow label="Matrícula" value={student.studentId} />
         </PDFSection>
 
-        {/* Section 2: Company Data */}
+
         <PDFSection title={activityPlan.sections.company} number="2">
           <PDFFieldRow label="Empresa" value={company.companyName} />
           <PDFFieldRow label="Endereço" value={company.companyAddress} />
           <PDFFieldRow label="CNPJ" value={company.companyCnpj} />
         </PDFSection>
 
-        {/* Section 3: Internship Program */}
+
         <PDFSection title={activityPlan.sections.program} number="3">
           <PDFSection 
             title={activityPlan.subsections.generalInfo} 
@@ -137,7 +130,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
           </PDFSection>
         </PDFSection>
         
-        {/* Section 4: Supervision */}
+
         <PDFSection title={activityPlan.sections.supervision} number="4">
           <ActivityPlanFieldLabel style={{ marginLeft: 0, marginBottom: 8 }}>SUPERVISOR:</ActivityPlanFieldLabel>
           <PDFFieldRow label="Nome" value={supervision.supervisorName} />
@@ -155,7 +148,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
           <PDFFieldRow label="Cargo" value={supervision.advisorPosition} />
         </PDFSection>
 
-        {/* Section 5: Evaluation */}
+
         <PDFSection title={`${activityPlan.sections.evaluation} ${activityPlan.evaluation.subtitle}`} number="5">
           <ActivityPlanEvaluationText>
             {activityPlan.evaluation.text1}
@@ -172,7 +165,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
             {activityPlan.evaluation.text3}
           </ActivityPlanEvaluationText>
 
-          {/* Evaluation Table using shared PDFTable */}
+
           <PDFTable columns={evalColumns} rows={activityPlan.evaluation.criteria} marginLeft={35} />
 
           <ActivityPlanEvaluationText style={{ marginTop: 15 }}>
@@ -183,7 +176,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
           </ActivityPlanEvaluationText>
         </PDFSection>
 
-        {/* Signatures */}
+
         <ActivityPlanSignatureSection>
           <ActivityPlanSignatureDate>
             Recife, {formatFullDate(evalDate)}
@@ -219,7 +212,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
           />
         </ActivityPlanSignatureSection>
 
-        {/* Footer Note */}
+
         <ActivityPlanFooterNote>
           {activityPlan.footer}
         </ActivityPlanFooterNote>

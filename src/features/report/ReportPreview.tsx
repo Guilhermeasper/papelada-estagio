@@ -1,7 +1,4 @@
-/**
- * ReportPreview - PDF Preview Component
- * Renders the ReportDocument in browser for testing
- */
+
 
 import { PDFViewer } from '@react-pdf/renderer';
 import { ReportDocument } from './ReportDocument';

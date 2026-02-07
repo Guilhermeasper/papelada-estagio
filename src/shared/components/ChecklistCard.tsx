@@ -1,6 +1,4 @@
-/**
- * ChecklistCard - A reusable card component for checklist items
- */
+
 
 import { ReactNode } from 'react';
 

@@ -1,20 +1,15 @@
-/**
- * Zod Validation Schemas
- * Schemas de validação para cada passo do wizard
- */
+
 
 import { z } from 'zod';
 import { validateDate, validateInternshipPeriod } from '../../../shared/utils/dateCalculator';
 
-// Regex patterns
+
 const phoneRegex = /^\(?[0-9]{2}\)?[\s]?[0-9]{4,5}[-\s]?[0-9]{4}$/;
 const cnpjRegex = /^[0-9]{2}\.?[0-9]{3}\.?[0-9]{3}\/?[0-9]{4}-?[0-9]{2}$/;
 const cpfRegex = /^[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}-?[0-9]{2}$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// ============================================
-// Passo 1: Dados do Aluno
-// ============================================
+
 export const studentSchema = z.object({
   fullName: z
     .string()
@@ -42,9 +37,7 @@ export const studentSchema = z.object({
 
 export type StudentFormData = z.infer<typeof studentSchema>;
 
-// ============================================
-// Passo 2: Dados da Empresa
-// ============================================
+
 export const companySchema = z.object({
   companyName: z
     .string()
@@ -59,9 +52,7 @@ export const companySchema = z.object({
 
 export type CompanyFormData = z.infer<typeof companySchema>;
 
-// ============================================
-// Passo 3: Informações Gerais do Estágio
-// ============================================
+
 export const internshipGeneralSchema = z.object({
   startDate: z
     .string()
@@ -120,9 +111,7 @@ export const internshipGeneralSchema = z.object({
 
 export type InternshipGeneralFormData = z.infer<typeof internshipGeneralSchema>;
 
-// ============================================
-// Passo 4: Conteúdo do Estágio
-// ============================================
+
 export const scheduleItemSchema = z.object({
   period: z.string().min(1, 'Período é obrigatório'),
   description: z.string().min(10, 'Descrição deve ter pelo menos 10 caracteres'),
@@ -176,11 +165,9 @@ export const evaluationSchema = z.object({
 export type InternshipContentFormData = z.infer<typeof internshipContentSchema>;
 export type EvaluationFormData = z.infer<typeof evaluationSchema>;
 
-// ============================================
-// Passo 5: Supervisão e Orientação
-// ============================================
+
 export const supervisionSchema = z.object({
-  // Supervisor
+
   supervisorName: z
     .string()
     .min(3, 'Nome do supervisor é obrigatório'),
@@ -196,7 +183,7 @@ export const supervisionSchema = z.object({
   supervisorCpf: z
     .string()
     .regex(cpfRegex, 'CPF inválido. Ex: 000.000.000-00'),
-  // Professor Orientador
+
   advisorName: z
     .string()
     .min(3, 'Nome do professor é obrigatório'),
@@ -213,9 +200,7 @@ export const supervisionSchema = z.object({
 
 export type SupervisionFormData = z.infer<typeof supervisionSchema>;
 
-// ============================================
-// Schema Completo (para referência)
-// ============================================
+
 export const fullInternshipSchema = z.object({
   student: studentSchema,
   company: companySchema,
@@ -227,11 +212,9 @@ export const fullInternshipSchema = z.object({
 
 export type FullInternshipData = z.infer<typeof fullInternshipSchema>;
 
-// ============================================
-// Import/Export Schemas (lenient validation)
-// ============================================
 
-// Lenient student schema for import (structure only, no min lengths)
+
+
 const studentImportSchema = z.object({
   fullName: z.string(),
   email: z.string(),
@@ -242,14 +225,14 @@ const studentImportSchema = z.object({
   studentId: z.string(),
 });
 
-// Lenient company schema for import
+
 const companyImportSchema = z.object({
   companyName: z.string(),
   companyAddress: z.string(),
   companyCnpj: z.string(),
 });
 
-// Lenient general schema for import
+
 const generalImportSchema = z.object({
   startDate: z.string(),
   endDate: z.string(),
@@ -259,13 +242,13 @@ const generalImportSchema = z.object({
   modality: z.enum(['Remoto', 'Presencial', 'Híbrido']),
 });
 
-// Lenient schedule item for import (no min length)
+
 const scheduleItemImportSchema = z.object({
   period: z.string(),
   description: z.string(),
 });
 
-// Lenient content schema for import
+
 const contentImportSchema = z.object({
   activities: z.array(z.string()),
   objectives: z.array(z.string()),
@@ -278,7 +261,7 @@ const contentImportSchema = z.object({
   conclusion: z.string(),
 });
 
-// Lenient supervision schema for import
+
 const supervisionImportSchema = z.object({
   supervisorName: z.string(),
   supervisorEmail: z.string(),
@@ -291,7 +274,7 @@ const supervisionImportSchema = z.object({
   advisorPosition: z.string(),
 });
 
-// Full lenient data schema for import
+
 const importDataSchema = z.object({
   student: studentImportSchema,
   company: companyImportSchema,
@@ -301,7 +284,7 @@ const importDataSchema = z.object({
   supervision: supervisionImportSchema,
 });
 
-// Persisted state schema for import validation
+
 export const persistedStateSchema = z.object({
   data: importDataSchema,
   currentStep: z.number().min(1).max(8),

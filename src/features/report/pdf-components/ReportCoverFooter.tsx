@@ -1,7 +1,4 @@
-/**
- * ReportCoverFooter - Report cover page footer
- * Pushes content to bottom of page
- */
+
 
 import { StyleSheet, View } from '@react-pdf/renderer';
 import type { ReactNode } from 'react';

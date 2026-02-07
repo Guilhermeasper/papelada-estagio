@@ -1,8 +1,4 @@
-/**
- * useWizardPersistence - Hook para persistir dados do wizard no localStorage
- * Gerencia salvamento, carregamento e limpeza do progresso do usuário
- * Includes export/import functionality for JSON files
- */
+
 
 import { useCallback } from 'react';
 import { persistedStateSchema } from '../../features/wizard/schemas/validationSchemas';
@@ -14,7 +10,7 @@ export interface PersistedWizardState {
   data: IInternshipData;
   currentStep: WizardStep;
   completedSteps: WizardStep[];
-  savedAt: string; // ISO timestamp
+  savedAt: string;
 }
 
 export interface ImportResult {
@@ -24,9 +20,7 @@ export interface ImportResult {
 }
 
 export function useWizardPersistence() {
-  /**
-   * Salva o progresso atual no localStorage
-   */
+
   const saveProgress = useCallback((
     data: IInternshipData,
     currentStep: WizardStep,
@@ -45,10 +39,7 @@ export function useWizardPersistence() {
     }
   }, []);
 
-  /**
-   * Carrega o progresso salvo do localStorage
-   * Retorna null se não existir dados salvos
-   */
+
   const loadProgress = useCallback((): PersistedWizardState | null => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -60,9 +51,7 @@ export function useWizardPersistence() {
     }
   }, []);
 
-  /**
-   * Limpa todo o progresso salvo do localStorage
-   */
+
   const clearProgress = useCallback(() => {
     try {
       localStorage.removeItem(STORAGE_KEY);
@@ -71,16 +60,12 @@ export function useWizardPersistence() {
     }
   }, []);
 
-  /**
-   * Verifica se existe progresso salvo
-   */
+
   const hasProgress = useCallback((): boolean => {
     return localStorage.getItem(STORAGE_KEY) !== null;
   }, []);
 
-  /**
-   * Exporta o progresso atual como arquivo JSON
-   */
+
   const exportProgress = useCallback(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) {
@@ -93,7 +78,7 @@ export function useWizardPersistence() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       
-      // Generate filename with timestamp
+
       const date = new Date().toISOString().split('T')[0];
       link.download = `internship-progress-${date}.json`;
       link.href = url;
@@ -107,16 +92,13 @@ export function useWizardPersistence() {
     }
   }, []);
 
-  /**
-   * Importa progresso de um arquivo JSON
-   * Valida a estrutura usando Zod
-   */
+
   const importProgress = useCallback(async (file: File): Promise<ImportResult> => {
     try {
       const text = await file.text();
       const parsed = JSON.parse(text);
       
-      // Validate with Zod schema
+
       const result = persistedStateSchema.safeParse(parsed);
       
       if (!result.success) {

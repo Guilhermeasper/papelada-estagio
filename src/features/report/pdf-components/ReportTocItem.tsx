@@ -1,6 +1,4 @@
-/**
- * ReportTocItem - Table of Contents item
- */
+
 
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import { fonts } from '../../../shared/components/pdf';

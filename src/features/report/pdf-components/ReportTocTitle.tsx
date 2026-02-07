@@ -1,6 +1,4 @@
-/**
- * ReportTocTitle - Table of Contents title
- */
+
 
 import { StyleSheet, Text } from '@react-pdf/renderer';
 import type { ReactNode } from 'react';

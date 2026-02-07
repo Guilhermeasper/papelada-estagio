@@ -1,7 +1,4 @@
-/**
- * ReportDocument - Relatório de Estágio Obrigatório PDF Component
- * Renders the internship report using @react-pdf/renderer
- */
+
 
 import { Document, Text } from '@react-pdf/renderer';
 import {
@@ -29,29 +26,25 @@ import {
   ReportTocTitle,
 } from './pdf-components';
 
-// ============================================
-// Props Interface
-// ============================================
+
 interface ReportDocumentProps {
   data: IInternshipData;
 }
 
-// ============================================
-// Main Component
-// ============================================
+
 export function ReportDocument({ data }: ReportDocumentProps) {
   const { student, company, general, content, evaluation, supervision } = data;
   const { report, header } = PDF_CONTENT;
 
-  // Get current date for cover
+
   const endDate = new Date(general.endDate);
   const coverMonth = getMonthName(endDate.getMonth() + 1);
   const coverYear = endDate.getFullYear();
 
-  // Calculate weekly hours
+
   const weeklyHours = general.hoursPerDay * 5;
 
-  // ID table items using shared component
+
   const idItems: KeyValueItem[] = [
     { label: 'Nome', value: student.fullName },
     { label: 'Ano/Semestre de ingresso no curso', value: student.enrollmentYear },
@@ -65,14 +58,14 @@ export function ReportDocument({ data }: ReportDocumentProps) {
     { label: 'Professor Orientador', value: supervision.advisorName },
   ];
 
-  // Evaluation table columns
+
   const evalColumns: ColumnConfig[] = [
     { key: 'item', header: 'Item', width: 175 },
     { key: 'grade', header: 'Nota', width: 47, align: 'center', bold: true },
     { key: 'observation', header: 'Observação', width: 214 },
   ];
 
-  // Evaluation rows: combine grades and yes/no questions
+
   const evalRows = [
     ...evaluation.grades.map((g) => ({
       item: g.item,
@@ -108,7 +101,7 @@ export function ReportDocument({ data }: ReportDocumentProps) {
 
   return (
     <Document>
-      {/* Cover Page */}
+
       <ReportCoverPage>
         <PDFLogoHeader 
            logos={[
@@ -130,7 +123,7 @@ export function ReportDocument({ data }: ReportDocumentProps) {
         </ReportCoverFooter>
       </ReportCoverPage>
 
-      {/* Table of Contents */}
+
       <ReportPage>
         <ReportTocTitle>{report.toc.title}</ReportTocTitle>
         
@@ -146,21 +139,21 @@ export function ReportDocument({ data }: ReportDocumentProps) {
         })}
       </ReportPage>
 
-      {/* Identificação - using PDFKeyValueTable */}
+
       <ReportPage>
         <PDFSection title={report.sections.identification} titleStyle={reportH1Style}>
              <PDFKeyValueTable items={idItems} labelWidth={200} />
         </PDFSection>
       </ReportPage>
 
-      {/* Introdução */}
+
       <ReportPage>
         <PDFSection title={report.sections.introduction} titleStyle={reportH1Style}>
             <ReportParagraph>{content.introduction}</ReportParagraph>
         </PDFSection>
       </ReportPage>
 
-      {/* Objetivos - using PDFBulletList */}
+
       <ReportPage>
         <PDFSection title={report.sections.objectives} titleStyle={reportH1Style}>
             <ReportH2>{report.sections.generalObjectives}</ReportH2>
@@ -174,7 +167,7 @@ export function ReportDocument({ data }: ReportDocumentProps) {
         </PDFSection>
       </ReportPage>
 
-      {/* Cronograma */}
+
       <ReportPage>
         <PDFSection title={report.sections.schedule} titleStyle={reportH1Style}>
             <ReportParagraph>
@@ -188,28 +181,28 @@ export function ReportDocument({ data }: ReportDocumentProps) {
         </PDFSection>
       </ReportPage>
 
-      {/* Material e Método */}
+
       <ReportPage>
          <PDFSection title={report.sections.methodology} titleStyle={reportH1Style}>
             <ReportParagraph>{content.methodology}</ReportParagraph>
          </PDFSection>
       </ReportPage>
 
-      {/* Desenvolvimento */}
+
       <ReportPage>
          <PDFSection title={report.sections.development} titleStyle={reportH1Style}>
             <ReportParagraph>{content.development}</ReportParagraph>
          </PDFSection>
       </ReportPage>
 
-      {/* Avaliação do Estágio - using PDFTable */}
+
       <ReportPage>
          <PDFSection title={report.sections.evaluation} titleStyle={reportH1Style}>
             <PDFTable columns={evalColumns} rows={evalRows} />
          </PDFSection>
       </ReportPage>
 
-      {/* Conclusão */}
+
       <ReportPage>
          <PDFSection title={report.sections.conclusion} titleStyle={reportH1Style}>
             <ReportParagraph>{content.conclusion}</ReportParagraph>

@@ -1,7 +1,4 @@
-/**
- * ReportH2 - Secondary section header for reports
- * Exports style for consistency
- */
+
 
 import { StyleSheet, Text } from '@react-pdf/renderer';
 import type { ReactNode } from 'react';

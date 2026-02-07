@@ -1,6 +1,4 @@
-/**
- * ErrorBoundary - Catches rendering errors and displays fallback UI
- */
+
 
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Button } from './Button';
@@ -25,7 +23,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    // Log error for debugging - in production this could send to error tracking service
+
     console.error('Application error:', error, errorInfo);
   }
 

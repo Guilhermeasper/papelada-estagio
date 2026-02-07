@@ -1,7 +1,4 @@
-/**
- * ActivityPlanPage - Activity plan document page wrapper
- * Uses Helvetica font with specific margins, wrap enabled
- */
+
 
 import { Page, StyleSheet } from '@react-pdf/renderer';
 import type { ReactNode } from 'react';

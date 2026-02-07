@@ -1,6 +1,4 @@
-/**
- * ActivityPlanSignatureDate - Centered date text
- */
+
 
 import { StyleSheet, Text } from '@react-pdf/renderer';
 import type { ReactNode } from 'react';

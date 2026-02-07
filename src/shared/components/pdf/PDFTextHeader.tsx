@@ -1,6 +1,4 @@
-/**
- * PDFTextHeader - Simple centered text header for documents
- */
+
 
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import { fonts } from './styles';

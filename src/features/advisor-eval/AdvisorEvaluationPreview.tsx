@@ -1,6 +1,4 @@
-/**
- * AdvisorEvaluationPreview - Preview component for testing
- */
+
 
 import { PDFViewer } from '@react-pdf/renderer';
 import { AdvisorEvaluationDocument } from '../evaluations/pdf';

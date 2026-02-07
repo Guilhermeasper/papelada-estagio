@@ -1,6 +1,4 @@
-/**
- * PDFSignatureBlock - Multi-signature block with date
- */
+
 
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import { fonts } from './styles';

@@ -1,6 +1,4 @@
-/**
- * PDFSignatureLine - Single signature line component
- */
+
 
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 

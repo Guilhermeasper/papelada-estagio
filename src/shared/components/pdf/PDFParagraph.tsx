@@ -1,6 +1,4 @@
-/**
- * PDFParagraph - Styled paragraph component
- */
+
 
 import { StyleSheet, Text } from '@react-pdf/renderer';
 import type { Style } from '@react-pdf/types';

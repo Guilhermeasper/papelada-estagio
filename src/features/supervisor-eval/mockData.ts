@@ -1,6 +1,4 @@
-/**
- * Mock data for SupervisorEvaluationDocument testing
- */
+
 
 import type { IEvaluationFormData } from '../evaluations/pdf';
 

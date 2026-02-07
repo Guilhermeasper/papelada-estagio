@@ -1,6 +1,4 @@
-/**
- * PDFKeyValueTable - Table for displaying label-value pairs (identification sections)
- */
+
 
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import { colors } from './styles';

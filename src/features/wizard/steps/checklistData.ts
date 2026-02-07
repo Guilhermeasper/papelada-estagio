@@ -1,6 +1,4 @@
-/**
- * Checklist data for Step 0
- */
+
 
 export interface ChecklistItemData {
   label?: string;

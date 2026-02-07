@@ -1,6 +1,4 @@
-/**
- * ActivityPlanFieldLabel - Bold field label
- */
+
 
 import { StyleSheet, Text } from '@react-pdf/renderer';
 import type { Style } from '@react-pdf/types';

@@ -52,7 +52,7 @@ export interface IDownloadStepProps {
   onBack: () => void;
 }
 
-// Simplified explicit mapping type - much more readable than nested conditionals
+
 export type StepPropsMap = {
   1: IChecklistStepProps;
   2: IStudentFormStepProps;
@@ -64,7 +64,7 @@ export type StepPropsMap = {
   8: IDownloadStepProps;
 };
 
-// Legacy aliases for backwards compatibility during migration
+
 export type IStep1Props = IChecklistStepProps;
 export type IStep2Props = IStudentFormStepProps;
 export type IStep3Props = ICompanyFormStepProps;

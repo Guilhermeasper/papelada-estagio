@@ -1,7 +1,4 @@
-/**
- * ActivityPlanEvaluationText - Evaluation section text
- * Left-indented, justified text
- */
+
 
 import { StyleSheet, Text } from '@react-pdf/renderer';
 import type { Style } from '@react-pdf/types';

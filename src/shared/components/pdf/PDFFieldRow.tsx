@@ -1,6 +1,4 @@
-/**
- * PDFFieldRow - Inline label: value row
- */
+
 
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import { fonts } from './styles';

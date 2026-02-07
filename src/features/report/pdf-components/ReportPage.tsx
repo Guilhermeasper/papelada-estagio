@@ -1,7 +1,4 @@
-/**
- * ReportPage - Report document page wrapper
- * Uses serif font with standard margins
- */
+
 
 import { Page, StyleSheet } from '@react-pdf/renderer';
 import type { ReactNode } from 'react';

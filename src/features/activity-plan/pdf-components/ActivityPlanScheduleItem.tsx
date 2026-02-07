@@ -1,6 +1,4 @@
-/**
- * ActivityPlanScheduleItem - Schedule period + description row
- */
+
 
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 

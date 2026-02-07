@@ -1,6 +1,4 @@
-/**
- * Mock data for AdvisorEvaluationDocument testing
- */
+
 
 import type { IEvaluationFormData } from '../evaluations/pdf';
 

@@ -1,6 +1,4 @@
-/**
- * PDFCommentsBox - Multi-line text box for comments sections
- */
+
 
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import { colors } from './styles';

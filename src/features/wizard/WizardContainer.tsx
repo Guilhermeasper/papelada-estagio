@@ -1,9 +1,4 @@
-/**
- * WizardContainer - Container principal do wizard
- * Gerencia estado e navegação entre passos
- * Refactored to use registry pattern and lazy loading
- * With localStorage persistence for progress saving
- */
+
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, ThemeToggle } from '../../shared/components';
@@ -22,7 +17,7 @@ import { StepIndicator } from './StepIndicator';
 import { STEPS, TOTAL_STEPS } from './stepConfig';
 import { STEP_REGISTRY } from './stepRegistry';
 
-// Factory function for initial state
+
 function createInitialData(): IInternshipData {
   return {
     student: {
@@ -85,7 +80,7 @@ function createInitialData(): IInternshipData {
   };
 }
 
-// Loading fallback component
+
 function StepLoading() {
   return (
     <div className="flex items-center justify-center py-12">
@@ -97,7 +92,7 @@ function StepLoading() {
   );
 }
 
-// Exit Confirmation Dialog Component
+
 interface ExitDialogProps {
   isOpen: boolean;
   onSaveAndExit: () => void;
@@ -110,13 +105,13 @@ function ExitConfirmDialog({ isOpen, onSaveAndExit, onExitWithoutSaving, onCance
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
+
       <div 
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onCancel}
       />
       
-      {/* Dialog */}
+
       <div className="relative bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
         <h2 className="text-lg md:text-xl font-bold text-text-primary dark:text-text-primary-dark mb-3">
           Deseja salvar seu progresso?
@@ -156,7 +151,7 @@ function ExitConfirmDialog({ isOpen, onSaveAndExit, onExitWithoutSaving, onCance
   );
 }
 
-// Reset Confirmation Dialog Component
+
 interface ResetDialogProps {
   isOpen: boolean;
   onConfirm: () => void;
@@ -168,13 +163,13 @@ function ResetConfirmDialog({ isOpen, onConfirm, onCancel }: ResetDialogProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
+
       <div 
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onCancel}
       />
       
-      {/* Dialog */}
+
       <div className="relative bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
         <h2 className="text-lg md:text-xl font-bold text-text-primary dark:text-text-primary-dark mb-3">
           Apagar todos os dados?
@@ -207,7 +202,7 @@ function ResetConfirmDialog({ isOpen, onConfirm, onCancel }: ResetDialogProps) {
   );
 }
 
-// Import Confirmation Dialog Component
+
 interface ImportDialogProps {
   isOpen: boolean;
   previewData: PersistedWizardState | null;
@@ -229,13 +224,13 @@ function ImportConfirmDialog({ isOpen, previewData, onConfirm, onCancel, error }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop */}
+
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onCancel}
       />
 
-      {/* Dialog */}
+
       <div className="relative bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
         {error ? (
           <>
@@ -307,7 +302,7 @@ function ImportConfirmDialog({ isOpen, previewData, onConfirm, onCancel, error }
     </div>
   );
 }
-// Theme Toggle Button for dropdown menu
+
 function ThemeToggleButton() {
   const { effectiveTheme, toggleTheme } = useTheme();
   const isDark = effectiveTheme === 'dark';
@@ -332,7 +327,7 @@ function ThemeToggleButton() {
   );
 }
 
-// Mobile Header Actions Dropdown Component
+
 interface HeaderActionsDropdownProps {
   hasProgress: boolean;
   onImport: () => void;
@@ -344,7 +339,7 @@ function HeaderActionsDropdown({ hasProgress, onImport, onExport, onReset }: Hea
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown when clicking outside
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -357,7 +352,7 @@ function HeaderActionsDropdown({ hasProgress, onImport, onExport, onReset }: Hea
 
   return (
     <div ref={dropdownRef} className="relative md:hidden">
-      {/* Menu trigger button with save indicator */}
+
       <Button
         onClick={() => setIsOpen(!isOpen)}
         variant="ghost"
@@ -367,16 +362,16 @@ function HeaderActionsDropdown({ hasProgress, onImport, onExport, onReset }: Hea
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
           <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
         </svg>
-        {/* Small green dot indicator when there's progress */}
+
         {hasProgress && (
           <span className="absolute top-1 right-1 w-2 h-2 bg-green-500 rounded-full" />
         )}
       </Button>
 
-      {/* Dropdown menu */}
+
       {isOpen && (
         <div className="absolute right-0 mt-2 w-52 bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg shadow-lg border border-border dark:border-border-dark py-1 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-          {/* Status row - only when there's progress */}
+
           {hasProgress && (
             <>
               <div className="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary dark:text-text-secondary-dark">
@@ -387,12 +382,12 @@ function HeaderActionsDropdown({ hasProgress, onImport, onExport, onReset }: Hea
             </>
           )}
 
-          {/* Theme toggle row */}
+
           <ThemeToggleButton />
 
           <div className="border-t border-border dark:border-border-dark my-1" />
 
-          {/* Import button */}
+
           <Button
             onClick={() => { onImport(); setIsOpen(false); }}
             variant="ghost"
@@ -452,7 +447,7 @@ export function WizardContainer() {
 
   const { saveProgress, loadProgress, clearProgress, hasProgress, exportProgress, importProgress } = useWizardPersistence();
 
-  // Load saved progress on mount
+
   useEffect(() => {
     const saved = loadProgress();
     if (saved) {
@@ -463,13 +458,12 @@ export function WizardContainer() {
     setIsInitialized(true);
   }, [loadProgress]);
 
-  // Handle beforeunload event
+
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      // Only show warning if there's progress (not on step 1 with empty data)
+
       if (completedSteps.length > 0 || currentStep > 1) {
         e.preventDefault();
-        // Modern browsers ignore custom messages, but we still need to set returnValue
         e.returnValue = '';
         return '';
       }
@@ -479,12 +473,12 @@ export function WizardContainer() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [completedSteps, currentStep]);
 
-  // Save progress helper
+
   const persistProgress = useCallback((newData: IInternshipData, step: WizardStep, newCompletedSteps: WizardStep[]) => {
     saveProgress(newData, step, newCompletedSteps);
   }, [saveProgress]);
 
-  // Navigation helpers
+
   const goToStep = (step: WizardStep) => setCurrentStep(step);
   
   const nextStep = () => {
@@ -494,7 +488,7 @@ export function WizardContainer() {
   
   const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 1) as WizardStep);
 
-  // Data update handlers with persistence
+
   const handleStudentUpdate = (studentData: IStudentData) => {
     const newData = { ...data, student: studentData };
     const newCompleted = [...new Set([...completedSteps, 2 as WizardStep])];
@@ -540,24 +534,24 @@ export function WizardContainer() {
     nextStep();
   };
 
-  // Exit dialog handlers
+
   const handleSaveAndExit = () => {
     saveProgress(data, currentStep, completedSteps);
     setShowExitDialog(false);
-    // Allow navigation
+
     window.removeEventListener('beforeunload', () => {});
   };
 
   const handleExitWithoutSaving = () => {
     clearProgress();
     setShowExitDialog(false);
-    // Reset state
+
     setData(createInitialData());
     setCurrentStep(1);
     setCompletedSteps([]);
   };
 
-  // Handle reset
+
   const handleReset = () => {
     clearProgress();
     setShowResetDialog(false);
@@ -566,12 +560,12 @@ export function WizardContainer() {
     setCompletedSteps([]);
   };
 
-  // Handle export
+
   const handleExport = () => {
     exportProgress();
   };
 
-  // Handle import file selection
+
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -588,13 +582,13 @@ export function WizardContainer() {
     
     setShowImportDialog(true);
     
-    // Reset file input so same file can be selected again
+
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
   };
 
-  // Handle import confirmation
+
   const handleImportConfirm = () => {
     if (importPreview) {
       setData(importPreview.data);
@@ -606,14 +600,14 @@ export function WizardContainer() {
     setImportPreview(null);
   };
 
-  // Handle import cancel
+
   const handleImportCancel = () => {
     setShowImportDialog(false);
     setImportPreview(null);
     setImportError(undefined);
   };
 
-  // Memoized step props based on current step
+
   const stepProps = useMemo(() => {
     switch (currentStep) {
       case 1:
@@ -636,10 +630,10 @@ export function WizardContainer() {
     }
   }, [currentStep, data]);
 
-  // Get current step component from registry
+
   const StepComponent = STEP_REGISTRY[currentStep];
 
-  // Show loading while initializing
+
   if (!isInitialized) {
     return (
       <div className="min-h-screen bg-surface dark:bg-surface-dark flex items-center justify-center">
@@ -650,7 +644,7 @@ export function WizardContainer() {
 
   return (
     <div className="min-h-screen bg-surface dark:bg-surface-dark">
-      {/* Exit Confirmation Dialog */}
+
       <ExitConfirmDialog
         isOpen={showExitDialog}
         onSaveAndExit={handleSaveAndExit}
@@ -658,14 +652,14 @@ export function WizardContainer() {
         onCancel={() => setShowExitDialog(false)}
       />
 
-      {/* Reset Confirmation Dialog */}
+
       <ResetConfirmDialog
         isOpen={showResetDialog}
         onConfirm={handleReset}
         onCancel={() => setShowResetDialog(false)}
       />
 
-      {/* Import Confirmation Dialog */}
+
       <ImportConfirmDialog
         isOpen={showImportDialog}
         previewData={importPreview}
@@ -674,7 +668,7 @@ export function WizardContainer() {
         error={importError}
       />
 
-      {/* Hidden file input for import */}
+
       <input
         type="file"
         ref={fileInputRef}
@@ -683,11 +677,11 @@ export function WizardContainer() {
         className="hidden"
       />
 
-      {/* Header */}
+
       <header className="bg-surface-elevated dark:bg-surface-elevated-dark border-b border-border dark:border-border-dark">
         <div className="max-w-6xl mx-auto px-4 py-6">
           <div className="flex items-center gap-4">
-            {/* Logo placeholder */}
+
             <div className="w-12 h-12 bg-cin-red rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg">CIn</span>
             </div>
@@ -700,9 +694,9 @@ export function WizardContainer() {
               </p>
             </div>
             
-            {/* Actions container */}
+
             <div className="ml-auto flex items-center gap-2">
-              {/* Mobile: Actions dropdown (includes theme, status, import/export/clear) */}
+
               <HeaderActionsDropdown
                 hasProgress={hasProgress()}
                 onImport={() => fileInputRef.current?.click()}
@@ -710,9 +704,9 @@ export function WizardContainer() {
                 onReset={() => setShowResetDialog(true)}
               />
 
-              {/* Desktop: Individual elements */}
+
               <div className="hidden md:flex items-center gap-2">
-                {/* Saved indicator */}
+
                 {hasProgress() && (
                   <div className="flex items-center gap-2 text-sm text-text-secondary dark:text-text-secondary-dark">
                     <div className="w-2 h-2 bg-green-500 rounded-full" />
@@ -720,7 +714,7 @@ export function WizardContainer() {
                   </div>
                 )}
 
-                {/* Import button */}
+
                 <Button
                   onClick={() => fileInputRef.current?.click()}
                   variant="ghost"
@@ -730,7 +724,7 @@ export function WizardContainer() {
                   Importar
                 </Button>
 
-                {/* Export and clear - only when there's progress */}
+
                 {hasProgress() && (
                   <>
                     <Button
@@ -752,7 +746,7 @@ export function WizardContainer() {
                   </>
                 )}
 
-                {/* Theme Toggle */}
+
                 <ThemeToggle />
               </div>
             </div>
@@ -760,27 +754,26 @@ export function WizardContainer() {
         </div>
       </header>
 
-      {/* Main Content */}
+
       <main className="max-w-6xl mx-auto px-4 py-8">
-        {/* Mobile Step Popover */}
+
         <div className="md:hidden mb-4">
           <MobileStepPopover currentStep={currentStep} steps={STEPS} completedSteps={completedSteps} onStepClick={goToStep} />
         </div>
 
         <div className="flex gap-8">
-          {/* Left Sidebar - Step Indicator (Desktop only) */}
+
           <aside className="hidden md:block w-64 flex-shrink-0">
             <div className="sticky top-8">
               <StepIndicator currentStep={currentStep} steps={STEPS} completedSteps={completedSteps} onStepClick={goToStep} />
             </div>
           </aside>
 
-          {/* Form Card */}
+
           <div className="flex-1 min-w-0">
-            {/* Return to working step button - shown when reviewing a previous step */}
+
             {(() => {
               const highestCompleted = completedSteps.length > 0 ? Math.max(...completedSteps) : 0;
-              // Working step is the next step after the highest completed
               const workingStep = Math.min(highestCompleted + 1, TOTAL_STEPS) as WizardStep;
               const workingStepInfo = STEPS.find(s => s.step === workingStep);
               if (currentStep < workingStep && workingStepInfo) {
@@ -808,7 +801,6 @@ export function WizardContainer() {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="bg-surface-elevated dark:bg-surface-elevated-dark border-t border-border dark:border-border-dark mt-auto">
         <div className="max-w-6xl mx-auto px-4 py-4">
           <p className="text-center text-sm text-text-secondary dark:text-text-secondary-dark">

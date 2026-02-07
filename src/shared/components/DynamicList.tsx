@@ -38,7 +38,7 @@ export function DynamicList({
       <div className="flex flex-col gap-3 md:gap-2">
         {items.map((item, index) => (
           <div key={index} className="flex flex-col md:flex-row md:items-start gap-1 md:gap-2">
-            {/* Mobile: Number and delete button in a row */}
+
             <div className="flex items-center justify-between md:hidden">
               <span className="text-xs font-medium text-text-secondary dark:text-text-secondary-dark">
                 {index + 1}.
@@ -71,7 +71,7 @@ export function DynamicList({
               )}
             </div>
             
-            {/* Desktop: Number on the side */}
+
             <span className="hidden md:flex flex-shrink-0 w-6 h-10 items-center justify-center text-sm font-medium text-text-secondary dark:text-text-secondary-dark">
               {index + 1}.
             </span>
@@ -94,7 +94,7 @@ export function DynamicList({
               `}
             />
             
-            {/* Desktop: Delete button on the side */}
+
             {canRemove && (
               <Button
                 type="button"

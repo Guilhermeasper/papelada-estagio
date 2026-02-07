@@ -1,7 +1,4 @@
-/**
- * Mock data for testing ActivityPlanDocument
- * Based on the HTML reference document
- */
+
 
 import type { IInternshipData } from '../../shared/domain/types';
 

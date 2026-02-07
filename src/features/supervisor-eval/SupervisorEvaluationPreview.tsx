@@ -1,6 +1,4 @@
-/**
- * SupervisorEvaluationPreview - Preview component for testing
- */
+
 
 import { PDFViewer } from '@react-pdf/renderer';
 import { SupervisorEvaluationDocument } from '../evaluations/pdf';

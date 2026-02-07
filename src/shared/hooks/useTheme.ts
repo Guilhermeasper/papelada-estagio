@@ -1,7 +1,4 @@
-/**
- * useTheme - Hook for managing dark/light mode
- * Syncs with localStorage and applies .dark class to document
- */
+
 
 import { useCallback, useEffect, useState } from 'react';
 
@@ -31,7 +28,7 @@ export function useTheme() {
     return stored === 'system' ? getSystemTheme() : stored;
   });
 
-  // Apply theme to document
+
   useEffect(() => {
     const root = document.documentElement;
     if (effectiveTheme === 'dark') {
@@ -41,7 +38,7 @@ export function useTheme() {
     }
   }, [effectiveTheme]);
 
-  // Listen for system theme changes
+
   useEffect(() => {
     if (theme !== 'system') return;
 

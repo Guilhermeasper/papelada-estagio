@@ -1,6 +1,4 @@
-/**
- * PDFTable - Generic data table component
- */
+
 
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import { colors, fonts } from './styles';
@@ -67,7 +65,7 @@ interface PDFTableProps {
 export function PDFTable({ columns, rows, marginLeft }: PDFTableProps) {
   return (
     <View style={[styles.table, marginLeft ? { marginLeft } : {}]}>
-      {/* Header */}
+
       <View style={styles.row}>
         {columns.map((col, index) => (
           <View
@@ -82,7 +80,7 @@ export function PDFTable({ columns, rows, marginLeft }: PDFTableProps) {
         ))}
       </View>
       
-      {/* Rows */}
+
       {rows.map((row, rowIndex) => (
         <View
           key={rowIndex}

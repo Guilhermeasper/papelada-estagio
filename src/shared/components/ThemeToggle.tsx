@@ -1,7 +1,4 @@
-/**
- * ThemeToggle - Toggle button for dark/light mode
- * Sun icon for light mode, moon icon for dark mode
- */
+
 
 import { useTheme } from '../hooks/useTheme';
 import { Button } from './Button';
@@ -20,7 +17,7 @@ export function ThemeToggle() {
       title={isDark ? 'Modo claro' : 'Modo escuro'}
     >
       {isDark ? (
-        // Sun icon
+
         <svg
           className="w-5 h-5"
           fill="none"
@@ -35,7 +32,7 @@ export function ThemeToggle() {
           />
         </svg>
       ) : (
-        // Moon icon
+
         <svg
           className="w-5 h-5"
           fill="none"

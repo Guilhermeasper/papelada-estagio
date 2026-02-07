@@ -1,6 +1,4 @@
-/**
- * ActivityPlanSignatureLine - Signature line with label and optional sub-label
- */
+
 
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import type { Style } from '@react-pdf/types';

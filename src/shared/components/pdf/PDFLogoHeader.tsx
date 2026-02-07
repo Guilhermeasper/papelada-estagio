@@ -1,6 +1,4 @@
-/**
- * PDFLogoHeader - Header with logos for cover pages and formal documents
- */
+
 
 import { Image, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { fonts } from './styles';

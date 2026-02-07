@@ -1,6 +1,4 @@
-/**
- * PDFBulletList - Bullet list component
- */
+
 
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 

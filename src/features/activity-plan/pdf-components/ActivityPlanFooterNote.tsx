@@ -1,6 +1,4 @@
-/**
- * ActivityPlanFooterNote - Footer with top border
- */
+
 
 import { StyleSheet, Text } from '@react-pdf/renderer';
 import type { ReactNode } from 'react';

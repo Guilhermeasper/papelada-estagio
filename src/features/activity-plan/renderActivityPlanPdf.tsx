@@ -1,11 +1,8 @@
-/**
- * renderActivityPlanPdf - Utility to generate PDF blob
- * Use this to download the PDF programmatically
- */
+
 
 import { pdf } from '@react-pdf/renderer';
-import { ActivityPlanDocument } from './ActivityPlanDocument';
 import type { IInternshipData } from '../../shared/domain/types';
+import { ActivityPlanDocument } from './ActivityPlanDocument';
 
 export async function renderActivityPlanPdf(data: IInternshipData): Promise<Blob> {
   const blob = await pdf(<ActivityPlanDocument data={data} />).toBlob();

@@ -1,7 +1,4 @@
-/**
- * PDFPage - Unified page wrapper component
- * Provides consistent page styling across all PDF documents
- */
+
 
 import { Page } from '@react-pdf/renderer';
 import type { ReactNode } from 'react';
@@ -15,9 +12,7 @@ interface PDFPageProps {
   wrap?: boolean;
 }
 
-/**
- * Wraps @react-pdf/renderer's Page component with predefined styles.
- */
+
 export function PDFPage({ variant = 'default', children, wrap }: PDFPageProps) {
   const style = variant === 'report' ? pageStyles.cover : pageStyles[variant];
   

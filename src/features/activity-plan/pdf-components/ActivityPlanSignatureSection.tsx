@@ -1,6 +1,4 @@
-/**
- * ActivityPlanSignatureSection - Container for signature block
- */
+
 
 import { StyleSheet, View } from '@react-pdf/renderer';
 import type { ReactNode } from 'react';

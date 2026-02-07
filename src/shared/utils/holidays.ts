@@ -1,18 +1,15 @@
-/**
- * Feriados Nacionais, de Pernambuco e de Recife
- * Usados para validação de datas de início/fim do estágio
- */
+
 
 interface FixedHoliday {
   day: number;
-  month: number; // 1-12
+  month: number;
   name: string;
   scope: 'nacional' | 'estadual' | 'municipal';
 }
 
-// Feriados fixos (mesma data todo ano)
+
 const FIXED_HOLIDAYS: FixedHoliday[] = [
-  // Nacionais
+
   { day: 1, month: 1, name: 'Confraternização Universal', scope: 'nacional' },
   { day: 21, month: 4, name: 'Tiradentes', scope: 'nacional' },
   { day: 1, month: 5, name: 'Dia do Trabalho', scope: 'nacional' },
@@ -22,17 +19,15 @@ const FIXED_HOLIDAYS: FixedHoliday[] = [
   { day: 15, month: 11, name: 'Proclamação da República', scope: 'nacional' },
   { day: 25, month: 12, name: 'Natal', scope: 'nacional' },
   
-  // Pernambuco
+
   { day: 6, month: 3, name: 'Revolução Pernambucana', scope: 'estadual' },
   { day: 24, month: 6, name: 'São João', scope: 'estadual' },
   
-  // Recife
+
   { day: 12, month: 3, name: 'Aniversário de Recife', scope: 'municipal' },
 ];
 
-/**
- * Calcula a data da Páscoa para um dado ano (Algoritmo de Meeus/Jones/Butcher)
- */
+
 function calculateEaster(year: number): Date {
   const a = year % 19;
   const b = Math.floor(year / 100);
@@ -52,29 +47,26 @@ function calculateEaster(year: number): Date {
   return new Date(year, month - 1, day);
 }
 
-/**
- * Retorna os feriados móveis para um dado ano
- * (Carnaval, Sexta-feira Santa, Corpus Christi)
- */
+
 function getMovableHolidays(year: number): { date: Date; name: string }[] {
   const easter = calculateEaster(year);
   
-  // Carnaval: 47 dias antes da Páscoa (segunda e terça)
+
   const carnavalTerca = new Date(easter);
   carnavalTerca.setDate(easter.getDate() - 47);
   
   const carnavalSegunda = new Date(carnavalTerca);
   carnavalSegunda.setDate(carnavalTerca.getDate() - 1);
   
-  // Quarta-feira de Cinzas (não é feriado nacional, mas muitos lugares param)
+
   const quartaCinzas = new Date(carnavalTerca);
   quartaCinzas.setDate(carnavalTerca.getDate() + 1);
   
-  // Sexta-feira Santa: 2 dias antes da Páscoa
+
   const sextaSanta = new Date(easter);
   sextaSanta.setDate(easter.getDate() - 2);
   
-  // Corpus Christi: 60 dias após a Páscoa
+
   const corpusChristi = new Date(easter);
   corpusChristi.setDate(easter.getDate() + 60);
   
@@ -88,15 +80,13 @@ function getMovableHolidays(year: number): { date: Date; name: string }[] {
   ];
 }
 
-/**
- * Verifica se uma data é feriado
- */
+
 export function isHoliday(date: Date): { isHoliday: boolean; name?: string } {
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
   
-  // Verifica feriados fixos
+
   const fixedHoliday = FIXED_HOLIDAYS.find(
     (h) => h.day === day && h.month === month
   );
@@ -104,7 +94,7 @@ export function isHoliday(date: Date): { isHoliday: boolean; name?: string } {
     return { isHoliday: true, name: fixedHoliday.name };
   }
   
-  // Verifica feriados móveis
+
   const movableHolidays = getMovableHolidays(year);
   const movableHoliday = movableHolidays.find(
     (h) =>
@@ -119,13 +109,11 @@ export function isHoliday(date: Date): { isHoliday: boolean; name?: string } {
   return { isHoliday: false };
 }
 
-/**
- * Retorna todos os feriados de um ano
- */
+
 export function getHolidaysForYear(year: number): { date: Date; name: string }[] {
   const holidays: { date: Date; name: string }[] = [];
   
-  // Feriados fixos
+
   for (const h of FIXED_HOLIDAYS) {
     holidays.push({
       date: new Date(year, h.month - 1, h.day),
@@ -133,18 +121,16 @@ export function getHolidaysForYear(year: number): { date: Date; name: string }[]
     });
   }
   
-  // Feriados móveis
+
   holidays.push(...getMovableHolidays(year));
   
-  // Ordena por data
+
   holidays.sort((a, b) => a.date.getTime() - b.date.getTime());
   
   return holidays;
 }
 
-/**
- * Verifica se uma data é dia útil (não é fim de semana nem feriado)
- */
+
 export function isWorkday(date: Date): boolean {
   const day = date.getDay();
   const isWeekend = day === 0 || day === 6;

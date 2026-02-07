@@ -1,6 +1,4 @@
-/**
- * ReportTocSubItem - Table of Contents sub-item (indented)
- */
+
 
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import { fonts } from '../../../shared/components/pdf';

@@ -1,7 +1,4 @@
-/**
- * StepIndicator - Indicador visual vertical dos passos do wizard
- * Permite navegação para passos anteriores e mostra tooltip com requisitos
- */
+
 
 import { useState } from 'react';
 import { IStepInfo, WizardStep } from '../../shared/domain/types';
@@ -16,15 +13,11 @@ interface StepIndicatorProps {
 export function StepIndicator({ currentStep, steps, completedSteps, onStepClick }: StepIndicatorProps) {
   const [hoveredStep, setHoveredStep] = useState<WizardStep | null>(null);
 
-  // Calculate the working step (next step after highest completed)
+
   const highestCompleted = completedSteps.length > 0 ? Math.max(...completedSteps) : 0;
   const workingStep = Math.min(highestCompleted + 1, steps.length) as WizardStep;
 
-  // A step is clickable if:
-  // - It's step 1 (always accessible)
-  // - It's completed (reviewable)
-  // - It's the current step being viewed
-  // - It's the working step (next step to complete)
+
   const isStepClickable = (step: WizardStep) => 
     step === 1 || completedSteps.includes(step) || step === currentStep || step === workingStep;
 
@@ -38,7 +31,7 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
     <nav aria-label="Progresso" className="w-full">
       <ol className="flex flex-col gap-0">
         {steps.map((step, index) => {
-          // Step 1 is considered completed if user has advanced past it (any step is completed)
+
           const isCompleted = step.step === 1 
             ? completedSteps.length > 0 
             : completedSteps.includes(step.step);
@@ -47,14 +40,14 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
           const isLast = index === steps.length - 1;
           const isHovered = hoveredStep === step.step;
           const isWorkingStep = step.step === workingStep;
-          // Completed but not currently being viewed = solid with checkmark
-          // Current step (viewing) or working step = outlined with number
+          
           const isCompletedNotViewing = isCompleted && !isCurrent;
+
 
           return (
             <li key={step.step} className="relative">
               <div className="flex items-start gap-3">
-                {/* Step Circle and Connector */}
+
                 <div className="flex flex-col items-center">
                   <div
                     className={`
@@ -99,7 +92,7 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
                       step.step
                     )}
 
-                    {/* Tooltip - positioned to the right */}
+
                     {isHovered && step.requirements && step.requirements.length > 0 && (
                       <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-50 w-max max-w-xs">
                         <div className="bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark text-xs rounded-lg py-2 px-3 shadow-lg border border-border dark:border-border-dark">
@@ -112,7 +105,7 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
                               </li>
                             ))}
                           </ul>
-                          {/* Arrow pointing left */}
+
                           <div className="absolute right-full top-1/2 -translate-y-1/2 -mr-px">
                             <div className="border-8 border-transparent border-r-surface-elevated dark:border-r-surface-elevated-dark" />
                           </div>
@@ -121,7 +114,7 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
                     )}
                   </div>
 
-                  {/* Vertical Connector Line */}
+
                   {!isLast && (
                     <div
                       className={`
@@ -133,7 +126,7 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
                   )}
                 </div>
 
-                {/* Step Label */}
+
                 <div 
                   className={`pt-2 ${isClickable ? 'cursor-pointer' : ''}`}
                   onClick={() => handleStepClick(step)}

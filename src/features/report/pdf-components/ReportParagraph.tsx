@@ -1,7 +1,4 @@
-/**
- * ReportParagraph - Report paragraph text
- * Serif font, justified text
- */
+
 
 import { StyleSheet, Text } from '@react-pdf/renderer';
 import type { ReactNode } from 'react';

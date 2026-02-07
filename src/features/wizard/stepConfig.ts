@@ -1,7 +1,4 @@
-/**
- * Wizard Step Configuration
- * Externalized from WizardContainer for better maintainability
- */
+
 
 import { IStepInfo } from '../../shared/domain/types';
 

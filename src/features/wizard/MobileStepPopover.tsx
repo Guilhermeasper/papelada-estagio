@@ -1,7 +1,4 @@
-/**
- * MobileStepPopover - Popover de navegação de passos para mobile
- * Usa a API nativa Popover do browser
- */
+
 
 import { useRef } from 'react';
 import { Button } from '../../shared/components';
@@ -18,22 +15,18 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
   const popoverRef = useRef<HTMLDivElement>(null);
   const currentStepInfo = steps.find((s) => s.step === currentStep);
 
-  // Calculate the working step (next step after highest completed)
+
   const highestCompleted = completedSteps.length > 0 ? Math.max(...completedSteps) : 0;
   const workingStep = Math.min(highestCompleted + 1, steps.length) as WizardStep;
 
-  // A step is clickable if:
-  // - It's step 1 (always accessible)
-  // - It's completed (reviewable)
-  // - It's the current step being viewed
-  // - It's the working step (next step to complete)
+
   const isStepClickable = (step: WizardStep) => 
     step === 1 || completedSteps.includes(step) || step === currentStep || step === workingStep;
 
   const handleStepClick = (step: IStepInfo) => {
     if (isStepClickable(step.step) && onStepClick) {
       onStepClick(step.step);
-      // Close popover after navigation
+
       popoverRef.current?.hidePopover();
     }
   };
@@ -44,7 +37,7 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
 
   return (
     <>
-      {/* Trigger Button - Shows current step info */}
+
       <Button
         // @ts-expect-error - popoverTarget is a new attribute
         popovertarget="steps-popover"
@@ -65,7 +58,7 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
         </svg>
       </Button>
 
-      {/* Popover Content */}
+
       <div
         ref={popoverRef}
         id="steps-popover"
@@ -76,7 +69,7 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
           backdrop:bg-black/50
         "
       >
-        {/* Header */}
+
         <div className="flex items-center justify-between p-4 border-b border-border dark:border-border-dark bg-surface-elevated dark:bg-surface-elevated-dark sticky top-0">
           <h2 className="text-base font-bold text-text-primary dark:text-text-primary-dark">Navegação</h2>
           <Button
@@ -92,18 +85,18 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
           </Button>
         </div>
 
-        {/* Steps List */}
+
         <div className="p-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 70px)' }}>
           <ol className="flex flex-col gap-2">
             {steps.map((step) => {
-              // Step 1 is considered completed if user has advanced past it (any step is completed)
+
               const isCompleted = step.step === 1 
                 ? completedSteps.length > 0 
                 : completedSteps.includes(step.step);
               const isCurrent = step.step === currentStep;
               const isClickable = isStepClickable(step.step);
               const isWorkingStep = step.step === workingStep;
-              // Completed but not currently being viewed = solid with checkmark
+
               const isCompletedNotViewing = isCompleted && !isCurrent;
 
               return (
@@ -118,7 +111,7 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
                       ${isClickable ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'}
                     `}
                   >
-                    {/* Step Circle */}
+
                     <div
                       className={`
                         flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center
@@ -145,7 +138,7 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
                       )}
                     </div>
 
-                    {/* Step Info */}
+
                     <div className="flex-1 text-left">
                       <p className={`text-sm font-medium ${isCurrent ? 'text-cin-red' : isCompleted ? 'text-cin-red/80' : 'text-text-secondary dark:text-text-secondary-dark'}`}>
                         {step.title}
@@ -163,7 +156,7 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
                       )}
                     </div>
 
-                    {/* Status indicator */}
+
                     {isClickable && !isCurrent && (
                       <svg className="w-5 h-5 text-text-secondary dark:text-text-secondary-dark flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

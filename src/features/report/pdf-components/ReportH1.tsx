@@ -1,7 +1,4 @@
-/**
- * ReportH1 - Primary section header for reports
- * Exports style for use with PDFSection titleStyle prop
- */
+
 
 import { StyleSheet, Text } from '@react-pdf/renderer';
 import type { ReactNode } from 'react';

@@ -1,7 +1,4 @@
-/**
- * ReportCoverPage - Report cover page wrapper
- * Uses serif font without lineHeight
- */
+
 
 import { Page, StyleSheet } from '@react-pdf/renderer';
 import type { ReactNode } from 'react';

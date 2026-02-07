@@ -1,7 +1,4 @@
-/**
- * DateService - Encapsulates date calculations and validation
- * Single source of truth for all date-related business logic
- */
+
 
 import { MIN_INTERNSHIP_HOURS } from '../constants';
 import {
@@ -22,9 +19,7 @@ export interface PeriodInfo {
 }
 
 export const dateService = {
-  /**
-   * Calculates the end date based on start date and hours per day
-   */
+
   calculateEndDate(
     startDate: string, 
     hoursPerDay: number, 
@@ -33,16 +28,12 @@ export const dateService = {
     return calculateEndDate(startDate, hoursPerDay, minHours);
   },
 
-  /**
-   * Validates if a date is valid for internship (not weekend/holiday)
-   */
+
   validateDate(date: string): DateValidationResult {
     return validateDate(date);
   },
 
-  /**
-   * Validates if a date range meets internship requirements
-   */
+
   validatePeriod(
     startDate: string, 
     endDate: string, 
@@ -51,24 +42,18 @@ export const dateService = {
     return validateInternshipPeriod(startDate, endDate, hoursPerDay);
   },
 
-  /**
-   * Counts workdays between two dates
-   */
+
   countWorkdays(startDate: string, endDate: string): number {
     return countWorkdays(startDate, endDate);
   },
 
-  /**
-   * Formats a date range as a Portuguese string
-   */
+
   formatPeriod(startDate: string, endDate: string): string {
     if (!startDate || !endDate) return '';
     return `${formatDatePtBr(startDate)} a ${formatDatePtBr(endDate)}`;
   },
 
-  /**
-   * Gets complete period information for display
-   */
+
   getPeriodInfo(
     startDate: string, 
     endDate: string, 
