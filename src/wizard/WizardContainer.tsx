@@ -5,7 +5,7 @@
  * With localStorage persistence for progress saving
  */
 
-import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ThemeToggle } from '../shared/components';
 import {
   ICompanyData,
@@ -16,7 +16,7 @@ import {
   ISupervisionData,
   WizardStep
 } from '../shared/domain/types';
-import { useWizardPersistence } from '../shared/hooks';
+import { PersistedWizardState, useWizardPersistence } from '../shared/hooks';
 import { MobileStepPopover } from './MobileStepPopover';
 import { StepIndicator } from './StepIndicator';
 import { STEPS, TOTAL_STEPS } from './stepConfig';
@@ -201,15 +201,118 @@ function ResetConfirmDialog({ isOpen, onConfirm, onCancel }: ResetDialogProps) {
   );
 }
 
+// Import Confirmation Dialog Component
+interface ImportDialogProps {
+  isOpen: boolean;
+  previewData: PersistedWizardState | null;
+  onConfirm: () => void;
+  onCancel: () => void;
+  error?: string;
+}
+
+function ImportConfirmDialog({ isOpen, previewData, onConfirm, onCancel, error }: ImportDialogProps) {
+  if (!isOpen) return null;
+
+  const formatDate = (isoString: string) => {
+    try {
+      return new Date(isoString).toLocaleString('pt-BR');
+    } catch {
+      return isoString;
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onCancel}
+      />
+
+      {/* Dialog */}
+      <div className="relative bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
+        {error ? (
+          <>
+            <h2 className="text-xl font-bold text-red-600 dark:text-red-400 mb-3">
+              Erro ao importar
+            </h2>
+            <p className="text-text-secondary dark:text-text-secondary-dark mb-6">
+              {error}
+            </p>
+            <button
+              onClick={onCancel}
+              className="w-full py-3 px-4 bg-text-secondary/20 dark:bg-text-secondary-dark/20 text-text-primary dark:text-text-primary-dark rounded-lg font-medium hover:bg-text-secondary/30 dark:hover:bg-text-secondary-dark/30 transition-colors"
+            >
+              Fechar
+            </button>
+          </>
+        ) : previewData ? (
+          <>
+            <h2 className="text-xl font-bold text-text-primary dark:text-text-primary-dark mb-3">
+              Importar progresso?
+            </h2>
+
+            <div className="bg-surface dark:bg-surface-dark rounded-lg p-4 mb-4 space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-text-secondary dark:text-text-secondary-dark">Aluno:</span>
+                <span className="text-text-primary dark:text-text-primary-dark font-medium">
+                  {previewData.data.student.fullName || '(não preenchido)'}
+                </span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-text-secondary dark:text-text-secondary-dark">Passo atual:</span>
+                <span className="text-text-primary dark:text-text-primary-dark font-medium">
+                  {previewData.currentStep} de 8
+                </span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-text-secondary dark:text-text-secondary-dark">Salvo em:</span>
+                <span className="text-text-primary dark:text-text-primary-dark font-medium">
+                  {formatDate(previewData.savedAt)}
+                </span>
+              </div>
+            </div>
+
+            <p className="text-text-secondary dark:text-text-secondary-dark mb-6 text-sm">
+              Isso irá substituir todos os dados atuais. Deseja continuar?
+            </p>
+
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={onConfirm}
+                className="w-full py-3 px-4 bg-cin-red text-white rounded-lg font-medium hover:bg-cin-red/90 transition-colors"
+              >
+                Importar e substituir
+              </button>
+
+              <button
+                onClick={onCancel}
+                className="w-full py-2 px-4 text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark transition-colors text-sm"
+              >
+                Cancelar
+              </button>
+            </div>
+          </>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 export function WizardContainer() {
   const [currentStep, setCurrentStep] = useState<WizardStep>(1);
   const [data, setData] = useState<IInternshipData>(createInitialData);
   const [completedSteps, setCompletedSteps] = useState<WizardStep[]>([]);
   const [showExitDialog, setShowExitDialog] = useState(false);
   const [showResetDialog, setShowResetDialog] = useState(false);
+  const [showImportDialog, setShowImportDialog] = useState(false);
+  const [importPreview, setImportPreview] = useState<PersistedWizardState | null>(null);
+  const [importError, setImportError] = useState<string | undefined>(undefined);
   const [isInitialized, setIsInitialized] = useState(false);
+  
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { saveProgress, loadProgress, clearProgress, hasProgress } = useWizardPersistence();
+  const { saveProgress, loadProgress, clearProgress, hasProgress, exportProgress, importProgress } = useWizardPersistence();
 
   // Load saved progress on mount
   useEffect(() => {
@@ -325,6 +428,53 @@ export function WizardContainer() {
     setCompletedSteps([]);
   };
 
+  // Handle export
+  const handleExport = () => {
+    exportProgress();
+  };
+
+  // Handle import file selection
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const result = await importProgress(file);
+    
+    if (result.success && result.state) {
+      setImportPreview(result.state);
+      setImportError(undefined);
+    } else {
+      setImportPreview(null);
+      setImportError(result.error);
+    }
+    
+    setShowImportDialog(true);
+    
+    // Reset file input so same file can be selected again
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  // Handle import confirmation
+  const handleImportConfirm = () => {
+    if (importPreview) {
+      setData(importPreview.data);
+      setCurrentStep(importPreview.currentStep);
+      setCompletedSteps(importPreview.completedSteps);
+      saveProgress(importPreview.data, importPreview.currentStep, importPreview.completedSteps);
+    }
+    setShowImportDialog(false);
+    setImportPreview(null);
+  };
+
+  // Handle import cancel
+  const handleImportCancel = () => {
+    setShowImportDialog(false);
+    setImportPreview(null);
+    setImportError(undefined);
+  };
+
   // Memoized step props based on current step
   const stepProps = useMemo(() => {
     switch (currentStep) {
@@ -377,6 +527,24 @@ export function WizardContainer() {
         onCancel={() => setShowResetDialog(false)}
       />
 
+      {/* Import Confirmation Dialog */}
+      <ImportConfirmDialog
+        isOpen={showImportDialog}
+        previewData={importPreview}
+        onConfirm={handleImportConfirm}
+        onCancel={handleImportCancel}
+        error={importError}
+      />
+
+      {/* Hidden file input for import */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        accept=".json"
+        onChange={handleFileSelect}
+        className="hidden"
+      />
+
       {/* Header */}
       <header className="bg-surface-elevated dark:bg-surface-elevated-dark border-b border-border dark:border-border-dark">
         <div className="max-w-6xl mx-auto px-4 py-6">
@@ -394,22 +562,42 @@ export function WizardContainer() {
               </p>
             </div>
             
-            {/* Progress indicator - shows if there's saved progress */}
-            {hasProgress() && (
-              <div className="ml-auto flex items-center gap-4">
-                <div className="flex items-center gap-2 text-sm text-text-secondary dark:text-text-secondary-dark">
-                  <div className="w-2 h-2 bg-green-500 rounded-full" />
-                  <span>Progresso salvo</span>
-                </div>
-                
-                <button
-                  onClick={() => setShowResetDialog(true)}
-                  className="text-sm font-medium text-cin-red hover:text-red-700 dark:hover:text-red-400 transition-colors px-3 py-1.5 rounded-md hover:bg-cin-red/10 border border-transparent hover:border-cin-red/20"
-                >
-                  Limpar dados
-                </button>
-              </div>
-            )}
+            {/* Progress tools and indicator */}
+            <div className="ml-auto flex items-center gap-2">
+              {/* Import button - always visible */}
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark transition-colors px-3 py-1.5 rounded-md hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10"
+                title="Importar progresso de arquivo JSON"
+              >
+                Importar
+              </button>
+
+              {/* Export and clear - only when there's progress */}
+              {hasProgress() && (
+                <>
+                  <div className="flex items-center gap-2 text-sm text-text-secondary dark:text-text-secondary-dark">
+                    <div className="w-2 h-2 bg-green-500 rounded-full" />
+                    <span className="hidden sm:inline">Salvo</span>
+                  </div>
+
+                  <button
+                    onClick={handleExport}
+                    className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark transition-colors px-3 py-1.5 rounded-md hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10"
+                    title="Exportar progresso como JSON"
+                  >
+                    Exportar
+                  </button>
+
+                  <button
+                    onClick={() => setShowResetDialog(true)}
+                    className="text-sm font-medium text-cin-red hover:text-red-700 dark:hover:text-red-400 transition-colors px-3 py-1.5 rounded-md hover:bg-cin-red/10 border border-transparent hover:border-cin-red/20"
+                  >
+                    Limpar
+                  </button>
+                </>
+              )}
+            </div>
             
             {/* Theme Toggle */}
             <div className={hasProgress() ? '' : 'ml-auto'}>

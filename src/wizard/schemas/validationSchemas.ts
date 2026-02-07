@@ -226,3 +226,87 @@ export const fullInternshipSchema = z.object({
 });
 
 export type FullInternshipData = z.infer<typeof fullInternshipSchema>;
+
+// ============================================
+// Import/Export Schemas (lenient validation)
+// ============================================
+
+// Lenient student schema for import (structure only, no min lengths)
+const studentImportSchema = z.object({
+  fullName: z.string(),
+  email: z.string(),
+  address: z.string(),
+  phone: z.string(),
+  course: z.string(),
+  enrollmentYear: z.string(),
+  studentId: z.string(),
+});
+
+// Lenient company schema for import
+const companyImportSchema = z.object({
+  companyName: z.string(),
+  companyAddress: z.string(),
+  companyCnpj: z.string(),
+});
+
+// Lenient general schema for import
+const generalImportSchema = z.object({
+  startDate: z.string(),
+  endDate: z.string(),
+  hoursPerDay: z.number(),
+  workDays: z.string(),
+  workSchedule: z.string(),
+  modality: z.enum(['Remoto', 'Presencial', 'Híbrido']),
+});
+
+// Lenient schedule item for import (no min length)
+const scheduleItemImportSchema = z.object({
+  period: z.string(),
+  description: z.string(),
+});
+
+// Lenient content schema for import
+const contentImportSchema = z.object({
+  activities: z.array(z.string()),
+  objectives: z.array(z.string()),
+  schedule: z.array(scheduleItemImportSchema),
+  introduction: z.string(),
+  generalObjectives: z.string(),
+  specificObjectives: z.string(),
+  methodology: z.string(),
+  development: z.string(),
+  conclusion: z.string(),
+});
+
+// Lenient supervision schema for import
+const supervisionImportSchema = z.object({
+  supervisorName: z.string(),
+  supervisorEmail: z.string(),
+  supervisorPhone: z.string(),
+  supervisorPosition: z.string(),
+  supervisorCpf: z.string(),
+  advisorName: z.string(),
+  advisorEmail: z.string(),
+  advisorSiape: z.string(),
+  advisorPosition: z.string(),
+});
+
+// Full lenient data schema for import
+const importDataSchema = z.object({
+  student: studentImportSchema,
+  company: companyImportSchema,
+  general: generalImportSchema,
+  content: contentImportSchema,
+  evaluation: evaluationSchema,
+  supervision: supervisionImportSchema,
+});
+
+// Persisted state schema for import validation
+export const persistedStateSchema = z.object({
+  data: importDataSchema,
+  currentStep: z.number().min(1).max(8),
+  completedSteps: z.array(z.number().min(1).max(8)),
+  savedAt: z.string(),
+});
+
+export type PersistedStateImport = z.infer<typeof persistedStateSchema>;
