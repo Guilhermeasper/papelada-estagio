@@ -8,13 +8,13 @@
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { ThemeToggle } from '../shared/components';
 import {
-    ICompanyData,
-    IInternshipContent,
-    IInternshipData,
-    IInternshipGeneral,
-    IStudentData,
-    ISupervisionData,
-    WizardStep
+  ICompanyData,
+  IInternshipContent,
+  IInternshipData,
+  IInternshipGeneral,
+  IStudentData,
+  ISupervisionData,
+  WizardStep
 } from '../shared/domain/types';
 import { useWizardPersistence } from '../shared/hooks';
 import { MobileStepPopover } from './MobileStepPopover';
@@ -314,7 +314,7 @@ export function WizardContainer() {
 
       {/* Header */}
       <header className="bg-surface-elevated dark:bg-surface-elevated-dark border-b border-border dark:border-border-dark">
-        <div className="max-w-4xl mx-auto px-4 py-6">
+        <div className="max-w-6xl mx-auto px-4 py-6">
           <div className="flex items-center gap-4">
             {/* Logo placeholder */}
             <div className="w-12 h-12 bg-cin-red rounded-lg flex items-center justify-center">
@@ -373,7 +373,7 @@ export function WizardContainer() {
 
       {/* Footer */}
       <footer className="bg-surface-elevated dark:bg-surface-elevated-dark border-t border-border dark:border-border-dark mt-auto">
-        <div className="max-w-4xl mx-auto px-4 py-4">
+        <div className="max-w-6xl mx-auto px-4 py-4">
           <p className="text-center text-sm text-text-secondary dark:text-text-secondary-dark">
             © {new Date().getFullYear()} Centro de Informática - UFPE
           </p>
