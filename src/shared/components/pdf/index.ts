@@ -7,6 +7,15 @@
 export * from './styles';
 export * from './utils';
 
+// Page
+export { PDFPage } from './PDFPage';
+export type { PageVariant } from './PDFPage';
+
+// Evaluation-specific shared
+export { PDFCommentsSection } from './PDFCommentsSection';
+export { PDFDateSection } from './PDFDateSection';
+export { PDFEvalIntro } from './PDFEvalIntro';
+
 // Headers
 export { PDFLogoHeader } from './PDFLogoHeader';
 export { PDFTextHeader } from './PDFTextHeader';
@@ -36,8 +45,8 @@ export { PDFRatingRow } from './PDFRatingRow';
 
 // Unified Evaluation Document
 export {
-    AdvisorEvaluationDocument, EvaluationDocument,
-    SupervisorEvaluationDocument
+  AdvisorEvaluationDocument, EvaluationDocument,
+  SupervisorEvaluationDocument
 } from './EvaluationDocument';
 export type { EvaluationType, IEvaluationData } from './EvaluationDocument';
 

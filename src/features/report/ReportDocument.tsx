@@ -3,16 +3,8 @@
  * Renders the internship report using @react-pdf/renderer
  */
 
+import { Document, Text } from '@react-pdf/renderer';
 import {
-  Document,
-  Page,
-  StyleSheet,
-  Text,
-  View,
-} from '@react-pdf/renderer';
-import {
-  colors,
-  fonts,
   formatDatePtBr,
   getMonthName,
   PDFBulletList,
@@ -25,88 +17,17 @@ import {
 } from '../../shared/components/pdf';
 import { PDF_CONTENT } from '../../shared/constants/pdf-content';
 import type { IInternshipData } from '../../shared/domain/types';
-
-// ============================================
-// Styles
-// ============================================
-const styles = StyleSheet.create({
-  // Page
-  page: {
-    paddingTop: 70,
-    paddingBottom: 70,
-    paddingLeft: 85,
-    paddingRight: 85,
-    fontFamily: fonts.serif,
-    fontSize: 12,
-    color: colors.textBlack,
-    lineHeight: 1.2,
-  },
-  // Cover page
-  coverPage: {
-    paddingTop: 70,
-    paddingBottom: 70,
-    paddingLeft: 85,
-    paddingRight: 85,
-    fontFamily: fonts.serif,
-    fontSize: 12,
-    color: colors.textBlack,
-  },
-  coverFooter: {
-    fontSize: 12,
-    textAlign: 'center',
-    marginTop: 'auto',
-    paddingTop: 100,
-  },
-  // Table of contents
-  tocTitle: {
-    fontSize: 16,
-    fontFamily: fonts.serifBold,
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  tocItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 6,
-    paddingTop: 6,
-  },
-  tocItemText: {
-    fontFamily: fonts.serifBold,
-    fontSize: 12,
-  },
-  tocSubItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 4,
-    marginLeft: 12,
-  },
-  tocSubItemText: {
-    fontFamily: fonts.serifBold,
-    fontSize: 11,
-  },
-  // Section headers
-  h1: {
-    fontSize: 16,
-    fontFamily: fonts.bold,
-    color: colors.headerBlue,
-    marginTop: 24,
-    marginBottom: 10,
-  },
-  h2: {
-    fontSize: 13,
-    fontFamily: fonts.bold,
-    color: colors.subheaderBlue,
-    marginTop: 10,
-    marginBottom: 6,
-  },
-  // Content
-  paragraph: {
-    fontSize: 12,
-    textAlign: 'justify',
-    marginBottom: 10,
-    lineHeight: 1.3,
-  },
-});
+import {
+  ReportCoverFooter,
+  ReportCoverPage,
+  reportH1Style,
+  ReportH2,
+  ReportPage,
+  ReportParagraph,
+  ReportTocItem,
+  ReportTocSubItem,
+  ReportTocTitle,
+} from './pdf-components';
 
 // ============================================
 // Props Interface
@@ -188,7 +109,7 @@ export function ReportDocument({ data }: ReportDocumentProps) {
   return (
     <Document>
       {/* Cover Page */}
-      <Page size="A4" style={styles.coverPage}>
+      <ReportCoverPage>
         <PDFLogoHeader 
            logos={[
              { src: '/logo_cin.png', width: 97, height: 97 },
@@ -203,103 +124,97 @@ export function ReportDocument({ data }: ReportDocumentProps) {
         
         <Text style={{ fontSize: 14, textAlign: 'center', marginTop: 40 }}>Graduação em {student.course}</Text>
 
-        <View style={styles.coverFooter}>
+        <ReportCoverFooter>
           <Text>Recife</Text>
           <Text>{coverMonth}, {coverYear}</Text>
-        </View>
-      </Page>
+        </ReportCoverFooter>
+      </ReportCoverPage>
 
       {/* Table of Contents */}
-      <Page size="A4" style={styles.page}>
-        <Text style={styles.tocTitle}>{report.toc.title}</Text>
+      <ReportPage>
+        <ReportTocTitle>{report.toc.title}</ReportTocTitle>
         
         {report.toc.items.map((item, index) => {
            if (item.indent) {
              return (
-               <View key={index} style={styles.tocSubItem}>
-                 <Text style={styles.tocSubItemText}>{item.label}</Text>
-                 <Text style={styles.tocSubItemText}>{item.page}</Text>
-               </View>
+               <ReportTocSubItem key={index} label={item.label} page={item.page} />
              );
            }
            return (
-             <View key={index} style={styles.tocItem}>
-                <Text style={styles.tocItemText}>{item.label}</Text>
-                <Text style={styles.tocItemText}>{item.page}</Text>
-             </View>
+             <ReportTocItem key={index} label={item.label} page={item.page} />
            );
         })}
-      </Page>
+      </ReportPage>
 
       {/* Identificação - using PDFKeyValueTable */}
-      <Page size="A4" style={styles.page}>
-        <PDFSection title={report.sections.identification} titleStyle={styles.h1}>
+      <ReportPage>
+        <PDFSection title={report.sections.identification} titleStyle={reportH1Style}>
              <PDFKeyValueTable items={idItems} labelWidth={200} />
         </PDFSection>
-      </Page>
+      </ReportPage>
 
       {/* Introdução */}
-      <Page size="A4" style={styles.page}>
-        <PDFSection title={report.sections.introduction} titleStyle={styles.h1}>
-            <Text style={styles.paragraph}>{content.introduction}</Text>
+      <ReportPage>
+        <PDFSection title={report.sections.introduction} titleStyle={reportH1Style}>
+            <ReportParagraph>{content.introduction}</ReportParagraph>
         </PDFSection>
-      </Page>
+      </ReportPage>
 
       {/* Objetivos - using PDFBulletList */}
-      <Page size="A4" style={styles.page}>
-        <PDFSection title={report.sections.objectives} titleStyle={styles.h1}>
-            <Text style={styles.h2}>{report.sections.generalObjectives}</Text>
-            <Text style={styles.paragraph}>{content.generalObjectives}</Text>
+      <ReportPage>
+        <PDFSection title={report.sections.objectives} titleStyle={reportH1Style}>
+            <ReportH2>{report.sections.generalObjectives}</ReportH2>
+            <ReportParagraph>{content.generalObjectives}</ReportParagraph>
             
-            <Text style={styles.h2}>{report.sections.specificObjectives}</Text>
-            <Text style={styles.paragraph}>
+            <ReportH2>{report.sections.specificObjectives}</ReportH2>
+            <ReportParagraph>
               {report.text.specificObjectivesIntro}
-            </Text>
+            </ReportParagraph>
             <PDFBulletList items={content.objectives} />
         </PDFSection>
-      </Page>
+      </ReportPage>
 
       {/* Cronograma */}
-      <Page size="A4" style={styles.page}>
-        <PDFSection title={report.sections.schedule} titleStyle={styles.h1}>
-            <Text style={styles.paragraph}>
+      <ReportPage>
+        <PDFSection title={report.sections.schedule} titleStyle={reportH1Style}>
+            <ReportParagraph>
               {report.text.scheduleIntro}
-            </Text>
+            </ReportParagraph>
             {content.schedule.map((item, index) => (
-              <Text key={index} style={styles.paragraph}>
+              <ReportParagraph key={index}>
                 {item.period}: {item.description}
-              </Text>
+              </ReportParagraph>
             ))}
         </PDFSection>
-      </Page>
+      </ReportPage>
 
       {/* Material e Método */}
-      <Page size="A4" style={styles.page}>
-         <PDFSection title={report.sections.methodology} titleStyle={styles.h1}>
-            <Text style={styles.paragraph}>{content.methodology}</Text>
+      <ReportPage>
+         <PDFSection title={report.sections.methodology} titleStyle={reportH1Style}>
+            <ReportParagraph>{content.methodology}</ReportParagraph>
          </PDFSection>
-      </Page>
+      </ReportPage>
 
       {/* Desenvolvimento */}
-      <Page size="A4" style={styles.page}>
-         <PDFSection title={report.sections.development} titleStyle={styles.h1}>
-            <Text style={styles.paragraph}>{content.development}</Text>
+      <ReportPage>
+         <PDFSection title={report.sections.development} titleStyle={reportH1Style}>
+            <ReportParagraph>{content.development}</ReportParagraph>
          </PDFSection>
-      </Page>
+      </ReportPage>
 
       {/* Avaliação do Estágio - using PDFTable */}
-      <Page size="A4" style={styles.page}>
-         <PDFSection title={report.sections.evaluation} titleStyle={styles.h1}>
+      <ReportPage>
+         <PDFSection title={report.sections.evaluation} titleStyle={reportH1Style}>
             <PDFTable columns={evalColumns} rows={evalRows} />
          </PDFSection>
-      </Page>
+      </ReportPage>
 
       {/* Conclusão */}
-      <Page size="A4" style={styles.page}>
-         <PDFSection title={report.sections.conclusion} titleStyle={styles.h1}>
-            <Text style={styles.paragraph}>{content.conclusion}</Text>
+      <ReportPage>
+         <PDFSection title={report.sections.conclusion} titleStyle={reportH1Style}>
+            <ReportParagraph>{content.conclusion}</ReportParagraph>
          </PDFSection>
-      </Page>
+      </ReportPage>
     </Document>
   );
 }

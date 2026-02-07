@@ -3,15 +3,8 @@
  * Renders the internship activity plan using @react-pdf/renderer
  */
 
+import { Document, Text } from '@react-pdf/renderer';
 import {
-  Document,
-  Page,
-  StyleSheet,
-  Text,
-  View
-} from '@react-pdf/renderer';
-import {
-  colors,
   fonts,
   formatDatePtBr,
   formatFullDate,
@@ -24,78 +17,17 @@ import {
 } from '../../shared/components/pdf';
 import { PDF_CONTENT } from '../../shared/constants/pdf-content';
 import type { IInternshipData } from '../../shared/domain/types';
-
-// ============================================
-// Styles
-// ============================================
-const styles = StyleSheet.create({
-  page: {
-    paddingTop: 70,
-    paddingBottom: 70,
-    paddingLeft: 85,
-    paddingRight: 56,
-    fontFamily: fonts.regular,
-    fontSize: 10,
-    color: colors.textBlack,
-    lineHeight: 1.0,
-  },
-  // Evaluation text
-  evaluationText: {
-    marginLeft: 35,
-    marginBottom: 4,
-    textAlign: 'justify',
-  },
-  evaluationIndent: {
-    marginLeft: 70,
-    marginBottom: 2,
-  },
-  // Signatures
-  signatureSection: {
-    marginTop: 30,
-  },
-  signatureDate: {
-    textAlign: 'center',
-    marginBottom: 15,
-  },
-  signatureLine: {
-    marginLeft: 35,
-    marginBottom: 3,
-  },
-  signatureLabel: {
-    fontFamily: fonts.bold,
-  },
-  signatureSubLabel: {
-    marginLeft: 35,
-    fontSize: 9,
-    marginBottom: 15,
-  },
-  fieldLabel: {
-    fontFamily: fonts.bold,
-  },
-  // Footer
-  footerNote: {
-    marginTop: 30,
-    fontSize: 8,
-    borderTopWidth: 1,
-    borderTopColor: colors.textBlack,
-    paddingTop: 8,
-    textAlign: 'justify',
-  },
-  // Schedule item (custom for period - description format)
-  scheduleItem: {
-    flexDirection: 'row',
-    marginBottom: 4,
-    marginLeft: 60,
-    paddingRight: 20,
-  },
-  scheduleNumber: {
-    width: 18,
-  },
-  scheduleContent: {
-    flex: 1,
-    textAlign: 'justify',
-  },
-});
+import {
+  ActivityPlanEvaluationIndent,
+  ActivityPlanEvaluationText,
+  ActivityPlanFieldLabel,
+  ActivityPlanFooterNote,
+  ActivityPlanPage,
+  ActivityPlanScheduleItem,
+  ActivityPlanSignatureDate,
+  ActivityPlanSignatureLine,
+  ActivityPlanSignatureSection,
+} from './pdf-components';
 
 // ============================================
 // Props Interface
@@ -137,7 +69,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
 
   return (
     <Document>
-      <Page size="A4" style={styles.page} wrap>
+      <ActivityPlanPage>
         {/* Header */}
         <PDFLogoHeader 
           logos={[{ src: '/image1.png', width: 76, height: 73 }]}
@@ -195,28 +127,28 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
             titleStyle={{ marginLeft: 32, fontFamily: fonts.regular, marginBottom: 4, marginTop: 8 }}
           >
             {content.schedule.map((item, index) => (
-              <View key={index} style={styles.scheduleItem}>
-                <Text style={styles.scheduleNumber}>{index + 1}.</Text>
-                <Text style={styles.scheduleContent}>
-                  {item.period} – {item.description}
-                </Text>
-              </View>
+              <ActivityPlanScheduleItem 
+                key={index}
+                number={index + 1}
+                period={item.period}
+                description={item.description}
+              />
             ))}
           </PDFSection>
         </PDFSection>
         
         {/* Section 4: Supervision */}
         <PDFSection title={activityPlan.sections.supervision} number="4">
-          <Text style={[styles.fieldLabel, { marginLeft: 0, marginBottom: 8 }]}>SUPERVISOR:</Text>
+          <ActivityPlanFieldLabel style={{ marginLeft: 0, marginBottom: 8 }}>SUPERVISOR:</ActivityPlanFieldLabel>
           <PDFFieldRow label="Nome" value={supervision.supervisorName} />
           <PDFFieldRow label="E-mail" value={supervision.supervisorEmail} />
           <PDFFieldRow label="Telefone" value={supervision.supervisorPhone} />
           <PDFFieldRow label="Cargo" value={supervision.supervisorPosition} />
           <PDFFieldRow label="CPF" value={supervision.supervisorCpf} />
 
-          <Text style={[styles.fieldLabel, { marginLeft: 0, marginTop: 15, marginBottom: 8 }]}>
+          <ActivityPlanFieldLabel style={{ marginLeft: 0, marginTop: 15, marginBottom: 8 }}>
             PROFESSOR ORIENTADOR:
-          </Text>
+          </ActivityPlanFieldLabel>
           <PDFFieldRow label="Nome" value={supervision.advisorName} />
           <PDFFieldRow label="E-mail" value={supervision.advisorEmail} />
           <PDFFieldRow label="SIAPE" value={supervision.advisorSiape} />
@@ -225,76 +157,73 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
 
         {/* Section 5: Evaluation */}
         <PDFSection title={`${activityPlan.sections.evaluation} ${activityPlan.evaluation.subtitle}`} number="5">
-          <Text style={styles.evaluationText}>
+          <ActivityPlanEvaluationText>
             {activityPlan.evaluation.text1}
-          </Text>
+          </ActivityPlanEvaluationText>
           <PDFFieldRow label="Data para emissão do parecer" value={formatDatePtBr(evalDate)} />
-          <Text style={styles.evaluationText}>
+          <ActivityPlanEvaluationText>
             {activityPlan.evaluation.text2}
-          </Text>
+          </ActivityPlanEvaluationText>
           {activityPlan.evaluation.legends.map((legend, index) => (
-             <Text key={index} style={styles.evaluationIndent}>{legend}</Text>
+             <ActivityPlanEvaluationIndent key={index}>{legend}</ActivityPlanEvaluationIndent>
           ))}
 
-          <Text style={[styles.evaluationText, { marginTop: 10 }]}>
+          <ActivityPlanEvaluationText style={{ marginTop: 10 }}>
             {activityPlan.evaluation.text3}
-          </Text>
+          </ActivityPlanEvaluationText>
 
           {/* Evaluation Table using shared PDFTable */}
           <PDFTable columns={evalColumns} rows={activityPlan.evaluation.criteria} marginLeft={35} />
 
-          <Text style={[styles.evaluationText, { marginTop: 15 }]}>
+          <ActivityPlanEvaluationText style={{ marginTop: 15 }}>
             {activityPlan.evaluation.text4}
-          </Text>
-          <Text style={styles.evaluationText}>
+          </ActivityPlanEvaluationText>
+          <ActivityPlanEvaluationText>
             {activityPlan.evaluation.text5}
-          </Text>
+          </ActivityPlanEvaluationText>
         </PDFSection>
 
         {/* Signatures */}
-        <View style={styles.signatureSection}>
-          <Text style={styles.signatureDate}>
+        <ActivityPlanSignatureSection>
+          <ActivityPlanSignatureDate>
             Recife, {formatFullDate(evalDate)}
-          </Text>
-          <Text style={[styles.signatureLine, { marginLeft: 0 }]}>
-            <Text style={styles.signatureLabel}>{activityPlan.signatures.title}</Text>
-          </Text>
-
-          <Text style={[styles.signatureLine, { marginTop: 20 }]}>
-            <Text style={styles.signatureLabel}>{activityPlan.signatures.student} </Text>
-            ___________________________________________
+          </ActivityPlanSignatureDate>
+          <Text style={{ fontFamily: fonts.bold }}>
+            {activityPlan.signatures.title}
           </Text>
 
-          <Text style={[styles.signatureLine, { marginTop: 20 }]}>
-            <Text style={styles.signatureLabel}>{activityPlan.signatures.supervisor} </Text>
-            _______________________________________
-          </Text>
-          <Text style={styles.signatureSubLabel}>
-            {activityPlan.signatures.fields.field}                        ({supervision.supervisorName})
-          </Text>
+          <ActivityPlanSignatureLine 
+            label={activityPlan.signatures.student}
+            style={{ marginLeft: 0, marginTop: 20 }}
+          />
 
-          <Text style={[styles.signatureLine, { marginTop: 10 }]}>
-            <Text style={styles.signatureLabel}>{activityPlan.signatures.advisor} </Text>
-            _______________________________________
-          </Text>
-          <Text style={styles.signatureSubLabel}>
-            {activityPlan.signatures.fields.ufpe}                                    ({supervision.advisorName})
-          </Text>
+          <ActivityPlanSignatureLine 
+            label={activityPlan.signatures.supervisor}
+            line="_______________________________________"
+            subLabel={`${activityPlan.signatures.fields.field}                        (${supervision.supervisorName})`}
+            style={{ marginTop: 20 }}
+          />
 
-          <Text style={[styles.signatureLine, { marginTop: 10 }]}>
-            <Text style={styles.signatureLabel}>{activityPlan.signatures.coordinator} </Text>
-            _________________________________
-          </Text>
-          <Text style={styles.signatureSubLabel}>
-                                                             {activityPlan.signatures.coordinatorNote}
-          </Text>
-        </View>
+          <ActivityPlanSignatureLine 
+            label={activityPlan.signatures.advisor}
+            line="_______________________________________"
+            subLabel={`${activityPlan.signatures.fields.ufpe}                                    (${supervision.advisorName})`}
+            style={{ marginTop: 10 }}
+          />
+
+          <ActivityPlanSignatureLine 
+            label={activityPlan.signatures.coordinator}
+            line="_________________________________"
+            subLabel={`                                                             ${activityPlan.signatures.coordinatorNote}`}
+            style={{ marginTop: 10 }}
+          />
+        </ActivityPlanSignatureSection>
 
         {/* Footer Note */}
-        <Text style={styles.footerNote}>
+        <ActivityPlanFooterNote>
           {activityPlan.footer}
-        </Text>
-      </Page>
+        </ActivityPlanFooterNote>
+      </ActivityPlanPage>
     </Document>
   );
 }

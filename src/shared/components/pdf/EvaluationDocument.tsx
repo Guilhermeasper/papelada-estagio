@@ -3,17 +3,20 @@
  * Renders evaluation forms using @react-pdf/renderer
  */
 
-import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Document, Text } from '@react-pdf/renderer';
 import { PDF_CONTENT } from '../../constants/pdf-content';
 import type { IInternshipData } from '../../domain/types';
 import { PDFCommentsBox } from './PDFCommentsBox';
+import { PDFCommentsSection } from './PDFCommentsSection';
+import { PDFDateSection } from './PDFDateSection';
+import { PDFEvalIntro } from './PDFEvalIntro';
 import { PDFGradeField } from './PDFGradeField';
 import { PDFKeyValueTable, type KeyValueItem } from './PDFKeyValueTable';
+import { PDFPage } from './PDFPage';
 import { PDFRatingRow } from './PDFRatingRow';
 import { PDFSection } from './PDFSection';
 import { PDFSignatureLine } from './PDFSignatureLine';
 import { PDFTextHeader } from './PDFTextHeader';
-import { pageStyles } from './styles';
 import { formatDateLong, formatDatePtBr, type Rating } from './utils';
 
 // ============================================
@@ -35,23 +38,6 @@ export interface IEvaluationData {
 // Evaluation Type
 // ============================================
 export type EvaluationType = 'supervisor' | 'advisor';
-
-// ============================================
-// Local Styles
-// ============================================
-const styles = StyleSheet.create({
-  evalIntro: {
-    fontSize: 11,
-    marginBottom: 15,
-  },
-  commentsSection: {
-    marginTop: 20,
-  },
-  dateSection: {
-    marginTop: 40,
-    textAlign: 'center',
-  },
-});
 
 // ============================================
 // Props Interface
@@ -88,7 +74,7 @@ export function EvaluationDocument({ type, data, evaluation }: EvaluationDocumen
 
   return (
     <Document>
-      <Page size="A4" style={pageStyles.evaluation}>
+      <PDFPage variant="evaluation">
         {/* Header */}
         <PDFTextHeader
           subtitle={evaluationDocument.shared.subtitle}
@@ -110,9 +96,9 @@ export function EvaluationDocument({ type, data, evaluation }: EvaluationDocumen
           title={evaluationDocument.shared.sections.evaluation}
           titleStyle={{ fontSize: 11, fontFamily: 'Helvetica-Bold', marginBottom: 10 }}
         >
-          <Text style={styles.evalIntro}>
+          <PDFEvalIntro>
             {evaluationDocument.shared.intro}
-          </Text>
+          </PDFEvalIntro>
 
           {evaluationDocument.shared.criteria.map((criterion) => (
             <PDFRatingRow
@@ -124,26 +110,27 @@ export function EvaluationDocument({ type, data, evaluation }: EvaluationDocumen
         </PDFSection>
 
         {/* 3. Comentários */}
-        <PDFSection 
-          number="3" 
-          title={evaluationDocument.shared.comments.title}
-          titleStyle={{ fontSize: 11, fontFamily: 'Helvetica-Bold', marginBottom: 10 }}
-          style={styles.commentsSection}
-        >
-          <PDFCommentsBox text={evaluation.detailedComments} lines={10} />
-        </PDFSection>
+        <PDFCommentsSection>
+          <PDFSection 
+            number="3" 
+            title={evaluationDocument.shared.comments.title}
+            titleStyle={{ fontSize: 11, fontFamily: 'Helvetica-Bold', marginBottom: 10 }}
+          >
+            <PDFCommentsBox text={evaluation.detailedComments} lines={10} />
+          </PDFSection>
+        </PDFCommentsSection>
 
         {/* 4. Final Grade */}
         <PDFGradeField sectionNumber={4} grade={evaluation.finalGrade} />
 
         {/* Date */}
-        <View style={styles.dateSection}>
+        <PDFDateSection>
           <Text>{evaluationDocument.shared.datePrefix} {formatDateLong(general.endDate)}</Text>
-        </View>
+        </PDFDateSection>
 
         {/* Signature */}
         <PDFSignatureLine label={config.signatureLabel} />
-      </Page>
+      </PDFPage>
     </Document>
   );
 }

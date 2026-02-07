@@ -34,6 +34,7 @@ export const fonts = {
 
 // ============================================
 // Common Page Styles
+// Used by PDFPage component
 // ============================================
 export const pageStyles = StyleSheet.create({
   // Default page (Helvetica, standard margins)
@@ -81,84 +82,5 @@ export const pageStyles = StyleSheet.create({
     fontSize: 10,
     color: colors.textBlack,
     lineHeight: 1.0,
-  },
-});
-
-// ============================================
-// Common Table Styles
-// ============================================
-export const tableStyles = StyleSheet.create({
-  table: {
-    width: '100%',
-    borderWidth: 1,
-    borderColor: colors.textBlack,
-  },
-  row: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.textBlack,
-    minHeight: 25,
-  },
-  rowLast: {
-    flexDirection: 'row',
-    minHeight: 25,
-  },
-  cellLabel: {
-    padding: 7,
-    borderRightWidth: 1,
-    borderRightColor: colors.textBlack,
-  },
-  cellValue: {
-    flex: 1,
-    padding: 7,
-  },
-});
-
-// ============================================
-// Common Text Styles
-// ============================================
-export const textStyles = StyleSheet.create({
-  sectionTitle: {
-    fontSize: 11,
-    fontFamily: fonts.bold,
-    marginBottom: 10,
-  },
-  paragraph: {
-    fontSize: 12,
-    textAlign: 'justify',
-    marginBottom: 10,
-    lineHeight: 1.3,
-  },
-  centered: {
-    textAlign: 'center',
-  },
-  bold: {
-    fontFamily: fonts.bold,
-  },
-});
-
-// ============================================
-// Signature Styles
-// ============================================
-export const signatureStyles = StyleSheet.create({
-  container: {
-    marginTop: 30,
-  },
-  date: {
-    textAlign: 'center',
-    marginBottom: 15,
-  },
-  line: {
-    marginTop: 20,
-    textAlign: 'center',
-  },
-  label: {
-    fontSize: 11,
-    textAlign: 'center',
-  },
-  subLabel: {
-    fontSize: 9,
-    textAlign: 'center',
-    marginTop: 2,
   },
 });
