@@ -5,7 +5,6 @@
 
 import {
   Document,
-  Image,
   Page,
   StyleSheet,
   Text,
@@ -17,10 +16,13 @@ import {
   formatDatePtBr,
   formatFullDate,
   PDFFieldRow,
+  PDFLogoHeader,
   PDFNumberedList,
+  PDFSection,
   PDFTable,
   type ColumnConfig,
 } from '../../shared/components/pdf';
+import { PDF_CONTENT } from '../../shared/constants/pdf-content';
 import type { IInternshipData } from '../../shared/domain/types';
 
 // ============================================
@@ -36,42 +38,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: colors.textBlack,
     lineHeight: 1.0,
-  },
-  // Header
-  headerContainer: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  logo: {
-    width: 76,
-    height: 73,
-    marginBottom: 20,
-  },
-  headerTitle: {
-    fontSize: 10,
-    fontFamily: fonts.bold,
-    textAlign: 'center',
-    lineHeight: 1.5,
-  },
-  documentTitle: {
-    fontSize: 10,
-    fontFamily: fonts.bold,
-    textAlign: 'center',
-    marginTop: 15,
-    marginBottom: 8,
-  },
-  // Sections
-  sectionTitle: {
-    fontSize: 10,
-    fontFamily: fonts.bold,
-    marginTop: 12,
-    marginBottom: 6,
-  },
-  subsectionTitle: {
-    fontSize: 10,
-    marginTop: 8,
-    marginBottom: 4,
-    marginLeft: 32,
   },
   // Evaluation text
   evaluationText: {
@@ -132,20 +98,6 @@ const styles = StyleSheet.create({
 });
 
 // ============================================
-// Evaluation Table Data
-// ============================================
-const evaluationCriteria = [
-  { topic: 'Assiduidade', description: 'Frequência e participação', weight: '2' },
-  { topic: 'Comprometimento', description: 'Aderência a prazos e objetivos acordados', weight: '2' },
-  { topic: 'Independência', description: 'Evolução autônoma', weight: '1' },
-  { topic: 'Criatividade', description: 'Encontrar soluções inovadoras', weight: '1' },
-  { topic: 'Liderança', description: 'Defesa do ponto de vista', weight: '1' },
-  { topic: 'Relacionamento', description: 'Trabalho em equipe', weight: '3' },
-  { topic: 'Domínio Teórico', description: 'Capacidade técnica', weight: '3' },
-  { topic: 'Iniciativa', description: 'Ação proativa', weight: '2' },
-];
-
-// ============================================
 // Props Interface
 // ============================================
 interface ActivityPlanDocumentProps {
@@ -157,6 +109,7 @@ interface ActivityPlanDocumentProps {
 // ============================================
 export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
   const { student, company, general, content, supervision } = data;
+  const { activityPlan, header } = PDF_CONTENT;
   
   // Calculate evaluation date (12 days after end date)
   const endDateObj = new Date(general.endDate);
@@ -170,126 +123,133 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
     { key: 'weight', header: 'PESO', width: 44, align: 'center' },
   ];
 
+  const headerTitle = [
+    header.service,
+    header.university,
+    header.department,
+    header.coordination
+  ].join('\n');
+
+  const docSubtitle = [
+    activityPlan.title,
+    activityPlan.subtitle
+  ].join('\n');
+
   return (
     <Document>
       <Page size="A4" style={styles.page} wrap>
         {/* Header */}
-        <View style={styles.headerContainer}>
-          <Image
-            style={styles.logo}
-            src="/image1.png"
-          />
-          <Text style={styles.headerTitle}>
-            SERVIÇO PÚBLICO FEDERAL{'\n'}
-            UNIVERSIDADE FEDERAL DE PERNAMBUCO{'\n'}
-            PRÓ-REITORIA PARA ASSUNTOS ACADÊMICOS{'\n'}
-            Coordenação de Apoio Acadêmico
-          </Text>
-          <Text style={styles.documentTitle}>
-            ESTÁGIO CURRICULAR OBRIGATÓRIO
-          </Text>
-          <Text style={styles.documentTitle}>
-            PLANO DE ATIVIDADES
-          </Text>
-        </View>
+        <PDFLogoHeader 
+          logos={[{ src: '/image1.png', width: 76, height: 73 }]}
+          title={headerTitle}
+          subtitle={docSubtitle}
+        />
 
         {/* Section 1: Student Data */}
-        <Text style={styles.sectionTitle}>1. DADOS DE IDENTIFICAÇÃO DO ESTAGIÁRIO</Text>
-        <PDFFieldRow label="Nome" value={student.fullName} />
-        <PDFFieldRow label="E-mail" value={student.email} />
-        <PDFFieldRow label="Endereço" value={student.address} />
-        <PDFFieldRow label="Telefone" value={student.phone} />
-        <PDFFieldRow label="Curso" value={student.course} />
-        <PDFFieldRow label="Ano de Ingresso" value={student.enrollmentYear} />
-        <PDFFieldRow label="Matrícula" value={student.studentId} />
+        <PDFSection title={activityPlan.sections.student} number="1">
+          <PDFFieldRow label="Nome" value={student.fullName} />
+          <PDFFieldRow label="E-mail" value={student.email} />
+          <PDFFieldRow label="Endereço" value={student.address} />
+          <PDFFieldRow label="Telefone" value={student.phone} />
+          <PDFFieldRow label="Curso" value={student.course} />
+          <PDFFieldRow label="Ano de Ingresso" value={student.enrollmentYear} />
+          <PDFFieldRow label="Matrícula" value={student.studentId} />
+        </PDFSection>
 
         {/* Section 2: Company Data */}
-        <Text style={styles.sectionTitle}>2. IDENTIFICAÇÃO DA EMPRESA</Text>
-        <PDFFieldRow label="Empresa" value={company.companyName} />
-        <PDFFieldRow label="Endereço" value={company.companyAddress} />
-        <PDFFieldRow label="CNPJ" value={company.companyCnpj} />
+        <PDFSection title={activityPlan.sections.company} number="2">
+          <PDFFieldRow label="Empresa" value={company.companyName} />
+          <PDFFieldRow label="Endereço" value={company.companyAddress} />
+          <PDFFieldRow label="CNPJ" value={company.companyCnpj} />
+        </PDFSection>
 
         {/* Section 3: Internship Program */}
-        <Text style={styles.sectionTitle}>3. PROGRAMA DE ESTÁGIO</Text>
+        <PDFSection title={activityPlan.sections.program} number="3">
+          <PDFSection 
+            title={activityPlan.subsections.generalInfo} 
+            titleStyle={{ marginLeft: 32, fontFamily: fonts.regular, marginBottom: 4, marginTop: 8 }}
+          >
+            <PDFFieldRow label="Período" value={`${formatDatePtBr(general.startDate)} – ${formatDatePtBr(general.endDate)}`} marginLeft={60} />
+            <PDFFieldRow label="Carga Horária" value={`${general.hoursPerDay}h/dia`} marginLeft={60} />
+            <PDFFieldRow label="Dias" value={general.workDays} marginLeft={60} />
+            <PDFFieldRow label="Horário" value={general.workSchedule} marginLeft={60} />
+            <PDFFieldRow label="Modalidade" value={general.modality} marginLeft={60} />
+          </PDFSection>
+
+          <PDFSection 
+            title={activityPlan.subsections.activities}
+            titleStyle={{ marginLeft: 32, fontFamily: fonts.regular, marginBottom: 4, marginTop: 8 }}
+          >
+            <PDFNumberedList items={content.activities} marginLeft={60} />
+          </PDFSection>
+
+          <PDFSection 
+            title={activityPlan.subsections.objectives}
+            titleStyle={{ marginLeft: 32, fontFamily: fonts.regular, marginBottom: 4, marginTop: 8 }}
+          >
+            <PDFNumberedList items={content.objectives} marginLeft={60} />
+          </PDFSection>
+
+          <PDFSection 
+            title={activityPlan.subsections.schedule}
+            titleStyle={{ marginLeft: 32, fontFamily: fonts.regular, marginBottom: 4, marginTop: 8 }}
+          >
+            {content.schedule.map((item, index) => (
+              <View key={index} style={styles.scheduleItem}>
+                <Text style={styles.scheduleNumber}>{index + 1}.</Text>
+                <Text style={styles.scheduleContent}>
+                  {item.period} – {item.description}
+                </Text>
+              </View>
+            ))}
+          </PDFSection>
+        </PDFSection>
         
-        <Text style={styles.subsectionTitle}>
-          3.1. Informações Gerais: Período (Vigência), Carga Horária, Dias e horário
-        </Text>
-        <PDFFieldRow label="Período" value={`${formatDatePtBr(general.startDate)} – ${formatDatePtBr(general.endDate)}`} marginLeft={60} />
-        <PDFFieldRow label="Carga Horária" value={`${general.hoursPerDay}h/dia`} marginLeft={60} />
-        <PDFFieldRow label="Dias" value={general.workDays} marginLeft={60} />
-        <PDFFieldRow label="Horário" value={general.workSchedule} marginLeft={60} />
-        <PDFFieldRow label="Modalidade" value={general.modality} marginLeft={60} />
-
-        <Text style={styles.subsectionTitle}>3.2. Atividades a serem desenvolvidas</Text>
-        <PDFNumberedList items={content.activities} marginLeft={60} />
-
-        <Text style={styles.subsectionTitle}>3.3. Objetivos / metas a serem atingidas</Text>
-        <PDFNumberedList items={content.objectives} marginLeft={60} />
-
-        <Text style={styles.subsectionTitle}>3.4. Cronograma</Text>
-        {content.schedule.map((item, index) => (
-          <View key={index} style={styles.scheduleItem}>
-            <Text style={styles.scheduleNumber}>{index + 1}.</Text>
-            <Text style={styles.scheduleContent}>
-              {item.period} – {item.description}
-            </Text>
-          </View>
-        ))}
-
         {/* Section 4: Supervision */}
-        <Text style={styles.sectionTitle}>4. ORIENTAÇÃO E SUPERVISÃO</Text>
-        
-        <Text style={[styles.fieldLabel, { marginLeft: 0, marginBottom: 8 }]}>SUPERVISOR:</Text>
-        <PDFFieldRow label="Nome" value={supervision.supervisorName} />
-        <PDFFieldRow label="E-mail" value={supervision.supervisorEmail} />
-        <PDFFieldRow label="Telefone" value={supervision.supervisorPhone} />
-        <PDFFieldRow label="Cargo" value={supervision.supervisorPosition} />
-        <PDFFieldRow label="CPF" value={supervision.supervisorCpf} />
+        <PDFSection title={activityPlan.sections.supervision} number="4">
+          <Text style={[styles.fieldLabel, { marginLeft: 0, marginBottom: 8 }]}>SUPERVISOR:</Text>
+          <PDFFieldRow label="Nome" value={supervision.supervisorName} />
+          <PDFFieldRow label="E-mail" value={supervision.supervisorEmail} />
+          <PDFFieldRow label="Telefone" value={supervision.supervisorPhone} />
+          <PDFFieldRow label="Cargo" value={supervision.supervisorPosition} />
+          <PDFFieldRow label="CPF" value={supervision.supervisorCpf} />
 
-        <Text style={[styles.fieldLabel, { marginLeft: 0, marginTop: 15, marginBottom: 8 }]}>
-          PROFESSOR ORIENTADOR:
-        </Text>
-        <PDFFieldRow label="Nome" value={supervision.advisorName} />
-        <PDFFieldRow label="E-mail" value={supervision.advisorEmail} />
-        <PDFFieldRow label="SIAPE" value={supervision.advisorSiape} />
-        <PDFFieldRow label="Cargo" value={supervision.advisorPosition} />
+          <Text style={[styles.fieldLabel, { marginLeft: 0, marginTop: 15, marginBottom: 8 }]}>
+            PROFESSOR ORIENTADOR:
+          </Text>
+          <PDFFieldRow label="Nome" value={supervision.advisorName} />
+          <PDFFieldRow label="E-mail" value={supervision.advisorEmail} />
+          <PDFFieldRow label="SIAPE" value={supervision.advisorSiape} />
+          <PDFFieldRow label="Cargo" value={supervision.advisorPosition} />
+        </PDFSection>
 
         {/* Section 5: Evaluation */}
-        <Text style={styles.sectionTitle}>
-          <Text style={styles.fieldLabel}>5. AVALIAÇÃO </Text>
-          <Text>(critérios, formas, datas)</Text>
-        </Text>
+        <PDFSection title={`${activityPlan.sections.evaluation} ${activityPlan.evaluation.subtitle}`} number="5">
+          <Text style={styles.evaluationText}>
+            {activityPlan.evaluation.text1}
+          </Text>
+          <PDFFieldRow label="Data para emissão do parecer" value={formatDatePtBr(evalDate)} />
+          <Text style={styles.evaluationText}>
+            {activityPlan.evaluation.text2}
+          </Text>
+          {activityPlan.evaluation.legends.map((legend, index) => (
+             <Text key={index} style={styles.evaluationIndent}>{legend}</Text>
+          ))}
 
-        <Text style={styles.evaluationText}>
-          Ao fim do segundo período o supervisor produzirá um relatório acerca da integração 
-          do estagiário com a rotina da corporação e sua interação intra e extra departamental.
-        </Text>
-        <PDFFieldRow label="Data para emissão do parecer" value={formatDatePtBr(evalDate)} />
-        <Text style={styles.evaluationText}>
-          Para cada um dos itens abaixo será emitida uma nota de 1 a 5, sendo:
-        </Text>
-        <Text style={styles.evaluationIndent}>1 – Insatisfatório</Text>
-        <Text style={styles.evaluationIndent}>2 – Pouco desenvolvido</Text>
-        <Text style={styles.evaluationIndent}>3 – Satisfatório</Text>
-        <Text style={styles.evaluationIndent}>4 – Atende acima das expectativas</Text>
-        <Text style={styles.evaluationIndent}>5 – Acima das expectativas</Text>
+          <Text style={[styles.evaluationText, { marginTop: 10 }]}>
+            {activityPlan.evaluation.text3}
+          </Text>
 
-        <Text style={[styles.evaluationText, { marginTop: 10 }]}>
-          Farão parte do relatório:
-        </Text>
+          {/* Evaluation Table using shared PDFTable */}
+          <PDFTable columns={evalColumns} rows={activityPlan.evaluation.criteria} marginLeft={35} />
 
-        {/* Evaluation Table using shared PDFTable */}
-        <PDFTable columns={evalColumns} rows={evaluationCriteria} marginLeft={35} />
-
-        <Text style={[styles.evaluationText, { marginTop: 15 }]}>
-          O objetivo do terceiro período é a entrega das aplicações e a avaliação da técnica 
-          e clareza do código fonte.
-        </Text>
-        <Text style={styles.evaluationText}>
-          Será objeto desta avaliação o cumprimento das fases de Levantamento dos Requisitos, 
-          Projeto, Especificação, Codificação, Testes e Integração.
-        </Text>
+          <Text style={[styles.evaluationText, { marginTop: 15 }]}>
+            {activityPlan.evaluation.text4}
+          </Text>
+          <Text style={styles.evaluationText}>
+            {activityPlan.evaluation.text5}
+          </Text>
+        </PDFSection>
 
         {/* Signatures */}
         <View style={styles.signatureSection}>
@@ -297,44 +257,42 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
             Recife, {formatFullDate(evalDate)}
           </Text>
           <Text style={[styles.signatureLine, { marginLeft: 0 }]}>
-            <Text style={styles.signatureLabel}>Assinaturas:</Text>
+            <Text style={styles.signatureLabel}>{activityPlan.signatures.title}</Text>
           </Text>
 
           <Text style={[styles.signatureLine, { marginTop: 20 }]}>
-            <Text style={styles.signatureLabel}>Estagiário: </Text>
+            <Text style={styles.signatureLabel}>{activityPlan.signatures.student} </Text>
             ___________________________________________
           </Text>
 
           <Text style={[styles.signatureLine, { marginTop: 20 }]}>
-            <Text style={styles.signatureLabel}>Supervisor de Estágio: </Text>
+            <Text style={styles.signatureLabel}>{activityPlan.signatures.supervisor} </Text>
             _______________________________________
           </Text>
           <Text style={styles.signatureSubLabel}>
-            (Campo de Estágio)                        ({supervision.supervisorName})
+            {activityPlan.signatures.fields.field}                        ({supervision.supervisorName})
           </Text>
 
           <Text style={[styles.signatureLine, { marginTop: 10 }]}>
-            <Text style={styles.signatureLabel}>Orientador de Estágio: </Text>
+            <Text style={styles.signatureLabel}>{activityPlan.signatures.advisor} </Text>
             _______________________________________
           </Text>
           <Text style={styles.signatureSubLabel}>
-            (UFPE)                                    ({supervision.advisorName})
+            {activityPlan.signatures.fields.ufpe}                                    ({supervision.advisorName})
           </Text>
 
           <Text style={[styles.signatureLine, { marginTop: 10 }]}>
-            <Text style={styles.signatureLabel}>Coordenador de Estágio ou do Curso: </Text>
+            <Text style={styles.signatureLabel}>{activityPlan.signatures.coordinator} </Text>
             _________________________________
           </Text>
           <Text style={styles.signatureSubLabel}>
-                                                             (Não colocar nome)
+                                                             {activityPlan.signatures.coordinatorNote}
           </Text>
         </View>
 
         {/* Footer Note */}
         <Text style={styles.footerNote}>
-          O Plano de Atividades deverá ser elaborado em conformidade com as especificidades 
-          do Curso e deve ser parte integrante do Termo de Compromisso e deverá conter, 
-          obrigatoriamente, todas as assinaturas.
+          {activityPlan.footer}
         </Text>
       </Page>
     </Document>

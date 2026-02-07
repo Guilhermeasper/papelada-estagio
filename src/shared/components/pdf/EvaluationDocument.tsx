@@ -4,11 +4,13 @@
  */
 
 import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { PDF_CONTENT } from '../../constants/pdf-content';
 import type { IInternshipData } from '../../domain/types';
 import { PDFCommentsBox } from './PDFCommentsBox';
 import { PDFGradeField } from './PDFGradeField';
 import { PDFKeyValueTable, type KeyValueItem } from './PDFKeyValueTable';
 import { PDFRatingRow } from './PDFRatingRow';
+import { PDFSection } from './PDFSection';
 import { PDFSignatureLine } from './PDFSignatureLine';
 import { PDFTextHeader } from './PDFTextHeader';
 import { pageStyles } from './styles';
@@ -35,44 +37,9 @@ export interface IEvaluationData {
 export type EvaluationType = 'supervisor' | 'advisor';
 
 // ============================================
-// Configuration per type
-// ============================================
-const CONFIG = {
-  supervisor: {
-    headerTitle: 'Avaliação do Supervisor do Estágio',
-    lastRowLabel: 'Nome do supervisor:',
-    signatureLabel: 'Supervisor do Estágio',
-    getPersonName: (data: IInternshipData) => data.supervision.supervisorName,
-  },
-  advisor: {
-    headerTitle: 'Avaliação do Professor Orientador',
-    lastRowLabel: 'Nome do Professor Orientador:',
-    signatureLabel: 'Professor Orientador',
-    getPersonName: (data: IInternshipData) => data.supervision.advisorName,
-  },
-};
-
-// ============================================
-// Evaluation Criteria (shared)
-// ============================================
-const evaluationCriteria = [
-  { key: 'communication', label: 'Facilidade de comunicação' },
-  { key: 'attendance', label: 'Assiduidade' },
-  { key: 'cooperation', label: 'Disposição para ajudar/cooperar com colaboradores' },
-  { key: 'independence', label: 'Capacidade para desenvolver as atividades sem depender dos outros' },
-  { key: 'knowledgeLevel', label: 'Nível de conhecimento para desenvolver as atividades relacionadas ao estágio' },
-  { key: 'overallPerformance', label: 'Avaliação geral do desempenho do estagiário na execução das atividades' },
-] as const;
-
-// ============================================
 // Local Styles
 // ============================================
 const styles = StyleSheet.create({
-  sectionNumber: {
-    fontSize: 11,
-    fontFamily: 'Helvetica-Bold',
-    marginBottom: 10,
-  },
   evalIntro: {
     fontSize: 11,
     marginBottom: 15,
@@ -99,8 +66,15 @@ interface EvaluationDocumentProps {
 // Main Component
 // ============================================
 export function EvaluationDocument({ type, data, evaluation }: EvaluationDocumentProps) {
-  const config = CONFIG[type];
+  const { evaluationDocument } = PDF_CONTENT;
+  const config = evaluationDocument[type];
   const { student, company, general } = data;
+
+  const getPersonName = () => {
+    return type === 'supervisor' 
+      ? data.supervision.supervisorName 
+      : data.supervision.advisorName;
+  }
 
   // Build identification table items
   const idItems: KeyValueItem[] = [
@@ -109,7 +83,7 @@ export function EvaluationDocument({ type, data, evaluation }: EvaluationDocumen
     { label: 'Nome da empresa:', value: company.companyName },
     { label: 'Data de início do estágio:', value: formatDatePtBr(general.startDate) },
     { label: 'Data de término do estágio:', value: formatDatePtBr(general.endDate) },
-    { label: config.lastRowLabel, value: config.getPersonName(data) },
+    { label: config.lastRowLabel, value: getPersonName() },
   ];
 
   return (
@@ -117,40 +91,54 @@ export function EvaluationDocument({ type, data, evaluation }: EvaluationDocumen
       <Page size="A4" style={pageStyles.evaluation}>
         {/* Header */}
         <PDFTextHeader
-          subtitle="Estágio Supervisionado"
-          title={config.headerTitle}
+          subtitle={evaluationDocument.shared.subtitle}
+          title={config.title}
         />
 
         {/* 1. Identificação */}
-        <Text style={styles.sectionNumber}>1. Identificação</Text>
-        <PDFKeyValueTable items={idItems} />
+        <PDFSection 
+          number="1" 
+          title={evaluationDocument.shared.sections.identification}
+          titleStyle={{ fontSize: 11, fontFamily: 'Helvetica-Bold', marginBottom: 10 }}
+        >
+          <PDFKeyValueTable items={idItems} />
+        </PDFSection>
 
         {/* 2. Avaliação */}
-        <Text style={styles.sectionNumber}>2. Avaliação</Text>
-        <Text style={styles.evalIntro}>
-          Como você avalia o desempenho do estagiário em cada um dos aspectos a seguir:
-        </Text>
+        <PDFSection 
+          number="2" 
+          title={evaluationDocument.shared.sections.evaluation}
+          titleStyle={{ fontSize: 11, fontFamily: 'Helvetica-Bold', marginBottom: 10 }}
+        >
+          <Text style={styles.evalIntro}>
+            {evaluationDocument.shared.intro}
+          </Text>
 
-        {evaluationCriteria.map((criterion) => (
-          <PDFRatingRow
-            key={criterion.key}
-            label={criterion.label}
-            selected={evaluation[criterion.key as keyof IEvaluationData] as Rating | undefined}
-          />
-        ))}
+          {evaluationDocument.shared.criteria.map((criterion) => (
+            <PDFRatingRow
+              key={criterion.key}
+              label={criterion.label}
+              selected={evaluation[criterion.key as keyof IEvaluationData] as Rating | undefined}
+            />
+          ))}
+        </PDFSection>
 
         {/* 3. Comentários */}
-        <Text style={[styles.sectionNumber, styles.commentsSection]}>
-          3. Caso deseje, utilize o espaço abaixo para uma avaliação mais detalhada sobre o estagiário.
-        </Text>
-        <PDFCommentsBox text={evaluation.detailedComments} lines={10} />
+        <PDFSection 
+          number="3" 
+          title={evaluationDocument.shared.comments.title}
+          titleStyle={{ fontSize: 11, fontFamily: 'Helvetica-Bold', marginBottom: 10 }}
+          style={styles.commentsSection}
+        >
+          <PDFCommentsBox text={evaluation.detailedComments} lines={10} />
+        </PDFSection>
 
         {/* 4. Final Grade */}
         <PDFGradeField sectionNumber={4} grade={evaluation.finalGrade} />
 
         {/* Date */}
         <View style={styles.dateSection}>
-          <Text>Data: {formatDateLong(general.endDate)}</Text>
+          <Text>{evaluationDocument.shared.datePrefix} {formatDateLong(general.endDate)}</Text>
         </View>
 
         {/* Signature */}

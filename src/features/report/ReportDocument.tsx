@@ -4,24 +4,26 @@
  */
 
 import {
-    Document,
-    Image,
-    Page,
-    StyleSheet,
-    Text,
-    View,
+  Document,
+  Page,
+  StyleSheet,
+  Text,
+  View,
 } from '@react-pdf/renderer';
 import {
-    colors,
-    fonts,
-    formatDatePtBr,
-    getMonthName,
-    PDFBulletList,
-    PDFKeyValueTable,
-    PDFTable,
-    type ColumnConfig,
-    type KeyValueItem,
+  colors,
+  fonts,
+  formatDatePtBr,
+  getMonthName,
+  PDFBulletList,
+  PDFKeyValueTable,
+  PDFLogoHeader,
+  PDFSection,
+  PDFTable,
+  type ColumnConfig,
+  type KeyValueItem,
 } from '../../shared/components/pdf';
+import { PDF_CONTENT } from '../../shared/constants/pdf-content';
 import type { IInternshipData } from '../../shared/domain/types';
 
 // ============================================
@@ -48,41 +50,6 @@ const styles = StyleSheet.create({
     fontFamily: fonts.serif,
     fontSize: 12,
     color: colors.textBlack,
-  },
-  logoContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 20,
-    marginBottom: 10,
-  },
-  logoCin: {
-    width: 97,
-    height: 97,
-  },
-  logoUfpe: {
-    width: 76,
-    height: 120,
-  },
-  universityName: {
-    fontSize: 18,
-    textAlign: 'center',
-    marginTop: 10,
-  },
-  centerName: {
-    fontSize: 18,
-    textAlign: 'center',
-    marginLeft: 30,
-  },
-  coverTitle: {
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 80,
-  },
-  coverSubtitle: {
-    fontSize: 14,
-    textAlign: 'center',
-    marginTop: 40,
   },
   coverFooter: {
     fontSize: 12,
@@ -153,6 +120,7 @@ interface ReportDocumentProps {
 // ============================================
 export function ReportDocument({ data }: ReportDocumentProps) {
   const { student, company, general, content, evaluation, supervision } = data;
+  const { report, header } = PDF_CONTENT;
 
   // Get current date for cover
   const endDate = new Date(general.endDate);
@@ -191,27 +159,27 @@ export function ReportDocument({ data }: ReportDocumentProps) {
       observation: g.observation,
     })),
     {
-      item: 'A concedente permite flexibilidade de horário?',
+      item: report.evaluationQuestions[0],
       grade: evaluation.flexibleSchedule ? 'sim' : 'não',
       observation: '',
     },
     {
-      item: 'A concedente reduz sua jornada de trabalho no período próximo a provas e/ou trabalhos?',
+      item: report.evaluationQuestions[1],
       grade: evaluation.reducedDuringExams ? 'sim' : 'não',
       observation: '',
     },
     {
-      item: 'Quando reduz sua jornada de trabalho por causa de provas e/ou trabalhos, a concedente exige que você compense estas horas?',
+      item: report.evaluationQuestions[2],
       grade: evaluation.requiresCompensation ? 'sim' : 'não',
       observation: '',
     },
     {
-      item: 'A concedente se preocupa com seu desempenho acadêmico?',
+      item: report.evaluationQuestions[3],
       grade: evaluation.caresAboutAcademics ? 'sim' : 'não',
       observation: '',
     },
     {
-      item: 'Você considera que a UFPE deve manter o convênio com a instituição concedente para que outros estudantes façam estágio nela?',
+      item: report.evaluationQuestions[4],
       grade: evaluation.recommendsPartnership ? 'sim' : 'não',
       observation: '',
     },
@@ -221,17 +189,19 @@ export function ReportDocument({ data }: ReportDocumentProps) {
     <Document>
       {/* Cover Page */}
       <Page size="A4" style={styles.coverPage}>
-        <View style={styles.logoContainer}>
-          <Image style={styles.logoCin} src="/logo_cin.png" />
-          <Image style={styles.logoUfpe} src="/logo_ufpe.png" />
-        </View>
+        <PDFLogoHeader 
+           logos={[
+             { src: '/logo_cin.png', width: 97, height: 97 },
+             { src: '/logo_ufpe.png', width: 76, height: 120 }
+           ]}
+        />
         
-        <Text style={styles.universityName}>Universidade Federal de Pernambuco</Text>
-        <Text style={styles.centerName}>Centro de Informática</Text>
+        <Text style={{ fontSize: 18, textAlign: 'center', marginTop: 10 }}>{header.university}</Text>
+        <Text style={{ fontSize: 18, textAlign: 'center', marginLeft: 30 }}>{header.institution}</Text>
 
-        <Text style={styles.coverTitle}>Relatório de Estágio Obrigatório</Text>
+        <Text style={{ fontSize: 16, textAlign: 'center', marginTop: 80 }}>{report.title}</Text>
         
-        <Text style={styles.coverSubtitle}>Graduação em {student.course}</Text>
+        <Text style={{ fontSize: 14, textAlign: 'center', marginTop: 40 }}>Graduação em {student.course}</Text>
 
         <View style={styles.coverFooter}>
           <Text>Recife</Text>
@@ -241,111 +211,94 @@ export function ReportDocument({ data }: ReportDocumentProps) {
 
       {/* Table of Contents */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.tocTitle}>Índice</Text>
+        <Text style={styles.tocTitle}>{report.toc.title}</Text>
         
-        <View style={styles.tocItem}>
-          <Text style={styles.tocItemText}>Identificação</Text>
-          <Text style={styles.tocItemText}>3</Text>
-        </View>
-        <View style={styles.tocItem}>
-          <Text style={styles.tocItemText}>Introdução</Text>
-          <Text style={styles.tocItemText}>4</Text>
-        </View>
-        <View style={styles.tocItem}>
-          <Text style={styles.tocItemText}>Objetivos</Text>
-          <Text style={styles.tocItemText}>5</Text>
-        </View>
-        <View style={styles.tocSubItem}>
-          <Text style={styles.tocSubItemText}>Gerais</Text>
-          <Text style={styles.tocSubItemText}>5</Text>
-        </View>
-        <View style={styles.tocSubItem}>
-          <Text style={styles.tocSubItemText}>Específicos</Text>
-          <Text style={styles.tocSubItemText}>5</Text>
-        </View>
-        <View style={styles.tocItem}>
-          <Text style={styles.tocItemText}>Cronograma</Text>
-          <Text style={styles.tocItemText}>6</Text>
-        </View>
-        <View style={styles.tocItem}>
-          <Text style={styles.tocItemText}>Material e Método</Text>
-          <Text style={styles.tocItemText}>7</Text>
-        </View>
-        <View style={styles.tocItem}>
-          <Text style={styles.tocItemText}>Desenvolvimento</Text>
-          <Text style={styles.tocItemText}>8</Text>
-        </View>
-        <View style={styles.tocItem}>
-          <Text style={styles.tocItemText}>Avaliação do Estágio</Text>
-          <Text style={styles.tocItemText}>9</Text>
-        </View>
-        <View style={styles.tocItem}>
-          <Text style={styles.tocItemText}>Conclusão</Text>
-          <Text style={styles.tocItemText}>10</Text>
-        </View>
+        {report.toc.items.map((item, index) => {
+           if (item.indent) {
+             return (
+               <View key={index} style={styles.tocSubItem}>
+                 <Text style={styles.tocSubItemText}>{item.label}</Text>
+                 <Text style={styles.tocSubItemText}>{item.page}</Text>
+               </View>
+             );
+           }
+           return (
+             <View key={index} style={styles.tocItem}>
+                <Text style={styles.tocItemText}>{item.label}</Text>
+                <Text style={styles.tocItemText}>{item.page}</Text>
+             </View>
+           );
+        })}
       </Page>
 
       {/* Identificação - using PDFKeyValueTable */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.h1}>Identificação</Text>
-        <PDFKeyValueTable items={idItems} labelWidth={200} />
+        <PDFSection title={report.sections.identification} titleStyle={styles.h1}>
+             <PDFKeyValueTable items={idItems} labelWidth={200} />
+        </PDFSection>
       </Page>
 
       {/* Introdução */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.h1}>Introdução</Text>
-        <Text style={styles.paragraph}>{content.introduction}</Text>
+        <PDFSection title={report.sections.introduction} titleStyle={styles.h1}>
+            <Text style={styles.paragraph}>{content.introduction}</Text>
+        </PDFSection>
       </Page>
 
       {/* Objetivos - using PDFBulletList */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.h1}>Objetivos</Text>
-        
-        <Text style={styles.h2}>Gerais</Text>
-        <Text style={styles.paragraph}>{content.generalObjectives}</Text>
-        
-        <Text style={styles.h2}>Específicos</Text>
-        <Text style={styles.paragraph}>
-          Conforme estabelecido no Plano de Atividades, os objetivos específicos incluíram:
-        </Text>
-        <PDFBulletList items={content.objectives} />
+        <PDFSection title={report.sections.objectives} titleStyle={styles.h1}>
+            <Text style={styles.h2}>{report.sections.generalObjectives}</Text>
+            <Text style={styles.paragraph}>{content.generalObjectives}</Text>
+            
+            <Text style={styles.h2}>{report.sections.specificObjectives}</Text>
+            <Text style={styles.paragraph}>
+              {report.text.specificObjectivesIntro}
+            </Text>
+            <PDFBulletList items={content.objectives} />
+        </PDFSection>
       </Page>
 
       {/* Cronograma */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.h1}>Cronograma</Text>
-        <Text style={styles.paragraph}>
-          O cronograma executado seguiu a dinâmica dos projetos da empresa, dividindo-se em três grandes fases:
-        </Text>
-        {content.schedule.map((item, index) => (
-          <Text key={index} style={styles.paragraph}>
-            {item.period}: {item.description}
-          </Text>
-        ))}
+        <PDFSection title={report.sections.schedule} titleStyle={styles.h1}>
+            <Text style={styles.paragraph}>
+              {report.text.scheduleIntro}
+            </Text>
+            {content.schedule.map((item, index) => (
+              <Text key={index} style={styles.paragraph}>
+                {item.period}: {item.description}
+              </Text>
+            ))}
+        </PDFSection>
       </Page>
 
       {/* Material e Método */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.h1}>Material e Método</Text>
-        <Text style={styles.paragraph}>{content.methodology}</Text>
+         <PDFSection title={report.sections.methodology} titleStyle={styles.h1}>
+            <Text style={styles.paragraph}>{content.methodology}</Text>
+         </PDFSection>
       </Page>
 
       {/* Desenvolvimento */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.h1}>Desenvolvimento</Text>
-        <Text style={styles.paragraph}>{content.development}</Text>
+         <PDFSection title={report.sections.development} titleStyle={styles.h1}>
+            <Text style={styles.paragraph}>{content.development}</Text>
+         </PDFSection>
       </Page>
 
       {/* Avaliação do Estágio - using PDFTable */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.h1}>Avaliação do Estágio</Text>
-        <PDFTable columns={evalColumns} rows={evalRows} />
+         <PDFSection title={report.sections.evaluation} titleStyle={styles.h1}>
+            <PDFTable columns={evalColumns} rows={evalRows} />
+         </PDFSection>
       </Page>
 
       {/* Conclusão */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.h1}>Conclusão</Text>
-        <Text style={styles.paragraph}>{content.conclusion}</Text>
+         <PDFSection title={report.sections.conclusion} titleStyle={styles.h1}>
+            <Text style={styles.paragraph}>{content.conclusion}</Text>
+         </PDFSection>
       </Page>
     </Document>
   );

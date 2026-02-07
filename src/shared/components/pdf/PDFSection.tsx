@@ -23,15 +23,17 @@ interface PDFSectionProps {
   title: string;
   children?: ReactNode;
   style?: Style;
+  titleStyle?: Style;
 }
 
-export function PDFSection({ number, title, children, style }: PDFSectionProps) {
+export function PDFSection({ number, title, children, style, titleStyle }: PDFSectionProps) {
   const titleText = number ? `${number}. ${title}` : title;
   const containerStyle = style ? [styles.container, style] : styles.container;
+  const combinedTitleStyle = titleStyle ? [styles.title, titleStyle] : styles.title;
   
   return (
     <View style={containerStyle}>
-      <Text style={styles.title}>{titleText}</Text>
+      <Text style={combinedTitleStyle}>{titleText}</Text>
       {children}
     </View>
   );
