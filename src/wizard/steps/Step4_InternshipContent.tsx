@@ -121,20 +121,9 @@ export function Step4_InternshipContent({ data, onNext, onBack }: Step4Props) {
 
       {/* Cronograma */}
       <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-4 md:p-6 border border-border dark:border-border-dark">
-        <div className="flex items-center justify-between mb-3 md:mb-4">
-          <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark">Cronograma</h3>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => appendSchedule({ period: '', description: '' })}
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-            </svg>
-            Adicionar período
-          </Button>
-        </div>
+        <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-3 md:mb-4">
+          Cronograma
+        </h3>
 
         <div className="space-y-4">
           {scheduleFields.map((field, index) => (
@@ -177,6 +166,19 @@ export function Step4_InternshipContent({ data, onNext, onBack }: Step4Props) {
             </div>
           ))}
         </div>
+
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => appendSchedule({ period: '', description: '' })}
+          className="mt-4"
+        >
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+          </svg>
+          Adicionar período
+        </Button>
       </section>
 
       {/* Textos do Relatório */}
