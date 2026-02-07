@@ -153,11 +153,60 @@ function ExitConfirmDialog({ isOpen, onSaveAndExit, onExitWithoutSaving, onCance
   );
 }
 
+// Reset Confirmation Dialog Component
+interface ResetDialogProps {
+  isOpen: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
+function ResetConfirmDialog({ isOpen, onConfirm, onCancel }: ResetDialogProps) {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
+      <div 
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onCancel}
+      />
+      
+      {/* Dialog */}
+      <div className="relative bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
+        <h2 className="text-xl font-bold text-text-primary dark:text-text-primary-dark mb-3">
+          Apagar todos os dados?
+        </h2>
+        
+        <p className="text-text-secondary dark:text-text-secondary-dark mb-6">
+          Esta ação irá remover todos os dados salvos e reiniciar o formulário. Esta ação não pode ser desfeita.
+        </p>
+        
+        <div className="flex flex-col gap-3">
+          <button
+            onClick={onConfirm}
+            className="w-full py-3 px-4 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors"
+          >
+            Apagar dados e reiniciar
+          </button>
+          
+          <button
+            onClick={onCancel}
+            className="w-full py-2 px-4 text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark transition-colors text-sm"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function WizardContainer() {
   const [currentStep, setCurrentStep] = useState<WizardStep>(1);
   const [data, setData] = useState<IInternshipData>(createInitialData);
   const [completedSteps, setCompletedSteps] = useState<WizardStep[]>([]);
   const [showExitDialog, setShowExitDialog] = useState(false);
+  const [showResetDialog, setShowResetDialog] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 
   const { saveProgress, loadProgress, clearProgress, hasProgress } = useWizardPersistence();
@@ -267,6 +316,15 @@ export function WizardContainer() {
     setCompletedSteps([]);
   };
 
+  // Handle reset
+  const handleReset = () => {
+    clearProgress();
+    setShowResetDialog(false);
+    setData(createInitialData());
+    setCurrentStep(1);
+    setCompletedSteps([]);
+  };
+
   // Memoized step props based on current step
   const stepProps = useMemo(() => {
     switch (currentStep) {
@@ -312,6 +370,13 @@ export function WizardContainer() {
         onCancel={() => setShowExitDialog(false)}
       />
 
+      {/* Reset Confirmation Dialog */}
+      <ResetConfirmDialog
+        isOpen={showResetDialog}
+        onConfirm={handleReset}
+        onCancel={() => setShowResetDialog(false)}
+      />
+
       {/* Header */}
       <header className="bg-surface-elevated dark:bg-surface-elevated-dark border-b border-border dark:border-border-dark">
         <div className="max-w-6xl mx-auto px-4 py-6">
@@ -331,9 +396,18 @@ export function WizardContainer() {
             
             {/* Progress indicator - shows if there's saved progress */}
             {hasProgress() && (
-              <div className="ml-auto flex items-center gap-2 text-sm text-text-secondary dark:text-text-secondary-dark">
-                <div className="w-2 h-2 bg-green-500 rounded-full" />
-                <span>Progresso salvo</span>
+              <div className="ml-auto flex items-center gap-4">
+                <div className="flex items-center gap-2 text-sm text-text-secondary dark:text-text-secondary-dark">
+                  <div className="w-2 h-2 bg-green-500 rounded-full" />
+                  <span>Progresso salvo</span>
+                </div>
+                
+                <button
+                  onClick={() => setShowResetDialog(true)}
+                  className="text-sm font-medium text-cin-red hover:text-red-700 dark:hover:text-red-400 transition-colors px-3 py-1.5 rounded-md hover:bg-cin-red/10 border border-transparent hover:border-cin-red/20"
+                >
+                  Limpar dados
+                </button>
               </div>
             )}
             
