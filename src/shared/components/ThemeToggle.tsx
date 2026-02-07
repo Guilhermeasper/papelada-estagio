@@ -12,14 +12,14 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-lg hover:bg-text-secondary/10 transition-colors"
+      className="p-2 rounded-lg hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors"
       aria-label={isDark ? 'Ativar modo claro' : 'Ativar modo escuro'}
       title={isDark ? 'Modo claro' : 'Modo escuro'}
     >
       {isDark ? (
         // Sun icon
         <svg
-          className="w-5 h-5 text-text-primary"
+          className="w-5 h-5 text-text-primary dark:text-text-primary-dark"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -34,7 +34,7 @@ export function ThemeToggle() {
       ) : (
         // Moon icon
         <svg
-          className="w-5 h-5 text-text-primary"
+          className="w-5 h-5 text-text-primary dark:text-text-primary-dark"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"

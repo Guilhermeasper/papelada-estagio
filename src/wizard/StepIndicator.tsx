@@ -46,7 +46,7 @@ export function StepIndicator({ currentStep, steps, onStepClick }: StepIndicator
                           ? 'bg-cin-red text-white'
                           : isCurrent
                           ? 'bg-cin-red text-white ring-4 ring-cin-red/20'
-                          : 'bg-border text-text-secondary'
+                          : 'bg-border dark:bg-border-dark text-text-secondary dark:text-text-secondary-dark'
                       }
                       ${isClickable ? 'cursor-pointer hover:scale-110' : 'cursor-not-allowed'}
                     `}
@@ -81,7 +81,7 @@ export function StepIndicator({ currentStep, steps, onStepClick }: StepIndicator
                     {/* Tooltip - positioned to the right */}
                     {isHovered && step.requirements && step.requirements.length > 0 && (
                       <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-50 w-max max-w-xs">
-                        <div className="bg-surface-elevated text-text-primary text-xs rounded-lg py-2 px-3 shadow-lg border border-border">
+                        <div className="bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark text-xs rounded-lg py-2 px-3 shadow-lg border border-border dark:border-border-dark">
                           <p className="font-semibold mb-1 text-cin-red">{step.title}</p>
                           <ul className="space-y-0.5">
                             {step.requirements.map((req, i) => (
@@ -93,7 +93,7 @@ export function StepIndicator({ currentStep, steps, onStepClick }: StepIndicator
                           </ul>
                           {/* Arrow pointing left */}
                           <div className="absolute right-full top-1/2 -translate-y-1/2 -mr-px">
-                            <div className="border-8 border-transparent border-r-surface-elevated" />
+                            <div className="border-8 border-transparent border-r-surface-elevated dark:border-r-surface-elevated-dark" />
                           </div>
                         </div>
                       </div>
@@ -106,7 +106,7 @@ export function StepIndicator({ currentStep, steps, onStepClick }: StepIndicator
                       className={`
                         w-1 h-8 rounded
                         transition-all duration-300
-                        ${isCompleted ? 'bg-cin-red' : 'bg-border'}
+                        ${isCompleted ? 'bg-cin-red' : 'bg-border dark:bg-border-dark'}
                       `}
                     />
                   )}
@@ -120,13 +120,13 @@ export function StepIndicator({ currentStep, steps, onStepClick }: StepIndicator
                   <p
                     className={`
                       text-sm font-medium
-                      ${isCurrent ? 'text-cin-red' : isCompleted ? 'text-cin-red/70' : 'text-text-secondary'}
+                      ${isCurrent ? 'text-cin-red' : isCompleted ? 'text-cin-red/70' : 'text-text-secondary dark:text-text-secondary-dark'}
                       ${isClickable ? 'hover:underline' : ''}
                     `}
                   >
                     {step.title}
                   </p>
-                  <p className="text-xs text-text-secondary mt-0.5">
+                  <p className="text-xs text-text-secondary dark:text-text-secondary-dark mt-0.5">
                     {step.description}
                   </p>
                 </div>

@@ -30,8 +30,8 @@ export function Step1_StudentForm({ data, onNext }: Step1Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-text-primary">Dados do Aluno</h2>
-        <p className="text-text-secondary mt-1">
+        <h2 className="text-2xl font-bold text-text-primary dark:text-text-primary-dark">Dados do Aluno</h2>
+        <p className="text-text-secondary dark:text-text-secondary-dark mt-1">
           Preencha suas informações pessoais e acadêmicas.
         </p>
       </div>
@@ -101,7 +101,7 @@ export function Step1_StudentForm({ data, onNext }: Step1Props) {
         />
       </div>
 
-      <div className="flex justify-end pt-6 border-t border-border">
+      <div className="flex justify-end pt-6 border-t border-border dark:border-border-dark">
         <Button type="submit" isLoading={isSubmitting}>
           Próximo
           <svg

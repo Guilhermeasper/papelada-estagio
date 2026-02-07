@@ -26,11 +26,11 @@ export function DynamicList({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
-        <label className="text-sm font-medium text-text-primary">
+        <label className="text-sm font-medium text-text-primary dark:text-text-primary-dark">
           {label}
           <span className="text-cin-red ml-0.5">*</span>
         </label>
-        <span className="text-xs text-text-secondary">
+        <span className="text-xs text-text-secondary dark:text-text-secondary-dark">
           Mínimo: {minItems} item(s)
         </span>
       </div>
@@ -38,7 +38,7 @@ export function DynamicList({
       <div className="flex flex-col gap-2">
         {items.map((item, index) => (
           <div key={index} className="flex items-start gap-2">
-            <span className="flex-shrink-0 w-6 h-10 flex items-center justify-center text-sm font-medium text-text-secondary">
+            <span className="flex-shrink-0 w-6 h-10 flex items-center justify-center text-sm font-medium text-text-secondary dark:text-text-secondary-dark">
               {index + 1}.
             </span>
             
@@ -49,11 +49,11 @@ export function DynamicList({
               rows={2}
               className={`
                 flex-1 px-4 py-2.5 
-                border border-border rounded-md
-                bg-surface-elevated text-text-primary
-                placeholder:text-text-secondary
+                border border-border dark:border-border-dark rounded-md
+                bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark
+                placeholder:text-text-secondary dark:placeholder:text-text-secondary-dark
                 transition-colors duration-200
-                hover:border-text-secondary
+                hover:border-text-secondary dark:hover:border-text-secondary-dark
                 focus:border-cin-red focus:ring-2 focus:ring-cin-red/20
                 resize-y min-h-[60px]
               `}
@@ -66,8 +66,8 @@ export function DynamicList({
                 className="
                   flex-shrink-0 w-10 h-10
                   flex items-center justify-center
-                  text-text-secondary hover:text-cin-red
-                  hover:bg-text-secondary/10 rounded-md
+                  text-text-secondary dark:text-text-secondary-dark hover:text-cin-red
+                  hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 rounded-md
                   transition-colors duration-200
                 "
                 title="Remover item"

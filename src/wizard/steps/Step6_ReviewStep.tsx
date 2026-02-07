@@ -17,8 +17,8 @@ export function Step6_ReviewStep({ data, onNext, onBack, onEdit }: Step6Props) {
   return (
     <div className="space-y-8">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-text-primary">Revisão dos Dados</h2>
-        <p className="text-text-secondary mt-1">
+        <h2 className="text-2xl font-bold text-text-primary dark:text-text-primary-dark">Revisão dos Dados</h2>
+        <p className="text-text-secondary dark:text-text-secondary-dark mt-1">
           Confira todas as informações antes de gerar os documentos.
         </p>
       </div>
@@ -73,30 +73,30 @@ export function Step6_ReviewStep({ data, onNext, onBack, onEdit }: Step6Props) {
       >
         <div className="space-y-4">
           <div>
-            <h4 className="text-sm font-medium text-text-secondary mb-2">Atividades</h4>
+            <h4 className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark mb-2">Atividades</h4>
             <ul className="list-disc list-inside space-y-1">
               {data.content.activities.filter(Boolean).map((activity) => (
-                <li key={`activity-${activity}`} className="text-sm text-text-primary">{activity}</li>
+                <li key={`activity-${activity}`} className="text-sm text-text-primary dark:text-text-primary-dark">{activity}</li>
               ))}
             </ul>
           </div>
           
           <div>
-            <h4 className="text-sm font-medium text-text-secondary mb-2">Objetivos</h4>
+            <h4 className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark mb-2">Objetivos</h4>
             <ul className="list-disc list-inside space-y-1">
               {data.content.objectives.filter(Boolean).map((objective) => (
-                <li key={`objective-${objective}`} className="text-sm text-text-primary">{objective}</li>
+                <li key={`objective-${objective}`} className="text-sm text-text-primary dark:text-text-primary-dark">{objective}</li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="text-sm font-medium text-text-secondary mb-2">Cronograma</h4>
+            <h4 className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark mb-2">Cronograma</h4>
             <div className="space-y-2">
               {data.content.schedule.filter(item => item.period || item.description).map((item) => (
-                <div key={`schedule-${item.period}-${item.description}`} className="bg-surface-elevated rounded p-3 border border-border">
+                <div key={`schedule-${item.period}-${item.description}`} className="bg-surface-elevated dark:bg-surface-elevated-dark rounded p-3 border border-border dark:border-border-dark">
                   <p className="text-xs font-medium text-cin-red">{item.period}</p>
-                  <p className="text-sm text-text-primary mt-1">{item.description}</p>
+                  <p className="text-sm text-text-primary dark:text-text-primary-dark mt-1">{item.description}</p>
                 </div>
               ))}
             </div>
@@ -112,7 +112,7 @@ export function Step6_ReviewStep({ data, onNext, onBack, onEdit }: Step6Props) {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h4 className="text-sm font-semibold text-text-primary mb-3">Supervisor</h4>
+            <h4 className="text-sm font-semibold text-text-primary dark:text-text-primary-dark mb-3">Supervisor</h4>
             <ReviewItem label="Nome" value={data.supervision.supervisorName} />
             <ReviewItem label="Cargo" value={data.supervision.supervisorPosition} />
             <ReviewItem label="E-mail" value={data.supervision.supervisorEmail} />
@@ -120,7 +120,7 @@ export function Step6_ReviewStep({ data, onNext, onBack, onEdit }: Step6Props) {
             <ReviewItem label="CPF" value={data.supervision.supervisorCpf} />
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-text-primary mb-3">Professor Orientador</h4>
+            <h4 className="text-sm font-semibold text-text-primary dark:text-text-primary-dark mb-3">Professor Orientador</h4>
             <ReviewItem label="Nome" value={data.supervision.advisorName} />
             <ReviewItem label="Cargo" value={data.supervision.advisorPosition} />
             <ReviewItem label="E-mail" value={data.supervision.advisorEmail} />
@@ -129,7 +129,7 @@ export function Step6_ReviewStep({ data, onNext, onBack, onEdit }: Step6Props) {
         </div>
       </ReviewSection>
 
-      <div className="flex justify-between pt-6 border-t border-border">
+      <div className="flex justify-between pt-6 border-t border-border dark:border-border-dark">
         <Button type="button" variant="ghost" onClick={onBack}>
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -158,9 +158,9 @@ interface ReviewSectionProps {
 
 function ReviewSection({ title, step, onEdit, children }: ReviewSectionProps) {
   return (
-    <section className="bg-surface-elevated rounded-lg p-6 border border-border">
+    <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 border border-border dark:border-border-dark">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-text-primary">{title}</h3>
+        <h3 className="text-lg font-semibold text-text-primary dark:text-text-primary-dark">{title}</h3>
         <button
           type="button"
           onClick={() => onEdit(step)}
@@ -187,8 +187,8 @@ interface ReviewItemProps {
 function ReviewItem({ label, value }: ReviewItemProps) {
   return (
     <div>
-      <dt className="text-xs text-text-secondary">{label}</dt>
-      <dd className="text-sm text-text-primary font-medium">{value || '-'}</dd>
+      <dt className="text-xs text-text-secondary dark:text-text-secondary-dark">{label}</dt>
+      <dd className="text-sm text-text-primary dark:text-text-primary-dark font-medium">{value || '-'}</dd>
     </div>
   );
 }

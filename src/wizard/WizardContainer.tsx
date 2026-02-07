@@ -90,8 +90,8 @@ function StepLoading() {
   return (
     <div className="flex items-center justify-center py-12">
       <div className="flex flex-col items-center gap-4">
-        <div className="w-8 h-8 border-4 border-border border-t-cin-red rounded-full animate-spin" />
-        <p className="text-text-secondary text-sm">Carregando...</p>
+        <div className="w-8 h-8 border-4 border-border dark:border-border-dark border-t-cin-red rounded-full animate-spin" />
+        <p className="text-text-secondary dark:text-text-secondary-dark text-sm">Carregando...</p>
       </div>
     </div>
   );
@@ -117,12 +117,12 @@ function ExitConfirmDialog({ isOpen, onSaveAndExit, onExitWithoutSaving, onCance
       />
       
       {/* Dialog */}
-      <div className="relative bg-surface-elevated rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
-        <h2 className="text-xl font-bold text-text-primary mb-3">
+      <div className="relative bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
+        <h2 className="text-xl font-bold text-text-primary dark:text-text-primary-dark mb-3">
           Deseja salvar seu progresso?
         </h2>
         
-        <p className="text-text-secondary mb-6">
+        <p className="text-text-secondary dark:text-text-secondary-dark mb-6">
           Você tem dados não finalizados. O que deseja fazer?
         </p>
         
@@ -136,14 +136,14 @@ function ExitConfirmDialog({ isOpen, onSaveAndExit, onExitWithoutSaving, onCance
           
           <button
             onClick={onExitWithoutSaving}
-            className="w-full py-3 px-4 bg-text-secondary/20 text-text-primary rounded-lg font-medium hover:bg-text-secondary/30 transition-colors"
+            className="w-full py-3 px-4 bg-text-secondary/20 dark:bg-text-secondary-dark/20 text-text-primary dark:text-text-primary-dark rounded-lg font-medium hover:bg-text-secondary/30 dark:hover:bg-text-secondary-dark/30 transition-colors"
           >
             Sair sem salvar
           </button>
           
           <button
             onClick={onCancel}
-            className="w-full py-2 px-4 text-text-secondary hover:text-text-primary transition-colors text-sm"
+            className="w-full py-2 px-4 text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark transition-colors text-sm"
           >
             Cancelar
           </button>
@@ -296,14 +296,14 @@ export function WizardContainer() {
   // Show loading while initializing
   if (!isInitialized) {
     return (
-      <div className="min-h-screen bg-surface flex items-center justify-center">
+      <div className="min-h-screen bg-surface dark:bg-surface-dark flex items-center justify-center">
         <StepLoading />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-screen bg-surface dark:bg-surface-dark">
       {/* Exit Confirmation Dialog */}
       <ExitConfirmDialog
         isOpen={showExitDialog}
@@ -313,7 +313,7 @@ export function WizardContainer() {
       />
 
       {/* Header */}
-      <header className="bg-surface-elevated border-b border-border">
+      <header className="bg-surface-elevated dark:bg-surface-elevated-dark border-b border-border dark:border-border-dark">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-center gap-4">
             {/* Logo placeholder */}
@@ -321,17 +321,17 @@ export function WizardContainer() {
               <span className="text-white font-bold text-lg">CIn</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-text-primary">
+              <h1 className="text-xl font-bold text-text-primary dark:text-text-primary-dark">
                 Documentos de Estágio
               </h1>
-              <p className="text-sm text-text-secondary">
+              <p className="text-sm text-text-secondary dark:text-text-secondary-dark">
                 Centro de Informática - UFPE
               </p>
             </div>
             
             {/* Progress indicator - shows if there's saved progress */}
             {hasProgress() && (
-              <div className="ml-auto flex items-center gap-2 text-sm text-text-secondary">
+              <div className="ml-auto flex items-center gap-2 text-sm text-text-secondary dark:text-text-secondary-dark">
                 <div className="w-2 h-2 bg-green-500 rounded-full" />
                 <span>Progresso salvo</span>
               </div>
@@ -362,7 +362,7 @@ export function WizardContainer() {
 
           {/* Form Card */}
           <div className="flex-1 min-w-0">
-            <div className="bg-surface-elevated rounded-xl shadow-sm border border-border p-6 md:p-8">
+            <div className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl shadow-sm border border-border dark:border-border-dark p-6 md:p-8">
               <Suspense fallback={<StepLoading />}>
                 <StepComponent {...stepProps} />
               </Suspense>
@@ -372,9 +372,9 @@ export function WizardContainer() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-surface-elevated border-t border-border mt-auto">
+      <footer className="bg-surface-elevated dark:bg-surface-elevated-dark border-t border-border dark:border-border-dark mt-auto">
         <div className="max-w-4xl mx-auto px-4 py-4">
-          <p className="text-center text-sm text-text-secondary">
+          <p className="text-center text-sm text-text-secondary dark:text-text-secondary-dark">
             © {new Date().getFullYear()} Centro de Informática - UFPE
           </p>
         </div>

@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Enable dark mode via class */
+@variant dark (&:where(.dark, .dark *));
+
 /* CIn-UFPE Theme */
 @theme {
   /* Brand Colors - Constant across themes */
@@ -9,30 +12,28 @@
   --color-cin-gray: #E0E1E0;
   --color-cin-white: #FFFFFF;
   
-  /* Semantic Colors - Light mode defaults */
+  /* Semantic Colors - Light mode */
   --color-surface: #FFFFFF;
   --color-surface-elevated: #FFFFFF;
   --color-text-primary: #231F20;
   --color-text-secondary: #6B6B6B;
   --color-border: #E0E1E0;
   
+  /* Semantic Colors - Dark mode */
+  --color-surface-dark: #231F20;
+  --color-surface-elevated-dark: #2E2A2B;
+  --color-text-primary-dark: #FFFFFF;
+  --color-text-secondary-dark: #E0E1E0;
+  --color-border-dark: #AF0421;
+  
   /* Font Families */
   --font-sans: "Montserrat", sans-serif;
   --font-serif: "Merriweather", serif;
 }
 
-/* Dark Mode - Institutional colors */
-.dark {
-  --color-surface: #231F20;
-  --color-surface-elevated: #2E2A2B;
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #E0E1E0;
-  --color-border: #AF0421;
-}
-
 /* Base Styles */
 body {
-  @apply bg-surface text-text-primary font-sans;
+  @apply bg-surface text-text-primary font-sans dark:bg-surface-dark dark:text-text-primary-dark;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

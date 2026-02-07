@@ -81,15 +81,15 @@ export function Step4_InternshipContent({ data, onNext, onBack }: Step4Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-text-primary">Conteúdo do Estágio</h2>
-        <p className="text-text-secondary mt-1">
+        <h2 className="text-2xl font-bold text-text-primary dark:text-text-primary-dark">Conteúdo do Estágio</h2>
+        <p className="text-text-secondary dark:text-text-secondary-dark mt-1">
           Descreva as atividades, objetivos e detalhes do seu estágio.
         </p>
       </div>
 
       {/* Atividades */}
-      <section className="bg-surface-elevated rounded-lg p-6 border border-border">
-        <h3 className="text-lg font-semibold text-text-primary mb-4">
+      <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 border border-border dark:border-border-dark">
+        <h3 className="text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-4">
           Atividades a serem desenvolvidas
         </h3>
         <DynamicList
@@ -104,8 +104,8 @@ export function Step4_InternshipContent({ data, onNext, onBack }: Step4Props) {
       </section>
 
       {/* Objetivos */}
-      <section className="bg-surface-elevated rounded-lg p-6 border border-border">
-        <h3 className="text-lg font-semibold text-text-primary mb-4">
+      <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 border border-border dark:border-border-dark">
+        <h3 className="text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-4">
           Objetivos / Metas a serem atingidas
         </h3>
         <DynamicList
@@ -120,9 +120,9 @@ export function Step4_InternshipContent({ data, onNext, onBack }: Step4Props) {
       </section>
 
       {/* Cronograma */}
-      <section className="bg-surface-elevated rounded-lg p-6 border border-border">
+      <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 border border-border dark:border-border-dark">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-text-primary">Cronograma</h3>
+          <h3 className="text-lg font-semibold text-text-primary dark:text-text-primary-dark">Cronograma</h3>
           <Button
             type="button"
             variant="outline"
@@ -138,9 +138,9 @@ export function Step4_InternshipContent({ data, onNext, onBack }: Step4Props) {
 
         <div className="space-y-4">
           {scheduleFields.map((field, index) => (
-            <div key={field.id} className="bg-surface rounded-md p-4 border border-border">
+            <div key={field.id} className="bg-surface dark:bg-surface-dark rounded-md p-4 border border-border dark:border-border-dark">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium text-text-secondary">
+                <span className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark">
                   Período {index + 1}
                 </span>
                 {scheduleFields.length > 1 && (
@@ -158,7 +158,7 @@ export function Step4_InternshipContent({ data, onNext, onBack }: Step4Props) {
                 <input
                   {...register(`schedule.${index}.period`)}
                   placeholder="Ex: 20/11/2025 a 30/11/2025"
-                  className="w-full px-4 py-2 border border-border rounded-md bg-surface-elevated text-text-primary focus:border-cin-red focus:ring-2 focus:ring-cin-red/20"
+                  className="w-full px-4 py-2 border border-border dark:border-border-dark rounded-md bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark focus:border-cin-red focus:ring-2 focus:ring-cin-red/20"
                 />
                 {errors.schedule?.[index]?.period && (
                   <p className="text-xs text-cin-red">{errors.schedule[index]?.period?.message}</p>
@@ -168,7 +168,7 @@ export function Step4_InternshipContent({ data, onNext, onBack }: Step4Props) {
                   {...register(`schedule.${index}.description`)}
                   placeholder="Descrição das atividades do período..."
                   rows={3}
-                  className="w-full px-4 py-2 border border-border rounded-md bg-surface-elevated text-text-primary focus:border-cin-red focus:ring-2 focus:ring-cin-red/20 resize-y"
+                  className="w-full px-4 py-2 border border-border dark:border-border-dark rounded-md bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark focus:border-cin-red focus:ring-2 focus:ring-cin-red/20 resize-y"
                 />
                 {errors.schedule?.[index]?.description && (
                   <p className="text-xs text-cin-red">{errors.schedule[index]?.description?.message}</p>
@@ -181,7 +181,7 @@ export function Step4_InternshipContent({ data, onNext, onBack }: Step4Props) {
 
       {/* Textos do Relatório */}
       <section className="space-y-6">
-        <h3 className="text-lg font-semibold text-text-primary">
+        <h3 className="text-lg font-semibold text-text-primary dark:text-text-primary-dark">
           Conteúdo do Relatório
         </h3>
 
@@ -242,7 +242,7 @@ export function Step4_InternshipContent({ data, onNext, onBack }: Step4Props) {
         />
       </section>
 
-      <div className="flex justify-between pt-6 border-t border-border">
+      <div className="flex justify-between pt-6 border-t border-border dark:border-border-dark">
         <Button type="button" variant="ghost" onClick={onBack}>
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
