@@ -324,20 +324,44 @@ function HeaderActionsDropdown({ hasProgress, onImport, onExport, onReset }: Hea
 
   return (
     <div ref={dropdownRef} className="relative md:hidden">
-      {/* Menu trigger button */}
+      {/* Menu trigger button with save indicator */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-lg text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors"
+        className="relative p-2 rounded-lg text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors"
         aria-label="Opções"
       >
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
           <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
         </svg>
+        {/* Small green dot indicator when there's progress */}
+        {hasProgress && (
+          <span className="absolute top-1 right-1 w-2 h-2 bg-green-500 rounded-full" />
+        )}
       </button>
 
       {/* Dropdown menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg shadow-lg border border-border dark:border-border-dark py-1 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+        <div className="absolute right-0 mt-2 w-52 bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg shadow-lg border border-border dark:border-border-dark py-1 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+          {/* Status row - only when there's progress */}
+          {hasProgress && (
+            <>
+              <div className="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary dark:text-text-secondary-dark">
+                <div className="w-2 h-2 bg-green-500 rounded-full" />
+                Progresso salvo
+              </div>
+              <div className="border-t border-border dark:border-border-dark my-1" />
+            </>
+          )}
+
+          {/* Theme toggle row */}
+          <div className="flex items-center justify-between px-4 py-2.5">
+            <span className="text-sm text-text-primary dark:text-text-primary-dark">Tema escuro</span>
+            <ThemeToggle />
+          </div>
+
+          <div className="border-t border-border dark:border-border-dark my-1" />
+
+          {/* Import button */}
           <button
             onClick={() => { onImport(); setIsOpen(false); }}
             className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-text-primary dark:text-text-primary-dark hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors"
@@ -642,17 +666,9 @@ export function WizardContainer() {
               </p>
             </div>
             
-            {/* Mobile: Dropdown menu for actions */}
+            {/* Actions container */}
             <div className="ml-auto flex items-center gap-2">
-              {/* Saved indicator - visible on both mobile and desktop when there's progress */}
-              {hasProgress() && (
-                <div className="flex items-center gap-2 text-sm text-text-secondary dark:text-text-secondary-dark">
-                  <div className="w-2 h-2 bg-green-500 rounded-full" />
-                  <span className="hidden sm:inline">Salvo</span>
-                </div>
-              )}
-
-              {/* Mobile: Actions dropdown */}
+              {/* Mobile: Actions dropdown (includes theme, status, import/export/clear) */}
               <HeaderActionsDropdown
                 hasProgress={hasProgress()}
                 onImport={() => fileInputRef.current?.click()}
@@ -660,8 +676,16 @@ export function WizardContainer() {
                 onReset={() => setShowResetDialog(true)}
               />
 
-              {/* Desktop: Individual action buttons */}
+              {/* Desktop: Individual elements */}
               <div className="hidden md:flex items-center gap-2">
+                {/* Saved indicator */}
+                {hasProgress() && (
+                  <div className="flex items-center gap-2 text-sm text-text-secondary dark:text-text-secondary-dark">
+                    <div className="w-2 h-2 bg-green-500 rounded-full" />
+                    <span>Salvo</span>
+                  </div>
+                )}
+
                 {/* Import button */}
                 <button
                   onClick={() => fileInputRef.current?.click()}
@@ -690,10 +714,10 @@ export function WizardContainer() {
                     </button>
                   </>
                 )}
-              </div>
 
-              {/* Theme Toggle */}
-              <ThemeToggle />
+                {/* Theme Toggle */}
+                <ThemeToggle />
+              </div>
             </div>
           </div>
         </div>
