@@ -3,7 +3,7 @@
  */
 
 import { PDFViewer } from '@react-pdf/renderer';
-import { AdvisorEvaluationDocument } from '../../shared/components/pdf';
+import { AdvisorEvaluationDocument } from '../evaluations/pdf';
 import { mockReportData } from '../report/mockData';
 import { mockAdvisorEvaluationData } from './mockData';
 

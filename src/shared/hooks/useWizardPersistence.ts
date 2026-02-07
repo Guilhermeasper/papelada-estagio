@@ -5,7 +5,7 @@
  */
 
 import { useCallback } from 'react';
-import { persistedStateSchema } from '../../wizard/schemas/validationSchemas';
+import { persistedStateSchema } from '../../features/wizard/schemas/validationSchemas';
 import type { IInternshipData, WizardStep } from '../domain/types';
 
 const STORAGE_KEY = 'internship-wizard-progress';

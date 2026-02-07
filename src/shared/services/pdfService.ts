@@ -7,7 +7,7 @@ import {
     downloadPdf,
     generateDocument,
     getDocumentInfo
-} from '../../features/DocumentManager';
+} from '../../core/document-generation';
 import { DocumentType, IDocumentOption, IInternshipData } from '../domain/types';
 
 export interface GenerationResult {

@@ -2,9 +2,9 @@
  * Mock data for SupervisorEvaluationDocument testing
  */
 
-import type { IEvaluationData } from '../../shared/components/pdf';
+import type { IEvaluationFormData } from '../evaluations/pdf';
 
-export const mockSupervisorEvaluationData: IEvaluationData = {
+export const mockSupervisorEvaluationData: IEvaluationFormData = {
   communication: 'Ótimo',
   attendance: 'Ótimo',
   cooperation: 'Ótimo',

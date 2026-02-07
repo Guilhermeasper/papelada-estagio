@@ -21,5 +21,5 @@ interface ActivityPlanEvaluationTextProps {
 }
 
 export function ActivityPlanEvaluationText({ children, style }: ActivityPlanEvaluationTextProps) {
-  return <Text style={[styles.evaluationText, style]}>{children}</Text>;
+  return <Text style={style ? [styles.evaluationText, style] : styles.evaluationText}>{children}</Text>;
 }

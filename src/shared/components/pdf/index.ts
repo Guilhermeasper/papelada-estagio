@@ -11,11 +11,6 @@ export * from './utils';
 export { PDFPage } from './PDFPage';
 export type { PageVariant } from './PDFPage';
 
-// Evaluation-specific shared
-export { PDFCommentsSection } from './PDFCommentsSection';
-export { PDFDateSection } from './PDFDateSection';
-export { PDFEvalIntro } from './PDFEvalIntro';
-
 // Headers
 export { PDFLogoHeader } from './PDFLogoHeader';
 export { PDFTextHeader } from './PDFTextHeader';
@@ -39,14 +34,4 @@ export { PDFSignatureBlock } from './PDFSignatureBlock';
 export type { SignatureConfig } from './PDFSignatureBlock';
 export { PDFSignatureLine } from './PDFSignatureLine';
 
-// Evaluation-specific
-export { PDFGradeField } from './PDFGradeField';
-export { PDFRatingRow } from './PDFRatingRow';
-
-// Unified Evaluation Document
-export {
-  AdvisorEvaluationDocument, EvaluationDocument,
-  SupervisorEvaluationDocument
-} from './EvaluationDocument';
-export type { EvaluationType, IEvaluationData } from './EvaluationDocument';
 
