@@ -31,8 +31,8 @@ export function Step2_CompanyForm({ data, onNext, onBack }: Step2Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-text-primary dark:text-text-primary-dark">Dados da Empresa</h2>
-        <p className="text-text-secondary dark:text-text-secondary-dark mt-1">
+        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">Dados da Empresa</h2>
+        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
           Informações da empresa concedente do estágio.
         </p>
       </div>

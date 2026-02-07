@@ -67,8 +67,8 @@ export function Step7_DownloadStep({ data, onBack }: Step7Props) {
   return (
     <div className="space-y-8">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-text-primary dark:text-text-primary-dark">Download dos Documentos</h2>
-        <p className="text-text-secondary dark:text-text-secondary-dark mt-1">
+        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">Download dos Documentos</h2>
+        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
           Selecione os documentos que deseja gerar e fazer download.
         </p>
       </div>
@@ -120,14 +120,14 @@ export function Step7_DownloadStep({ data, onBack }: Step7Props) {
 
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <h3 className="font-medium text-text-primary dark:text-text-primary-dark">{doc.label}</h3>
+                      <h3 className="text-sm md:text-base font-medium text-text-primary dark:text-text-primary-dark">{doc.label}</h3>
                       {isGenerated && (
                         <span className="text-xs text-green-600 bg-green-100 px-2 py-0.5 rounded">
                           ✓ Gerado
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-text-secondary dark:text-text-secondary-dark mt-1">{doc.description}</p>
+                    <p className="text-xs md:text-sm text-text-secondary dark:text-text-secondary-dark mt-1">{doc.description}</p>
                   </div>
 
                   <Button

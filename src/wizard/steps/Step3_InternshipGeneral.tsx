@@ -70,15 +70,15 @@ export function Step3_InternshipGeneral({ data, onNext, onBack }: Step3Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-text-primary dark:text-text-primary-dark">Informações Gerais</h2>
-        <p className="text-text-secondary dark:text-text-secondary-dark mt-1">
+        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">Informações Gerais</h2>
+        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
           Configuração do período e carga horária do estágio.
         </p>
       </div>
 
       {/* Período e Carga Horária */}
       <div className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 space-y-6 border border-border dark:border-border-dark">
-        <h3 className="font-semibold text-text-primary dark:text-text-primary-dark">Período e Carga Horária</h3>
+        <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark">Período e Carga Horária</h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Input
@@ -95,7 +95,7 @@ export function Step3_InternshipGeneral({ data, onNext, onBack }: Step3Props) {
             control={control}
             render={({ field }) => (
               <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-medium text-text-primary dark:text-text-primary-dark">
+                <label className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark">
                   Horas por Dia <span className="text-cin-red">*</span>
                 </label>
                 <input

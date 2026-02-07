@@ -59,7 +59,7 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
                   <div
                     className={`
                       relative z-10 flex h-10 w-10 items-center justify-center rounded-full
-                      font-semibold text-sm transition-all duration-300 flex-shrink-0
+                      font-semibold text-xs md:text-sm transition-all duration-300 flex-shrink-0
                       ${
                         isCompletedNotViewing
                           ? 'bg-cin-red text-white'
@@ -140,14 +140,14 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
                 >
                   <p
                     className={`
-                      text-sm font-medium
+                      text-sm md:text-base font-medium
                       ${isCurrent ? 'text-cin-red' : isCompleted ? 'text-cin-red/70' : 'text-text-secondary dark:text-text-secondary-dark'}
                       ${isClickable ? 'hover:underline' : ''}
                     `}
                   >
                     {step.title}
                   </p>
-                  <p className="text-xs text-text-secondary dark:text-text-secondary-dark mt-0.5">
+                  <p className="text-[10px] md:text-xs text-text-secondary dark:text-text-secondary-dark mt-0.5">
                     {step.description}
                   </p>
                 </div>

@@ -17,8 +17,8 @@ export function Step6_ReviewStep({ data, onNext, onBack, onEdit }: Step6Props) {
   return (
     <div className="space-y-8">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-text-primary dark:text-text-primary-dark">Revisão dos Dados</h2>
-        <p className="text-text-secondary dark:text-text-secondary-dark mt-1">
+        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">Revisão dos Dados</h2>
+        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
           Confira todas as informações antes de gerar os documentos.
         </p>
       </div>
@@ -160,7 +160,7 @@ function ReviewSection({ title, step, onEdit, children }: ReviewSectionProps) {
   return (
     <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 border border-border dark:border-border-dark">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-text-primary dark:text-text-primary-dark">{title}</h3>
+        <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark">{title}</h3>
         <button
           type="button"
           onClick={() => onEdit(step)}
@@ -187,8 +187,8 @@ interface ReviewItemProps {
 function ReviewItem({ label, value }: ReviewItemProps) {
   return (
     <div>
-      <dt className="text-xs text-text-secondary dark:text-text-secondary-dark">{label}</dt>
-      <dd className="text-sm text-text-primary dark:text-text-primary-dark font-medium">{value || '-'}</dd>
+      <dt className="text-[10px] md:text-xs text-text-secondary dark:text-text-secondary-dark">{label}</dt>
+      <dd className="text-sm md:text-base text-text-primary dark:text-text-primary-dark font-medium">{value || '-'}</dd>
     </div>
   );
 }

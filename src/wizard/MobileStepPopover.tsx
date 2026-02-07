@@ -76,7 +76,7 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border dark:border-border-dark bg-surface-elevated dark:bg-surface-elevated-dark sticky top-0">
-          <h2 className="text-lg font-bold text-text-primary dark:text-text-primary-dark">Navegação</h2>
+          <h2 className="text-base font-bold text-text-primary dark:text-text-primary-dark">Navegação</h2>
           <button
             onClick={closePopover}
             className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-text-secondary/20 dark:hover:bg-text-secondary-dark/20 transition-colors"
@@ -142,7 +142,7 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
 
                     {/* Step Info */}
                     <div className="flex-1 text-left">
-                      <p className={`font-medium ${isCurrent ? 'text-cin-red' : isCompleted ? 'text-cin-red/80' : 'text-text-secondary dark:text-text-secondary-dark'}`}>
+                      <p className={`text-sm font-medium ${isCurrent ? 'text-cin-red' : isCompleted ? 'text-cin-red/80' : 'text-text-secondary dark:text-text-secondary-dark'}`}>
                         {step.title}
                       </p>
                       <p className="text-xs text-text-secondary dark:text-text-secondary-dark mt-0.5">{step.description}</p>

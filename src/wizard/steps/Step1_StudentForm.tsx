@@ -30,8 +30,8 @@ export function Step1_StudentForm({ data, onNext }: Step1Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-text-primary dark:text-text-primary-dark">Dados do Aluno</h2>
-        <p className="text-text-secondary dark:text-text-secondary-dark mt-1">
+        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">Dados do Aluno</h2>
+        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
           Preencha suas informações pessoais e acadêmicas.
         </p>
       </div>

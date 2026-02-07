@@ -118,11 +118,11 @@ function ExitConfirmDialog({ isOpen, onSaveAndExit, onExitWithoutSaving, onCance
       
       {/* Dialog */}
       <div className="relative bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
-        <h2 className="text-xl font-bold text-text-primary dark:text-text-primary-dark mb-3">
+        <h2 className="text-lg md:text-xl font-bold text-text-primary dark:text-text-primary-dark mb-3">
           Deseja salvar seu progresso?
         </h2>
         
-        <p className="text-text-secondary dark:text-text-secondary-dark mb-6">
+        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mb-6">
           Você tem dados não finalizados. O que deseja fazer?
         </p>
         
@@ -173,11 +173,11 @@ function ResetConfirmDialog({ isOpen, onConfirm, onCancel }: ResetDialogProps) {
       
       {/* Dialog */}
       <div className="relative bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
-        <h2 className="text-xl font-bold text-text-primary dark:text-text-primary-dark mb-3">
+        <h2 className="text-lg md:text-xl font-bold text-text-primary dark:text-text-primary-dark mb-3">
           Apagar todos os dados?
         </h2>
         
-        <p className="text-text-secondary dark:text-text-secondary-dark mb-6">
+        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mb-6">
           Esta ação irá remover todos os dados salvos e reiniciar o formulário. Esta ação não pode ser desfeita.
         </p>
         
@@ -248,7 +248,7 @@ function ImportConfirmDialog({ isOpen, previewData, onConfirm, onCancel, error }
           </>
         ) : previewData ? (
           <>
-            <h2 className="text-xl font-bold text-text-primary dark:text-text-primary-dark mb-3">
+            <h2 className="text-lg md:text-xl font-bold text-text-primary dark:text-text-primary-dark mb-3">
               Importar progresso?
             </h2>
 
@@ -678,10 +678,10 @@ export function WizardContainer() {
               <span className="text-white font-bold text-lg">CIn</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-text-primary dark:text-text-primary-dark">
+              <h1 className="text-lg md:text-xl font-bold text-text-primary dark:text-text-primary-dark">
                 Documentos de Estágio
               </h1>
-              <p className="text-sm text-text-secondary dark:text-text-secondary-dark">
+              <p className="text-xs md:text-sm text-text-secondary dark:text-text-secondary-dark">
                 Centro de Informática - UFPE
               </p>
             </div>
