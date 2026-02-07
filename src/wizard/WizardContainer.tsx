@@ -16,7 +16,7 @@ import {
   ISupervisionData,
   WizardStep
 } from '../shared/domain/types';
-import { PersistedWizardState, useWizardPersistence } from '../shared/hooks';
+import { PersistedWizardState, useTheme, useWizardPersistence } from '../shared/hooks';
 import { MobileStepPopover } from './MobileStepPopover';
 import { StepIndicator } from './StepIndicator';
 import { STEPS, TOTAL_STEPS } from './stepConfig';
@@ -298,6 +298,29 @@ function ImportConfirmDialog({ isOpen, previewData, onConfirm, onCancel, error }
     </div>
   );
 }
+// Theme Toggle Button for dropdown menu
+function ThemeToggleButton() {
+  const { effectiveTheme, toggleTheme } = useTheme();
+  const isDark = effectiveTheme === 'dark';
+
+  return (
+    <button
+      onClick={toggleTheme}
+      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-text-primary dark:text-text-primary-dark hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors"
+    >
+      {isDark ? (
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      ) : (
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      )}
+      {isDark ? 'Tema claro' : 'Tema escuro'}
+    </button>
+  );
+}
 
 // Mobile Header Actions Dropdown Component
 interface HeaderActionsDropdownProps {
@@ -354,10 +377,7 @@ function HeaderActionsDropdown({ hasProgress, onImport, onExport, onReset }: Hea
           )}
 
           {/* Theme toggle row */}
-          <div className="flex items-center justify-between px-4 py-2.5">
-            <span className="text-sm text-text-primary dark:text-text-primary-dark">Tema escuro</span>
-            <ThemeToggle />
-          </div>
+          <ThemeToggleButton />
 
           <div className="border-t border-border dark:border-border-dark my-1" />
 
