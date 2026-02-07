@@ -1,4 +1,5 @@
 export { Button } from './Button';
+export { ChecklistCard, ChecklistItem } from './ChecklistCard';
 export { DynamicList } from './DynamicList';
 export { ErrorBoundary } from './ErrorBoundary';
 export { Input } from './Input';
