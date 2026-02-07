@@ -80,16 +80,16 @@ export function Step4_InternshipContent({ data, onNext, onBack }: Step4Props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-text-primary dark:text-text-primary-dark">Conteúdo do Estágio</h2>
-        <p className="text-text-secondary dark:text-text-secondary-dark mt-1">
+      <div className="mb-4 md:mb-6">
+        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">Conteúdo do Estágio</h2>
+        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
           Descreva as atividades, objetivos e detalhes do seu estágio.
         </p>
       </div>
 
       {/* Atividades */}
-      <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 border border-border dark:border-border-dark">
-        <h3 className="text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-4">
+      <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-4 md:p-6 border border-border dark:border-border-dark">
+        <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-3 md:mb-4">
           Atividades a serem desenvolvidas
         </h3>
         <DynamicList
@@ -104,8 +104,8 @@ export function Step4_InternshipContent({ data, onNext, onBack }: Step4Props) {
       </section>
 
       {/* Objetivos */}
-      <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 border border-border dark:border-border-dark">
-        <h3 className="text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-4">
+      <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-4 md:p-6 border border-border dark:border-border-dark">
+        <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-3 md:mb-4">
           Objetivos / Metas a serem atingidas
         </h3>
         <DynamicList
@@ -120,9 +120,9 @@ export function Step4_InternshipContent({ data, onNext, onBack }: Step4Props) {
       </section>
 
       {/* Cronograma */}
-      <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 border border-border dark:border-border-dark">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-text-primary dark:text-text-primary-dark">Cronograma</h3>
+      <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-4 md:p-6 border border-border dark:border-border-dark">
+        <div className="flex items-center justify-between mb-3 md:mb-4">
+          <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark">Cronograma</h3>
           <Button
             type="button"
             variant="outline"
@@ -180,8 +180,8 @@ export function Step4_InternshipContent({ data, onNext, onBack }: Step4Props) {
       </section>
 
       {/* Textos do Relatório */}
-      <section className="space-y-6">
-        <h3 className="text-lg font-semibold text-text-primary dark:text-text-primary-dark">
+      <section className="space-y-4 md:space-y-6">
+        <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark">
           Conteúdo do Relatório
         </h3>
 

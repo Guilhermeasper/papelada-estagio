@@ -35,10 +35,44 @@ export function DynamicList({
         </span>
       </div>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3 md:gap-2">
         {items.map((item, index) => (
-          <div key={index} className="flex items-start gap-2">
-            <span className="flex-shrink-0 w-6 h-10 flex items-center justify-center text-sm font-medium text-text-secondary dark:text-text-secondary-dark">
+          <div key={index} className="flex flex-col md:flex-row md:items-start gap-1 md:gap-2">
+            {/* Mobile: Number and delete button in a row */}
+            <div className="flex items-center justify-between md:hidden">
+              <span className="text-xs font-medium text-text-secondary dark:text-text-secondary-dark">
+                {index + 1}.
+              </span>
+              {canRemove && (
+                <button
+                  type="button"
+                  onClick={() => onRemove(index)}
+                  className="
+                    p-1.5
+                    text-text-secondary dark:text-text-secondary-dark hover:text-cin-red
+                    hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 rounded-md
+                    transition-colors duration-200
+                  "
+                  title="Remover item"
+                >
+                  <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    className="h-4 w-4" 
+                    viewBox="0 0 20 20" 
+                    fill="currentColor"
+                  >
+                    <path 
+                      fillRule="evenodd" 
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" 
+                      clipRule="evenodd" 
+                    />
+                  </svg>
+                </button>
+              )}
+            </div>
+            
+            {/* Desktop: Number on the side */}
+            <span className="hidden md:flex flex-shrink-0 w-6 h-10 items-center justify-center text-sm font-medium text-text-secondary dark:text-text-secondary-dark">
               {index + 1}.
             </span>
             
@@ -48,24 +82,27 @@ export function DynamicList({
               placeholder={placeholder}
               rows={2}
               className={`
-                flex-1 px-4 py-2.5 
+                w-full md:flex-1 min-w-0 px-3 md:px-4 py-2 md:py-2.5 
+                text-sm md:text-base
                 border border-border dark:border-border-dark rounded-md
                 bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark
                 placeholder:text-text-secondary dark:placeholder:text-text-secondary-dark
                 transition-colors duration-200
                 hover:border-text-secondary dark:hover:border-text-secondary-dark
                 focus:border-cin-red focus:ring-2 focus:ring-cin-red/20
-                resize-y min-h-[60px]
+                resize-y min-h-[50px] md:min-h-[60px]
               `}
             />
             
+            {/* Desktop: Delete button on the side */}
             {canRemove && (
               <button
                 type="button"
                 onClick={() => onRemove(index)}
                 className="
+                  hidden md:flex
                   flex-shrink-0 w-10 h-10
-                  flex items-center justify-center
+                  items-center justify-center
                   text-text-secondary dark:text-text-secondary-dark hover:text-cin-red
                   hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 rounded-md
                   transition-colors duration-200
