@@ -9,15 +9,19 @@ import { IStepInfo, WizardStep } from '../shared/domain/types';
 interface StepIndicatorProps {
   currentStep: WizardStep;
   steps: IStepInfo[];
+  completedSteps: WizardStep[];
   onStepClick?: (step: WizardStep) => void;
 }
 
-export function StepIndicator({ currentStep, steps, onStepClick }: StepIndicatorProps) {
+export function StepIndicator({ currentStep, steps, completedSteps, onStepClick }: StepIndicatorProps) {
   const [hoveredStep, setHoveredStep] = useState<WizardStep | null>(null);
 
+  // A step is clickable if it's completed (reviewable) or is the current step
+  const isStepClickable = (step: WizardStep) => 
+    completedSteps.includes(step) || step === currentStep;
+
   const handleStepClick = (step: IStepInfo) => {
-    // Allow navigation to completed steps and current step
-    if (step.step <= currentStep && onStepClick) {
+    if (isStepClickable(step.step) && onStepClick) {
       onStepClick(step.step);
     }
   };
@@ -26,9 +30,9 @@ export function StepIndicator({ currentStep, steps, onStepClick }: StepIndicator
     <nav aria-label="Progresso" className="w-full">
       <ol className="flex flex-col gap-0">
         {steps.map((step, index) => {
-          const isCompleted = step.step < currentStep;
+          const isCompleted = completedSteps.includes(step.step);
           const isCurrent = step.step === currentStep;
-          const isClickable = step.step <= currentStep;
+          const isClickable = isStepClickable(step.step);
           const isLast = index === steps.length - 1;
           const isHovered = hoveredStep === step.step;
 

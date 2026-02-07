@@ -9,15 +9,20 @@ import { IStepInfo, WizardStep } from '../shared/domain/types';
 interface MobileStepPopoverProps {
   currentStep: WizardStep;
   steps: IStepInfo[];
+  completedSteps: WizardStep[];
   onStepClick?: (step: WizardStep) => void;
 }
 
-export function MobileStepPopover({ currentStep, steps, onStepClick }: MobileStepPopoverProps) {
+export function MobileStepPopover({ currentStep, steps, completedSteps, onStepClick }: MobileStepPopoverProps) {
   const popoverRef = useRef<HTMLDivElement>(null);
   const currentStepInfo = steps.find((s) => s.step === currentStep);
 
+  // A step is clickable if it's completed (reviewable) or is the current step
+  const isStepClickable = (step: WizardStep) => 
+    completedSteps.includes(step) || step === currentStep;
+
   const handleStepClick = (step: IStepInfo) => {
-    if (step.step <= currentStep && onStepClick) {
+    if (isStepClickable(step.step) && onStepClick) {
       onStepClick(step.step);
       // Close popover after navigation
       popoverRef.current?.hidePopover();
@@ -79,9 +84,9 @@ export function MobileStepPopover({ currentStep, steps, onStepClick }: MobileSte
         <div className="p-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 70px)' }}>
           <ol className="flex flex-col gap-2">
             {steps.map((step) => {
-              const isCompleted = step.step < currentStep;
+              const isCompleted = completedSteps.includes(step.step);
               const isCurrent = step.step === currentStep;
-              const isClickable = step.step <= currentStep;
+              const isClickable = isStepClickable(step.step);
 
               return (
                 <li key={step.step}>

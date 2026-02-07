@@ -611,19 +611,38 @@ export function WizardContainer() {
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* Mobile Step Popover */}
         <div className="md:hidden mb-4">
-          <MobileStepPopover currentStep={currentStep} steps={STEPS} onStepClick={goToStep} />
+          <MobileStepPopover currentStep={currentStep} steps={STEPS} completedSteps={completedSteps} onStepClick={goToStep} />
         </div>
 
         <div className="flex gap-8">
           {/* Left Sidebar - Step Indicator (Desktop only) */}
           <aside className="hidden md:block w-64 flex-shrink-0">
             <div className="sticky top-8">
-              <StepIndicator currentStep={currentStep} steps={STEPS} onStepClick={goToStep} />
+              <StepIndicator currentStep={currentStep} steps={STEPS} completedSteps={completedSteps} onStepClick={goToStep} />
             </div>
           </aside>
 
           {/* Form Card */}
           <div className="flex-1 min-w-0">
+            {/* Return to highest step button - shown when reviewing a previous step */}
+            {(() => {
+              const highestCompleted = Math.max(...completedSteps, currentStep);
+              const highestStepInfo = STEPS.find(s => s.step === highestCompleted);
+              if (currentStep < highestCompleted && highestStepInfo) {
+                return (
+                  <button
+                    onClick={() => goToStep(highestCompleted as WizardStep)}
+                    className="mb-4 w-full flex items-center justify-center gap-2 py-3 px-4 bg-cin-red/10 hover:bg-cin-red/20 text-cin-red rounded-lg font-medium transition-colors border border-cin-red/20"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                    Voltar para Passo {highestCompleted}: {highestStepInfo.title}
+                  </button>
+                );
+              }
+              return null;
+            })()}
             <div className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl shadow-sm border border-border dark:border-border-dark p-6 md:p-8">
               <Suspense fallback={<StepLoading />}>
                 <StepComponent {...stepProps} />
