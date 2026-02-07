@@ -38,7 +38,10 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
     <nav aria-label="Progresso" className="w-full">
       <ol className="flex flex-col gap-0">
         {steps.map((step, index) => {
-          const isCompleted = completedSteps.includes(step.step);
+          // Step 1 is considered completed if user has advanced past it (any step is completed)
+          const isCompleted = step.step === 1 
+            ? completedSteps.length > 0 
+            : completedSteps.includes(step.step);
           const isCurrent = step.step === currentStep;
           const isClickable = isStepClickable(step.step);
           const isLast = index === steps.length - 1;

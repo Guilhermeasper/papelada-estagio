@@ -92,7 +92,10 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
         <div className="p-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 70px)' }}>
           <ol className="flex flex-col gap-2">
             {steps.map((step) => {
-              const isCompleted = completedSteps.includes(step.step);
+              // Step 1 is considered completed if user has advanced past it (any step is completed)
+              const isCompleted = step.step === 1 
+                ? completedSteps.length > 0 
+                : completedSteps.includes(step.step);
               const isCurrent = step.step === currentStep;
               const isClickable = isStepClickable(step.step);
               const isWorkingStep = step.step === workingStep;
