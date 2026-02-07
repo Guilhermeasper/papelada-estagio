@@ -16,9 +16,17 @@ interface StepIndicatorProps {
 export function StepIndicator({ currentStep, steps, completedSteps, onStepClick }: StepIndicatorProps) {
   const [hoveredStep, setHoveredStep] = useState<WizardStep | null>(null);
 
-  // A step is clickable if it's completed (reviewable) or is the current step
+  // Calculate the working step (next step after highest completed)
+  const highestCompleted = completedSteps.length > 0 ? Math.max(...completedSteps) : 0;
+  const workingStep = Math.min(highestCompleted + 1, steps.length) as WizardStep;
+
+  // A step is clickable if:
+  // - It's step 1 (always accessible)
+  // - It's completed (reviewable)
+  // - It's the current step being viewed
+  // - It's the working step (next step to complete)
   const isStepClickable = (step: WizardStep) => 
-    step === 1 || completedSteps.includes(step) || step === currentStep;
+    step === 1 || completedSteps.includes(step) || step === currentStep || step === workingStep;
 
   const handleStepClick = (step: IStepInfo) => {
     if (isStepClickable(step.step) && onStepClick) {
@@ -35,8 +43,9 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
           const isClickable = isStepClickable(step.step);
           const isLast = index === steps.length - 1;
           const isHovered = hoveredStep === step.step;
+          const isWorkingStep = step.step === workingStep;
           // Completed but not currently being viewed = solid with checkmark
-          // Current step (viewing) = outlined with number
+          // Current step (viewing) or working step = outlined with number
           const isCompletedNotViewing = isCompleted && !isCurrent;
 
           return (
@@ -53,7 +62,7 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
                           ? 'bg-cin-red text-white'
                           : isCurrent
                           ? 'bg-transparent border-2 border-cin-red text-cin-red ring-4 ring-cin-red/20'
-                          : isCompleted
+                          : isCompleted || isWorkingStep
                           ? 'bg-transparent border-2 border-cin-red text-cin-red'
                           : 'bg-border dark:bg-border-dark text-text-secondary dark:text-text-secondary-dark'
                       }

@@ -17,9 +17,17 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
   const popoverRef = useRef<HTMLDivElement>(null);
   const currentStepInfo = steps.find((s) => s.step === currentStep);
 
-  // A step is clickable if it's completed (reviewable), step 1, or is the current step
+  // Calculate the working step (next step after highest completed)
+  const highestCompleted = completedSteps.length > 0 ? Math.max(...completedSteps) : 0;
+  const workingStep = Math.min(highestCompleted + 1, steps.length) as WizardStep;
+
+  // A step is clickable if:
+  // - It's step 1 (always accessible)
+  // - It's completed (reviewable)
+  // - It's the current step being viewed
+  // - It's the working step (next step to complete)
   const isStepClickable = (step: WizardStep) => 
-    step === 1 || completedSteps.includes(step) || step === currentStep;
+    step === 1 || completedSteps.includes(step) || step === currentStep || step === workingStep;
 
   const handleStepClick = (step: IStepInfo) => {
     if (isStepClickable(step.step) && onStepClick) {
@@ -87,6 +95,7 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
               const isCompleted = completedSteps.includes(step.step);
               const isCurrent = step.step === currentStep;
               const isClickable = isStepClickable(step.step);
+              const isWorkingStep = step.step === workingStep;
               // Completed but not currently being viewed = solid with checkmark
               const isCompletedNotViewing = isCompleted && !isCurrent;
 
@@ -109,7 +118,7 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
                         ${
                           isCompletedNotViewing 
                             ? 'bg-cin-red text-white' 
-                            : isCurrent || isCompleted
+                            : isCurrent || isCompleted || isWorkingStep
                             ? 'bg-transparent border-2 border-cin-red text-cin-red' 
                             : 'bg-border dark:bg-border-dark text-text-secondary dark:text-text-secondary-dark'
                         }
