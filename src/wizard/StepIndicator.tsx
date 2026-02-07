@@ -35,6 +35,9 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
           const isClickable = isStepClickable(step.step);
           const isLast = index === steps.length - 1;
           const isHovered = hoveredStep === step.step;
+          // Completed but not currently being viewed = solid with checkmark
+          // Current step (viewing) = outlined with number
+          const isCompletedNotViewing = isCompleted && !isCurrent;
 
           return (
             <li key={step.step} className="relative">
@@ -46,10 +49,12 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
                       relative z-10 flex h-10 w-10 items-center justify-center rounded-full
                       font-semibold text-sm transition-all duration-300 flex-shrink-0
                       ${
-                        isCompleted
+                        isCompletedNotViewing
                           ? 'bg-cin-red text-white'
                           : isCurrent
-                          ? 'bg-cin-red text-white ring-4 ring-cin-red/20'
+                          ? 'bg-transparent border-2 border-cin-red text-cin-red ring-4 ring-cin-red/20'
+                          : isCompleted
+                          ? 'bg-transparent border-2 border-cin-red text-cin-red'
                           : 'bg-border dark:bg-border-dark text-text-secondary dark:text-text-secondary-dark'
                       }
                       ${isClickable ? 'cursor-pointer hover:scale-110' : 'cursor-not-allowed'}
@@ -66,7 +71,7 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
                       }
                     }}
                   >
-                    {isCompleted ? (
+                    {isCompletedNotViewing ? (
                       <svg
                         className="h-5 w-5"
                         fill="currentColor"

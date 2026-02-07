@@ -87,6 +87,8 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
               const isCompleted = completedSteps.includes(step.step);
               const isCurrent = step.step === currentStep;
               const isClickable = isStepClickable(step.step);
+              // Completed but not currently being viewed = solid with checkmark
+              const isCompletedNotViewing = isCompleted && !isCurrent;
 
               return (
                 <li key={step.step}>
@@ -104,10 +106,16 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
                       className={`
                         flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center
                         font-semibold text-sm
-                        ${isCompleted ? 'bg-cin-red text-white' : isCurrent ? 'bg-cin-red text-white' : 'bg-border dark:bg-border-dark text-text-secondary dark:text-text-secondary-dark'}
+                        ${
+                          isCompletedNotViewing 
+                            ? 'bg-cin-red text-white' 
+                            : isCurrent || isCompleted
+                            ? 'bg-transparent border-2 border-cin-red text-cin-red' 
+                            : 'bg-border dark:bg-border-dark text-text-secondary dark:text-text-secondary-dark'
+                        }
                       `}
                     >
-                      {isCompleted ? (
+                      {isCompletedNotViewing ? (
                         <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                           <path
                             fillRule="evenodd"
