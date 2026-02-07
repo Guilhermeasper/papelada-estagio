@@ -44,14 +44,14 @@ export function DynamicList({
                 {index + 1}.
               </span>
               {canRemove && (
-                <button
+                <Button
                   type="button"
                   onClick={() => onRemove(index)}
+                  variant="ghost"
                   className="
-                    p-1.5
+                    p-1.5 h-auto
                     text-text-secondary dark:text-text-secondary-dark hover:text-cin-red
-                    hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 rounded-md
-                    transition-colors duration-200
+                    hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10
                   "
                   title="Remover item"
                 >
@@ -67,7 +67,7 @@ export function DynamicList({
                       clipRule="evenodd" 
                     />
                   </svg>
-                </button>
+                </Button>
               )}
             </div>
             
@@ -96,16 +96,16 @@ export function DynamicList({
             
             {/* Desktop: Delete button on the side */}
             {canRemove && (
-              <button
+              <Button
                 type="button"
                 onClick={() => onRemove(index)}
+                variant="ghost"
                 className="
                   hidden md:flex
-                  flex-shrink-0 w-10 h-10
+                  flex-shrink-0 w-10 h-10 p-0
                   items-center justify-center
                   text-text-secondary dark:text-text-secondary-dark hover:text-cin-red
-                  hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 rounded-md
-                  transition-colors duration-200
+                  hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10
                 "
                 title="Remover item"
               >
@@ -121,7 +121,7 @@ export function DynamicList({
                     clipRule="evenodd" 
                   />
                 </svg>
-              </button>
+              </Button>
             )}
           </div>
         ))}

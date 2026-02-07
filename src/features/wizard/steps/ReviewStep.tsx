@@ -144,16 +144,18 @@ function ReviewSection({ title, step, onEdit, children }: ReviewSectionProps) {
     <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 border border-border dark:border-border-dark">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark">{title}</h3>
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="sm"
           onClick={() => onEdit(step)}
-          className="text-cin-red hover:text-cin-dark text-sm font-medium flex items-center gap-1"
+          className="text-cin-red hover:text-cin-dark hover:bg-cin-red/5 p-0 h-auto font-medium"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
           </svg>
           Editar
-        </button>
+        </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
         {children}

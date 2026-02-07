@@ -3,6 +3,7 @@
  */
 
 import { Component, ErrorInfo, ReactNode } from 'react';
+import { Button } from './Button';
 
 interface Props {
   children: ReactNode;
@@ -53,12 +54,12 @@ export class ErrorBoundary extends Component<Props, State> {
                 {this.state.error.message}
               </p>
             )}
-            <button
+            <Button
               onClick={this.handleReload}
-              className="px-6 py-2.5 bg-cin-red text-white font-medium rounded-md hover:bg-cin-dark transition-colors"
+              className="px-6"
             >
               Recarregar Página
-            </button>
+            </Button>
           </div>
         </div>
       );

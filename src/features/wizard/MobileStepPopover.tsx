@@ -4,6 +4,7 @@
  */
 
 import { useRef } from 'react';
+import { Button } from '../../shared/components';
 import { IStepInfo, WizardStep } from '../../shared/domain/types';
 
 interface MobileStepPopoverProps {
@@ -44,24 +45,25 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
   return (
     <>
       {/* Trigger Button - Shows current step info */}
-      <button
+      <Button
         // @ts-expect-error - popoverTarget is a new attribute
         popovertarget="steps-popover"
-        className="w-full flex items-center justify-between bg-surface-elevated dark:bg-surface-elevated-dark border border-border dark:border-border-dark rounded-lg p-3 shadow-sm hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors"
+        variant="ghost"
+        className="w-full flex items-center justify-between bg-surface-elevated dark:bg-surface-elevated-dark border border-border dark:border-border-dark rounded-lg p-3 shadow-sm hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors h-auto"
       >
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-cin-red text-white rounded-full flex items-center justify-center text-sm font-semibold">
             {currentStep}
           </div>
           <div className="text-left">
-            <p className="text-xs text-text-secondary dark:text-text-secondary-dark">Passo {currentStep} de {steps.length}</p>
+            <p className="text-xs text-text-secondary dark:text-text-secondary-dark font-normal">Passo {currentStep} de {steps.length}</p>
             <p className="text-sm font-semibold text-cin-red">{currentStepInfo?.title}</p>
           </div>
         </div>
         <svg className="w-5 h-5 text-text-secondary dark:text-text-secondary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
-      </button>
+      </Button>
 
       {/* Popover Content */}
       <div
@@ -77,15 +79,17 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border dark:border-border-dark bg-surface-elevated dark:bg-surface-elevated-dark sticky top-0">
           <h2 className="text-base font-bold text-text-primary dark:text-text-primary-dark">Navegação</h2>
-          <button
+          <Button
             onClick={closePopover}
-            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-text-secondary/20 dark:hover:bg-text-secondary-dark/20 transition-colors"
+            variant="ghost"
+            size="icon"
+            className="rounded-full"
             aria-label="Fechar"
           >
             <svg className="w-6 h-6 text-text-primary dark:text-text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
-          </button>
+          </Button>
         </div>
 
         {/* Steps List */}
@@ -104,13 +108,14 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
 
               return (
                 <li key={step.step}>
-                  <button
+                  <Button
                     onClick={() => handleStepClick(step)}
                     disabled={!isClickable}
+                    variant="ghost"
                     className={`
-                      w-full flex items-start gap-4 p-4 rounded-xl transition-all
-                      ${isCurrent ? 'bg-cin-red/10 border-2 border-cin-red' : 'bg-text-secondary/10 dark:bg-text-secondary-dark/10 border-2 border-transparent'}
-                      ${isClickable ? 'hover:bg-cin-red/5 cursor-pointer' : 'opacity-50 cursor-not-allowed'}
+                      w-full items-start justify-start gap-4 p-4 rounded-xl h-auto
+                      ${isCurrent ? 'bg-cin-red/10 border-2 border-cin-red hover:bg-cin-red/15' : 'bg-text-secondary/10 dark:bg-text-secondary-dark/10 border-2 border-transparent'}
+                      ${isClickable ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'}
                     `}
                   >
                     {/* Step Circle */}
@@ -164,7 +169,7 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     )}
-                  </button>
+                  </Button>
                 </li>
               );
             })}

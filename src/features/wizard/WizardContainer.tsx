@@ -6,7 +6,7 @@
  */
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ThemeToggle } from '../../shared/components';
+import { Button, ThemeToggle } from '../../shared/components';
 import {
   ICompanyData,
   IInternshipContent,
@@ -127,26 +127,29 @@ function ExitConfirmDialog({ isOpen, onSaveAndExit, onExitWithoutSaving, onCance
         </p>
         
         <div className="flex flex-col gap-3">
-          <button
+          <Button
             onClick={onSaveAndExit}
-            className="w-full py-3 px-4 bg-cin-red text-white rounded-lg font-medium hover:bg-cin-red/90 transition-colors"
+            className="w-full"
           >
             Salvar para continuar depois
-          </button>
+          </Button>
           
-          <button
+          <Button
             onClick={onExitWithoutSaving}
-            className="w-full py-3 px-4 bg-text-secondary/20 dark:bg-text-secondary-dark/20 text-text-primary dark:text-text-primary-dark rounded-lg font-medium hover:bg-text-secondary/30 dark:hover:bg-text-secondary-dark/30 transition-colors"
+            variant="secondary"
+            className="w-full"
           >
             Sair sem salvar
-          </button>
+          </Button>
           
-          <button
+          <Button
             onClick={onCancel}
-            className="w-full py-2 px-4 text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark transition-colors text-sm"
+            variant="ghost"
+            size="sm"
+            className="w-full"
           >
             Cancelar
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -182,19 +185,22 @@ function ResetConfirmDialog({ isOpen, onConfirm, onCancel }: ResetDialogProps) {
         </p>
         
         <div className="flex flex-col gap-3">
-          <button
+          <Button
             onClick={onConfirm}
-            className="w-full py-3 px-4 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors"
+            variant="danger"
+            className="w-full"
           >
             Apagar dados e reiniciar
-          </button>
+          </Button>
           
-          <button
+          <Button
             onClick={onCancel}
-            className="w-full py-2 px-4 text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark transition-colors text-sm"
+            variant="ghost"
+            size="sm"
+            className="w-full"
           >
             Cancelar
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -239,12 +245,13 @@ function ImportConfirmDialog({ isOpen, previewData, onConfirm, onCancel, error }
             <p className="text-text-secondary dark:text-text-secondary-dark mb-6">
               {error}
             </p>
-            <button
+            <Button
               onClick={onCancel}
-              className="w-full py-3 px-4 bg-text-secondary/20 dark:bg-text-secondary-dark/20 text-text-primary dark:text-text-primary-dark rounded-lg font-medium hover:bg-text-secondary/30 dark:hover:bg-text-secondary-dark/30 transition-colors"
+              variant="secondary"
+              className="w-full"
             >
               Fechar
-            </button>
+            </Button>
           </>
         ) : previewData ? (
           <>
@@ -278,19 +285,21 @@ function ImportConfirmDialog({ isOpen, previewData, onConfirm, onCancel, error }
             </p>
 
             <div className="flex flex-col gap-3">
-              <button
+              <Button
                 onClick={onConfirm}
-                className="w-full py-3 px-4 bg-cin-red text-white rounded-lg font-medium hover:bg-cin-red/90 transition-colors"
+                className="w-full"
               >
                 Importar e substituir
-              </button>
+              </Button>
 
-              <button
+              <Button
                 onClick={onCancel}
-                className="w-full py-2 px-4 text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark transition-colors text-sm"
+                variant="ghost"
+                size="sm"
+                className="w-full"
               >
                 Cancelar
-              </button>
+              </Button>
             </div>
           </>
         ) : null}
@@ -304,9 +313,10 @@ function ThemeToggleButton() {
   const isDark = effectiveTheme === 'dark';
 
   return (
-    <button
+    <Button
       onClick={toggleTheme}
-      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-text-primary dark:text-text-primary-dark hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors"
+      variant="ghost"
+      className="w-full justify-start px-4 py-2.5 font-normal"
     >
       {isDark ? (
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -318,7 +328,7 @@ function ThemeToggleButton() {
         </svg>
       )}
       {isDark ? 'Tema claro' : 'Tema escuro'}
-    </button>
+    </Button>
   );
 }
 
@@ -348,9 +358,10 @@ function HeaderActionsDropdown({ hasProgress, onImport, onExport, onReset }: Hea
   return (
     <div ref={dropdownRef} className="relative md:hidden">
       {/* Menu trigger button with save indicator */}
-      <button
+      <Button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 rounded-lg text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors"
+        variant="ghost"
+        size="icon"
         aria-label="Opções"
       >
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -360,7 +371,7 @@ function HeaderActionsDropdown({ hasProgress, onImport, onExport, onReset }: Hea
         {hasProgress && (
           <span className="absolute top-1 right-1 w-2 h-2 bg-green-500 rounded-full" />
         )}
-      </button>
+      </Button>
 
       {/* Dropdown menu */}
       {isOpen && (
@@ -382,39 +393,42 @@ function HeaderActionsDropdown({ hasProgress, onImport, onExport, onReset }: Hea
           <div className="border-t border-border dark:border-border-dark my-1" />
 
           {/* Import button */}
-          <button
+          <Button
             onClick={() => { onImport(); setIsOpen(false); }}
-            className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-text-primary dark:text-text-primary-dark hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors"
+            variant="ghost"
+            className="w-full justify-start px-4 py-2.5 font-normal"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
             </svg>
             Importar
-          </button>
+          </Button>
 
           {hasProgress && (
             <>
-              <button
+              <Button
                 onClick={() => { onExport(); setIsOpen(false); }}
-                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-text-primary dark:text-text-primary-dark hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors"
+                variant="ghost"
+                className="w-full justify-start px-4 py-2.5 font-normal"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
                 Exportar
-              </button>
+              </Button>
 
               <div className="border-t border-border dark:border-border-dark my-1" />
 
-              <button
+              <Button
                 onClick={() => { onReset(); setIsOpen(false); }}
-                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-cin-red hover:bg-cin-red/10 transition-colors"
+                variant="danger-ghost"
+                className="w-full justify-start px-4 py-2.5 font-normal"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
                 Limpar dados
-              </button>
+              </Button>
             </>
           )}
         </div>
@@ -707,31 +721,34 @@ export function WizardContainer() {
                 )}
 
                 {/* Import button */}
-                <button
+                <Button
                   onClick={() => fileInputRef.current?.click()}
-                  className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark transition-colors px-3 py-1.5 rounded-md hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10"
+                  variant="ghost"
+                  size="sm"
                   title="Importar progresso de arquivo JSON"
                 >
                   Importar
-                </button>
+                </Button>
 
                 {/* Export and clear - only when there's progress */}
                 {hasProgress() && (
                   <>
-                    <button
+                    <Button
                       onClick={handleExport}
-                      className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark hover:text-text-primary dark:hover:text-text-primary-dark transition-colors px-3 py-1.5 rounded-md hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10"
+                      variant="ghost"
+                      size="sm"
                       title="Exportar progresso como JSON"
                     >
                       Exportar
-                    </button>
+                    </Button>
 
-                    <button
+                    <Button
                       onClick={() => setShowResetDialog(true)}
-                      className="text-sm font-medium text-cin-red hover:text-red-700 dark:hover:text-red-400 transition-colors px-3 py-1.5 rounded-md hover:bg-cin-red/10 border border-transparent hover:border-cin-red/20"
+                      variant="danger-ghost"
+                      size="sm"
                     >
                       Limpar
-                    </button>
+                    </Button>
                   </>
                 )}
 
@@ -768,15 +785,16 @@ export function WizardContainer() {
               const workingStepInfo = STEPS.find(s => s.step === workingStep);
               if (currentStep < workingStep && workingStepInfo) {
                 return (
-                  <button
+                  <Button
                     onClick={() => goToStep(workingStep)}
-                    className="mb-4 w-full flex items-center justify-center gap-2 py-3 px-4 bg-cin-red/10 hover:bg-cin-red/20 text-cin-red rounded-lg font-medium transition-colors border border-cin-red/20"
+                    variant="outline"
+                    className="mb-4 w-full"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
                     Voltar para Passo {workingStep}: {workingStepInfo.title}
-                  </button>
+                  </Button>
                 );
               }
               return null;

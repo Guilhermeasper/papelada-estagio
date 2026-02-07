@@ -73,13 +73,15 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
           <span className="text-sm text-text-secondary dark:text-text-secondary-dark">
             {selectedDocs.size} de {documentOptions.length} selecionados
           </span>
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            size="sm"
             onClick={selectAll}
-            className="text-sm text-cin-red hover:text-cin-dark font-medium"
+            className="text-cin-red hover:text-cin-dark font-medium hover:bg-cin-red/5 p-0 px-2 h-auto"
           >
             {selectedDocs.size === documentOptions.length ? 'Desmarcar todos' : 'Selecionar todos'}
-          </button>
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

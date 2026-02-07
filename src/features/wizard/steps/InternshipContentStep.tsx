@@ -116,13 +116,15 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
                   Período {index + 1}
                 </span>
                 {scheduleFields.length > 1 && (
-                  <button
+                  <Button
                     type="button"
+                    variant="danger-ghost"
+                    size="sm"
                     onClick={() => removeSchedule(index)}
-                    className="text-cin-red hover:text-cin-dark text-sm"
+                    className="p-0 h-auto"
                   >
                     Remover
-                  </button>
+                  </Button>
                 )}
               </div>
 

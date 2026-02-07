@@ -4,22 +4,25 @@
  */
 
 import { useTheme } from '../hooks/useTheme';
+import { Button } from './Button';
 
 export function ThemeToggle() {
   const { effectiveTheme, toggleTheme } = useTheme();
   const isDark = effectiveTheme === 'dark';
 
   return (
-    <button
+    <Button
       onClick={toggleTheme}
-      className="p-2 rounded-lg hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors"
+      variant="ghost"
+      size="icon"
+      className="rounded-lg"
       aria-label={isDark ? 'Ativar modo claro' : 'Ativar modo escuro'}
       title={isDark ? 'Modo claro' : 'Modo escuro'}
     >
       {isDark ? (
         // Sun icon
         <svg
-          className="w-5 h-5 text-text-primary dark:text-text-primary-dark"
+          className="w-5 h-5"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -34,7 +37,7 @@ export function ThemeToggle() {
       ) : (
         // Moon icon
         <svg
-          className="w-5 h-5 text-text-primary dark:text-text-primary-dark"
+          className="w-5 h-5"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -47,6 +50,6 @@ export function ThemeToggle() {
           />
         </svg>
       )}
-    </button>
+    </Button>
   );
 }
