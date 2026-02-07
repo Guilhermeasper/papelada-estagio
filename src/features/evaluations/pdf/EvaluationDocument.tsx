@@ -11,8 +11,8 @@ import {
   type KeyValueItem,
   type Rating
 } from '../../../shared/components/pdf';
-import type { IInternshipData } from '../../../shared/domain/types';
 import { PDF_CONTENT } from '../../../shared/constants';
+import type { IInternshipData } from '../../../shared/domain/types';
 import { PDFCommentsSection } from './PDFCommentsSection';
 import { PDFDateSection } from './PDFDateSection';
 import { PDFEvalIntro } from './PDFEvalIntro';
@@ -115,10 +115,3 @@ export function EvaluationDocument({ type, data, evaluation }: EvaluationDocumen
   );
 }
 
-export function SupervisorEvaluationDocument(props: Omit<EvaluationDocumentProps, 'type'>) {
-  return <EvaluationDocument type="supervisor" {...props} />;
-}
-
-export function AdvisorEvaluationDocument(props: Omit<EvaluationDocumentProps, 'type'>) {
-  return <EvaluationDocument type="advisor" {...props} />;
-}

@@ -1,8 +1,7 @@
 
+import type { IInternshipData } from '../domain/types';
 
-import type { IInternshipData } from '../../shared/domain/types';
-
-export const mockInternshipData: IInternshipData = {
+export const mockActivityPlanData: IInternshipData = {
   student: {
     fullName: 'João da Silva',
     email: 'joao.silva@email.com',
