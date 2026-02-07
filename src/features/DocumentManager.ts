@@ -5,11 +5,14 @@
 
 import { pdf } from '@react-pdf/renderer';
 import React from 'react';
+import {
+  AdvisorEvaluationDocument,
+  SupervisorEvaluationDocument,
+  type IEvaluationData
+} from '../shared/components/pdf';
 import { DocumentType, IDocumentOption, IInternshipData } from '../shared/domain/types';
 import { ActivityPlanDocument } from './activity-plan/ActivityPlanDocument';
-import { AdvisorEvaluationDocument, IAdvisorEvaluationData } from './advisor-eval/AdvisorEvaluationDocument';
 import { ReportDocument } from './report/ReportDocument';
-import { ISupervisorEvaluationData, SupervisorEvaluationDocument } from './supervisor-eval/SupervisorEvaluationDocument';
 
 // Opções de documentos para UI
 export const documentOptions: IDocumentOption[] = [
@@ -43,7 +46,7 @@ export const documentOptions: IDocumentOption[] = [
  * Gera dados padrão de avaliação para os formulários de avaliação
  * Estes são valores padrão que podem ser customizados futuramente
  */
-function getDefaultEvaluationData(): IAdvisorEvaluationData & ISupervisorEvaluationData {
+function getDefaultEvaluationData(): IEvaluationData {
   return {
     // Return empty data to let the user fill manually
     communication: undefined,

@@ -2,9 +2,9 @@
  * Mock data for AdvisorEvaluationDocument testing
  */
 
-import type { IAdvisorEvaluationData } from './AdvisorEvaluationDocument';
+import type { IEvaluationData } from '../../shared/components/pdf';
 
-export const mockAdvisorEvaluationData: IAdvisorEvaluationData = {
+export const mockAdvisorEvaluationData: IEvaluationData = {
   communication: 'Ótimo',
   attendance: 'Ótimo',
   cooperation: 'Ótimo',

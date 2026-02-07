@@ -3,8 +3,8 @@
  */
 
 import { PDFViewer } from '@react-pdf/renderer';
+import { SupervisorEvaluationDocument } from '../../shared/components/pdf';
 import { mockReportData } from '../report/mockData';
-import { SupervisorEvaluationDocument } from './SupervisorEvaluationDocument';
 import { mockSupervisorEvaluationData } from './mockData';
 
 export function SupervisorEvaluationPreview() {

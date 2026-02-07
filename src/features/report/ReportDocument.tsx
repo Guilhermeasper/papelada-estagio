@@ -4,24 +4,25 @@
  */
 
 import {
-  Document,
-  Image,
-  Page,
-  StyleSheet,
-  Text,
-  View,
+    Document,
+    Image,
+    Page,
+    StyleSheet,
+    Text,
+    View,
 } from '@react-pdf/renderer';
+import {
+    colors,
+    fonts,
+    formatDatePtBr,
+    getMonthName,
+    PDFBulletList,
+    PDFKeyValueTable,
+    PDFTable,
+    type ColumnConfig,
+    type KeyValueItem,
+} from '../../shared/components/pdf';
 import type { IInternshipData } from '../../shared/domain/types';
-
-// ============================================
-// Colors
-// ============================================
-const colors = {
-  textBlack: '#000000',
-  headerBlue: '#335b8a',
-  subheaderBlue: '#4f81bd',
-  white: '#FFFFFF',
-};
 
 // ============================================
 // Styles
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     paddingBottom: 70,
     paddingLeft: 85,
     paddingRight: 85,
-    fontFamily: 'Times-Roman',
+    fontFamily: fonts.serif,
     fontSize: 12,
     color: colors.textBlack,
     lineHeight: 1.2,
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     paddingBottom: 70,
     paddingLeft: 85,
     paddingRight: 85,
-    fontFamily: 'Times-Roman',
+    fontFamily: fonts.serif,
     fontSize: 12,
     color: colors.textBlack,
   },
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
   // Table of contents
   tocTitle: {
     fontSize: 16,
-    fontFamily: 'Times-Bold',
+    fontFamily: fonts.serifBold,
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
     paddingTop: 6,
   },
   tocItemText: {
-    fontFamily: 'Times-Bold',
+    fontFamily: fonts.serifBold,
     fontSize: 12,
   },
   tocSubItem: {
@@ -113,20 +114,20 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   tocSubItemText: {
-    fontFamily: 'Times-Bold',
+    fontFamily: fonts.serifBold,
     fontSize: 11,
   },
-  // Section headers (Calibri-like for headers per HTML)
+  // Section headers
   h1: {
     fontSize: 16,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: fonts.bold,
     color: colors.headerBlue,
     marginTop: 24,
     marginBottom: 10,
   },
   h2: {
     fontSize: 13,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: fonts.bold,
     color: colors.subheaderBlue,
     marginTop: 10,
     marginBottom: 6,
@@ -138,95 +139,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     lineHeight: 1.3,
   },
-  bulletItem: {
-    flexDirection: 'row',
-    marginBottom: 8,
-    marginLeft: 36,
-    paddingRight: 20,
-  },
-  bullet: {
-    width: 18,
-  },
-  bulletText: {
-    flex: 1,
-    textAlign: 'justify',
-  },
-  // Identification table
-  idTable: {
-    marginTop: 10,
-    borderWidth: 1,
-    borderColor: colors.textBlack,
-  },
-  idTableRow: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.textBlack,
-    minHeight: 28,
-  },
-  idTableRowLast: {
-    flexDirection: 'row',
-    minHeight: 28,
-  },
-  idTableLabel: {
-    width: 200,
-    padding: 5,
-    borderRightWidth: 1,
-    borderRightColor: colors.textBlack,
-    justifyContent: 'center',
-  },
-  idTableValue: {
-    flex: 1,
-    padding: 5,
-    justifyContent: 'center',
-  },
-  // Evaluation table
-  evalTable: {
-    marginTop: 10,
-    borderWidth: 1,
-    borderColor: colors.textBlack,
-  },
-  evalTableRow: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.textBlack,
-  },
-  evalTableRowLast: {
-    flexDirection: 'row',
-  },
-  evalTableHeader: {
-    backgroundColor: colors.white,
-  },
-  evalColItem: {
-    width: 175,
-    padding: 5,
-    borderRightWidth: 1,
-    borderRightColor: colors.textBlack,
-  },
-  evalColGrade: {
-    width: 47,
-    padding: 5,
-    borderRightWidth: 1,
-    borderRightColor: colors.textBlack,
-    textAlign: 'center',
-    justifyContent: 'center',
-  },
-  evalColObs: {
-    width: 214,
-    padding: 5,
-  },
-  evalHeaderText: {
-    fontFamily: 'Helvetica-Bold',
-    fontSize: 10.5,
-    textAlign: 'center',
-  },
-  evalCellText: {
-    fontFamily: 'Helvetica',
-    fontSize: 10.5,
-  },
-  evalCellTextBold: {
-    fontFamily: 'Helvetica-Bold',
-    fontSize: 10.5,
-  },
 });
 
 // ============================================
@@ -234,22 +146,6 @@ const styles = StyleSheet.create({
 // ============================================
 interface ReportDocumentProps {
   data: IInternshipData;
-}
-
-// ============================================
-// Helper Functions
-// ============================================
-function formatDatePtBr(isoDate: string): string {
-  const [year, month, day] = isoDate.split('-');
-  return `${day}/${month}/${year}`;
-}
-
-function getMonthName(month: number): string {
-  const months = [
-    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
-  ];
-  return months[month - 1] || '';
 }
 
 // ============================================
@@ -265,6 +161,61 @@ export function ReportDocument({ data }: ReportDocumentProps) {
 
   // Calculate weekly hours
   const weeklyHours = general.hoursPerDay * 5;
+
+  // ID table items using shared component
+  const idItems: KeyValueItem[] = [
+    { label: 'Nome', value: student.fullName },
+    { label: 'Ano/Semestre de ingresso no curso', value: student.enrollmentYear },
+    { label: 'Instituição concedente do estágio', value: company.companyName },
+    { label: 'Supervisor na instituição concedente', value: supervision.supervisorName },
+    { label: 'Email do supervisor', value: supervision.supervisorEmail },
+    { label: 'Telefone para contato (supervisor)', value: supervision.supervisorPhone },
+    { label: 'Data de início do estágio', value: formatDatePtBr(general.startDate) },
+    { label: 'Data de término do estágio', value: formatDatePtBr(general.endDate) },
+    { label: 'Carga horária semanal', value: `${weeklyHours} horas` },
+    { label: 'Professor Orientador', value: supervision.advisorName },
+  ];
+
+  // Evaluation table columns
+  const evalColumns: ColumnConfig[] = [
+    { key: 'item', header: 'Item', width: 175 },
+    { key: 'grade', header: 'Nota', width: 47, align: 'center', bold: true },
+    { key: 'observation', header: 'Observação', width: 214 },
+  ];
+
+  // Evaluation rows: combine grades and yes/no questions
+  const evalRows = [
+    ...evaluation.grades.map((g) => ({
+      item: g.item,
+      grade: String(g.grade),
+      observation: g.observation,
+    })),
+    {
+      item: 'A concedente permite flexibilidade de horário?',
+      grade: evaluation.flexibleSchedule ? 'sim' : 'não',
+      observation: '',
+    },
+    {
+      item: 'A concedente reduz sua jornada de trabalho no período próximo a provas e/ou trabalhos?',
+      grade: evaluation.reducedDuringExams ? 'sim' : 'não',
+      observation: '',
+    },
+    {
+      item: 'Quando reduz sua jornada de trabalho por causa de provas e/ou trabalhos, a concedente exige que você compense estas horas?',
+      grade: evaluation.requiresCompensation ? 'sim' : 'não',
+      observation: '',
+    },
+    {
+      item: 'A concedente se preocupa com seu desempenho acadêmico?',
+      grade: evaluation.caresAboutAcademics ? 'sim' : 'não',
+      observation: '',
+    },
+    {
+      item: 'Você considera que a UFPE deve manter o convênio com a instituição concedente para que outros estudantes façam estágio nela?',
+      grade: evaluation.recommendsPartnership ? 'sim' : 'não',
+      observation: '',
+    },
+  ];
 
   return (
     <Document>
@@ -334,52 +285,10 @@ export function ReportDocument({ data }: ReportDocumentProps) {
         </View>
       </Page>
 
-      {/* Identificação */}
+      {/* Identificação - using PDFKeyValueTable */}
       <Page size="A4" style={styles.page}>
         <Text style={styles.h1}>Identificação</Text>
-        
-        <View style={styles.idTable}>
-          <View style={styles.idTableRow}>
-            <View style={styles.idTableLabel}><Text>Nome</Text></View>
-            <View style={styles.idTableValue}><Text>{student.fullName}</Text></View>
-          </View>
-          <View style={styles.idTableRow}>
-            <View style={styles.idTableLabel}><Text>Ano/Semestre de ingresso no curso</Text></View>
-            <View style={styles.idTableValue}><Text>{student.enrollmentYear}</Text></View>
-          </View>
-          <View style={styles.idTableRow}>
-            <View style={styles.idTableLabel}><Text>Instituição concedente do estágio</Text></View>
-            <View style={styles.idTableValue}><Text>{company.companyName}</Text></View>
-          </View>
-          <View style={styles.idTableRow}>
-            <View style={styles.idTableLabel}><Text>Supervisor na instituição concedente</Text></View>
-            <View style={styles.idTableValue}><Text>{supervision.supervisorName}</Text></View>
-          </View>
-          <View style={styles.idTableRow}>
-            <View style={styles.idTableLabel}><Text>Email do supervisor</Text></View>
-            <View style={styles.idTableValue}><Text>{supervision.supervisorEmail}</Text></View>
-          </View>
-          <View style={styles.idTableRow}>
-            <View style={styles.idTableLabel}><Text>Telefone para contato (supervisor)</Text></View>
-            <View style={styles.idTableValue}><Text>{supervision.supervisorPhone}</Text></View>
-          </View>
-          <View style={styles.idTableRow}>
-            <View style={styles.idTableLabel}><Text>Data de início do estágio</Text></View>
-            <View style={styles.idTableValue}><Text>{formatDatePtBr(general.startDate)}</Text></View>
-          </View>
-          <View style={styles.idTableRow}>
-            <View style={styles.idTableLabel}><Text>Data de término do estágio</Text></View>
-            <View style={styles.idTableValue}><Text>{formatDatePtBr(general.endDate)}</Text></View>
-          </View>
-          <View style={styles.idTableRow}>
-            <View style={styles.idTableLabel}><Text>Carga horária semanal</Text></View>
-            <View style={styles.idTableValue}><Text>{weeklyHours} horas</Text></View>
-          </View>
-          <View style={styles.idTableRowLast}>
-            <View style={styles.idTableLabel}><Text>Professor Orientador</Text></View>
-            <View style={styles.idTableValue}><Text>{supervision.advisorName}</Text></View>
-          </View>
-        </View>
+        <PDFKeyValueTable items={idItems} labelWidth={200} />
       </Page>
 
       {/* Introdução */}
@@ -388,7 +297,7 @@ export function ReportDocument({ data }: ReportDocumentProps) {
         <Text style={styles.paragraph}>{content.introduction}</Text>
       </Page>
 
-      {/* Objetivos */}
+      {/* Objetivos - using PDFBulletList */}
       <Page size="A4" style={styles.page}>
         <Text style={styles.h1}>Objetivos</Text>
         
@@ -399,12 +308,7 @@ export function ReportDocument({ data }: ReportDocumentProps) {
         <Text style={styles.paragraph}>
           Conforme estabelecido no Plano de Atividades, os objetivos específicos incluíram:
         </Text>
-        {content.objectives.map((obj, index) => (
-          <View key={index} style={styles.bulletItem}>
-            <Text style={styles.bullet}>•</Text>
-            <Text style={styles.bulletText}>{obj}</Text>
-          </View>
-        ))}
+        <PDFBulletList items={content.objectives} />
       </Page>
 
       {/* Cronograma */}
@@ -432,89 +336,10 @@ export function ReportDocument({ data }: ReportDocumentProps) {
         <Text style={styles.paragraph}>{content.development}</Text>
       </Page>
 
-      {/* Avaliação do Estágio */}
+      {/* Avaliação do Estágio - using PDFTable */}
       <Page size="A4" style={styles.page}>
         <Text style={styles.h1}>Avaliação do Estágio</Text>
-        
-        <View style={styles.evalTable}>
-          {/* Header */}
-          <View style={[styles.evalTableRow, styles.evalTableHeader]}>
-            <View style={styles.evalColItem}>
-              <Text style={styles.evalHeaderText}>Item</Text>
-            </View>
-            <View style={styles.evalColGrade}>
-              <Text style={styles.evalHeaderText}>Nota</Text>
-            </View>
-            <View style={styles.evalColObs}>
-              <Text style={styles.evalHeaderText}>Observação</Text>
-            </View>
-          </View>
-          
-          {/* Rows */}
-          {evaluation.grades.map((grade, index) => (
-            <View 
-              key={index} 
-              style={styles.evalTableRow}
-            >
-              <View style={styles.evalColItem}>
-                <Text style={styles.evalCellTextBold}>{grade.item}</Text>
-              </View>
-              <View style={styles.evalColGrade}>
-                <Text style={styles.evalCellTextBold}>{grade.grade}</Text>
-              </View>
-              <View style={styles.evalColObs}>
-                <Text style={styles.evalCellText}>{grade.observation}</Text>
-              </View>
-            </View>
-          ))}
-
-          {/* Yes/No questions */}
-          <View style={styles.evalTableRow}>
-            <View style={styles.evalColItem}>
-              <Text style={styles.evalCellTextBold}>A concedente permite flexibilidade de horário?</Text>
-            </View>
-            <View style={styles.evalColGrade}>
-              <Text style={styles.evalCellTextBold}>{evaluation.flexibleSchedule ? 'sim' : 'não'}</Text>
-            </View>
-            <View style={styles.evalColObs}><Text></Text></View>
-          </View>
-          <View style={styles.evalTableRow}>
-            <View style={styles.evalColItem}>
-              <Text style={styles.evalCellTextBold}>A concedente reduz sua jornada de trabalho no período próximo a provas e/ou trabalhos?</Text>
-            </View>
-            <View style={styles.evalColGrade}>
-              <Text style={styles.evalCellTextBold}>{evaluation.reducedDuringExams ? 'sim' : 'não'}</Text>
-            </View>
-            <View style={styles.evalColObs}><Text></Text></View>
-          </View>
-          <View style={styles.evalTableRow}>
-            <View style={styles.evalColItem}>
-              <Text style={styles.evalCellTextBold}>Quando reduz sua jornada de trabalho por causa de provas e/ou trabalhos, a concedente exige que você compense estas horas?</Text>
-            </View>
-            <View style={styles.evalColGrade}>
-              <Text style={styles.evalCellTextBold}>{evaluation.requiresCompensation ? 'sim' : 'não'}</Text>
-            </View>
-            <View style={styles.evalColObs}><Text></Text></View>
-          </View>
-          <View style={styles.evalTableRow}>
-            <View style={styles.evalColItem}>
-              <Text style={styles.evalCellTextBold}>A concedente se preocupa com seu desempenho acadêmico?</Text>
-            </View>
-            <View style={styles.evalColGrade}>
-              <Text style={styles.evalCellTextBold}>{evaluation.caresAboutAcademics ? 'sim' : 'não'}</Text>
-            </View>
-            <View style={styles.evalColObs}><Text></Text></View>
-          </View>
-          <View style={styles.evalTableRowLast}>
-            <View style={styles.evalColItem}>
-              <Text style={styles.evalCellTextBold}>Você considera que a UFPE deve manter o convênio com a instituição concedente para que outros estudantes façam estágio nela?</Text>
-            </View>
-            <View style={styles.evalColGrade}>
-              <Text style={styles.evalCellTextBold}>{evaluation.recommendsPartnership ? 'sim' : 'não'}</Text>
-            </View>
-            <View style={styles.evalColObs}><Text></Text></View>
-          </View>
-        </View>
+        <PDFTable columns={evalColumns} rows={evalRows} />
       </Page>
 
       {/* Conclusão */}

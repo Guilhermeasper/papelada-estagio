@@ -4,30 +4,24 @@
  */
 
 import {
-    Document,
-    Image,
-    Page,
-    StyleSheet,
-    Text,
-    View
+  Document,
+  Image,
+  Page,
+  StyleSheet,
+  Text,
+  View
 } from '@react-pdf/renderer';
+import {
+  colors,
+  fonts,
+  formatDatePtBr,
+  formatFullDate,
+  PDFFieldRow,
+  PDFNumberedList,
+  PDFTable,
+  type ColumnConfig,
+} from '../../shared/components/pdf';
 import type { IInternshipData } from '../../shared/domain/types';
-
-// ============================================
-// Font Registration - Using Helvetica (built-in, closest to Tahoma)
-// ============================================
-// Note: Tahoma is not available as a web font. Helvetica is a built-in
-// PDF font that closely resembles Tahoma's appearance.
-
-// ============================================
-// CIn-UFPE Visual Identity
-// ============================================
-const colors = {
-  primaryRed: '#DB1E2F',
-  textBlack: '#231F20',
-  borderGray: '#E0E1E0',
-  white: '#FFFFFF',
-};
 
 // ============================================
 // Styles
@@ -38,7 +32,7 @@ const styles = StyleSheet.create({
     paddingBottom: 70,
     paddingLeft: 85,
     paddingRight: 56,
-    fontFamily: 'Helvetica',
+    fontFamily: fonts.regular,
     fontSize: 10,
     color: colors.textBlack,
     lineHeight: 1.0,
@@ -55,13 +49,13 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 10,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: fonts.bold,
     textAlign: 'center',
     lineHeight: 1.5,
   },
   documentTitle: {
     fontSize: 10,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: fonts.bold,
     textAlign: 'center',
     marginTop: 15,
     marginBottom: 8,
@@ -69,7 +63,7 @@ const styles = StyleSheet.create({
   // Sections
   sectionTitle: {
     fontSize: 10,
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: fonts.bold,
     marginTop: 12,
     marginBottom: 6,
   },
@@ -78,77 +72,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 4,
     marginLeft: 32,
-  },
-  // Field rows
-  fieldRow: {
-    flexDirection: 'row',
-    marginBottom: 3,
-    marginLeft: 35,
-    flexWrap: 'wrap',
-  },
-  fieldLabel: {
-    fontFamily: 'Helvetica-Bold',
-  },
-  fieldValue: {
-    fontWeight: 400,
-    flex: 1,
-  },
-  // Numbered lists
-  listItem: {
-    flexDirection: 'row',
-    marginBottom: 4,
-    marginLeft: 60,
-    paddingRight: 20,
-  },
-  listNumber: {
-    width: 18,
-    fontWeight: 400,
-  },
-  listContent: {
-    flex: 1,
-    textAlign: 'justify',
-  },
-  // Table
-  table: {
-    marginTop: 10,
-    marginLeft: 35,
-    borderWidth: 1,
-    borderColor: colors.textBlack,
-  },
-  tableRow: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.textBlack,
-  },
-  tableRowLast: {
-    flexDirection: 'row',
-  },
-  tableHeader: {
-    backgroundColor: colors.white,
-  },
-  tableColTopic: {
-    width: 98,
-    padding: 4,
-    borderRightWidth: 1,
-    borderRightColor: colors.textBlack,
-  },
-  tableColDesc: {
-    width: 205,
-    padding: 4,
-    borderRightWidth: 1,
-    borderRightColor: colors.textBlack,
-  },
-  tableColWeight: {
-    width: 44,
-    padding: 4,
-    textAlign: 'center',
-  },
-  tableHeaderText: {
-    fontFamily: 'Helvetica-Bold',
-    textAlign: 'center',
-  },
-  tableCellText: {
-    fontFamily: 'Helvetica',
   },
   // Evaluation text
   evaluationText: {
@@ -173,12 +96,15 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   signatureLabel: {
-    fontFamily: 'Helvetica-Bold',
+    fontFamily: fonts.bold,
   },
   signatureSubLabel: {
     marginLeft: 35,
     fontSize: 9,
     marginBottom: 15,
+  },
+  fieldLabel: {
+    fontFamily: fonts.bold,
   },
   // Footer
   footerNote: {
@@ -189,82 +115,41 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     textAlign: 'justify',
   },
+  // Schedule item (custom for period - description format)
+  scheduleItem: {
+    flexDirection: 'row',
+    marginBottom: 4,
+    marginLeft: 60,
+    paddingRight: 20,
+  },
+  scheduleNumber: {
+    width: 18,
+  },
+  scheduleContent: {
+    flex: 1,
+    textAlign: 'justify',
+  },
 });
+
+// ============================================
+// Evaluation Table Data
+// ============================================
+const evaluationCriteria = [
+  { topic: 'Assiduidade', description: 'Frequência e participação', weight: '2' },
+  { topic: 'Comprometimento', description: 'Aderência a prazos e objetivos acordados', weight: '2' },
+  { topic: 'Independência', description: 'Evolução autônoma', weight: '1' },
+  { topic: 'Criatividade', description: 'Encontrar soluções inovadoras', weight: '1' },
+  { topic: 'Liderança', description: 'Defesa do ponto de vista', weight: '1' },
+  { topic: 'Relacionamento', description: 'Trabalho em equipe', weight: '3' },
+  { topic: 'Domínio Teórico', description: 'Capacidade técnica', weight: '3' },
+  { topic: 'Iniciativa', description: 'Ação proativa', weight: '2' },
+];
 
 // ============================================
 // Props Interface
 // ============================================
 interface ActivityPlanDocumentProps {
   data: IInternshipData;
-}
-
-// ============================================
-// Helper Components
-// ============================================
-interface FieldRowProps {
-  label: string;
-  value: string;
-}
-
-function FieldRow({ label, value }: FieldRowProps) {
-  return (
-    <View style={styles.fieldRow}>
-      <Text style={styles.fieldLabel}>{label}: </Text>
-      <Text style={styles.fieldValue}>{value}</Text>
-    </View>
-  );
-}
-
-interface NumberedListProps {
-  items: string[];
-}
-
-function NumberedList({ items }: NumberedListProps) {
-  return (
-    <View>
-      {items.map((item, index) => (
-        <View key={index} style={styles.listItem}>
-          <Text style={styles.listNumber}>{index + 1}.</Text>
-          <Text style={styles.listContent}>{item}</Text>
-        </View>
-      ))}
-    </View>
-  );
-}
-
-// ============================================
-// Evaluation Table Data
-// ============================================
-const evaluationCriteria = [
-  { topic: 'Assiduidade', description: 'Frequência e participação', weight: 2 },
-  { topic: 'Comprometimento', description: 'Aderência a prazos e objetivos acordados', weight: 2 },
-  { topic: 'Independência', description: 'Evolução autônoma', weight: 1 },
-  { topic: 'Criatividade', description: 'Encontrar soluções inovadoras', weight: 1 },
-  { topic: 'Liderança', description: 'Defesa do ponto de vista', weight: 1 },
-  { topic: 'Relacionamento', description: 'Trabalho em equipe', weight: 3 },
-  { topic: 'Domínio Teórico', description: 'Capacidade técnica', weight: 3 },
-  { topic: 'Iniciativa', description: 'Ação proativa', weight: 2 },
-];
-
-// ============================================
-// Date Formatting Helper
-// ============================================
-function formatDatePtBr(isoDate: string): string {
-  const [year, month, day] = isoDate.split('-');
-  return `${day}/${month}/${year}`;
-}
-
-function getMonthName(month: number): string {
-  const months = [
-    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
-  ];
-  return months[month - 1] || '';
-}
-
-function formatFullDate(isoDate: string): string {
-  const [year, month, day] = isoDate.split('-').map(Number);
-  return `${day} de ${getMonthName(month)} de ${year}`;
 }
 
 // ============================================
@@ -277,6 +162,13 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
   const endDateObj = new Date(general.endDate);
   endDateObj.setDate(endDateObj.getDate() + 12);
   const evalDate = endDateObj.toISOString().split('T')[0];
+
+  // Evaluation table columns
+  const evalColumns: ColumnConfig[] = [
+    { key: 'topic', header: 'TÓPICO', width: 98 },
+    { key: 'description', header: 'DESCRIÇÃO', width: 205 },
+    { key: 'weight', header: 'PESO', width: 44, align: 'center' },
+  ];
 
   return (
     <Document>
@@ -303,19 +195,19 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
 
         {/* Section 1: Student Data */}
         <Text style={styles.sectionTitle}>1. DADOS DE IDENTIFICAÇÃO DO ESTAGIÁRIO</Text>
-        <FieldRow label="Nome" value={student.fullName} />
-        <FieldRow label="E-mail" value={student.email} />
-        <FieldRow label="Endereço" value={student.address} />
-        <FieldRow label="Telefone" value={student.phone} />
-        <FieldRow label="Curso" value={student.course} />
-        <FieldRow label="Ano de Ingresso" value={student.enrollmentYear} />
-        <FieldRow label="Matrícula" value={student.studentId} />
+        <PDFFieldRow label="Nome" value={student.fullName} />
+        <PDFFieldRow label="E-mail" value={student.email} />
+        <PDFFieldRow label="Endereço" value={student.address} />
+        <PDFFieldRow label="Telefone" value={student.phone} />
+        <PDFFieldRow label="Curso" value={student.course} />
+        <PDFFieldRow label="Ano de Ingresso" value={student.enrollmentYear} />
+        <PDFFieldRow label="Matrícula" value={student.studentId} />
 
         {/* Section 2: Company Data */}
         <Text style={styles.sectionTitle}>2. IDENTIFICAÇÃO DA EMPRESA</Text>
-        <FieldRow label="Empresa" value={company.companyName} />
-        <FieldRow label="Endereço" value={company.companyAddress} />
-        <FieldRow label="CNPJ" value={company.companyCnpj} />
+        <PDFFieldRow label="Empresa" value={company.companyName} />
+        <PDFFieldRow label="Endereço" value={company.companyAddress} />
+        <PDFFieldRow label="CNPJ" value={company.companyCnpj} />
 
         {/* Section 3: Internship Program */}
         <Text style={styles.sectionTitle}>3. PROGRAMA DE ESTÁGIO</Text>
@@ -323,40 +215,23 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
         <Text style={styles.subsectionTitle}>
           3.1. Informações Gerais: Período (Vigência), Carga Horária, Dias e horário
         </Text>
-        <View style={[styles.fieldRow, { marginLeft: 60 }]}>
-          <Text style={styles.fieldLabel}>Período: </Text>
-          <Text style={styles.fieldValue}>
-            {formatDatePtBr(general.startDate)} – {formatDatePtBr(general.endDate)}
-          </Text>
-        </View>
-        <View style={[styles.fieldRow, { marginLeft: 60 }]}>
-          <Text style={styles.fieldLabel}>Carga Horária: </Text>
-          <Text style={styles.fieldValue}>{general.hoursPerDay}h/dia</Text>
-        </View>
-        <View style={[styles.fieldRow, { marginLeft: 60 }]}>
-          <Text style={styles.fieldLabel}>Dias: </Text>
-          <Text style={styles.fieldValue}>{general.workDays}</Text>
-        </View>
-        <View style={[styles.fieldRow, { marginLeft: 60 }]}>
-          <Text style={styles.fieldLabel}>Horário: </Text>
-          <Text style={styles.fieldValue}>{general.workSchedule}</Text>
-        </View>
-        <View style={[styles.fieldRow, { marginLeft: 60 }]}>
-          <Text style={styles.fieldLabel}>Modalidade: </Text>
-          <Text style={styles.fieldValue}>{general.modality}</Text>
-        </View>
+        <PDFFieldRow label="Período" value={`${formatDatePtBr(general.startDate)} – ${formatDatePtBr(general.endDate)}`} marginLeft={60} />
+        <PDFFieldRow label="Carga Horária" value={`${general.hoursPerDay}h/dia`} marginLeft={60} />
+        <PDFFieldRow label="Dias" value={general.workDays} marginLeft={60} />
+        <PDFFieldRow label="Horário" value={general.workSchedule} marginLeft={60} />
+        <PDFFieldRow label="Modalidade" value={general.modality} marginLeft={60} />
 
         <Text style={styles.subsectionTitle}>3.2. Atividades a serem desenvolvidas</Text>
-        <NumberedList items={content.activities} />
+        <PDFNumberedList items={content.activities} marginLeft={60} />
 
         <Text style={styles.subsectionTitle}>3.3. Objetivos / metas a serem atingidas</Text>
-        <NumberedList items={content.objectives} />
+        <PDFNumberedList items={content.objectives} marginLeft={60} />
 
         <Text style={styles.subsectionTitle}>3.4. Cronograma</Text>
         {content.schedule.map((item, index) => (
-          <View key={index} style={styles.listItem}>
-            <Text style={styles.listNumber}>{index + 1}.</Text>
-            <Text style={styles.listContent}>
+          <View key={index} style={styles.scheduleItem}>
+            <Text style={styles.scheduleNumber}>{index + 1}.</Text>
+            <Text style={styles.scheduleContent}>
               {item.period} – {item.description}
             </Text>
           </View>
@@ -366,19 +241,19 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
         <Text style={styles.sectionTitle}>4. ORIENTAÇÃO E SUPERVISÃO</Text>
         
         <Text style={[styles.fieldLabel, { marginLeft: 0, marginBottom: 8 }]}>SUPERVISOR:</Text>
-        <FieldRow label="Nome" value={supervision.supervisorName} />
-        <FieldRow label="E-mail" value={supervision.supervisorEmail} />
-        <FieldRow label="Telefone" value={supervision.supervisorPhone} />
-        <FieldRow label="Cargo" value={supervision.supervisorPosition} />
-        <FieldRow label="CPF" value={supervision.supervisorCpf} />
+        <PDFFieldRow label="Nome" value={supervision.supervisorName} />
+        <PDFFieldRow label="E-mail" value={supervision.supervisorEmail} />
+        <PDFFieldRow label="Telefone" value={supervision.supervisorPhone} />
+        <PDFFieldRow label="Cargo" value={supervision.supervisorPosition} />
+        <PDFFieldRow label="CPF" value={supervision.supervisorCpf} />
 
         <Text style={[styles.fieldLabel, { marginLeft: 0, marginTop: 15, marginBottom: 8 }]}>
           PROFESSOR ORIENTADOR:
         </Text>
-        <FieldRow label="Nome" value={supervision.advisorName} />
-        <FieldRow label="E-mail" value={supervision.advisorEmail} />
-        <FieldRow label="SIAPE" value={supervision.advisorSiape} />
-        <FieldRow label="Cargo" value={supervision.advisorPosition} />
+        <PDFFieldRow label="Nome" value={supervision.advisorName} />
+        <PDFFieldRow label="E-mail" value={supervision.advisorEmail} />
+        <PDFFieldRow label="SIAPE" value={supervision.advisorSiape} />
+        <PDFFieldRow label="Cargo" value={supervision.advisorPosition} />
 
         {/* Section 5: Evaluation */}
         <Text style={styles.sectionTitle}>
@@ -390,10 +265,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
           Ao fim do segundo período o supervisor produzirá um relatório acerca da integração 
           do estagiário com a rotina da corporação e sua interação intra e extra departamental.
         </Text>
-        <View style={[styles.fieldRow, { marginBottom: 8 }]}>
-          <Text>Data para emissão do parecer: </Text>
-          <Text>{formatDatePtBr(evalDate)}</Text>
-        </View>
+        <PDFFieldRow label="Data para emissão do parecer" value={formatDatePtBr(evalDate)} />
         <Text style={styles.evaluationText}>
           Para cada um dos itens abaixo será emitida uma nota de 1 a 5, sendo:
         </Text>
@@ -407,38 +279,8 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
           Farão parte do relatório:
         </Text>
 
-        {/* Evaluation Table */}
-        <View style={styles.table}>
-          {/* Header */}
-          <View style={[styles.tableRow, styles.tableHeader]}>
-            <View style={styles.tableColTopic}>
-              <Text style={styles.tableHeaderText}>TÓPICO</Text>
-            </View>
-            <View style={styles.tableColDesc}>
-              <Text style={styles.tableHeaderText}>DESCRIÇÃO</Text>
-            </View>
-            <View style={styles.tableColWeight}>
-              <Text style={styles.tableHeaderText}>PESO</Text>
-            </View>
-          </View>
-          {/* Rows */}
-          {evaluationCriteria.map((criterion, index) => (
-            <View 
-              key={index} 
-              style={index === evaluationCriteria.length - 1 ? styles.tableRowLast : styles.tableRow}
-            >
-              <View style={styles.tableColTopic}>
-                <Text style={styles.tableCellText}>{criterion.topic}</Text>
-              </View>
-              <View style={styles.tableColDesc}>
-                <Text style={styles.tableCellText}>{criterion.description}</Text>
-              </View>
-              <View style={styles.tableColWeight}>
-                <Text style={styles.tableCellText}>{criterion.weight}</Text>
-              </View>
-            </View>
-          ))}
-        </View>
+        {/* Evaluation Table using shared PDFTable */}
+        <PDFTable columns={evalColumns} rows={evaluationCriteria} marginLeft={35} />
 
         <Text style={[styles.evaluationText, { marginTop: 15 }]}>
           O objetivo do terceiro período é a entrega das aplicações e a avaliação da técnica 
@@ -484,7 +326,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
             _________________________________
           </Text>
           <Text style={styles.signatureSubLabel}>
-                                                                (Não colocar nome)
+                                                             (Não colocar nome)
           </Text>
         </View>
 
