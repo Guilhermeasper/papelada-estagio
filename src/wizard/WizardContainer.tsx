@@ -1,8 +1,6 @@
-
-
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Button, ThemeToggle } from '../components';
-import { PersistedWizardState, useTheme, useWizardPersistence } from '../hooks';
+import { Button } from '../components';
+import { PersistedWizardState, useWizardPersistence } from '../hooks';
 import {
   ICompanyData,
   IInternshipContent,
@@ -105,12 +103,10 @@ function ExitConfirmDialog({ isOpen, onSaveAndExit, onExitWithoutSaving, onCance
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-
       <div 
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onCancel}
       />
-      
 
       <div className="relative bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
         <h2 className="text-lg md:text-xl font-bold text-text-primary dark:text-text-primary-dark mb-3">
@@ -163,12 +159,10 @@ function ResetConfirmDialog({ isOpen, onConfirm, onCancel }: ResetDialogProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-
       <div 
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onCancel}
       />
-      
 
       <div className="relative bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
         <h2 className="text-lg md:text-xl font-bold text-text-primary dark:text-text-primary-dark mb-3">
@@ -224,12 +218,10 @@ function ImportConfirmDialog({ isOpen, previewData, onConfirm, onCancel, error }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onCancel}
       />
-
 
       <div className="relative bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
         {error ? (
@@ -303,136 +295,19 @@ function ImportConfirmDialog({ isOpen, previewData, onConfirm, onCancel, error }
   );
 }
 
-function ThemeToggleButton() {
-  const { effectiveTheme, toggleTheme } = useTheme();
-  const isDark = effectiveTheme === 'dark';
 
-  return (
-    <Button
-      onClick={toggleTheme}
-      variant="ghost"
-      className="w-full justify-start px-4 py-2.5 font-normal"
-    >
-      {isDark ? (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-      ) : (
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-        </svg>
-      )}
-      {isDark ? 'Tema claro' : 'Tema escuro'}
-    </Button>
-  );
-}
-
-
-interface HeaderActionsDropdownProps {
+export interface WizardActions {
   hasProgress: boolean;
   onImport: () => void;
   onExport: () => void;
   onReset: () => void;
 }
 
-function HeaderActionsDropdown({ hasProgress, onImport, onExport, onReset }: HeaderActionsDropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  return (
-    <div ref={dropdownRef} className="relative md:hidden">
-
-      <Button
-        onClick={() => setIsOpen(!isOpen)}
-        variant="ghost"
-        size="icon"
-        aria-label="Opções"
-      >
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-        </svg>
-
-        {hasProgress && (
-          <span className="absolute top-1 right-1 w-2 h-2 bg-green-500 rounded-full" />
-        )}
-      </Button>
-
-
-      {isOpen && (
-        <div className="absolute right-0 mt-2 w-52 bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg shadow-lg border border-border dark:border-border-dark py-1 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-
-          {hasProgress && (
-            <>
-              <div className="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary dark:text-text-secondary-dark">
-                <div className="w-2 h-2 bg-green-500 rounded-full" />
-                Progresso salvo
-              </div>
-              <div className="border-t border-border dark:border-border-dark my-1" />
-            </>
-          )}
-
-
-          <ThemeToggleButton />
-
-          <div className="border-t border-border dark:border-border-dark my-1" />
-
-
-          <Button
-            onClick={() => { onImport(); setIsOpen(false); }}
-            variant="ghost"
-            className="w-full justify-start px-4 py-2.5 font-normal"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-            </svg>
-            Importar
-          </Button>
-
-          {hasProgress && (
-            <>
-              <Button
-                onClick={() => { onExport(); setIsOpen(false); }}
-                variant="ghost"
-                className="w-full justify-start px-4 py-2.5 font-normal"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                Exportar
-              </Button>
-
-              <div className="border-t border-border dark:border-border-dark my-1" />
-
-              <Button
-                onClick={() => { onReset(); setIsOpen(false); }}
-                variant="danger-ghost"
-                className="w-full justify-start px-4 py-2.5 font-normal"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-                Limpar dados
-              </Button>
-            </>
-          )}
-        </div>
-      )}
-    </div>
-  );
+interface WizardContainerProps {
+  onActionsReady?: (actions: WizardActions) => void;
 }
 
-export function WizardContainer() {
+export function WizardContainer({ onActionsReady }: WizardContainerProps) {
   const [currentStep, setCurrentStep] = useState<WizardStep>(1);
   const [data, setData] = useState<IInternshipData>(createInitialData);
   const [completedSteps, setCompletedSteps] = useState<WizardStep[]>([]);
@@ -461,7 +336,6 @@ export function WizardContainer() {
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-
       if (completedSteps.length > 0 || currentStep > 1) {
         e.preventDefault();
         e.returnValue = '';
@@ -472,6 +346,31 @@ export function WizardContainer() {
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [completedSteps, currentStep]);
+
+
+  const handleExport = useCallback(() => {
+    exportProgress();
+  }, [exportProgress]);
+
+  const handleImportClick = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
+  const handleResetClick = useCallback(() => {
+    setShowResetDialog(true);
+  }, []);
+
+
+  useEffect(() => {
+    if (isInitialized && onActionsReady) {
+      onActionsReady({
+        hasProgress: hasProgress(),
+        onImport: handleImportClick,
+        onExport: handleExport,
+        onReset: handleResetClick,
+      });
+    }
+  }, [isInitialized, hasProgress, handleImportClick, handleExport, handleResetClick, onActionsReady]);
 
 
   const persistProgress = useCallback((newData: IInternshipData, step: WizardStep, newCompletedSteps: WizardStep[]) => {
@@ -538,14 +437,12 @@ export function WizardContainer() {
   const handleSaveAndExit = () => {
     saveProgress(data, currentStep, completedSteps);
     setShowExitDialog(false);
-
     window.removeEventListener('beforeunload', () => {});
   };
 
   const handleExitWithoutSaving = () => {
     clearProgress();
     setShowExitDialog(false);
-
     setData(createInitialData());
     setCurrentStep(1);
     setCompletedSteps([]);
@@ -558,11 +455,6 @@ export function WizardContainer() {
     setData(createInitialData());
     setCurrentStep(1);
     setCompletedSteps([]);
-  };
-
-
-  const handleExport = () => {
-    exportProgress();
   };
 
 
@@ -581,7 +473,6 @@ export function WizardContainer() {
     }
     
     setShowImportDialog(true);
-    
 
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -636,15 +527,14 @@ export function WizardContainer() {
 
   if (!isInitialized) {
     return (
-      <div className="min-h-screen bg-surface dark:bg-surface-dark flex items-center justify-center">
+      <div className="flex items-center justify-center py-12">
         <StepLoading />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-surface dark:bg-surface-dark">
-
+    <>
       <ExitConfirmDialog
         isOpen={showExitDialog}
         onSaveAndExit={handleSaveAndExit}
@@ -652,13 +542,11 @@ export function WizardContainer() {
         onCancel={() => setShowExitDialog(false)}
       />
 
-
       <ResetConfirmDialog
         isOpen={showResetDialog}
         onConfirm={handleReset}
         onCancel={() => setShowResetDialog(false)}
       />
-
 
       <ImportConfirmDialog
         isOpen={showImportDialog}
@@ -668,7 +556,6 @@ export function WizardContainer() {
         error={importError}
       />
 
-
       <input
         type="file"
         ref={fileInputRef}
@@ -677,101 +564,19 @@ export function WizardContainer() {
         className="hidden"
       />
 
-
-      <header className="bg-surface-elevated dark:bg-surface-elevated-dark border-b border-border dark:border-border-dark">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-4">
-
-            <div className="w-12 h-12 bg-cin-red rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">CIn</span>
-            </div>
-            <div>
-              <h1 className="text-lg md:text-xl font-bold text-text-primary dark:text-text-primary-dark">
-                Documentos de Estágio
-              </h1>
-              <p className="text-xs md:text-sm text-text-secondary dark:text-text-secondary-dark">
-                Centro de Informática - UFPE
-              </p>
-            </div>
-            
-
-            <div className="ml-auto flex items-center gap-2">
-
-              <HeaderActionsDropdown
-                hasProgress={hasProgress()}
-                onImport={() => fileInputRef.current?.click()}
-                onExport={handleExport}
-                onReset={() => setShowResetDialog(true)}
-              />
-
-
-              <div className="hidden md:flex items-center gap-2">
-
-                {hasProgress() && (
-                  <div className="flex items-center gap-2 text-sm text-text-secondary dark:text-text-secondary-dark">
-                    <div className="w-2 h-2 bg-green-500 rounded-full" />
-                    <span>Salvo</span>
-                  </div>
-                )}
-
-
-                <Button
-                  onClick={() => fileInputRef.current?.click()}
-                  variant="ghost"
-                  size="sm"
-                  title="Importar progresso de arquivo JSON"
-                >
-                  Importar
-                </Button>
-
-
-                {hasProgress() && (
-                  <>
-                    <Button
-                      onClick={handleExport}
-                      variant="ghost"
-                      size="sm"
-                      title="Exportar progresso como JSON"
-                    >
-                      Exportar
-                    </Button>
-
-                    <Button
-                      onClick={() => setShowResetDialog(true)}
-                      variant="danger-ghost"
-                      size="sm"
-                    >
-                      Limpar
-                    </Button>
-                  </>
-                )}
-
-
-                <ThemeToggle />
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-
-      <main className="max-w-6xl mx-auto px-4 py-8">
-
+      <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="md:hidden mb-4">
           <MobileStepPopover currentStep={currentStep} steps={STEPS} completedSteps={completedSteps} onStepClick={goToStep} />
         </div>
 
         <div className="flex gap-8">
-
-          <aside className="hidden md:block w-64 flex-shrink-0">
+          <aside className="hidden md:block w-64 shrink-0">
             <div className="sticky top-8">
               <StepIndicator currentStep={currentStep} steps={STEPS} completedSteps={completedSteps} onStepClick={goToStep} />
             </div>
           </aside>
 
-
           <div className="flex-1 min-w-0">
-
             {(() => {
               const highestCompleted = completedSteps.length > 0 ? Math.max(...completedSteps) : 0;
               const workingStep = Math.min(highestCompleted + 1, TOTAL_STEPS) as WizardStep;
@@ -799,15 +604,7 @@ export function WizardContainer() {
             </div>
           </div>
         </div>
-      </main>
-
-      <footer className="bg-surface-elevated dark:bg-surface-elevated-dark border-t border-border dark:border-border-dark mt-auto">
-        <div className="max-w-6xl mx-auto px-4 py-4">
-          <p className="text-center text-sm text-text-secondary dark:text-text-secondary-dark">
-            © {new Date().getFullYear()} Centro de Informática - UFPE
-          </p>
-        </div>
-      </footer>
-    </div>
+      </div>
+    </>
   );
 }

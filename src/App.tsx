@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ErrorBoundary } from '../components';
+import { ErrorBoundary } from './components';
 import { DEFAULT_ROUTE_COMPONENT, ROUTE_MAP } from './routes';
 
 function App() {

@@ -1,7 +1,7 @@
 
 import { PDFViewer } from '@react-pdf/renderer';
-import { ReportDocument } from '../../documents/report/ReportDocument';
-import { mockInternshipData } from '../../mocks/mockInternshipData';
+import { ReportDocument } from '../documents/report/ReportDocument';
+import { mockInternshipData } from '../mocks/mockInternshipData';
 
 export function ReportPage() {
   return (
