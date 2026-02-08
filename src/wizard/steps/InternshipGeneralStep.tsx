@@ -3,7 +3,10 @@ import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Button, Input, Select } from "../../components";
 import { useDebounce } from "../../hooks";
-import { dateService } from "../../services";
+import {
+  calculateEndDate,
+  getPeriodInfo,
+} from "../../utils/dateCalculator";
 import { formatDatePtBr } from "../../utils/dateUtils";
 import {
   InternshipGeneralFormData,
@@ -42,7 +45,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
 
   useEffect(() => {
     if (debouncedStartDate && debouncedHoursPerDay) {
-      const result = dateService.calculateEndDate(
+      const result = calculateEndDate(
         debouncedStartDate,
         debouncedHoursPerDay,
       );
@@ -53,7 +56,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
   }, [debouncedStartDate, debouncedHoursPerDay, setValue]);
 
   const periodInfo = useMemo(() => {
-    return dateService.getPeriodInfo(startDate, endDate, hoursPerDay);
+    return getPeriodInfo(startDate, endDate, hoursPerDay);
   }, [startDate, endDate, hoursPerDay]);
 
   const onSubmit = (formData: InternshipGeneralFormData) => {

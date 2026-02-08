@@ -6,6 +6,7 @@ import {
 } from "../constants";
 import {
   addDays,
+  formatDatePtBr,
   getDayOfWeekPtBr,
   parseIsoDate,
   toIsoString,
@@ -168,4 +169,29 @@ export function validateInternshipPeriod(
   }
 
   return { valid: true };
+}
+
+export interface PeriodInfo {
+  workdays: number;
+  totalHours: number;
+  formattedPeriod: string;
+  meetsMinimumHours: boolean;
+}
+
+export function getPeriodInfo(
+  startDate: string,
+  endDate: string,
+  hoursPerDay: number,
+): PeriodInfo | null {
+  if (!startDate || !endDate || !hoursPerDay) return null;
+
+  const workdays = countWorkdays(startDate, endDate);
+  const totalHours = workdays * hoursPerDay;
+
+  return {
+    workdays,
+    totalHours,
+    formattedPeriod: `${formatDatePtBr(startDate)} a ${formatDatePtBr(endDate)}`,
+    meetsMinimumHours: totalHours >= MIN_INTERNSHIP_HOURS,
+  };
 }
