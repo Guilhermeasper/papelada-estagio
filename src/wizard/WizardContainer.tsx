@@ -4,7 +4,7 @@ import type { WizardDataActions, WizardDataState } from "../hooks";
 import type { WizardStep } from "../types/types";
 import { MobileStepPopover } from "./MobileStepPopover";
 import { StepIndicator } from "./StepIndicator";
-import { STEPS, TOTAL_STEPS } from "./stepConfig";
+import { STEPS, TOTAL_STEPS } from "./data/steps";
 import { STEP_REGISTRY } from "./stepRegistry";
 
 function StepLoading() {

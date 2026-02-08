@@ -1,6 +1,6 @@
 import { Button, ChecklistCard, ChecklistItem } from "../../components";
+import { checklistData } from "../data/checklist";
 import type { IStep1Props } from "../step-types";
-import { checklistData } from "./checklistData";
 
 export function ChecklistStep({ onNext }: IStep1Props) {
   return (
