@@ -1,4 +1,3 @@
-import { View } from "@react-pdf/renderer";
 import {
   formatDatePtBr,
   getMonthName,
@@ -7,11 +6,16 @@ import {
   PDFTable,
   type ColumnConfig,
   type KeyValueItem,
-} from "../../components/pdf";
-import { DocSectionTitle, DocText, DocTitle } from "../../components/pdf/atoms";
-import { DocumentLayout } from "../../components/pdf/DocumentLayout";
-import { PDF_CONTENT } from "../../constants/pdf-content";
-import { IInternshipData } from "../../types";
+} from "@papelada-estagio/components/pdf";
+import {
+  DocSectionTitle,
+  DocText,
+  DocTitle,
+} from "@papelada-estagio/components/pdf/atoms";
+import { DocumentLayout } from "@papelada-estagio/components/pdf/DocumentLayout";
+import { PDF_CONTENT } from "@papelada-estagio/constants/pdf-content";
+import { IInternshipData } from "@papelada-estagio/types";
+import { View } from "@react-pdf/renderer";
 
 interface ReportDocumentProps {
   data: IInternshipData;

@@ -1,6 +1,6 @@
+import { ReportDocument } from "@papelada-estagio/documents/report/ReportDocument";
+import { mockInternshipData } from "@papelada-estagio/mocks/mockInternshipData";
 import { PDFViewer } from "@react-pdf/renderer";
-import { ReportDocument } from "../documents/report/ReportDocument";
-import { mockInternshipData } from "../mocks/mockInternshipData";
 
 export function ReportPage() {
   return (

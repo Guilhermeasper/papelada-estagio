@@ -1,4 +1,4 @@
-import type { IInternshipData } from "../types";
+import type { IInternshipData } from "@papelada-estagio/types";
 
 export const mockActivityPlanData: IInternshipData = {
   student: {

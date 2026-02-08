@@ -1,8 +1,8 @@
-import type { IInternshipData } from "../../types";
 import {
   EvaluationDocument,
   type IEvaluationFormData,
-} from "../assessments/pdf/EvaluationDocument";
+} from "@papelada-estagio/documents/assessments/pdf/EvaluationDocument";
+import type { IInternshipData } from "@papelada-estagio/types";
 
 interface AdvisorEvaluationDocumentProps {
   data: IInternshipData;

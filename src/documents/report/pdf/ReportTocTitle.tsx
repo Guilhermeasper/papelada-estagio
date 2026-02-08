@@ -1,6 +1,6 @@
+import { fonts } from "@papelada-estagio/components/pdf";
 import { StyleSheet, Text } from "@react-pdf/renderer";
 import type { ReactNode } from "react";
-import { fonts } from "../../../components/pdf";
 
 const styles = StyleSheet.create({
   tocTitle: {

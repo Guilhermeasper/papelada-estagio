@@ -1,18 +1,18 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { Button, Input, Select } from "../../components";
-import { useDebounce } from "../../hooks";
-import { IStep4Props } from "../../types";
+import { Button, Input, Select } from "@papelada-estagio/components";
+import { useDebounce } from "@papelada-estagio/hooks";
+import { IStep4Props } from "@papelada-estagio/types";
 import {
   calculateEndDate,
   getPeriodInfo,
-} from "../../utils/dateCalculator";
-import { formatDatePtBr } from "../../utils/dateUtils";
+} from "@papelada-estagio/utils/dateCalculator";
+import { formatDatePtBr } from "@papelada-estagio/utils/dateUtils";
 import {
   InternshipGeneralFormData,
   internshipGeneralSchema,
-} from "../schemas/validationSchemas";
+} from "@papelada-estagio/wizard/schemas/validationSchemas";
+import { useEffect, useMemo } from "react";
+import { Controller, useForm } from "react-hook-form";
 
 const modalityOptions = [
   { value: "Remoto", label: "Remoto" },

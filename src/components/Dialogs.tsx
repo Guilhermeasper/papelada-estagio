@@ -1,4 +1,4 @@
-import { PersistedWizardState } from "../hooks";
+import { PersistedWizardState } from "@papelada-estagio/hooks";
 import { Button } from "./Button";
 
 interface ResetDialogProps {

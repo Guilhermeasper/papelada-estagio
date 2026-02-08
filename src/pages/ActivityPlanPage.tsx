@@ -1,6 +1,6 @@
+import { ActivityPlanDocument } from "@papelada-estagio/documents/activity-plan/ActivityPlanDocument";
+import { mockActivityPlanData } from "@papelada-estagio/mocks/mockActivityPlanData";
 import { PDFViewer } from "@react-pdf/renderer";
-import { ActivityPlanDocument } from "../documents/activity-plan/ActivityPlanDocument";
-import { mockActivityPlanData } from "../mocks/mockActivityPlanData";
 
 export function ActivityPlanPage() {
   return (

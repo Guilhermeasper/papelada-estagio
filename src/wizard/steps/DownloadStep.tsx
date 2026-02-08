@@ -1,7 +1,7 @@
+import { Button } from "@papelada-estagio/components";
+import { DocumentType, IStep8Props } from "@papelada-estagio/types";
+import { pdfService } from "@papelada-estagio/utils/pdfService";
 import { useState } from "react";
-import { Button } from "../../components";
-import { DocumentType, IStep8Props } from "../../types";
-import { pdfService } from "../../utils/pdfService";
 
 export function DownloadStep({ data, onBack }: IStep8Props) {
   const [selectedDocs, setSelectedDocs] = useState<Set<DocumentType>>(

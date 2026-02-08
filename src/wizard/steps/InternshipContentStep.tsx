@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
-import { Button, DynamicList, TextArea } from "../../components";
-import { IStep5Props } from "../../types";
+import { Button, DynamicList, TextArea } from "@papelada-estagio/components";
+import { IStep5Props } from "@papelada-estagio/types";
 import {
   InternshipContentFormData,
   internshipContentSchema,
-} from "../schemas/validationSchemas";
+} from "@papelada-estagio/wizard/schemas/validationSchemas";
+import { useFieldArray, useForm } from "react-hook-form";
 
 export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
   const {

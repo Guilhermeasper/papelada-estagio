@@ -1,5 +1,5 @@
-import { DocumentDefinition, IInternshipData } from "../../types";
-import { fullInternshipSchema } from "../../wizard/schemas/validationSchemas";
+import { DocumentDefinition, IInternshipData } from "@papelada-estagio/types";
+import { fullInternshipSchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { ActivityPlanDocument } from "./ActivityPlanDocument";
 
 export const activityPlanDefinition: DocumentDefinition<IInternshipData> = {

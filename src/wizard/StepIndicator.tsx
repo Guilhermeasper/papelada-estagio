@@ -1,5 +1,5 @@
+import { IStepInfo, WizardStep } from "@papelada-estagio/types";
 import { useState } from "react";
-import { IStepInfo, WizardStep } from "../types";
 
 interface StepIndicatorProps {
   currentStep: WizardStep;

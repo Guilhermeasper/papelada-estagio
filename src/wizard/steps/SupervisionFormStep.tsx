@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Button, Input } from "../../components";
-import { IStep6Props } from "../../types";
+import { Button, Input } from "@papelada-estagio/components";
+import { IStep6Props } from "@papelada-estagio/types";
 import {
   SupervisionFormData,
   supervisionSchema,
-} from "../schemas/validationSchemas";
+} from "@papelada-estagio/wizard/schemas/validationSchemas";
+import { useForm } from "react-hook-form";
 
 export function SupervisionFormStep({ data, onNext, onBack }: IStep6Props) {
   const {

@@ -1,4 +1,4 @@
-import { Button } from "../components";
+import { Button } from "@papelada-estagio/components";
 
 export function NotFoundPage() {
   return (

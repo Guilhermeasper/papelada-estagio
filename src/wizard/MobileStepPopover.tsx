@@ -1,6 +1,6 @@
+import { Button } from "@papelada-estagio/components";
+import { IStepInfo, WizardStep } from "@papelada-estagio/types";
 import { useRef } from "react";
-import { Button } from "../components";
-import { IStepInfo, WizardStep } from "../types";
 
 interface MobileStepPopoverProps {
   currentStep: WizardStep;

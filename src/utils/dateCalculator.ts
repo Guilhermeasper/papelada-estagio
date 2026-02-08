@@ -3,7 +3,7 @@ import {
   MIN_HOURS_PER_DAY,
   MIN_INTERNSHIP_HOURS,
   WORKDAYS_PER_WEEK,
-} from "../constants";
+} from "@papelada-estagio/constants";
 import {
   addDays,
   formatDatePtBr,

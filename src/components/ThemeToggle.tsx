@@ -1,4 +1,4 @@
-import { useTheme } from "../hooks/useTheme";
+import { useTheme } from "@papelada-estagio/hooks/useTheme";
 import { Button } from "./Button";
 
 export function ThemeToggle() {

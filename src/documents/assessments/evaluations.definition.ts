@@ -1,8 +1,8 @@
+import { AdvisorEvaluationDocument } from "@papelada-estagio/documents/advisor-eval/AdvisorEvaluationDocument";
+import { SupervisorEvaluationDocument } from "@papelada-estagio/documents/supervisor-eval/SupervisorEvaluationDocument";
+import { DocumentDefinition, IInternshipData } from "@papelada-estagio/types";
+import { fullInternshipSchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import React from "react";
-import { DocumentDefinition, IInternshipData } from "../../types";
-import { fullInternshipSchema } from "../../wizard/schemas/validationSchemas";
-import { AdvisorEvaluationDocument } from "../advisor-eval/AdvisorEvaluationDocument";
-import { SupervisorEvaluationDocument } from "../supervisor-eval/SupervisorEvaluationDocument";
 import { IEvaluationFormData } from "./pdf";
 
 function getDefaultEvaluationData(): IEvaluationFormData {

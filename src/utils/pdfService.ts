@@ -1,10 +1,10 @@
-import { pdf } from "@react-pdf/renderer";
-import React from "react";
 import {
   getAllDocumentDefinitions,
   getDocumentDefinition,
-} from "../config/documentRegistry";
-import { DocumentType, IDocumentOption, IInternshipData } from "../types";
+} from "@papelada-estagio/config/documentRegistry";
+import { DocumentType, IDocumentOption, IInternshipData } from "@papelada-estagio/types";
+import { pdf } from "@react-pdf/renderer";
+import React from "react";
 
 export const documentOptions: IDocumentOption[] =
   getAllDocumentDefinitions().map((def) => ({

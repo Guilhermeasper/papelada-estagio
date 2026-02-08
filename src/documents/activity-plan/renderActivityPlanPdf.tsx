@@ -1,5 +1,5 @@
+import type { IInternshipData } from "@papelada-estagio/types";
 import { pdf } from "@react-pdf/renderer";
-import type { IInternshipData } from "../../types";
 import { ActivityPlanDocument } from "./ActivityPlanDocument";
 
 export async function renderActivityPlanPdf(

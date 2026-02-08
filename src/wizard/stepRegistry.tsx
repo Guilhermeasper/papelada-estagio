@@ -1,3 +1,4 @@
+import type { StepPropsMap, WizardStep } from "@papelada-estagio/types";
 import {
   ComponentType,
   lazy,
@@ -5,7 +6,6 @@ import {
   ReactNode,
   Suspense,
 } from "react";
-import type { StepPropsMap, WizardStep } from "../types";
 
 const ChecklistStep = lazy(() =>
   import("./steps/ChecklistStep").then((m) => ({ default: m.ChecklistStep })),

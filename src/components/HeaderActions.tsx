@@ -1,5 +1,5 @@
+import { useTheme } from "@papelada-estagio/hooks";
 import { useEffect, useRef, useState } from "react";
-import { useTheme } from "../hooks";
 import { Button, ThemeToggle } from "./";
 
 interface HeaderActionsProps {

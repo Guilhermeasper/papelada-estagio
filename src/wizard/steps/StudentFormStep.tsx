@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, Input } from "@papelada-estagio/components";
+import { IStep2Props } from "@papelada-estagio/types";
+import { StudentFormData, studentSchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useForm } from "react-hook-form";
-import { Button, Input } from "../../components";
-import { IStep2Props } from "../../types";
-import { StudentFormData, studentSchema } from "../schemas/validationSchemas";
 
 export function StudentFormStep({ data, onNext }: IStep2Props) {
   const {

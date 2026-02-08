@@ -1,6 +1,6 @@
-import { Button } from "../../components";
-import { IStep7Props } from "../../types";
-import { formatDatePtBr } from "../../utils/dateUtils";
+import { Button } from "@papelada-estagio/components";
+import { IStep7Props } from "@papelada-estagio/types";
+import { formatDatePtBr } from "@papelada-estagio/utils/dateUtils";
 
 export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
   return (

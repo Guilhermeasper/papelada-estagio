@@ -1,5 +1,5 @@
+import { fonts } from "@papelada-estagio/components/pdf";
 import { StyleSheet, Text } from "@react-pdf/renderer";
-import { fonts } from "../../../components/pdf";
 
 const styles = StyleSheet.create({
   text: {

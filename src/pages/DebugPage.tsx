@@ -1,5 +1,5 @@
+import { Button } from "@papelada-estagio/components";
 import { useState } from "react";
-import { Button } from "../components";
 
 const PREVIEW_ROUTES = [
   { path: "#/preview", label: "Plano de Atividades" },

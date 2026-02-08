@@ -1,4 +1,3 @@
-import { Document, Text } from "@react-pdf/renderer";
 import {
   PDFCommentsBox,
   PDFKeyValueTable,
@@ -10,9 +9,10 @@ import {
   formatDatePtBr,
   type KeyValueItem,
   type Rating,
-} from "../../../components/pdf";
-import { PDF_CONTENT } from "../../../constants";
-import type { IInternshipData } from "../../../types";
+} from "@papelada-estagio/components/pdf";
+import { PDF_CONTENT } from "@papelada-estagio/constants";
+import type { IInternshipData } from "@papelada-estagio/types";
+import { Document, Text } from "@react-pdf/renderer";
 import { PDFCommentsSection } from "./PDFCommentsSection";
 import { PDFDateSection } from "./PDFDateSection";
 import { PDFEvalIntro } from "./PDFEvalIntro";

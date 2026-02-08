@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ICompanyData,
   IInternshipContent,
@@ -7,7 +6,8 @@ import {
   IStudentData,
   ISupervisionData,
   WizardStep,
-} from "../types";
+} from "@papelada-estagio/types";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   PersistedWizardState,
   useWizardPersistence,

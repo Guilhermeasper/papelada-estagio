@@ -1,7 +1,7 @@
+import type { IInternshipData, WizardStep } from "@papelada-estagio/types";
+import { CURRENT_DATA_VERSION, migrateData } from "@papelada-estagio/utils/migrations";
+import { persistedStateSchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useCallback } from "react";
-import type { IInternshipData, WizardStep } from "../types";
-import { CURRENT_DATA_VERSION, migrateData } from "../utils/migrations";
-import { persistedStateSchema } from "../wizard/schemas/validationSchemas";
 
 const STORAGE_KEY = "internship-wizard-progress";
 

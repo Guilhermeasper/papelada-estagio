@@ -1,3 +1,4 @@
+import { PDF_CONTENT } from "@papelada-estagio/constants/pdf-content";
 import {
   Document,
   Image,
@@ -7,7 +8,6 @@ import {
   View,
 } from "@react-pdf/renderer";
 import React from "react";
-import { PDF_CONTENT } from "../../constants/pdf-content";
 import { colors, fonts } from "./styles";
 
 const styles = StyleSheet.create({

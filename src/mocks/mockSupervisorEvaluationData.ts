@@ -1,4 +1,4 @@
-import type { IEvaluationFormData } from "../documents/assessments/pdf";
+import type { IEvaluationFormData } from "@papelada-estagio/documents/assessments/pdf";
 
 export const mockSupervisorEvaluationData: IEvaluationFormData = {
   communication: "Ótimo",

@@ -1,5 +1,9 @@
+import {
+  fonts,
+  type Rating,
+  renderRating,
+} from "@papelada-estagio/components/pdf";
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
-import { fonts, type Rating, renderRating } from "../../../components/pdf";
 
 const styles = StyleSheet.create({
   container: {

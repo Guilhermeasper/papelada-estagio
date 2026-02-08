@@ -1,4 +1,3 @@
-import { Document, Text } from "@react-pdf/renderer";
 import {
   fonts,
   formatDatePtBr,
@@ -10,9 +9,10 @@ import {
   PDFSection,
   PDFTable,
   type ColumnConfig,
-} from "../../components/pdf";
-import { PDF_CONTENT } from "../../constants/pdf-content";
-import type { IInternshipData } from "../../types";
+} from "@papelada-estagio/components/pdf";
+import { PDF_CONTENT } from "@papelada-estagio/constants/pdf-content";
+import type { IInternshipData } from "@papelada-estagio/types";
+import { Document, Text } from "@react-pdf/renderer";
 import {
   ActivityPlanEvaluationIndent,
   ActivityPlanEvaluationText,

@@ -1,11 +1,11 @@
-import { AppLayout } from "../AppLayout";
+import { AppLayout } from "@papelada-estagio/AppLayout";
 import {
   HeaderActions,
   ImportConfirmDialog,
   ResetConfirmDialog,
-} from "../components";
-import { useWizardData } from "../hooks";
-import { WizardContainer } from "../wizard/WizardContainer";
+} from "@papelada-estagio/components";
+import { useWizardData } from "@papelada-estagio/hooks";
+import { WizardContainer } from "@papelada-estagio/wizard/WizardContainer";
 
 export function WizardPage() {
   const { state, actions, dialogs } = useWizardData();
