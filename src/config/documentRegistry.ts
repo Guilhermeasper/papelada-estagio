@@ -1,25 +1,50 @@
-import { activityPlanDefinition } from "@papelada-estagio/documents/activity-plan/activity-plan.definition";
+import { activityPlanMetadata } from "@papelada-estagio/documents/activity-plan/activity-plan.meta";
 import {
-  advisorEvaluationDefinition,
-  supervisorEvaluationDefinition,
-} from "@papelada-estagio/documents/assessments/evaluations.definition";
-import { reportDefinition } from "@papelada-estagio/documents/report/report.definition";
-import { DocumentDefinition } from "@papelada-estagio/types/document";
-// import { DocumentType } from '../shared/domain/types'; // We might want to use DocumentType as key if it exists, or infer it.
+  advisorEvaluationMetadata,
+  supervisorEvaluationMetadata,
+} from "@papelada-estagio/documents/assessments/evaluations.meta";
+import { reportMetadata } from "@papelada-estagio/documents/report/report.meta";
+import {
+  DocumentDefinition,
+  DocumentMetadata,
+} from "@papelada-estagio/types/document";
 
-export const DOCUMENT_REGISTRY: Record<string, DocumentDefinition> = {
-  [reportDefinition.id]: reportDefinition,
-  [activityPlanDefinition.id]: activityPlanDefinition,
-  [advisorEvaluationDefinition.id]: advisorEvaluationDefinition,
-  [supervisorEvaluationDefinition.id]: supervisorEvaluationDefinition,
+export const DOCUMENT_METADATA: Record<string, DocumentMetadata> = {
+  [reportMetadata.id]: reportMetadata,
+  [activityPlanMetadata.id]: activityPlanMetadata,
+  [advisorEvaluationMetadata.id]: advisorEvaluationMetadata,
+  [supervisorEvaluationMetadata.id]: supervisorEvaluationMetadata,
 };
 
-export function getDocumentDefinition(
-  id: string,
-): DocumentDefinition | undefined {
-  return DOCUMENT_REGISTRY[id];
+export function getDocumentMetadata(id: string): DocumentMetadata | undefined {
+  return DOCUMENT_METADATA[id];
 }
 
-export function getAllDocumentDefinitions(): DocumentDefinition[] {
-  return Object.values(DOCUMENT_REGISTRY);
+export function getAllDocumentMetadata(): DocumentMetadata[] {
+  return Object.values(DOCUMENT_METADATA);
+}
+
+export async function loadDocumentDefinition(
+  id: string,
+): Promise<DocumentDefinition | undefined> {
+  switch (id) {
+    case reportMetadata.id:
+      return (
+        await import("@papelada-estagio/documents/report/report.definition")
+      ).reportDefinition;
+    case activityPlanMetadata.id:
+      return (
+        await import("@papelada-estagio/documents/activity-plan/activity-plan.definition")
+      ).activityPlanDefinition;
+    case advisorEvaluationMetadata.id:
+      return (
+        await import("@papelada-estagio/documents/assessments/evaluations.definition")
+      ).advisorEvaluationDefinition;
+    case supervisorEvaluationMetadata.id:
+      return (
+        await import("@papelada-estagio/documents/assessments/evaluations.definition")
+      ).supervisorEvaluationDefinition;
+    default:
+      return undefined;
+  }
 }

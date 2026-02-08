@@ -1,18 +1,22 @@
 import {
-  getAllDocumentDefinitions,
-  getDocumentDefinition,
+  getAllDocumentMetadata,
+  loadDocumentDefinition,
 } from "@papelada-estagio/config/documentRegistry";
-import { DocumentType, IDocumentOption, IInternshipData } from "@papelada-estagio/types";
-import { pdf } from "@react-pdf/renderer";
+import {
+  DocumentType,
+  IDocumentOption,
+  IInternshipData,
+} from "@papelada-estagio/types";
 import React from "react";
 
-export const documentOptions: IDocumentOption[] =
-  getAllDocumentDefinitions().map((def) => ({
+export const documentOptions: IDocumentOption[] = getAllDocumentMetadata().map(
+  (def) => ({
     id: def.id as DocumentType,
     label: def.label,
     description: def.description,
     filename: def.filename,
-  }));
+  }),
+);
 
 export function getDocumentInfo(
   type: DocumentType,
@@ -24,7 +28,10 @@ async function generateDocument(
   type: DocumentType,
   data: IInternshipData,
 ): Promise<Uint8Array> {
-  const docDef = getDocumentDefinition(type);
+  const [renderer, docDef] = await Promise.all([
+    import("@react-pdf/renderer"),
+    loadDocumentDefinition(type),
+  ]);
 
   if (!docDef) {
     throw new Error(`Document component not found: ${type}`);
@@ -40,7 +47,7 @@ async function generateDocument(
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const blob = await pdf(documentElement as any).toBlob();
+  const blob = await renderer.pdf(documentElement as any).toBlob();
   const arrayBuffer = await blob.arrayBuffer();
 
   return new Uint8Array(arrayBuffer);

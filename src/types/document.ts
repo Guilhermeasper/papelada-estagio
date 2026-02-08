@@ -8,26 +8,23 @@ export type DocumentType =
   | "advisor-eval"
   | "supervisor-eval";
 
-export interface IDocumentOption {
-  id: DocumentType;
+export interface DocumentMetadata {
+  id: string;
   label: string;
   description: string;
   filename: string;
 }
 
-export interface IDocumentGenerator {
-  id: string;
-  label: string;
-  description: string;
+export interface IDocumentOption extends DocumentMetadata {
+  id: any; // Keep compatibility with existing usage if needed, or strictly use string/DocumentType
+}
+
+export interface IDocumentGenerator extends DocumentMetadata {
   generate(data: IInternshipData): Promise<Uint8Array>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface DocumentDefinition<T = any> {
-  id: string;
-  label: string;
-  description: string;
+export interface DocumentDefinition<T = any> extends DocumentMetadata {
   schema: z.ZodType<T>;
   Component: React.ComponentType<{ data: T }>;
-  filename: string;
 }

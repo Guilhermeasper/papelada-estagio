@@ -1,12 +1,10 @@
 import { DocumentDefinition, IInternshipData } from "@papelada-estagio/types";
 import { fullInternshipSchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { ActivityPlanDocument } from "./ActivityPlanDocument";
+import { activityPlanMetadata } from "./activity-plan.meta";
 
 export const activityPlanDefinition: DocumentDefinition<IInternshipData> = {
-  id: "activity-plan",
-  label: "Plano de Atividades",
-  description: "Atividades planejadas para o período de estágio.",
+  ...activityPlanMetadata,
   schema: fullInternshipSchema,
   Component: ActivityPlanDocument,
-  filename: "plano-de-atividades.pdf",
 };
