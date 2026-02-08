@@ -147,7 +147,7 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
                 <input
                   {...register(`schedule.${index}.period`)}
                   placeholder="Ex: 20/11/2025 a 30/11/2025"
-                  className={`w-full px-4 py-2 border border-border dark:border-border-dark rounded-md bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark focus:ring-2 ${errors.schedule?.[index] ? "border-input-error focus:border-input-error focus:ring-input-error/20" : "focus:border-input-focus focus:ring-input-focus/20"}`}
+                  className={`w-full px-4 py-2 border border-border dark:border-border-dark rounded-md bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark focus:ring-2 ${errors.schedule?.[index] ? "border-input-error focus:border-input-error focus:ring-input-focus/20" : "focus:border-input-focus focus:ring-input-focus/20"}`}
                 />
                 {errors.schedule?.[index]?.period && (
                   <p className="text-xs text-error-text">

@@ -55,7 +55,7 @@ export const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
             transition-colors duration-200
             hover:border-text-secondary dark:hover:border-text-secondary-dark
             focus:ring-2
-            ${error ? "border-input-error focus:border-input-error focus:ring-input-error/20" : "focus:border-input-focus focus:ring-input-focus/20"}
+            ${error ? "border-input-error focus:border-input-error focus:ring-input-focus/20" : "focus:border-input-focus focus:ring-input-focus/20"}
             disabled:bg-text-secondary/20 dark:disabled:bg-text-secondary-dark/20 disabled:cursor-not-allowed
             ${className}
           `}
