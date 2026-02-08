@@ -38,20 +38,17 @@ export const studentSchema = z.object({
 export type StudentFormData = z.infer<typeof studentSchema>;
 
 
-export const companySchema = z.discriminatedUnion('locationType', [
-  z.object({
-    locationType: z.literal('BR'),
-    companyName: z.string().min(2, 'Nome da empresa é obrigatório'),
-    companyAddress: z.string().min(10, 'Endereço da empresa é obrigatório'),
-    companyCnpj: z.string().regex(cnpjRegex, 'CNPJ inválido. Ex: 00.000.000/0000-00'),
-  }),
-  z.object({
-    locationType: z.literal('INTL'),
-    companyName: z.string().min(2, 'Nome da empresa é obrigatório'),
-    companyAddress: z.string().min(10, 'Endereço da empresa é obrigatório'),
-    companyTaxId: z.string().min(3, 'Tax ID é obrigatório'),
-  }),
-]);
+export const companySchema = z.object({
+  companyName: z
+    .string()
+    .min(2, 'Nome da empresa é obrigatório'),
+  companyAddress: z
+    .string()
+    .min(10, 'Endereço da empresa é obrigatório'),
+  companyCnpj: z
+    .string()
+    .regex(cnpjRegex, 'CNPJ inválido. Ex: 00.000.000/0000-00'),
+});
 
 export type CompanyFormData = z.infer<typeof companySchema>;
 
@@ -229,20 +226,11 @@ const studentImportSchema = z.object({
 });
 
 
-const companyImportSchema = z.discriminatedUnion('locationType', [
-  z.object({
-    locationType: z.literal('BR'),
-    companyName: z.string(),
-    companyAddress: z.string(),
-    companyCnpj: z.string(),
-  }),
-  z.object({
-    locationType: z.literal('INTL'),
-    companyName: z.string(),
-    companyAddress: z.string(),
-    companyTaxId: z.string(),
-  }),
-]);
+const companyImportSchema = z.object({
+  companyName: z.string(),
+  companyAddress: z.string(),
+  companyCnpj: z.string(),
+});
 
 
 const generalImportSchema = z.object({

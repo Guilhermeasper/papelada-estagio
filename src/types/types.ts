@@ -12,19 +12,11 @@ export interface IStudentData {
 }
 
 
-export type ICompanyData = 
-  | {
-      locationType: 'BR';
-      companyName: string;
-      companyAddress: string;
-      companyCnpj: string;
-    }
-  | {
-      locationType: 'INTL';
-      companyName: string;
-      companyAddress: string;
-      companyTaxId: string;
-    };
+export interface ICompanyData {
+  companyName: string;
+  companyAddress: string;
+  companyCnpj: string;
+}
 
 
 export interface IInternshipGeneral {
