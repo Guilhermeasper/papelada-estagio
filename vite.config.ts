@@ -11,4 +11,16 @@ export default defineConfig({
       "@papelada-estagio": resolve(__dirname, "./src"),
     },
   },
+  build: {
+    chunkSizeWarningLimit: 1600,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "react-vendor": ["react", "react-dom"],
+          "react-pdf": ["@react-pdf/renderer"],
+          "form-libs": ["react-hook-form", "@hookform/resolvers", "zod"],
+        },
+      },
+    },
+  },
 });
