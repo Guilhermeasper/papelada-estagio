@@ -1,10 +1,10 @@
 
 import React from 'react';
-import { SupervisorEvaluationDocument } from '../../features/supervisor-eval/SupervisorEvaluationDocument';
 import { DocumentDefinition } from '../../types/document';
 import { IInternshipData } from '../../types/types';
 import { fullInternshipSchema } from '../../wizard/schemas/validationSchemas';
 import { AdvisorEvaluationDocument } from '../advisor-eval/AdvisorEvaluationDocument';
+import { SupervisorEvaluationDocument } from '../supervisor-eval/SupervisorEvaluationDocument';
 import { IEvaluationFormData } from './pdf';
 
 function getDefaultEvaluationData(): IEvaluationFormData {

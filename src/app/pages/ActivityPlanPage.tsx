@@ -1,6 +1,6 @@
 
 import { PDFViewer } from '@react-pdf/renderer';
-import { ActivityPlanDocument } from '../../features/activity-plan/ActivityPlanDocument';
+import { ActivityPlanDocument } from '../../documents/activity-plan/ActivityPlanDocument';
 import { mockActivityPlanData } from '../../mocks/mockActivityPlanData';
 
 export function ActivityPlanPage() {

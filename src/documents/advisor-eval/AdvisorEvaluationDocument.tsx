@@ -1,6 +1,6 @@
 
 import type { IInternshipData } from '../../types/types';
-import { EvaluationDocument, type IEvaluationFormData } from '../evaluations/pdf/EvaluationDocument';
+import { EvaluationDocument, type IEvaluationFormData } from '../assessments/pdf/EvaluationDocument';
 
 interface AdvisorEvaluationDocumentProps {
   data: IInternshipData;

@@ -8,9 +8,10 @@ import {
   PDFFieldRow,
   PDFLogoHeader,
   PDFNumberedList,
+  PDFPage,
   PDFSection,
   PDFTable,
-  type ColumnConfig,
+  type ColumnConfig
 } from '../../components/pdf';
 import { PDF_CONTENT } from '../../constants/pdf-content';
 import type { IInternshipData } from '../../types/types';
@@ -19,12 +20,11 @@ import {
   ActivityPlanEvaluationText,
   ActivityPlanFieldLabel,
   ActivityPlanFooterNote,
-  ActivityPlanPage,
   ActivityPlanScheduleItem,
   ActivityPlanSignatureDate,
   ActivityPlanSignatureLine,
   ActivityPlanSignatureSection,
-} from './pdf-components';
+} from './pdf';
 
 
 interface ActivityPlanDocumentProps {
@@ -62,7 +62,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
 
   return (
     <Document>
-      <ActivityPlanPage>
+      <PDFPage variant="activityPlan" wrap>
 
         <PDFLogoHeader 
           logos={[{ src: '/image1.png', width: 76, height: 73 }]}
@@ -216,7 +216,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
         <ActivityPlanFooterNote>
           {activityPlan.footer}
         </ActivityPlanFooterNote>
-      </ActivityPlanPage>
+      </PDFPage>
     </Document>
   );
 }

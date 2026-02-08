@@ -68,4 +68,15 @@ export const pageStyles = StyleSheet.create({
     color: colors.textBlack,
     lineHeight: 1.0,
   },
+
+  report: {
+    paddingTop: 70,
+    paddingBottom: 70,
+    paddingLeft: 85,
+    paddingRight: 85,
+    fontFamily: fonts.serif,
+    fontSize: 12,
+    color: colors.textBlack,
+    lineHeight: 1.2,
+  },
 });

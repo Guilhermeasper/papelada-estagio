@@ -1,7 +1,7 @@
 
 
 import { useState } from 'react';
-import { IStepInfo, WizardStep } from '../../types/types';
+import { IStepInfo, WizardStep } from '../types/types';
 
 interface StepIndicatorProps {
   currentStep: WizardStep;
@@ -98,7 +98,7 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
                         <div className="bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark text-xs rounded-lg py-2 px-3 shadow-lg border border-border dark:border-border-dark">
                           <p className="font-semibold mb-1 text-cin-red">{step.title}</p>
                           <ul className="space-y-0.5">
-                            {step.requirements.map((req, i) => (
+                            {step.requirements.map((req: string, i: number) => (
                               <li key={i} className="flex items-start gap-1.5">
                                 <span className="text-cin-red mt-0.5">•</span>
                                 <span>{req}</span>

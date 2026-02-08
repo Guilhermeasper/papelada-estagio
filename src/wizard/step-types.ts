@@ -5,7 +5,7 @@ import type {
   IInternshipGeneral,
   IStudentData,
   ISupervisionData
-} from '../../types/types';
+} from '../types/types';
 
 export interface IChecklistStepProps {
   onNext: () => void;

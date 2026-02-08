@@ -1,9 +1,8 @@
 
 
 
-export { ReportCoverFooter } from './ReportCoverFooter';
-export { ReportCoverPage } from './ReportCoverPage';
-export { ReportPage } from './ReportPage';
+
+
 
 
 export { ReportH1, reportH1Style } from './ReportH1';
@@ -16,3 +15,4 @@ export { ReportTocTitle } from './ReportTocTitle';
 
 
 export { ReportParagraph } from './ReportParagraph';
+

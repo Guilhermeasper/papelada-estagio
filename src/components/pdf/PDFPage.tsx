@@ -14,7 +14,7 @@ interface PDFPageProps {
 
 
 export function PDFPage({ variant = 'default', children, wrap }: PDFPageProps) {
-  const style = variant === 'report' ? pageStyles.cover : pageStyles[variant];
+  const style = pageStyles[variant];
   
   return (
     <Page size="A4" style={style} wrap={wrap}>

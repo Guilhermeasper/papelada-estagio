@@ -60,7 +60,7 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
           <div>
             <h4 className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark mb-2">Atividades</h4>
             <ul className="list-disc list-inside space-y-1">
-              {data.content.activities.filter(Boolean).map((activity) => (
+              {data.content.activities.filter(Boolean).map((activity: string) => (
                 <li key={`activity-${activity}`} className="text-sm text-text-primary dark:text-text-primary-dark">{activity}</li>
               ))}
             </ul>
@@ -69,7 +69,7 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
           <div>
             <h4 className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark mb-2">Objetivos</h4>
             <ul className="list-disc list-inside space-y-1">
-              {data.content.objectives.filter(Boolean).map((objective) => (
+              {data.content.objectives.filter(Boolean).map((objective: string) => (
                 <li key={`objective-${objective}`} className="text-sm text-text-primary dark:text-text-primary-dark">{objective}</li>
               ))}
             </ul>
@@ -78,7 +78,7 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
           <div>
             <h4 className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark mb-2">Cronograma</h4>
             <div className="space-y-2">
-              {data.content.schedule.filter(item => item.period || item.description).map((item) => (
+              {data.content.schedule.filter((item: {period: string; description: string}) => item.period || item.description).map((item: {period: string; description: string}) => (
                 <div key={`schedule-${item.period}-${item.description}`} className="bg-surface-elevated dark:bg-surface-elevated-dark rounded p-3 border border-border dark:border-border-dark">
                   <p className="text-xs font-medium text-cin-red">{item.period}</p>
                   <p className="text-sm text-text-primary dark:text-text-primary-dark mt-1">{item.description}</p>

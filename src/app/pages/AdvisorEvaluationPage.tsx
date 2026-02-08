@@ -1,6 +1,6 @@
 
 import { PDFViewer } from '@react-pdf/renderer';
-import { AdvisorEvaluationDocument } from '../../features/advisor-eval/AdvisorEvaluationDocument';
+import { AdvisorEvaluationDocument } from '../../documents/advisor-eval/AdvisorEvaluationDocument';
 import { mockAdvisorEvaluationData } from '../../mocks/mockAdvisorEvaluationData';
 import { mockInternshipData } from '../../mocks/mockInternshipData';
 
