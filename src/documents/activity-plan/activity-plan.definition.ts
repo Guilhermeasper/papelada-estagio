@@ -1,5 +1,4 @@
-import { DocumentDefinition } from "../../types/document";
-import { IInternshipData } from "../../types/types";
+import { DocumentDefinition, IInternshipData } from "../../types";
 import { fullInternshipSchema } from "../../wizard/schemas/validationSchemas";
 import { ActivityPlanDocument } from "./ActivityPlanDocument";
 

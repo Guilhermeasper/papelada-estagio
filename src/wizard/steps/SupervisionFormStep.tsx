@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button, Input } from "../../components";
+import { IStep6Props } from "../../types";
 import {
   SupervisionFormData,
   supervisionSchema,
 } from "../schemas/validationSchemas";
-import type { IStep6Props } from "../step-types";
 
 export function SupervisionFormStep({ data, onNext, onBack }: IStep6Props) {
   const {

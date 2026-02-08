@@ -7,7 +7,7 @@ import {
   IStudentData,
   ISupervisionData,
   WizardStep,
-} from "../types/types";
+} from "../types";
 import {
   PersistedWizardState,
   useWizardPersistence,

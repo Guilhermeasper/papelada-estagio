@@ -1,4 +1,4 @@
-import type { IInternshipData } from "../types/types";
+import type { IInternshipData } from "../types";
 
 export const mockActivityPlanData: IInternshipData = {
   student: {

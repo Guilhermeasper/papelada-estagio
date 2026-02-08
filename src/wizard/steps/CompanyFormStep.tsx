@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button, Input } from "../../components";
+import { IStep3Props } from "../../types";
 import { CompanyFormData, companySchema } from "../schemas/validationSchemas";
-import type { IStep3Props } from "../step-types";
 
 export function CompanyFormStep({ data, onNext, onBack }: IStep3Props) {
   const {

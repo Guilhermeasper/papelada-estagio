@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Button } from "../../components";
-import { DocumentType } from "../../types/types";
+import { DocumentType, IStep8Props } from "../../types";
 import { pdfService } from "../../utils/pdfService";
-import type { IStep8Props } from "../step-types";
 
 export function DownloadStep({ data, onBack }: IStep8Props) {
   const [selectedDocs, setSelectedDocs] = useState<Set<DocumentType>>(

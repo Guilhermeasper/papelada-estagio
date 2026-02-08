@@ -4,7 +4,7 @@ import {
   getAllDocumentDefinitions,
   getDocumentDefinition,
 } from "../config/documentRegistry";
-import { DocumentType, IDocumentOption, IInternshipData } from "../types/types";
+import { DocumentType, IDocumentOption, IInternshipData } from "../types";
 
 export const documentOptions: IDocumentOption[] =
   getAllDocumentDefinitions().map((def) => ({

@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { Button, DynamicList, TextArea } from "../../components";
+import { IStep5Props } from "../../types";
 import {
   InternshipContentFormData,
   internshipContentSchema,
 } from "../schemas/validationSchemas";
-import type { IStep5Props } from "../step-types";
 
 export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
   const {

@@ -1,6 +1,6 @@
 import { Button } from "../../components";
+import { IStep7Props } from "../../types";
 import { formatDatePtBr } from "../../utils/dateUtils";
-import type { IStep7Props } from "../step-types";
 
 export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
   return (

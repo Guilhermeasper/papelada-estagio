@@ -12,7 +12,7 @@ import {
   type Rating,
 } from "../../../components/pdf";
 import { PDF_CONTENT } from "../../../constants";
-import type { IInternshipData } from "../../../types/types";
+import type { IInternshipData } from "../../../types";
 import { PDFCommentsSection } from "./PDFCommentsSection";
 import { PDFDateSection } from "./PDFDateSection";
 import { PDFEvalIntro } from "./PDFEvalIntro";

@@ -5,8 +5,7 @@ import {
   ReactNode,
   Suspense,
 } from "react";
-import type { WizardStep } from "../types/types";
-import type { StepPropsMap } from "./step-types";
+import type { StepPropsMap, WizardStep } from "../types";
 
 const ChecklistStep = lazy(() =>
   import("./steps/ChecklistStep").then((m) => ({ default: m.ChecklistStep })),

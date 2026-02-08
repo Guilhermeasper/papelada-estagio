@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import type { IInternshipData, WizardStep } from "../types/types";
+import type { IInternshipData, WizardStep } from "../types";
 import { CURRENT_DATA_VERSION, migrateData } from "../utils/migrations";
 import { persistedStateSchema } from "../wizard/schemas/validationSchemas";
 

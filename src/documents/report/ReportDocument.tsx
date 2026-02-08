@@ -11,7 +11,7 @@ import {
 import { DocSectionTitle, DocText, DocTitle } from "../../components/pdf/atoms";
 import { DocumentLayout } from "../../components/pdf/DocumentLayout";
 import { PDF_CONTENT } from "../../constants/pdf-content";
-import { IInternshipData } from "../../types/types";
+import { IInternshipData } from "../../types";
 
 interface ReportDocumentProps {
   data: IInternshipData;

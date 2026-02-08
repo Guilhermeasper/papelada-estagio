@@ -12,7 +12,7 @@ import {
   type ColumnConfig,
 } from "../../components/pdf";
 import { PDF_CONTENT } from "../../constants/pdf-content";
-import type { IInternshipData } from "../../types/types";
+import type { IInternshipData } from "../../types";
 import {
   ActivityPlanEvaluationIndent,
   ActivityPlanEvaluationText,

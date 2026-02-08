@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button, Input } from "../../components";
+import { IStep2Props } from "../../types";
 import { StudentFormData, studentSchema } from "../schemas/validationSchemas";
-import type { IStep2Props } from "../step-types";
 
 export function StudentFormStep({ data, onNext }: IStep2Props) {
   const {

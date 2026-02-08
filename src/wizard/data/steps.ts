@@ -1,4 +1,4 @@
-import { IStepInfo } from "../../types/types";
+import { IStepInfo } from "../../types";
 
 export const STEPS: IStepInfo[] = [
   {

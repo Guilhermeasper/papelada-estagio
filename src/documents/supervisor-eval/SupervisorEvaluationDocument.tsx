@@ -2,7 +2,7 @@ import {
   EvaluationDocument,
   type IEvaluationFormData,
 } from "../../documents/assessments/pdf/EvaluationDocument";
-import type { IInternshipData } from "../../types/types";
+import type { IInternshipData } from "../../types";
 
 interface SupervisorEvaluationDocumentProps {
   data: IInternshipData;

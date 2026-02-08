@@ -3,6 +3,7 @@ import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Button, Input, Select } from "../../components";
 import { useDebounce } from "../../hooks";
+import { IStep4Props } from "../../types";
 import {
   calculateEndDate,
   getPeriodInfo,
@@ -12,7 +13,6 @@ import {
   InternshipGeneralFormData,
   internshipGeneralSchema,
 } from "../schemas/validationSchemas";
-import type { IStep4Props } from "../step-types";
 
 const modalityOptions = [
   { value: "Remoto", label: "Remoto" },
