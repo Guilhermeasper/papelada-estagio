@@ -52,7 +52,7 @@ export function StepIndicator({ currentStep, steps, completedSteps, onStepClick 
                   <div
                     className={`
                       relative z-10 flex h-10 w-10 items-center justify-center rounded-full
-                      font-semibold text-xs md:text-sm transition-all duration-300 flex-shrink-0
+                      font-semibold text-xs md:text-sm transition-all duration-300 shrink-0
                       ${
                         isCompletedNotViewing
                           ? 'bg-cin-red text-white'

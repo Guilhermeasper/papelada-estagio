@@ -72,7 +72,7 @@ export function DynamicList({
             </div>
             
 
-            <span className="hidden md:flex flex-shrink-0 w-6 h-10 items-center justify-center text-sm font-medium text-text-secondary dark:text-text-secondary-dark">
+            <span className="hidden md:flex shrink-0 w-6 h-10 items-center justify-center text-sm font-medium text-text-secondary dark:text-text-secondary-dark">
               {index + 1}.
             </span>
             
@@ -102,7 +102,7 @@ export function DynamicList({
                 variant="ghost"
                 className="
                   hidden md:flex
-                  flex-shrink-0 w-10 h-10 p-0
+                  shrink-0 w-10 h-10 p-0
                   items-center justify-center
                   text-text-secondary dark:text-text-secondary-dark hover:text-cin-red
                   hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10
