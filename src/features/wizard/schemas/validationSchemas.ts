@@ -1,7 +1,7 @@
 
 
 import { z } from 'zod';
-import { validateDate, validateInternshipPeriod } from '../../../shared/utils/dateCalculator';
+import { validateDate, validateInternshipPeriod } from '../../../utils/dateCalculator';
 
 
 const phoneRegex = /^\(?[0-9]{2}\)?[\s]?[0-9]{4,5}[-\s]?[0-9]{4}$/;
@@ -286,6 +286,7 @@ const importDataSchema = z.object({
 
 
 export const persistedStateSchema = z.object({
+  version: z.number().optional(),
   data: importDataSchema,
   currentStep: z.number().min(1).max(8),
   completedSteps: z.array(z.number().min(1).max(8)),

@@ -1,5 +1,5 @@
-import { Button } from '../../../shared/components';
-import { formatDatePtBr } from '../../../shared/utils/dateUtils';
+import { Button } from '../../../components';
+import { formatDatePtBr } from '../../../utils/dateUtils';
 import type { IStep7Props } from '../step-types';
 
 export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {

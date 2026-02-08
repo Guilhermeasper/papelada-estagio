@@ -1,11 +1,11 @@
 import type {
-    ICompanyData,
-    IInternshipContent,
-    IInternshipData,
-    IInternshipGeneral,
-    IStudentData,
-    ISupervisionData
-} from '../../shared/domain/types';
+  ICompanyData,
+  IInternshipContent,
+  IInternshipData,
+  IInternshipGeneral,
+  IStudentData,
+  ISupervisionData
+} from '../../types/types';
 
 export interface IChecklistStepProps {
   onNext: () => void;

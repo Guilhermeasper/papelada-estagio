@@ -1,5 +1,5 @@
 import { ComponentType, lazy, LazyExoticComponent, ReactNode, Suspense } from 'react';
-import type { WizardStep } from '../../shared/domain/types';
+import type { WizardStep } from '../../types/types';
 import type { StepPropsMap } from './step-types';
 
 const ChecklistStep = lazy(() =>

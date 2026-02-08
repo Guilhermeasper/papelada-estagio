@@ -1,6 +1,6 @@
 
 
-import { IStepInfo } from '../../shared/domain/types';
+import { IStepInfo } from '../../types/types';
 
 export const STEPS: IStepInfo[] = [
   { 

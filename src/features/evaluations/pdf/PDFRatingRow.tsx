@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
-import { fonts, type Rating, renderRating } from '../../../shared/components/pdf';
+import { fonts, type Rating, renderRating } from '../../../components/pdf';
 
 const styles = StyleSheet.create({
   container: {

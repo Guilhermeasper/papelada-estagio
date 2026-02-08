@@ -10,9 +10,9 @@ import {
   formatDatePtBr,
   type KeyValueItem,
   type Rating
-} from '../../../shared/components/pdf';
-import { PDF_CONTENT } from '../../../shared/constants';
-import type { IInternshipData } from '../../../shared/domain/types';
+} from '../../../components/pdf';
+import { PDF_CONTENT } from '../../../constants';
+import type { IInternshipData } from '../../../types/types';
 import { PDFCommentsSection } from './PDFCommentsSection';
 import { PDFDateSection } from './PDFDateSection';
 import { PDFEvalIntro } from './PDFEvalIntro';

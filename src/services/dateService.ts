@@ -2,12 +2,12 @@
 
 import { MIN_INTERNSHIP_HOURS } from '../constants';
 import {
-    calculateEndDate,
-    countWorkdays,
-    DateCalculationResult,
-    DateValidationResult,
-    validateDate,
-    validateInternshipPeriod
+  calculateEndDate,
+  countWorkdays,
+  DateCalculationResult,
+  DateValidationResult,
+  validateDate,
+  validateInternshipPeriod
 } from '../utils/dateCalculator';
 import { formatDatePtBr } from '../utils/dateUtils';
 

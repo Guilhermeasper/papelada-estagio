@@ -2,101 +2,36 @@
 
 import { pdf } from '@react-pdf/renderer';
 import React from 'react';
-import { ActivityPlanDocument } from '../../features/activity-plan/ActivityPlanDocument';
-import {
-  AdvisorEvaluationDocument,
-  SupervisorEvaluationDocument,
-  type IEvaluationFormData
-} from '../../features/evaluations/pdf';
-import { ReportDocument } from '../../features/report/ReportDocument';
-import { DocumentType, IDocumentOption, IInternshipData } from '../domain/types';
+import { getAllDocumentDefinitions, getDocumentDefinition } from '../config/documentRegistry';
+import { DocumentType, IDocumentOption, IInternshipData } from '../types/types';
 
-
-
-export const documentOptions: IDocumentOption[] = [
-  {
-    id: 'report',
-    label: 'Relatório de Estágio',
-    description: 'Relatório final detalhando as atividades realizadas.',
-    filename: 'relatorio-estagio.pdf',
-  },
-  {
-    id: 'activity-plan',
-    label: 'Plano de Atividades',
-    description: 'Atividades planejadas para o período de estágio.',
-    filename: 'plano-de-atividades.pdf',
-  },
-  {
-    id: 'advisor-eval',
-    label: 'Avaliação do Professor Orientador',
-    description: 'Formulário de avaliação pelo professor.',
-    filename: 'avaliacao-professor.pdf',
-  },
-  {
-    id: 'supervisor-eval',
-    label: 'Avaliação do Supervisor',
-    description: 'Formulário de avaliação pelo supervisor da empresa.',
-    filename: 'avaliacao-supervisor.pdf',
-  },
-];
+export const documentOptions: IDocumentOption[] = getAllDocumentDefinitions().map(def => ({
+  id: def.id as DocumentType,
+  label: def.label,
+  description: def.description,
+  filename: def.filename,
+}));
 
 export function getDocumentInfo(type: DocumentType): IDocumentOption | undefined {
   return documentOptions.find((opt) => opt.id === type);
 }
 
-
-
-function getDefaultEvaluationData(): IEvaluationFormData {
-  return {
-    communication: undefined,
-    attendance: undefined,
-    cooperation: undefined,
-    independence: undefined,
-    knowledgeLevel: undefined,
-    overallPerformance: undefined,
-    detailedComments: undefined,
-    finalGrade: undefined,
-    evaluationDate: undefined,
-  };
-}
-
-function AdvisorEvalWrapper({ data }: { data: IInternshipData }) {
-  return React.createElement(AdvisorEvaluationDocument, { 
-    data, 
-    evaluation: getDefaultEvaluationData() 
-  });
-}
-
-function SupervisorEvalWrapper({ data }: { data: IInternshipData }) {
-  return React.createElement(SupervisorEvaluationDocument, { 
-    data, 
-    evaluation: getDefaultEvaluationData() 
-  });
-}
-
-
-
-type DocumentComponent = React.ComponentType<{ data: IInternshipData }>;
-
-const DOCUMENT_COMPONENTS: Record<DocumentType, DocumentComponent> = {
-  'report': ReportDocument,
-  'activity-plan': ActivityPlanDocument,
-  'advisor-eval': AdvisorEvalWrapper,
-  'supervisor-eval': SupervisorEvalWrapper,
-};
-
-
-
 async function generateDocument(
   type: DocumentType,
   data: IInternshipData
 ): Promise<Uint8Array> {
-  const DocComponent = DOCUMENT_COMPONENTS[type];
-  if (!DocComponent) {
+  const docDef = getDocumentDefinition(type);
+  
+  if (!docDef) {
     throw new Error(`Document component not found: ${type}`);
   }
 
-  const documentElement = React.createElement(DocComponent, { data });
+  // Helper type guard/cast since we know our app only uses IInternshipData for now.
+  // In a more complex app, we might check docDef.schema against data.
+  // Using Zod to validate and parse data ensures strong typing at runtime.
+  const parsedData = docDef.schema.parse(data);
+
+  const documentElement = React.createElement(docDef.Component, { data: parsedData });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const blob = await pdf(documentElement as any).toBlob();
@@ -125,8 +60,6 @@ function downloadPdf(pdfBytes: Uint8Array, filename: string): void {
 
   URL.revokeObjectURL(url);
 }
-
-
 
 export interface GenerationResult {
   success: boolean;
@@ -159,7 +92,12 @@ export const pdfService = {
       const pdfBytes = await generateDocument(type, data);
       return { success: true, pdfBytes };
     } catch (error) {
+      console.error(error);
       const message = error instanceof Error ? error.message : 'Erro desconhecido';
+      // Enhance error message if it's a Zod error
+      if (error instanceof Error && error.name === 'ZodError') {
+         return { success: false, error: `Dados inválidos para ${type}: ${message}` };
+      }
       return { success: false, error: `Falha ao gerar ${type}: ${message}` };
     }
   },

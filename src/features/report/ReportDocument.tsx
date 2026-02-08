@@ -1,49 +1,37 @@
 
 
-import { Document, Text } from '@react-pdf/renderer';
+import { View } from '@react-pdf/renderer';
 import {
   formatDatePtBr,
   getMonthName,
   PDFBulletList,
   PDFKeyValueTable,
-  PDFLogoHeader,
-  PDFSection,
   PDFTable,
   type ColumnConfig,
   type KeyValueItem,
-} from '../../shared/components/pdf';
-import { PDF_CONTENT } from '../../shared/constants/pdf-content';
-import type { IInternshipData } from '../../shared/domain/types';
+} from '../../components/pdf';
 import {
-  ReportCoverFooter,
-  ReportCoverPage,
-  reportH1Style,
-  ReportH2,
-  ReportPage,
-  ReportParagraph,
-  ReportTocItem,
-  ReportTocSubItem,
-  ReportTocTitle,
-} from './pdf-components';
-
+  DocSectionTitle,
+  DocText,
+  DocTitle
+} from '../../components/pdf/atoms';
+import { DocumentLayout } from '../../components/pdf/DocumentLayout';
+import { PDF_CONTENT } from '../../constants/pdf-content';
+import { IInternshipData } from '../../types/types';
 
 interface ReportDocumentProps {
   data: IInternshipData;
 }
 
-
 export function ReportDocument({ data }: ReportDocumentProps) {
   const { student, company, general, content, evaluation, supervision } = data;
-  const { report, header } = PDF_CONTENT;
-
+  const { report } = PDF_CONTENT;
 
   const endDate = new Date(general.endDate);
   const coverMonth = getMonthName(endDate.getMonth() + 1);
   const coverYear = endDate.getFullYear();
 
-
   const weeklyHours = general.hoursPerDay * 5;
-
 
   const idItems: KeyValueItem[] = [
     { label: 'Nome', value: student.fullName },
@@ -58,13 +46,11 @@ export function ReportDocument({ data }: ReportDocumentProps) {
     { label: 'Professor Orientador', value: supervision.advisorName },
   ];
 
-
   const evalColumns: ColumnConfig[] = [
     { key: 'item', header: 'Item', width: 175 },
     { key: 'grade', header: 'Nota', width: 47, align: 'center', bold: true },
     { key: 'observation', header: 'Observação', width: 214 },
   ];
-
 
   const evalRows = [
     ...evaluation.grades.map((g) => ({
@@ -100,114 +86,74 @@ export function ReportDocument({ data }: ReportDocumentProps) {
   ];
 
   return (
-    <Document>
+    <DocumentLayout>
+      {/* Cover Section */}
+      <View style={{ marginTop: 50, marginBottom: 100, alignItems: 'center' }}>
+        <DocTitle style={{ fontSize: 24, marginBottom: 40 }}>{report.title}</DocTitle>
+        <DocText style={{ fontSize: 16, textAlign: 'center' }}>Graduação em {student.course}</DocText>
+        <DocText style={{ fontSize: 14, textAlign: 'center', marginTop: 100 }}>
+          Recife, {coverMonth} de {coverYear}
+        </DocText>
+      </View>
 
-      <ReportCoverPage>
-        <PDFLogoHeader 
-           logos={[
-             { src: '/logo_cin.png', width: 97, height: 97 },
-             { src: '/logo_ufpe.png', width: 76, height: 120 }
-           ]}
-        />
-        
-        <Text style={{ fontSize: 18, textAlign: 'center', marginTop: 10 }}>{header.university}</Text>
-        <Text style={{ fontSize: 18, textAlign: 'center', marginLeft: 30 }}>{header.institution}</Text>
+      <View break />
 
-        <Text style={{ fontSize: 16, textAlign: 'center', marginTop: 80 }}>{report.title}</Text>
-        
-        <Text style={{ fontSize: 14, textAlign: 'center', marginTop: 40 }}>Graduação em {student.course}</Text>
+      {/* Identificação */}
+      <DocSectionTitle>{report.sections.identification}</DocSectionTitle>
+      <PDFKeyValueTable items={idItems} labelWidth={200} />
+      
+      <View break />
 
-        <ReportCoverFooter>
-          <Text>Recife</Text>
-          <Text>{coverMonth}, {coverYear}</Text>
-        </ReportCoverFooter>
-      </ReportCoverPage>
+      {/* Introdução */}
+      <DocSectionTitle>{report.sections.introduction}</DocSectionTitle>
+      <DocText>{content.introduction}</DocText>
 
+      <View break />
 
-      <ReportPage>
-        <ReportTocTitle>{report.toc.title}</ReportTocTitle>
-        
-        {report.toc.items.map((item, index) => {
-           if (item.indent) {
-             return (
-               <ReportTocSubItem key={index} label={item.label} page={item.page} />
-             );
-           }
-           return (
-             <ReportTocItem key={index} label={item.label} page={item.page} />
-           );
-        })}
-      </ReportPage>
+      {/* Objetivos */}
+      <DocSectionTitle>{report.sections.objectives}</DocSectionTitle>
+      
+      <DocText style={{ fontFamily: 'Helvetica-Bold', marginBottom: 5 }}>{report.sections.generalObjectives}</DocText>
+      <DocText>{content.generalObjectives}</DocText>
+      
+      <DocText style={{ fontFamily: 'Helvetica-Bold', marginTop: 15, marginBottom: 5 }}>{report.sections.specificObjectives}</DocText>
+      <DocText>{report.text.specificObjectivesIntro}</DocText>
+      <PDFBulletList items={content.objectives} />
 
+      <View break />
 
-      <ReportPage>
-        <PDFSection title={report.sections.identification} titleStyle={reportH1Style}>
-             <PDFKeyValueTable items={idItems} labelWidth={200} />
-        </PDFSection>
-      </ReportPage>
+      {/* Cronograma */}
+      <DocSectionTitle>{report.sections.schedule}</DocSectionTitle>
+      <DocText>{report.text.scheduleIntro}</DocText>
+      {content.schedule.map((item, index) => (
+        <DocText key={index}>
+          {item.period}: {item.description}
+        </DocText>
+      ))}
 
+      <View break />
 
-      <ReportPage>
-        <PDFSection title={report.sections.introduction} titleStyle={reportH1Style}>
-            <ReportParagraph>{content.introduction}</ReportParagraph>
-        </PDFSection>
-      </ReportPage>
+      {/* Metodologia */}
+      <DocSectionTitle>{report.sections.methodology}</DocSectionTitle>
+      <DocText>{content.methodology}</DocText>
 
+      <View break />
 
-      <ReportPage>
-        <PDFSection title={report.sections.objectives} titleStyle={reportH1Style}>
-            <ReportH2>{report.sections.generalObjectives}</ReportH2>
-            <ReportParagraph>{content.generalObjectives}</ReportParagraph>
-            
-            <ReportH2>{report.sections.specificObjectives}</ReportH2>
-            <ReportParagraph>
-              {report.text.specificObjectivesIntro}
-            </ReportParagraph>
-            <PDFBulletList items={content.objectives} />
-        </PDFSection>
-      </ReportPage>
+      {/* Desenvolvimento */}
+      <DocSectionTitle>{report.sections.development}</DocSectionTitle>
+      <DocText>{content.development}</DocText>
 
+      <View break />
 
-      <ReportPage>
-        <PDFSection title={report.sections.schedule} titleStyle={reportH1Style}>
-            <ReportParagraph>
-              {report.text.scheduleIntro}
-            </ReportParagraph>
-            {content.schedule.map((item, index) => (
-              <ReportParagraph key={index}>
-                {item.period}: {item.description}
-              </ReportParagraph>
-            ))}
-        </PDFSection>
-      </ReportPage>
+      {/* Avaliação */}
+      <DocSectionTitle>{report.sections.evaluation}</DocSectionTitle>
+      <PDFTable columns={evalColumns} rows={evalRows} />
 
+      <View break />
 
-      <ReportPage>
-         <PDFSection title={report.sections.methodology} titleStyle={reportH1Style}>
-            <ReportParagraph>{content.methodology}</ReportParagraph>
-         </PDFSection>
-      </ReportPage>
-
-
-      <ReportPage>
-         <PDFSection title={report.sections.development} titleStyle={reportH1Style}>
-            <ReportParagraph>{content.development}</ReportParagraph>
-         </PDFSection>
-      </ReportPage>
-
-
-      <ReportPage>
-         <PDFSection title={report.sections.evaluation} titleStyle={reportH1Style}>
-            <PDFTable columns={evalColumns} rows={evalRows} />
-         </PDFSection>
-      </ReportPage>
-
-
-      <ReportPage>
-         <PDFSection title={report.sections.conclusion} titleStyle={reportH1Style}>
-            <ReportParagraph>{content.conclusion}</ReportParagraph>
-         </PDFSection>
-      </ReportPage>
-    </Document>
+      {/* Conclusão */}
+      <DocSectionTitle>{report.sections.conclusion}</DocSectionTitle>
+      <DocText>{content.conclusion}</DocText>
+    </DocumentLayout>
   );
 }

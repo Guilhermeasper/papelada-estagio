@@ -1,5 +1,3 @@
-
-
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Button } from './Button';
 

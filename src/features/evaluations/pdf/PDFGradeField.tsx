@@ -1,5 +1,5 @@
 import { StyleSheet, Text } from '@react-pdf/renderer';
-import { fonts } from '../../../shared/components/pdf';
+import { fonts } from '../../../components/pdf';
 
 const styles = StyleSheet.create({
   text: {

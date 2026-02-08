@@ -3,7 +3,7 @@
 import { StyleSheet, Text } from '@react-pdf/renderer';
 import type { Style } from '@react-pdf/types';
 import type { ReactNode } from 'react';
-import { fonts } from '../../../shared/components/pdf';
+import { fonts } from '../../../components/pdf';
 
 const styles = StyleSheet.create({
   fieldLabel: {

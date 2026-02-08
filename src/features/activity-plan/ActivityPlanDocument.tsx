@@ -11,9 +11,9 @@ import {
   PDFSection,
   PDFTable,
   type ColumnConfig,
-} from '../../shared/components/pdf';
-import { PDF_CONTENT } from '../../shared/constants/pdf-content';
-import type { IInternshipData } from '../../shared/domain/types';
+} from '../../components/pdf';
+import { PDF_CONTENT } from '../../constants/pdf-content';
+import type { IInternshipData } from '../../types/types';
 import {
   ActivityPlanEvaluationIndent,
   ActivityPlanEvaluationText,

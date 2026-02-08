@@ -1,4 +1,4 @@
-import { Button, ChecklistCard, ChecklistItem } from '../../../shared/components';
+import { Button, ChecklistCard, ChecklistItem } from '../../../components';
 import type { IStep1Props } from '../step-types';
 import { checklistData } from './checklistData';
 

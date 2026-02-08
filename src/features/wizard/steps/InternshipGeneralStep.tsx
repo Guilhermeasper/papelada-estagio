@@ -1,10 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Button, Input, Select } from '../../../shared/components';
-import { useDebounce } from '../../../shared/hooks';
-import { dateService } from '../../../shared/services';
-import { formatDatePtBr } from '../../../shared/utils/dateUtils';
+import { Button, Input, Select } from '../../../components';
+import { useDebounce } from '../../../hooks';
+import { dateService } from '../../../services';
+import { formatDatePtBr } from '../../../utils/dateUtils';
 import { InternshipGeneralFormData, internshipGeneralSchema } from '../schemas/validationSchemas';
 import type { IStep4Props } from '../step-types';
 

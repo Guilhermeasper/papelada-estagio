@@ -1,7 +1,7 @@
 
 
 import { useState } from 'react';
-import { IStepInfo, WizardStep } from '../../shared/domain/types';
+import { IStepInfo, WizardStep } from '../../types/types';
 
 interface StepIndicatorProps {
   currentStep: WizardStep;

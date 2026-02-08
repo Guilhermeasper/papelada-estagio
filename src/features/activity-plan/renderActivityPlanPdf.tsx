@@ -1,7 +1,7 @@
 
 
 import { pdf } from '@react-pdf/renderer';
-import type { IInternshipData } from '../../shared/domain/types';
+import type { IInternshipData } from '../../types/types';
 import { ActivityPlanDocument } from './ActivityPlanDocument';
 
 export async function renderActivityPlanPdf(data: IInternshipData): Promise<Blob> {

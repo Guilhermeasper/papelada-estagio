@@ -1,5 +1,5 @@
 
-import type { IInternshipData } from '../../shared/domain/types';
+import type { IInternshipData } from '../../types/types';
 import { EvaluationDocument, type IEvaluationFormData } from '../evaluations/pdf/EvaluationDocument';
 
 interface AdvisorEvaluationDocumentProps {

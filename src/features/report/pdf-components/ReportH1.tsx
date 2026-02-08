@@ -2,7 +2,7 @@
 
 import { StyleSheet, Text } from '@react-pdf/renderer';
 import type { ReactNode } from 'react';
-import { colors, fonts } from '../../../shared/components/pdf';
+import { colors, fonts } from '../../../components/pdf';
 
 const styles = StyleSheet.create({
   h1: {

@@ -1,8 +1,8 @@
 
 import { PDFViewer } from '@react-pdf/renderer';
 import { SupervisorEvaluationDocument } from '../../features/supervisor-eval/SupervisorEvaluationDocument';
-import { mockInternshipData } from '../../shared/mocks/mockInternshipData';
-import { mockSupervisorEvaluationData } from '../../shared/mocks/mockSupervisorEvaluationData';
+import { mockInternshipData } from '../../mocks/mockInternshipData';
+import { mockSupervisorEvaluationData } from '../../mocks/mockSupervisorEvaluationData';
 
 export function SupervisorEvaluationPage() {
   return (

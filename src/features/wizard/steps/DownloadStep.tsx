@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Button } from '../../../shared/components';
-import { DocumentType } from '../../../shared/domain/types';
-import { pdfService } from '../../../shared/services';
+import { Button } from '../../../components';
+import { pdfService } from '../../../services';
+import { DocumentType } from '../../../types/types';
 import type { IStep8Props } from '../step-types';
 
 export function DownloadStep({ data, onBack }: IStep8Props) {

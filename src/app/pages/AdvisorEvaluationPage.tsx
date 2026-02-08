@@ -1,8 +1,8 @@
 
 import { PDFViewer } from '@react-pdf/renderer';
 import { AdvisorEvaluationDocument } from '../../features/advisor-eval/AdvisorEvaluationDocument';
-import { mockAdvisorEvaluationData } from '../../shared/mocks/mockAdvisorEvaluationData';
-import { mockInternshipData } from '../../shared/mocks/mockInternshipData';
+import { mockAdvisorEvaluationData } from '../../mocks/mockAdvisorEvaluationData';
+import { mockInternshipData } from '../../mocks/mockInternshipData';
 
 export function AdvisorEvaluationPage() {
   return (
