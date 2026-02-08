@@ -155,11 +155,9 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
                   </p>
                 )}
 
-                <textarea
+                <TextArea
                   {...register(`schedule.${index}.description`)}
                   placeholder="Descrição das atividades do período..."
-                  rows={3}
-                  className="w-full px-4 py-2 border border-border dark:border-border-dark rounded-md bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark focus:border-cin-red focus:ring-2 focus:ring-cin-red/20 resize-y"
                 />
                 {errors.schedule?.[index]?.description && (
                   <p className="text-xs text-cin-red">
@@ -203,7 +201,7 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
           required
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
           <TextArea
             label="Objetivos Gerais"
             {...register("generalObjectives")}

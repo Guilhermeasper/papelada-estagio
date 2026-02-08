@@ -1,29 +1,59 @@
-import { forwardRef, TextareaHTMLAttributes } from "react";
+import {
+  forwardRef,
+  TextareaHTMLAttributes,
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+} from "react";
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label: string;
+  label?: string;
   error?: string;
   hint?: string;
 }
 
 export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ label, error, hint, id, className = "", rows = 4, ...props }, ref) => {
-    const textareaId = id || label.toLowerCase().replace(/\s+/g, "-");
+  (
+    { label, error, hint, id, className = "", onInput, ...props },
+    ref,
+  ) => {
+    const textareaId = id || label?.toLowerCase().replace(/\s+/g, "-");
+    const localRef = useRef<HTMLTextAreaElement>(null);
+
+    useImperativeHandle(ref, () => localRef.current as HTMLTextAreaElement);
+
+    const adjustHeight = () => {
+      const textarea = localRef.current;
+      if (textarea) {
+        textarea.style.height = "0px";
+        textarea.style.height = `${textarea.scrollHeight}px`;
+      }
+    };
+
+    useLayoutEffect(() => {
+      adjustHeight();
+    }, []);
+
+    useLayoutEffect(() => {
+      adjustHeight();
+    }, [props.value]);
 
     return (
       <div className="flex flex-col gap-1.5">
-        <label
-          htmlFor={textareaId}
-          className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark"
-        >
-          {label}
-          {props.required && <span className="text-cin-red ml-0.5">*</span>}
-        </label>
+        {label && (
+          <label
+            htmlFor={textareaId}
+            className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark"
+          >
+            {label}
+            {props.required && <span className="text-cin-red ml-0.5">*</span>}
+          </label>
+        )}
 
         <textarea
-          ref={ref}
+          ref={localRef}
           id={textareaId}
-          rows={rows}
+          style={{ overflow: "hidden", resize: "none" }}
           className={`
             w-full px-4 py-2.5 text-sm md:text-base 
             border border-border dark:border-border-dark rounded-md
@@ -33,7 +63,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             hover:border-text-secondary dark:hover:border-text-secondary-dark
             focus:border-cin-red focus:ring-2 focus:ring-cin-red/20
             disabled:bg-text-secondary/20 dark:disabled:bg-text-secondary-dark/20 disabled:cursor-not-allowed
-            resize-y min-h-[100px]
+            min-h-[100px]
             ${error ? "border-cin-red" : ""}
             ${className}
           `}
@@ -45,6 +75,10 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
                 ? `${textareaId}-hint`
                 : undefined
           }
+          onInput={(e) => {
+            adjustHeight();
+            onInput?.(e);
+          }}
           {...props}
         />
 

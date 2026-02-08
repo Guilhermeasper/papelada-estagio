@@ -1,4 +1,5 @@
 import { Button } from "./Button";
+import { TextArea } from "./TextArea";
 
 interface DynamicListProps {
   label: string;
@@ -77,22 +78,11 @@ export function DynamicList({
               {index + 1}.
             </span>
 
-            <textarea
+            <TextArea
               value={item}
-              onChange={(e) => onChange(index, e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onChange(index, e.target.value)}
               placeholder={placeholder}
-              rows={2}
-              className={`
-                w-full md:flex-1 min-w-0 px-3 md:px-4 py-2 md:py-2.5 
-                text-sm md:text-base
-                border border-border dark:border-border-dark rounded-md
-                bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark
-                placeholder:text-text-secondary dark:placeholder:text-text-secondary-dark
-                transition-colors duration-200
-                hover:border-text-secondary dark:hover:border-text-secondary-dark
-                focus:border-cin-red focus:ring-2 focus:ring-cin-red/20
-                resize-y min-h-[50px] md:min-h-[60px]
-              `}
+              className="min-h-[50px] md:min-h-[60px]"
             />
 
             {canRemove && (
