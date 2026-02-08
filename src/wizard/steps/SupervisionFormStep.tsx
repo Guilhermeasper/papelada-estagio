@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Input } from "@papelada-estagio/components";
+import { Button, EmailInput, Input, MaskedInput } from "@papelada-estagio/components";
 import { IStep6Props } from "@papelada-estagio/types";
 import {
   SupervisionFormData,
@@ -65,26 +65,26 @@ export function SupervisionFormStep({ data, onNext, onBack }: IStep6Props) {
             required
           />
 
-          <Input
+          <EmailInput
             label="E-mail"
-            type="email"
             placeholder="email@empresa.com"
             {...register("supervisorEmail")}
             error={errors.supervisorEmail?.message}
             required
           />
 
-          <Input
+          <MaskedInput
             label="Telefone"
-            type="tel"
+            mask="phone"
             placeholder="(00) 00000-0000"
             {...register("supervisorPhone")}
             error={errors.supervisorPhone?.message}
             required
           />
 
-          <Input
+          <MaskedInput
             label="CPF"
+            mask="cpf"
             placeholder="000.000.000-00"
             {...register("supervisorCpf")}
             error={errors.supervisorCpf?.message}
@@ -122,9 +122,8 @@ export function SupervisionFormStep({ data, onNext, onBack }: IStep6Props) {
             required
           />
 
-          <Input
+          <EmailInput
             label="E-mail"
-            type="email"
             placeholder="email@cin.ufpe.br"
             {...register("advisorEmail")}
             error={errors.advisorEmail?.message}

@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Input } from "@papelada-estagio/components";
+import { Button, Input, MaskedInput } from "@papelada-estagio/components";
 import { IStep3Props } from "@papelada-estagio/types";
 import { CompanyFormData, companySchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useForm } from "react-hook-form";
@@ -46,8 +46,9 @@ export function CompanyFormStep({ data, onNext, onBack }: IStep3Props) {
           required
         />
 
-        <Input
+        <MaskedInput
           label="CNPJ"
+          mask="cnpj"
           placeholder="00.000.000/0000-00"
           {...register("companyCnpj")}
           error={errors.companyCnpj?.message}

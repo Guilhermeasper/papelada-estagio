@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Autocomplete, Button, Input } from "@papelada-estagio/components";
+import { Autocomplete, Button, EmailInput, Input, MaskedInput } from "@papelada-estagio/components";
 import { IStep2Props } from "@papelada-estagio/types";
 import { StudentFormData, studentSchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useForm } from "react-hook-form";
@@ -40,18 +40,17 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
           />
         </div>
 
-        <Input
+        <EmailInput
           label="E-mail"
-          type="email"
           placeholder="seu.email@exemplo.com"
           {...register("email")}
           error={errors.email?.message}
           required
         />
 
-        <Input
+        <MaskedInput
           label="Telefone"
-          type="tel"
+          mask="phone"
           placeholder="(00) 00000-0000"
           {...register("phone")}
           error={errors.phone?.message}
@@ -82,8 +81,9 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
           required
         />
 
-        <Input
+        <MaskedInput
           label="Ano de Ingresso"
+          mask="enrollmentYear"
           placeholder="Ex: 2018.2"
           {...register("enrollmentYear")}
           error={errors.enrollmentYear?.message}
