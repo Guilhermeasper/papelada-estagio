@@ -95,7 +95,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
             render={({ field }) => (
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark">
-                  Horas por Dia <span className="text-cin-red">*</span>
+                  Horas por Dia <span className="text-destructive">*</span>
                 </label>
                 <input
                   type="number"
@@ -107,12 +107,12 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
                     w-full px-4 py-2.5 
                     border border-border dark:border-border-dark rounded-md
                     bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark
-                    focus:border-cin-red focus:ring-2 focus:ring-cin-red/20
-                    ${errors.hoursPerDay ? "border-cin-red" : ""}
+                    focus:border-input-focus focus:ring-2 focus:ring-input-focus/20
+                    ${errors.hoursPerDay ? "border-input-error" : ""}
                   `}
                 />
                 {errors.hoursPerDay && (
-                  <p className="text-xs text-cin-red">
+                  <p className="text-xs text-error-text">
                     {errors.hoursPerDay.message}
                   </p>
                 )}
@@ -134,7 +134,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
           <div className="bg-surface dark:bg-surface-dark rounded-md p-4 border border-border dark:border-border-dark">
             <div className="flex items-center gap-2 mb-2">
               <svg
-                className="w-5 h-5 text-cin-red"
+                className="w-5 h-5 text-brand-accent"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -172,7 +172,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
                   Total de horas:
                 </span>
                 <p
-                  className={`font-medium ${periodInfo.totalHours >= 300 ? "text-green-600" : "text-cin-red"}`}
+                  className={`font-medium ${periodInfo.totalHours >= 300 ? "text-success" : "text-error-text"}`}
                 >
                   {periodInfo.totalHours}h
                   {periodInfo.totalHours >= 300 ? " ✓" : " (mín. 300h)"}

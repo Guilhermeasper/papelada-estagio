@@ -29,7 +29,7 @@ export function DynamicList({
       <div className="flex items-center justify-between">
         <label className="text-sm font-medium text-text-primary dark:text-text-primary-dark">
           {label}
-          <span className="text-cin-red ml-0.5">*</span>
+          <span className="text-destructive ml-0.5">*</span>
         </label>
         <span className="text-xs text-text-secondary dark:text-text-secondary-dark">
           Mínimo: {minItems} item(s)
@@ -53,7 +53,7 @@ export function DynamicList({
                   variant="ghost"
                   className="
                     p-1.5 h-auto
-                    text-text-secondary dark:text-text-secondary-dark hover:text-cin-red
+                    text-text-secondary dark:text-text-secondary-dark hover:text-destructive
                     hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10
                   "
                   title="Remover item"
@@ -94,7 +94,7 @@ export function DynamicList({
                   hidden md:flex
                   shrink-0 w-10 h-10 p-0
                   items-center justify-center
-                  text-text-secondary dark:text-text-secondary-dark hover:text-cin-red
+                  text-text-secondary dark:text-text-secondary-dark hover:text-destructive
                   hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10
                 "
                 title="Remover item"
@@ -139,7 +139,7 @@ export function DynamicList({
         Adicionar item
       </Button>
 
-      {error && <p className="text-xs text-cin-red font-medium">{error}</p>}
+      {error && <p className="text-xs text-error-text font-medium">{error}</p>}
     </div>
   );
 }

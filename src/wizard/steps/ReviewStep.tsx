@@ -100,7 +100,7 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
                     key={`schedule-${item.period}-${item.description}`}
                     className="bg-surface-elevated dark:bg-surface-elevated-dark rounded p-3 border border-border dark:border-border-dark"
                   >
-                    <p className="text-xs font-medium text-cin-red">
+                    <p className="text-xs font-medium text-brand-accent">
                       {item.period}
                     </p>
                     <p className="text-sm text-text-primary dark:text-text-primary-dark mt-1">
@@ -207,7 +207,7 @@ function ReviewSection({ title, step, onEdit, children }: ReviewSectionProps) {
           variant="ghost"
           size="sm"
           onClick={() => onEdit(step)}
-          className="text-cin-red hover:text-cin-dark hover:bg-cin-red/5 p-0 h-auto font-medium"
+          className="text-primary dark:text-cin-white hover:text-primary-hover dark:hover:text-cin-gray hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 p-0 h-auto font-medium"
         >
           <svg
             className="w-4 h-4 mr-1"

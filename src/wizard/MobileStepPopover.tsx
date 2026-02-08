@@ -52,14 +52,14 @@ export function MobileStepPopover({
         className="w-full flex items-center justify-between bg-surface-elevated dark:bg-surface-elevated-dark border border-border dark:border-border-dark rounded-lg p-3 shadow-sm hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors h-auto"
       >
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-cin-red text-white rounded-full flex items-center justify-center text-sm font-semibold">
+          <div className="w-8 h-8 bg-brand-accent text-white rounded-full flex items-center justify-center text-sm font-semibold">
             {currentStep}
           </div>
           <div className="text-left">
             <p className="text-xs text-text-secondary dark:text-text-secondary-dark font-normal">
               Passo {currentStep} de {steps.length}
             </p>
-            <p className="text-sm font-semibold text-cin-red">
+            <p className="text-sm font-semibold text-brand-accent">
               {currentStepInfo?.title}
             </p>
           </div>
@@ -140,7 +140,7 @@ export function MobileStepPopover({
                     variant="ghost"
                     className={`
                       w-full items-start justify-start gap-4 p-4 rounded-xl h-auto
-                      ${isCurrent ? "bg-cin-red/10 border-2 border-cin-red hover:bg-cin-red/15" : "bg-text-secondary/10 dark:bg-text-secondary-dark/10 border-2 border-transparent"}
+                      ${isCurrent ? "bg-brand-accent/10 border-2 border-brand-accent hover:bg-brand-accent/15" : "bg-text-secondary/10 dark:bg-text-secondary-dark/10 border-2 border-transparent"}
                       ${isClickable ? "cursor-pointer" : "opacity-50 cursor-not-allowed"}
                     `}
                   >
@@ -150,9 +150,9 @@ export function MobileStepPopover({
                         font-semibold text-sm
                         ${
                           isCompletedNotViewing
-                            ? "bg-cin-red text-white"
+                            ? "bg-brand-accent text-white"
                             : isCurrent || isCompleted || isWorkingStep
-                              ? "bg-transparent border-2 border-cin-red text-cin-red"
+                              ? "bg-transparent border-2 border-brand-accent text-brand-accent"
                               : "bg-border dark:bg-border-dark text-text-secondary dark:text-text-secondary-dark"
                         }
                       `}
@@ -176,7 +176,7 @@ export function MobileStepPopover({
 
                     <div className="flex-1 text-left">
                       <p
-                        className={`text-sm font-medium ${isCurrent ? "text-cin-red" : isCompleted ? "text-cin-red/80" : "text-text-secondary dark:text-text-secondary-dark"}`}
+                        className={`text-sm font-medium ${isCurrent ? "text-brand-accent" : isCompleted ? "text-brand-accent/80" : "text-text-secondary dark:text-text-secondary-dark"}`}
                       >
                         {step.title}
                       </p>
@@ -190,7 +190,7 @@ export function MobileStepPopover({
                               key={i}
                               className="flex items-start gap-1.5 text-xs text-text-secondary dark:text-text-secondary-dark"
                             >
-                              <span className="text-cin-red mt-0.5">•</span>
+                              <span className="text-brand-accent mt-0.5">•</span>
                               <span>{req}</span>
                             </li>
                           ))}

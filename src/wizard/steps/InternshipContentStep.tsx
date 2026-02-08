@@ -147,10 +147,10 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
                 <input
                   {...register(`schedule.${index}.period`)}
                   placeholder="Ex: 20/11/2025 a 30/11/2025"
-                  className="w-full px-4 py-2 border border-border dark:border-border-dark rounded-md bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark focus:border-cin-red focus:ring-2 focus:ring-cin-red/20"
+                  className="w-full px-4 py-2 border border-border dark:border-border-dark rounded-md bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark focus:border-input-focus focus:ring-2 focus:ring-input-focus/20"
                 />
                 {errors.schedule?.[index]?.period && (
-                  <p className="text-xs text-cin-red">
+                  <p className="text-xs text-error-text">
                     {errors.schedule[index]?.period?.message}
                   </p>
                 )}
@@ -160,7 +160,7 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
                   placeholder="Descrição das atividades do período..."
                 />
                 {errors.schedule?.[index]?.description && (
-                  <p className="text-xs text-cin-red">
+                  <p className="text-xs text-error-text">
                     {errors.schedule[index]?.description?.message}
                   </p>
                 )}

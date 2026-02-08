@@ -7,6 +7,7 @@
   --color-cin-dark: #af0421;
   --color-cin-black: #231f20;
   --color-cin-gray: #e0e1e0;
+  --color-cin-light-gray: #f4f4f5;
   --color-cin-white: #ffffff;
 
   --color-surface: #ffffff;
@@ -18,8 +19,22 @@
   --color-surface-dark: #231f20;
   --color-surface-elevated-dark: #2e2a2b;
   --color-text-primary-dark: #ffffff;
-  --color-text-secondary-dark: #e0e1e0;
+  --color-text-secondary-dark: #9a9a9a;
   --color-border-dark: #3d3939;
+
+  --color-primary: var(--color-cin-black);
+  --color-primary-hover: #3f3f46;
+  --color-destructive: var(--color-cin-red);
+  --color-brand-accent: var(--color-cin-red);
+
+  --color-error-text: var(--color-cin-red);
+  --color-error-bg: #fff1f2;
+  --color-success: #15803d;
+  --color-warning: #ca8a04;
+
+  --color-input-border: var(--color-cin-gray);
+  --color-input-focus: var(--color-cin-black);
+  --color-input-error: var(--color-cin-red);
 
   --font-sans: "Montserrat", sans-serif;
   --font-serif: "Merriweather", serif;
@@ -32,5 +47,5 @@ body {
 }
 
 *:focus-visible {
-  @apply outline-2 outline-offset-2 outline-cin-red;
+  @apply outline-2 outline-offset-2 outline-primary;
 }

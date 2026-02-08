@@ -23,7 +23,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark"
         >
           {label}
-          {props.required && <span className="text-cin-red ml-0.5">*</span>}
+          {props.required && <span className="text-destructive ml-0.5">*</span>}
         </label>
 
         <select
@@ -35,9 +35,9 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark
             transition-colors duration-200
             hover:border-text-secondary dark:hover:border-text-secondary-dark
-            focus:border-cin-red focus:ring-2 focus:ring-cin-red/20
+            focus:border-input-focus focus:ring-2 focus:ring-input-focus/20
             disabled:bg-text-secondary/20 dark:disabled:bg-text-secondary-dark/20 disabled:cursor-not-allowed
-            ${error ? "border-cin-red" : ""}
+            ${error ? "border-input-error" : ""}
             ${className}
           `}
           aria-invalid={!!error}
@@ -66,7 +66,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         {error && (
           <p
             id={`${selectId}-error`}
-            className="text-xs text-cin-red font-medium"
+            className="text-xs text-error-text font-medium"
           >
             {error}
           </p>

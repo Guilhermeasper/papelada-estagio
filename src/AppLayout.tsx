@@ -11,7 +11,7 @@ export function AppLayout({ children, headerActions }: AppLayoutProps) {
       <header className="bg-surface-elevated dark:bg-surface-elevated-dark border-b border-border dark:border-border-dark">
         <div className="max-w-6xl mx-auto px-4 py-6">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-cin-red rounded-lg flex items-center justify-center">
+            <div className="w-12 h-12 bg-brand-accent rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg">CIn</span>
             </div>
             <div>

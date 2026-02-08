@@ -84,7 +84,7 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
             variant="ghost"
             size="sm"
             onClick={selectAll}
-            className="text-cin-red hover:text-cin-dark font-medium hover:bg-cin-red/5 p-0 px-2 h-auto"
+            className="text-primary dark:text-cin-white hover:text-primary-hover dark:hover:text-cin-gray font-medium hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 p-0 px-2 h-auto"
           >
             {selectedDocs.size === documentOptions.length
               ? "Desmarcar todos"
@@ -105,7 +105,7 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
                   relative rounded-lg border-2 p-4 cursor-pointer transition-all
                   ${
                     isSelected
-                      ? "border-cin-red bg-cin-red/5"
+                      ? "border-brand-accent bg-brand-accent/5"
                       : "border-border dark:border-border-dark hover:border-text-secondary dark:hover:border-text-secondary-dark"
                   }
                 `}
@@ -115,7 +115,7 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
                   <div
                     className={`
                     flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center mt-0.5
-                    ${isSelected ? "bg-cin-red border-cin-red" : "border-border dark:border-border-dark"}
+                    ${isSelected ? "bg-brand-accent border-brand-accent" : "border-border dark:border-border-dark"}
                   `}
                   >
                     {isSelected && (

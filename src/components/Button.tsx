@@ -26,15 +26,15 @@ export function Button({
     inline-flex items-center justify-center gap-2
     font-medium rounded-md
     transition-all duration-200
-    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cin-red
+    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
     disabled:opacity-50 disabled:cursor-not-allowed
   `;
 
   const variants = {
     primary: `
-      bg-cin-red text-white
-      hover:bg-cin-dark
-      active:bg-cin-dark
+      bg-primary text-white dark:text-cin-black dark:bg-cin-white
+      hover:bg-primary-hover dark:hover:bg-cin-gray
+      active:bg-primary-hover dark:active:bg-cin-gray
     `,
     secondary: `
       bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark border border-border dark:border-border-dark
@@ -42,9 +42,9 @@ export function Button({
       active:bg-text-secondary/20 dark:active:bg-text-secondary-dark/20
     `,
     outline: `
-      border-2 border-cin-red text-cin-red
-      hover:bg-cin-red hover:text-white
-      active:bg-cin-dark
+      border-2 border-primary dark:border-cin-white text-primary dark:text-cin-white
+      hover:bg-primary hover:text-white dark:hover:bg-cin-white dark:hover:text-cin-black
+      active:bg-primary-hover dark:active:bg-cin-gray
     `,
     ghost: `
       text-text-primary dark:text-text-primary-dark
@@ -52,16 +52,16 @@ export function Button({
       active:bg-text-secondary/20 dark:active:bg-text-secondary-dark/20
     `,
     danger: `
-      bg-red-600 text-white
-      hover:bg-red-700
-      active:bg-red-800
-      focus:ring-red-500
+      bg-destructive text-white
+      hover:bg-cin-dark
+      active:bg-cin-dark
+      focus:ring-destructive
     `,
     "danger-ghost": `
-      text-red-600 dark:text-red-400
-      hover:bg-red-600/10 dark:hover:bg-red-400/10
-      active:bg-red-600/20 dark:active:bg-red-400/20
-      focus:ring-red-500
+      text-destructive dark:text-destructive
+      hover:bg-destructive/10 dark:hover:bg-destructive/10
+      active:bg-destructive/20 dark:active:bg-destructive/20
+      focus:ring-destructive
     `,
   };
 

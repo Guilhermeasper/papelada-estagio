@@ -35,7 +35,7 @@ export function SupervisionFormStep({ data, onNext, onBack }: IStep6Props) {
       <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 border border-border dark:border-border-dark">
         <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-4 flex items-center gap-2">
           <svg
-            className="w-5 h-5 text-cin-red"
+            className="w-5 h-5 text-brand-accent"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -96,7 +96,7 @@ export function SupervisionFormStep({ data, onNext, onBack }: IStep6Props) {
       <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 border border-border dark:border-border-dark">
         <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-4 flex items-center gap-2">
           <svg
-            className="w-5 h-5 text-cin-red"
+            className="w-5 h-5 text-brand-accent"
             fill="currentColor"
             viewBox="0 0 20 20"
           >

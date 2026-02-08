@@ -92,7 +92,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
           className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark"
         >
           {label}
-          {props.required && <span className="text-cin-red ml-0.5">*</span>}
+          {props.required && <span className="text-destructive ml-0.5">*</span>}
         </label>
 
         <div className="relative">
@@ -106,9 +106,9 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
                 placeholder:text-text-secondary dark:placeholder:text-text-secondary-dark
                 transition-colors duration-200
                 hover:border-text-secondary dark:hover:border-text-secondary-dark
-                focus:border-cin-red focus:ring-2 focus:ring-cin-red/20
+                focus:border-input-focus focus:ring-2 focus:ring-input-focus/20
                 disabled:bg-text-secondary/20 dark:disabled:bg-text-secondary-dark/20 disabled:cursor-not-allowed
-                ${error ? "border-cin-red" : ""}
+                ${error ? "border-input-error" : ""}
                 ${className}
             `}
             aria-invalid={!!error}
@@ -135,7 +135,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
                     {filteredOptions.map((option) => (
                         <li
                             key={option}
-                            className="px-4 py-2 text-sm text-text-primary dark:text-text-primary-dark hover:bg-cin-red/10 cursor-pointer transition-colors duration-150"
+                            className="px-4 py-2 text-sm text-text-primary dark:text-text-primary-dark hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 cursor-pointer transition-colors duration-150"
                             onClick={() => handleSelectOption(option)}
                         >
                             {option}
@@ -157,7 +157,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
         {error && (
           <p
             id={`${inputId}-error`}
-            className="text-xs text-cin-red font-medium"
+            className="text-xs text-error-text font-medium"
           >
             {error}
           </p>

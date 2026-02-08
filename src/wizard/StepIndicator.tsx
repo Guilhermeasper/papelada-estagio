@@ -61,11 +61,11 @@ export function StepIndicator({
                       font-semibold text-xs md:text-sm transition-all duration-300 shrink-0
                       ${
                         isCompletedNotViewing
-                          ? "bg-cin-red text-white"
+                          ? "bg-brand-accent text-white"
                           : isCurrent
-                            ? "bg-transparent border-2 border-cin-red text-cin-red ring-4 ring-cin-red/20"
+                            ? "bg-transparent border-2 border-brand-accent text-brand-accent ring-4 ring-brand-accent/20"
                             : isCompleted || isWorkingStep
-                              ? "bg-transparent border-2 border-cin-red text-cin-red"
+                              ? "bg-transparent border-2 border-brand-accent text-brand-accent"
                               : "bg-border dark:bg-border-dark text-text-secondary dark:text-text-secondary-dark"
                       }
                       ${isClickable ? "cursor-pointer hover:scale-110" : "cursor-not-allowed"}
@@ -103,7 +103,7 @@ export function StepIndicator({
                       step.requirements.length > 0 && (
                         <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-50 w-max max-w-xs">
                           <div className="bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark text-xs rounded-lg py-2 px-3 shadow-lg border border-border dark:border-border-dark">
-                            <p className="font-semibold mb-1 text-cin-red">
+                            <p className="font-semibold mb-1 text-brand-accent">
                               {step.title}
                             </p>
                             <ul className="space-y-0.5">
@@ -113,7 +113,7 @@ export function StepIndicator({
                                     key={i}
                                     className="flex items-start gap-1.5"
                                   >
-                                    <span className="text-cin-red mt-0.5">
+                                    <span className="text-brand-accent mt-0.5">
                                       •
                                     </span>
                                     <span>{req}</span>
@@ -135,7 +135,7 @@ export function StepIndicator({
                       className={`
                         w-1 h-8 rounded
                         transition-all duration-300
-                        ${isCompleted ? "bg-cin-red" : "bg-border dark:bg-border-dark"}
+                        ${isCompleted ? "bg-brand-accent" : "bg-border dark:bg-border-dark"}
                       `}
                     />
                   )}
@@ -148,7 +148,7 @@ export function StepIndicator({
                   <p
                     className={`
                       text-sm md:text-base font-medium
-                      ${isCurrent ? "text-cin-red" : isCompleted ? "text-cin-red/70" : "text-text-secondary dark:text-text-secondary-dark"}
+                      ${isCurrent ? "text-brand-accent" : isCompleted ? "text-brand-accent/70" : "text-text-secondary dark:text-text-secondary-dark"}
                       ${isClickable ? "hover:underline" : ""}
                     `}
                   >
