@@ -16,7 +16,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          "react-vendor": ["react", "react-dom"],
+          "react-vendor": ["react", "react-dom", "react-dom/client"],
           "react-pdf": ["@react-pdf/renderer"],
           "form-libs": ["react-hook-form", "@hookform/resolvers", "zod"],
         },
