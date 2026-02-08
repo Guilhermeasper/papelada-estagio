@@ -1,43 +1,35 @@
 @import "tailwindcss";
 
-
 @variant dark (&:where(.dark, .dark *));
 
-
 @theme {
+  --color-cin-red: #db1e2f;
+  --color-cin-dark: #af0421;
+  --color-cin-black: #231f20;
+  --color-cin-gray: #e0e1e0;
+  --color-cin-white: #ffffff;
 
-  --color-cin-red: #DB1E2F;
-  --color-cin-dark: #AF0421;
-  --color-cin-black: #231F20;
-  --color-cin-gray: #E0E1E0;
-  --color-cin-white: #FFFFFF;
-  
+  --color-surface: #ffffff;
+  --color-surface-elevated: #ffffff;
+  --color-text-primary: #231f20;
+  --color-text-secondary: #6b6b6b;
+  --color-border: #e0e1e0;
 
-  --color-surface: #FFFFFF;
-  --color-surface-elevated: #FFFFFF;
-  --color-text-primary: #231F20;
-  --color-text-secondary: #6B6B6B;
-  --color-border: #E0E1E0;
-  
-
-  --color-surface-dark: #231F20;
-  --color-surface-elevated-dark: #2E2A2B;
-  --color-text-primary-dark: #FFFFFF;
-  --color-text-secondary-dark: #E0E1E0;
-  --color-border-dark: #AF0421;
-  
+  --color-surface-dark: #231f20;
+  --color-surface-elevated-dark: #2e2a2b;
+  --color-text-primary-dark: #ffffff;
+  --color-text-secondary-dark: #e0e1e0;
+  --color-border-dark: #af0421;
 
   --font-sans: "Montserrat", sans-serif;
   --font-serif: "Merriweather", serif;
 }
-
 
 body {
   @apply bg-surface text-text-primary font-sans dark:bg-surface-dark dark:text-text-primary-dark;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 
 *:focus-visible {
   @apply outline-2 outline-offset-2 outline-cin-red;

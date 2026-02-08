@@ -1,4 +1,4 @@
-import { forwardRef, InputHTMLAttributes } from 'react';
+import { forwardRef, InputHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -7,19 +7,19 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, hint, id, className = '', ...props }, ref) => {
-    const inputId = id || label.toLowerCase().replace(/\s+/g, '-');
-    
+  ({ label, error, hint, id, className = "", ...props }, ref) => {
+    const inputId = id || label.toLowerCase().replace(/\s+/g, "-");
+
     return (
       <div className="flex flex-col gap-1.5">
-        <label 
+        <label
           htmlFor={inputId}
           className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark"
         >
           {label}
           {props.required && <span className="text-cin-red ml-0.5">*</span>}
         </label>
-        
+
         <input
           ref={ref}
           id={inputId}
@@ -32,28 +32,36 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             hover:border-text-secondary dark:hover:border-text-secondary-dark
             focus:border-cin-red focus:ring-2 focus:ring-cin-red/20
             disabled:bg-text-secondary/20 dark:disabled:bg-text-secondary-dark/20 disabled:cursor-not-allowed
-            ${error ? 'border-cin-red' : ''}
+            ${error ? "border-cin-red" : ""}
             ${className}
           `}
           aria-invalid={!!error}
-          aria-describedby={error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined}
+          aria-describedby={
+            error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined
+          }
           {...props}
         />
-        
+
         {hint && !error && (
-          <p id={`${inputId}-hint`} className="text-xs text-text-secondary dark:text-text-secondary-dark">
+          <p
+            id={`${inputId}-hint`}
+            className="text-xs text-text-secondary dark:text-text-secondary-dark"
+          >
             {hint}
           </p>
         )}
-        
+
         {error && (
-          <p id={`${inputId}-error`} className="text-xs text-cin-red font-medium">
+          <p
+            id={`${inputId}-error`}
+            className="text-xs text-cin-red font-medium"
+          >
             {error}
           </p>
         )}
       </div>
     );
-  }
+  },
 );
 
-Input.displayName = 'Input';
+Input.displayName = "Input";

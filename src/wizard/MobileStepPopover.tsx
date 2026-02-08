@@ -1,8 +1,6 @@
-
-
-import { useRef } from 'react';
-import { Button } from '../components';
-import { IStepInfo, WizardStep } from '../types/types';
+import { useRef } from "react";
+import { Button } from "../components";
+import { IStepInfo, WizardStep } from "../types/types";
 
 interface MobileStepPopoverProps {
   currentStep: WizardStep;
@@ -11,17 +9,27 @@ interface MobileStepPopoverProps {
   onStepClick?: (step: WizardStep) => void;
 }
 
-export function MobileStepPopover({ currentStep, steps, completedSteps, onStepClick }: MobileStepPopoverProps) {
+export function MobileStepPopover({
+  currentStep,
+  steps,
+  completedSteps,
+  onStepClick,
+}: MobileStepPopoverProps) {
   const popoverRef = useRef<HTMLDivElement>(null);
   const currentStepInfo = steps.find((s) => s.step === currentStep);
 
+  const highestCompleted =
+    completedSteps.length > 0 ? Math.max(...completedSteps) : 0;
+  const workingStep = Math.min(
+    highestCompleted + 1,
+    steps.length,
+  ) as WizardStep;
 
-  const highestCompleted = completedSteps.length > 0 ? Math.max(...completedSteps) : 0;
-  const workingStep = Math.min(highestCompleted + 1, steps.length) as WizardStep;
-
-
-  const isStepClickable = (step: WizardStep) => 
-    step === 1 || completedSteps.includes(step) || step === currentStep || step === workingStep;
+  const isStepClickable = (step: WizardStep) =>
+    step === 1 ||
+    completedSteps.includes(step) ||
+    step === currentStep ||
+    step === workingStep;
 
   const handleStepClick = (step: IStepInfo) => {
     if (isStepClickable(step.step) && onStepClick) {
@@ -37,7 +45,6 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
 
   return (
     <>
-
       <Button
         // @ts-expect-error - popoverTarget is a new attribute
         popovertarget="steps-popover"
@@ -49,15 +56,28 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
             {currentStep}
           </div>
           <div className="text-left">
-            <p className="text-xs text-text-secondary dark:text-text-secondary-dark font-normal">Passo {currentStep} de {steps.length}</p>
-            <p className="text-sm font-semibold text-cin-red">{currentStepInfo?.title}</p>
+            <p className="text-xs text-text-secondary dark:text-text-secondary-dark font-normal">
+              Passo {currentStep} de {steps.length}
+            </p>
+            <p className="text-sm font-semibold text-cin-red">
+              {currentStepInfo?.title}
+            </p>
           </div>
         </div>
-        <svg className="w-5 h-5 text-text-secondary dark:text-text-secondary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        <svg
+          className="w-5 h-5 text-text-secondary dark:text-text-secondary-dark"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </Button>
-
 
       <div
         ref={popoverRef}
@@ -69,9 +89,10 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
           backdrop:bg-black/50
         "
       >
-
         <div className="flex items-center justify-between p-4 border-b border-border dark:border-border-dark bg-surface-elevated dark:bg-surface-elevated-dark sticky top-0">
-          <h2 className="text-base font-bold text-text-primary dark:text-text-primary-dark">Navegação</h2>
+          <h2 className="text-base font-bold text-text-primary dark:text-text-primary-dark">
+            Navegação
+          </h2>
           <Button
             onClick={closePopover}
             variant="ghost"
@@ -79,20 +100,32 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
             className="rounded-full"
             aria-label="Fechar"
           >
-            <svg className="w-6 h-6 text-text-primary dark:text-text-primary-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="w-6 h-6 text-text-primary dark:text-text-primary-dark"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </Button>
         </div>
 
-
-        <div className="p-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 70px)' }}>
+        <div
+          className="p-4 overflow-y-auto"
+          style={{ maxHeight: "calc(100vh - 70px)" }}
+        >
           <ol className="flex flex-col gap-2">
             {steps.map((step) => {
-
-              const isCompleted = step.step === 1 
-                ? completedSteps.length > 0 
-                : completedSteps.includes(step.step);
+              const isCompleted =
+                step.step === 1
+                  ? completedSteps.length > 0
+                  : completedSteps.includes(step.step);
               const isCurrent = step.step === currentStep;
               const isClickable = isStepClickable(step.step);
               const isWorkingStep = step.step === workingStep;
@@ -107,26 +140,29 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
                     variant="ghost"
                     className={`
                       w-full items-start justify-start gap-4 p-4 rounded-xl h-auto
-                      ${isCurrent ? 'bg-cin-red/10 border-2 border-cin-red hover:bg-cin-red/15' : 'bg-text-secondary/10 dark:bg-text-secondary-dark/10 border-2 border-transparent'}
-                      ${isClickable ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'}
+                      ${isCurrent ? "bg-cin-red/10 border-2 border-cin-red hover:bg-cin-red/15" : "bg-text-secondary/10 dark:bg-text-secondary-dark/10 border-2 border-transparent"}
+                      ${isClickable ? "cursor-pointer" : "opacity-50 cursor-not-allowed"}
                     `}
                   >
-
                     <div
                       className={`
                         flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center
                         font-semibold text-sm
                         ${
-                          isCompletedNotViewing 
-                            ? 'bg-cin-red text-white' 
+                          isCompletedNotViewing
+                            ? "bg-cin-red text-white"
                             : isCurrent || isCompleted || isWorkingStep
-                            ? 'bg-transparent border-2 border-cin-red text-cin-red' 
-                            : 'bg-border dark:bg-border-dark text-text-secondary dark:text-text-secondary-dark'
+                              ? "bg-transparent border-2 border-cin-red text-cin-red"
+                              : "bg-border dark:bg-border-dark text-text-secondary dark:text-text-secondary-dark"
                         }
                       `}
                     >
                       {isCompletedNotViewing ? (
-                        <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                        <svg
+                          className="h-5 w-5"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
                           <path
                             fillRule="evenodd"
                             d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -138,16 +174,22 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
                       )}
                     </div>
 
-
                     <div className="flex-1 text-left">
-                      <p className={`text-sm font-medium ${isCurrent ? 'text-cin-red' : isCompleted ? 'text-cin-red/80' : 'text-text-secondary dark:text-text-secondary-dark'}`}>
+                      <p
+                        className={`text-sm font-medium ${isCurrent ? "text-cin-red" : isCompleted ? "text-cin-red/80" : "text-text-secondary dark:text-text-secondary-dark"}`}
+                      >
                         {step.title}
                       </p>
-                      <p className="text-xs text-text-secondary dark:text-text-secondary-dark mt-0.5">{step.description}</p>
+                      <p className="text-xs text-text-secondary dark:text-text-secondary-dark mt-0.5">
+                        {step.description}
+                      </p>
                       {step.requirements && step.requirements.length > 0 && (
                         <ul className="mt-2 space-y-1">
                           {step.requirements.map((req, i) => (
-                            <li key={i} className="flex items-start gap-1.5 text-xs text-text-secondary dark:text-text-secondary-dark">
+                            <li
+                              key={i}
+                              className="flex items-start gap-1.5 text-xs text-text-secondary dark:text-text-secondary-dark"
+                            >
                               <span className="text-cin-red mt-0.5">•</span>
                               <span>{req}</span>
                             </li>
@@ -156,10 +198,19 @@ export function MobileStepPopover({ currentStep, steps, completedSteps, onStepCl
                       )}
                     </div>
 
-
                     {isClickable && !isCurrent && (
-                      <svg className="w-5 h-5 text-text-secondary dark:text-text-secondary-dark flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      <svg
+                        className="w-5 h-5 text-text-secondary dark:text-text-secondary-dark flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
                       </svg>
                     )}
                   </Button>

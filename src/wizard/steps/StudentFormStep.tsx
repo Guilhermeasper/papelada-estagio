@@ -1,8 +1,8 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Button, Input } from '../../components';
-import { StudentFormData, studentSchema } from '../schemas/validationSchemas';
-import type { IStep2Props } from '../step-types';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button, Input } from "../../components";
+import { StudentFormData, studentSchema } from "../schemas/validationSchemas";
+import type { IStep2Props } from "../step-types";
 
 export function StudentFormStep({ data, onNext }: IStep2Props) {
   const {
@@ -21,7 +21,9 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">Dados do Aluno</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
+          Dados do Aluno
+        </h2>
         <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
           Preencha suas informações pessoais e acadêmicas.
         </p>
@@ -32,7 +34,7 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
           <Input
             label="Nome Completo"
             placeholder="Seu nome completo"
-            {...register('fullName')}
+            {...register("fullName")}
             error={errors.fullName?.message}
             required
           />
@@ -42,7 +44,7 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
           label="E-mail"
           type="email"
           placeholder="seu.email@exemplo.com"
-          {...register('email')}
+          {...register("email")}
           error={errors.email?.message}
           required
         />
@@ -51,7 +53,7 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
           label="Telefone"
           type="tel"
           placeholder="(00) 00000-0000"
-          {...register('phone')}
+          {...register("phone")}
           error={errors.phone?.message}
           required
         />
@@ -60,7 +62,7 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
           <Input
             label="Endereço"
             placeholder="Rua, número, bairro, cidade - UF"
-            {...register('address')}
+            {...register("address")}
             error={errors.address?.message}
             required
           />
@@ -69,7 +71,7 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
         <Input
           label="Curso"
           placeholder="Ex: Ciência da Computação"
-          {...register('course')}
+          {...register("course")}
           error={errors.course?.message}
           required
         />
@@ -77,7 +79,7 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
         <Input
           label="Ano de Ingresso"
           placeholder="Ex: 2018.2"
-          {...register('enrollmentYear')}
+          {...register("enrollmentYear")}
           error={errors.enrollmentYear?.message}
           hint="Formato: AAAA.S (ano.semestre)"
           required
@@ -86,7 +88,7 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
         <Input
           label="Matrícula"
           placeholder="Sua matrícula"
-          {...register('studentId')}
+          {...register("studentId")}
           error={errors.studentId?.message}
           required
         />

@@ -1,14 +1,12 @@
-
-
-import { StyleSheet, Text } from '@react-pdf/renderer';
-import type { ReactNode } from 'react';
-import { fonts } from '../../../components/pdf';
+import { StyleSheet, Text } from "@react-pdf/renderer";
+import type { ReactNode } from "react";
+import { fonts } from "../../../components/pdf";
 
 const styles = StyleSheet.create({
   tocTitle: {
     fontSize: 16,
     fontFamily: fonts.serifBold,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 20,
   },
 });

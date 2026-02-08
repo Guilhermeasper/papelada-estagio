@@ -1,8 +1,11 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useFieldArray, useForm } from 'react-hook-form';
-import { Button, DynamicList, TextArea } from '../../components';
-import { InternshipContentFormData, internshipContentSchema } from '../schemas/validationSchemas';
-import type { IStep5Props } from '../step-types';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useFieldArray, useForm } from "react-hook-form";
+import { Button, DynamicList, TextArea } from "../../components";
+import {
+  InternshipContentFormData,
+  internshipContentSchema,
+} from "../schemas/validationSchemas";
+import type { IStep5Props } from "../step-types";
 
 export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
   const {
@@ -16,48 +19,55 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
     resolver: zodResolver(internshipContentSchema),
     defaultValues: {
       ...data,
-      activities: data.activities.length > 0 ? data.activities : [''],
-      objectives: data.objectives.length > 0 ? data.objectives : [''],
-      schedule: data.schedule.length > 0 ? data.schedule : [{ period: '', description: '' }],
+      activities: data.activities.length > 0 ? data.activities : [""],
+      objectives: data.objectives.length > 0 ? data.objectives : [""],
+      schedule:
+        data.schedule.length > 0
+          ? data.schedule
+          : [{ period: "", description: "" }],
     },
   });
 
-  const { fields: scheduleFields, append: appendSchedule, remove: removeSchedule } = useFieldArray({
+  const {
+    fields: scheduleFields,
+    append: appendSchedule,
+    remove: removeSchedule,
+  } = useFieldArray({
     control,
-    name: 'schedule',
+    name: "schedule",
   });
 
-  const activities = watch('activities');
-  const objectives = watch('objectives');
+  const activities = watch("activities");
+  const objectives = watch("objectives");
 
   const handleAddActivity = () => {
-    setValue('activities', [...activities, '']);
+    setValue("activities", [...activities, ""]);
   };
 
   const handleRemoveActivity = (index: number) => {
     const newActivities = activities.filter((_, i) => i !== index);
-    setValue('activities', newActivities);
+    setValue("activities", newActivities);
   };
 
   const handleChangeActivity = (index: number, value: string) => {
     const newActivities = [...activities];
     newActivities[index] = value;
-    setValue('activities', newActivities);
+    setValue("activities", newActivities);
   };
 
   const handleAddObjective = () => {
-    setValue('objectives', [...objectives, '']);
+    setValue("objectives", [...objectives, ""]);
   };
 
   const handleRemoveObjective = (index: number) => {
     const newObjectives = objectives.filter((_, i) => i !== index);
-    setValue('objectives', newObjectives);
+    setValue("objectives", newObjectives);
   };
 
   const handleChangeObjective = (index: number, value: string) => {
     const newObjectives = [...objectives];
     newObjectives[index] = value;
-    setValue('objectives', newObjectives);
+    setValue("objectives", newObjectives);
   };
 
   const onSubmit = (formData: InternshipContentFormData) => {
@@ -67,7 +77,9 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
       <div className="mb-4 md:mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">Conteúdo do Estágio</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
+          Conteúdo do Estágio
+        </h2>
         <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
           Descreva as atividades, objetivos e detalhes do seu estágio.
         </p>
@@ -110,7 +122,10 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
 
         <div className="space-y-4">
           {scheduleFields.map((field, index) => (
-            <div key={field.id} className="bg-surface dark:bg-surface-dark rounded-md p-4 border border-border dark:border-border-dark">
+            <div
+              key={field.id}
+              className="bg-surface dark:bg-surface-dark rounded-md p-4 border border-border dark:border-border-dark"
+            >
               <div className="flex items-center justify-between mb-3">
                 <span className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark">
                   Período {index + 1}
@@ -135,7 +150,9 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
                   className="w-full px-4 py-2 border border-border dark:border-border-dark rounded-md bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark focus:border-cin-red focus:ring-2 focus:ring-cin-red/20"
                 />
                 {errors.schedule?.[index]?.period && (
-                  <p className="text-xs text-cin-red">{errors.schedule[index]?.period?.message}</p>
+                  <p className="text-xs text-cin-red">
+                    {errors.schedule[index]?.period?.message}
+                  </p>
                 )}
 
                 <textarea
@@ -145,7 +162,9 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
                   className="w-full px-4 py-2 border border-border dark:border-border-dark rounded-md bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark focus:border-cin-red focus:ring-2 focus:ring-cin-red/20 resize-y"
                 />
                 {errors.schedule?.[index]?.description && (
-                  <p className="text-xs text-cin-red">{errors.schedule[index]?.description?.message}</p>
+                  <p className="text-xs text-cin-red">
+                    {errors.schedule[index]?.description?.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -156,11 +175,15 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
           type="button"
           variant="outline"
           size="sm"
-          onClick={() => appendSchedule({ period: '', description: '' })}
+          onClick={() => appendSchedule({ period: "", description: "" })}
           className="mt-4"
         >
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+            <path
+              fillRule="evenodd"
+              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+              clipRule="evenodd"
+            />
           </svg>
           Adicionar período
         </Button>
@@ -173,7 +196,7 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
 
         <TextArea
           label="Introdução"
-          {...register('introduction')}
+          {...register("introduction")}
           error={errors.introduction?.message}
           placeholder="Apresentação do estágio, empresa e objetivos..."
           rows={5}
@@ -183,7 +206,7 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <TextArea
             label="Objetivos Gerais"
-            {...register('generalObjectives')}
+            {...register("generalObjectives")}
             error={errors.generalObjectives?.message}
             placeholder="O objetivo geral do estágio foi..."
             rows={4}
@@ -192,7 +215,7 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
 
           <TextArea
             label="Objetivos Específicos"
-            {...register('specificObjectives')}
+            {...register("specificObjectives")}
             error={errors.specificObjectives?.message}
             placeholder="Os objetivos específicos incluíram..."
             rows={4}
@@ -202,7 +225,7 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
 
         <TextArea
           label="Material e Método"
-          {...register('methodology')}
+          {...register("methodology")}
           error={errors.methodology?.message}
           placeholder="Tecnologias, metodologias e ferramentas utilizadas..."
           rows={4}
@@ -211,7 +234,7 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
 
         <TextArea
           label="Desenvolvimento"
-          {...register('development')}
+          {...register("development")}
           error={errors.development?.message}
           placeholder="Descrição detalhada das atividades realizadas..."
           rows={6}
@@ -220,7 +243,7 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
 
         <TextArea
           label="Conclusão"
-          {...register('conclusion')}
+          {...register("conclusion")}
           error={errors.conclusion?.message}
           placeholder="Considerações finais sobre o estágio..."
           rows={4}
@@ -230,16 +253,36 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
 
       <div className="flex justify-between pt-6 border-t border-border dark:border-border-dark">
         <Button type="button" variant="ghost" onClick={onBack}>
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
           </svg>
           Voltar
         </Button>
 
         <Button type="submit" isLoading={isSubmitting}>
           Próximo
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
           </svg>
         </Button>
       </div>

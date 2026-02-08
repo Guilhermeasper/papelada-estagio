@@ -1,15 +1,14 @@
-
-import { PDFViewer } from '@react-pdf/renderer';
-import { SupervisorEvaluationDocument } from '../documents/supervisor-eval/SupervisorEvaluationDocument';
-import { mockInternshipData } from '../mocks/mockInternshipData';
-import { mockSupervisorEvaluationData } from '../mocks/mockSupervisorEvaluationData';
+import { PDFViewer } from "@react-pdf/renderer";
+import { SupervisorEvaluationDocument } from "../documents/supervisor-eval/SupervisorEvaluationDocument";
+import { mockInternshipData } from "../mocks/mockInternshipData";
+import { mockSupervisorEvaluationData } from "../mocks/mockSupervisorEvaluationData";
 
 export function SupervisorEvaluationPage() {
   return (
-    <PDFViewer style={{ width: '100vw', height: '100vh' }}>
-      <SupervisorEvaluationDocument 
-        data={mockInternshipData} 
-        evaluation={mockSupervisorEvaluationData} 
+    <PDFViewer style={{ width: "100vw", height: "100vh" }}>
+      <SupervisorEvaluationDocument
+        data={mockInternshipData}
+        evaluation={mockSupervisorEvaluationData}
       />
     </PDFViewer>
   );

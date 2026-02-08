@@ -4,8 +4,8 @@ import type {
   IInternshipData,
   IInternshipGeneral,
   IStudentData,
-  ISupervisionData
-} from '../types/types';
+  ISupervisionData,
+} from "../types/types";
 
 export interface IChecklistStepProps {
   onNext: () => void;
@@ -52,7 +52,6 @@ export interface IDownloadStepProps {
   onBack: () => void;
 }
 
-
 export type StepPropsMap = {
   1: IChecklistStepProps;
   2: IStudentFormStepProps;
@@ -63,7 +62,6 @@ export type StepPropsMap = {
   7: IReviewStepProps;
   8: IDownloadStepProps;
 };
-
 
 export type IStep1Props = IChecklistStepProps;
 export type IStep2Props = IStudentFormStepProps;

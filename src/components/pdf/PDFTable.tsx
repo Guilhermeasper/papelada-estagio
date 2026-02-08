@@ -1,7 +1,5 @@
-
-
-import { StyleSheet, Text, View } from '@react-pdf/renderer';
-import { colors, fonts } from './styles';
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import { colors, fonts } from "./styles";
 
 const styles = StyleSheet.create({
   table: {
@@ -10,12 +8,12 @@ const styles = StyleSheet.create({
     borderColor: colors.textBlack,
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderBottomWidth: 1,
     borderBottomColor: colors.textBlack,
   },
   rowLast: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   headerCell: {
     padding: 5,
@@ -28,7 +26,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontFamily: fonts.bold,
     fontSize: 10.5,
-    textAlign: 'center',
+    textAlign: "center",
   },
   cell: {
     padding: 5,
@@ -52,7 +50,7 @@ export interface ColumnConfig {
   key: string;
   header: string;
   width: number;
-  align?: 'left' | 'center' | 'right';
+  align?: "left" | "center" | "right";
   bold?: boolean;
 }
 
@@ -65,13 +63,14 @@ interface PDFTableProps {
 export function PDFTable({ columns, rows, marginLeft }: PDFTableProps) {
   return (
     <View style={[styles.table, marginLeft ? { marginLeft } : {}]}>
-
       <View style={styles.row}>
         {columns.map((col, index) => (
           <View
             key={col.key}
             style={[
-              index === columns.length - 1 ? styles.headerCellLast : styles.headerCell,
+              index === columns.length - 1
+                ? styles.headerCellLast
+                : styles.headerCell,
               { width: col.width },
             ]}
           >
@@ -79,7 +78,6 @@ export function PDFTable({ columns, rows, marginLeft }: PDFTableProps) {
           </View>
         ))}
       </View>
-      
 
       {rows.map((row, rowIndex) => (
         <View
@@ -96,7 +94,7 @@ export function PDFTable({ columns, rows, marginLeft }: PDFTableProps) {
               ]}
             >
               <Text style={col.bold ? styles.cellTextBold : styles.cellText}>
-                {row[col.key] ?? ''}
+                {row[col.key] ?? ""}
               </Text>
             </View>
           ))}

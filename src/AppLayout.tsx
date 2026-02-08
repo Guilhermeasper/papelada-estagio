@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -32,9 +32,7 @@ export function AppLayout({ children, headerActions }: AppLayoutProps) {
         </div>
       </header>
 
-      <main className="flex-1">
-        {children}
-      </main>
+      <main className="flex-1">{children}</main>
 
       <footer className="bg-surface-elevated dark:bg-surface-elevated-dark border-t border-border dark:border-border-dark mt-auto">
         <div className="max-w-6xl mx-auto px-4 py-4">

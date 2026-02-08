@@ -1,8 +1,8 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Button, Input } from '../../components';
-import { CompanyFormData, companySchema } from '../schemas/validationSchemas';
-import type { IStep3Props } from '../step-types';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button, Input } from "../../components";
+import { CompanyFormData, companySchema } from "../schemas/validationSchemas";
+import type { IStep3Props } from "../step-types";
 
 export function CompanyFormStep({ data, onNext, onBack }: IStep3Props) {
   const {
@@ -21,7 +21,9 @@ export function CompanyFormStep({ data, onNext, onBack }: IStep3Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">Dados da Empresa</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
+          Dados da Empresa
+        </h2>
         <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
           Informações da empresa concedente do estágio.
         </p>
@@ -31,7 +33,7 @@ export function CompanyFormStep({ data, onNext, onBack }: IStep3Props) {
         <Input
           label="Nome da Empresa"
           placeholder="Nome completo da empresa"
-          {...register('companyName')}
+          {...register("companyName")}
           error={errors.companyName?.message}
           required
         />
@@ -39,7 +41,7 @@ export function CompanyFormStep({ data, onNext, onBack }: IStep3Props) {
         <Input
           label="Endereço da Empresa"
           placeholder="Rua, número, bairro, cidade - UF"
-          {...register('companyAddress')}
+          {...register("companyAddress")}
           error={errors.companyAddress?.message}
           required
         />
@@ -47,7 +49,7 @@ export function CompanyFormStep({ data, onNext, onBack }: IStep3Props) {
         <Input
           label="CNPJ"
           placeholder="00.000.000/0000-00"
-          {...register('companyCnpj')}
+          {...register("companyCnpj")}
           error={errors.companyCnpj?.message}
           required
         />

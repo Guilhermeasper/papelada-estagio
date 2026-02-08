@@ -1,10 +1,8 @@
-
-
-import { StyleSheet, Text, View } from '@react-pdf/renderer';
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
   scheduleItem: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 4,
     marginLeft: 60,
     paddingRight: 20,
@@ -14,7 +12,7 @@ const styles = StyleSheet.create({
   },
   scheduleContent: {
     flex: 1,
-    textAlign: 'justify',
+    textAlign: "justify",
   },
 });
 
@@ -24,7 +22,11 @@ interface ActivityPlanScheduleItemProps {
   description: string;
 }
 
-export function ActivityPlanScheduleItem({ number, period, description }: ActivityPlanScheduleItemProps) {
+export function ActivityPlanScheduleItem({
+  number,
+  period,
+  description,
+}: ActivityPlanScheduleItemProps) {
   return (
     <View style={styles.scheduleItem}>
       <Text style={styles.scheduleNumber}>{number}.</Text>

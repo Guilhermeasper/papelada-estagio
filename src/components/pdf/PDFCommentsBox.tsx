@@ -1,12 +1,10 @@
-
-
-import { StyleSheet, Text, View } from '@react-pdf/renderer';
-import { colors } from './styles';
-import { splitTextIntoLines } from './utils';
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import { colors } from "./styles";
+import { splitTextIntoLines } from "./utils";
 
 const styles = StyleSheet.create({
   table: {
-    width: '100%',
+    width: "100%",
     borderWidth: 1,
     borderColor: colors.textBlack,
     marginBottom: 15,
@@ -30,7 +28,11 @@ interface PDFCommentsBoxProps {
   charsPerLine?: number;
 }
 
-export function PDFCommentsBox({ text, lines = 10, charsPerLine = 84 }: PDFCommentsBoxProps) {
+export function PDFCommentsBox({
+  text,
+  lines = 10,
+  charsPerLine = 84,
+}: PDFCommentsBoxProps) {
   const textLines = splitTextIntoLines(text, lines, charsPerLine);
 
   return (

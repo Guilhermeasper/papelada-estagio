@@ -1,6 +1,5 @@
-
-import React from 'react';
-import { z } from 'zod';
+import React from "react";
+import { z } from "zod";
 
 export interface DocumentDefinition<T = any> {
   id: string;

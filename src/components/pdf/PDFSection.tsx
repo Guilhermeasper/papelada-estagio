@@ -1,9 +1,7 @@
-
-
-import { StyleSheet, Text, View } from '@react-pdf/renderer';
-import type { Style } from '@react-pdf/types';
-import type { ReactNode } from 'react';
-import { fonts } from './styles';
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import type { Style } from "@react-pdf/types";
+import type { ReactNode } from "react";
+import { fonts } from "./styles";
 
 const styles = StyleSheet.create({
   container: {
@@ -24,11 +22,19 @@ interface PDFSectionProps {
   titleStyle?: Style;
 }
 
-export function PDFSection({ number, title, children, style, titleStyle }: PDFSectionProps) {
+export function PDFSection({
+  number,
+  title,
+  children,
+  style,
+  titleStyle,
+}: PDFSectionProps) {
   const titleText = number ? `${number}. ${title}` : title;
   const containerStyle = style ? [styles.container, style] : styles.container;
-  const combinedTitleStyle = titleStyle ? [styles.title, titleStyle] : styles.title;
-  
+  const combinedTitleStyle = titleStyle
+    ? [styles.title, titleStyle]
+    : styles.title;
+
   return (
     <View style={containerStyle}>
       <Text style={combinedTitleStyle}>{titleText}</Text>

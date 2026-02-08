@@ -1,9 +1,7 @@
-
-
-import { StyleSheet, Text } from '@react-pdf/renderer';
-import type { Style } from '@react-pdf/types';
-import type { ReactNode } from 'react';
-import { fonts } from '../../../components/pdf';
+import { StyleSheet, Text } from "@react-pdf/renderer";
+import type { Style } from "@react-pdf/types";
+import type { ReactNode } from "react";
+import { fonts } from "../../../components/pdf";
 
 const styles = StyleSheet.create({
   fieldLabel: {
@@ -16,6 +14,9 @@ interface ActivityPlanFieldLabelProps {
   style?: Style;
 }
 
-export function ActivityPlanFieldLabel({ children, style }: ActivityPlanFieldLabelProps) {
+export function ActivityPlanFieldLabel({
+  children,
+  style,
+}: ActivityPlanFieldLabelProps) {
   return <Text style={[styles.fieldLabel, style ?? {}]}>{children}</Text>;
 }

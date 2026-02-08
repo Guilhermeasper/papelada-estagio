@@ -1,12 +1,10 @@
-
-
-import { StyleSheet, Text, View } from '@react-pdf/renderer';
-import { fonts } from '../../../components/pdf';
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import { fonts } from "../../../components/pdf";
 
 const styles = StyleSheet.create({
   tocItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 6,
     paddingTop: 6,
   },

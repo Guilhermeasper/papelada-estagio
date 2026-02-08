@@ -1,6 +1,3 @@
-
-
-
 export interface IStudentData {
   fullName: string;
   email: string;
@@ -11,13 +8,11 @@ export interface IStudentData {
   studentId: string;
 }
 
-
 export interface ICompanyData {
   companyName: string;
   companyAddress: string;
   companyCnpj: string;
 }
-
 
 export interface IInternshipGeneral {
   startDate: string;
@@ -25,15 +20,13 @@ export interface IInternshipGeneral {
   hoursPerDay: number;
   workDays: string;
   workSchedule: string;
-  modality: 'Remoto' | 'Presencial' | 'Híbrido';
+  modality: "Remoto" | "Presencial" | "Híbrido";
 }
-
 
 export interface IScheduleItem {
   period: string;
   description: string;
 }
-
 
 export interface IInternshipContent {
   activities: string[];
@@ -47,13 +40,11 @@ export interface IInternshipContent {
   conclusion: string;
 }
 
-
 export interface IEvaluationGrade {
   item: string;
   grade: number;
   observation: string;
 }
-
 
 export interface IEvaluationData {
   grades: IEvaluationGrade[];
@@ -64,9 +55,7 @@ export interface IEvaluationData {
   recommendsPartnership: boolean;
 }
 
-
 export interface ISupervisionData {
-
   supervisorName: string;
   supervisorEmail: string;
   supervisorPhone: string;
@@ -79,7 +68,6 @@ export interface ISupervisionData {
   advisorPosition: string;
 }
 
-
 export interface IInternshipData {
   student: IStudentData;
   company: ICompanyData;
@@ -89,7 +77,6 @@ export interface IInternshipData {
   supervision: ISupervisionData;
 }
 
-
 export interface IDocumentGenerator {
   id: string;
   label: string;
@@ -97,9 +84,7 @@ export interface IDocumentGenerator {
   generate(data: IInternshipData): Promise<Uint8Array>;
 }
 
-
 export type WizardStep = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-
 
 export interface IStepInfo {
   step: WizardStep;
@@ -108,8 +93,11 @@ export interface IStepInfo {
   requirements?: string[];
 }
 
-
-export type DocumentType = 'report' | 'activity-plan' | 'advisor-eval' | 'supervisor-eval';
+export type DocumentType =
+  | "report"
+  | "activity-plan"
+  | "advisor-eval"
+  | "supervisor-eval";
 
 export interface IDocumentOption {
   id: DocumentType;

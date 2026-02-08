@@ -1,7 +1,5 @@
-
-
-import { StyleSheet, Text } from '@react-pdf/renderer';
-import type { ReactNode } from 'react';
+import { StyleSheet, Text } from "@react-pdf/renderer";
+import type { ReactNode } from "react";
 
 const styles = StyleSheet.create({
   evaluationIndent: {
@@ -14,6 +12,8 @@ interface ActivityPlanEvaluationIndentProps {
   children: ReactNode;
 }
 
-export function ActivityPlanEvaluationIndent({ children }: ActivityPlanEvaluationIndentProps) {
+export function ActivityPlanEvaluationIndent({
+  children,
+}: ActivityPlanEvaluationIndentProps) {
   return <Text style={styles.evaluationIndent}>{children}</Text>;
 }

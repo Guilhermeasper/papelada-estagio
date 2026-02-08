@@ -1,23 +1,21 @@
-
-
-import { StyleSheet, Text, View } from '@react-pdf/renderer';
-import { colors } from './styles';
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import { colors } from "./styles";
 
 const styles = StyleSheet.create({
   table: {
-    width: '100%',
+    width: "100%",
     borderWidth: 1,
     borderColor: colors.textBlack,
     marginBottom: 15,
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderBottomWidth: 1,
     borderBottomColor: colors.textBlack,
     minHeight: 25,
   },
   rowLast: {
-    flexDirection: 'row',
+    flexDirection: "row",
     minHeight: 25,
   },
   label: {
@@ -45,7 +43,7 @@ interface PDFKeyValueTableProps {
 }
 
 export function PDFKeyValueTable({ items, labelWidth }: PDFKeyValueTableProps) {
-  const labelStyle = labelWidth 
+  const labelStyle = labelWidth
     ? { ...styles.label, width: labelWidth }
     : styles.label;
 

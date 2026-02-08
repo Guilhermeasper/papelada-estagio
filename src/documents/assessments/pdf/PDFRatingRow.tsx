@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from '@react-pdf/renderer';
-import { fonts, type Rating, renderRating } from '../../../components/pdf';
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import { fonts, type Rating, renderRating } from "../../../components/pdf";
 
 const styles = StyleSheet.create({
   container: {
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   rating: {
-    flexDirection: 'row',
+    flexDirection: "row",
     fontSize: 11,
     marginBottom: 15,
   },

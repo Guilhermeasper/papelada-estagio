@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Button } from '../components';
+import { useState } from "react";
+import { Button } from "../components";
 
 const PREVIEW_ROUTES = [
-  { path: '#/preview', label: 'Plano de Atividades' },
-  { path: '#/report', label: 'Relatório Final' },
-  { path: '#/advisor-eval', label: 'Avaliação do Orientador' },
-  { path: '#/supervisor-eval', label: 'Avaliação do Supervisor' },
+  { path: "#/preview", label: "Plano de Atividades" },
+  { path: "#/report", label: "Relatório Final" },
+  { path: "#/advisor-eval", label: "Avaliação do Orientador" },
+  { path: "#/supervisor-eval", label: "Avaliação do Supervisor" },
 ];
 
 export function DebugPage() {
@@ -25,7 +25,7 @@ export function DebugPage() {
         </h1>
         <Button
           onClick={() => {
-            window.location.hash = '#/';
+            window.location.hash = "#/";
           }}
           variant="outline"
         >
@@ -43,7 +43,7 @@ export function DebugPage() {
             {PREVIEW_ROUTES.map((route) => (
               <Button
                 key={route.path}
-                variant={activePreview === route.path ? 'primary' : 'outline'}
+                variant={activePreview === route.path ? "primary" : "outline"}
                 onClick={() => setActivePreview(route.path)}
                 className="w-full justify-start"
               >
@@ -51,7 +51,7 @@ export function DebugPage() {
               </Button>
             ))}
           </div>
-          
+
           <div className="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
             <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
               Teste de Rotas
@@ -59,7 +59,7 @@ export function DebugPage() {
             <Button
               variant="outline"
               onClick={() => {
-                window.location.hash = '#/non-existent-route';
+                window.location.hash = "#/non-existent-route";
               }}
               className="w-full justify-start text-red-600 hover:text-red-700 border-red-200 hover:border-red-300 hover:bg-red-50 dark:border-red-900/30 dark:hover:bg-red-900/20"
             >
@@ -74,9 +74,9 @@ export function DebugPage() {
             <div className="flex-1 flex flex-col">
               <div className="bg-white dark:bg-gray-800 p-2 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center text-sm">
                 <span className="font-mono text-gray-500">{activePreview}</span>
-                <a 
-                  href={getPreviewUrl(activePreview)} 
-                  target="_blank" 
+                <a
+                  href={getPreviewUrl(activePreview)}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary-600 hover:text-primary-700 hover:underline"
                 >

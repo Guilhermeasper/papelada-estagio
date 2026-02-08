@@ -1,30 +1,28 @@
-
-
-import { Image, StyleSheet, Text, View } from '@react-pdf/renderer';
-import { fonts } from './styles';
+import { Image, StyleSheet, Text, View } from "@react-pdf/renderer";
+import { fonts } from "./styles";
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   logoContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     gap: 20,
     marginBottom: 10,
   },
   title: {
     fontSize: 10,
     fontFamily: fonts.bold,
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: 1.5,
   },
   subtitle: {
     fontSize: 10,
     fontFamily: fonts.bold,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 15,
     marginBottom: 8,
   },

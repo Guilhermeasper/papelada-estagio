@@ -1,8 +1,6 @@
-
-
-import { StyleSheet, Text, View } from '@react-pdf/renderer';
-import type { Style } from '@react-pdf/types';
-import { fonts } from '../../../components/pdf';
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import type { Style } from "@react-pdf/types";
+import { fonts } from "../../../components/pdf";
 
 const styles = StyleSheet.create({
   signatureLine: {
@@ -26,9 +24,9 @@ interface ActivityPlanSignatureLineProps {
   style?: Style;
 }
 
-export function ActivityPlanSignatureLine({ 
-  label, 
-  line = '___________________________________________',
+export function ActivityPlanSignatureLine({
+  label,
+  line = "___________________________________________",
   subLabel,
   style,
 }: ActivityPlanSignatureLineProps) {
@@ -38,9 +36,7 @@ export function ActivityPlanSignatureLine({
         <Text style={styles.signatureLabel}>{label} </Text>
         {line}
       </Text>
-      {subLabel && (
-        <Text style={styles.signatureSubLabel}>{subLabel}</Text>
-      )}
+      {subLabel && <Text style={styles.signatureSubLabel}>{subLabel}</Text>}
     </View>
   );
 }

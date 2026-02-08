@@ -1,14 +1,12 @@
-
-
-import { StyleSheet, Text, View } from '@react-pdf/renderer';
-import { fonts } from './styles';
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import { fonts } from "./styles";
 
 const styles = StyleSheet.create({
   container: {
     marginTop: 30,
   },
   date: {
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 15,
   },
   signatureRow: {
@@ -38,20 +36,21 @@ interface PDFSignatureBlockProps {
   signatures: SignatureConfig[];
 }
 
-export function PDFSignatureBlock({ 
-  date, 
-  datePrefix = 'Recife, ',
-  signaturesLabel = 'Assinaturas:',
-  signatures 
+export function PDFSignatureBlock({
+  date,
+  datePrefix = "Recife, ",
+  signaturesLabel = "Assinaturas:",
+  signatures,
 }: PDFSignatureBlockProps) {
   return (
     <View style={styles.container}>
       {date && (
         <Text style={styles.date}>
-          {datePrefix}{date}
+          {datePrefix}
+          {date}
         </Text>
       )}
-      
+
       {signaturesLabel && (
         <Text style={[styles.signatureRow, { marginLeft: 0 }]}>
           <Text style={styles.inlineLabel}>{signaturesLabel}</Text>
@@ -67,7 +66,7 @@ export function PDFSignatureBlock({
           {sig.subLabel && (
             <Text style={styles.subLabel}>
               {sig.subLabel}
-              {sig.name ? `                        (${sig.name})` : ''}
+              {sig.name ? `                        (${sig.name})` : ""}
             </Text>
           )}
         </View>

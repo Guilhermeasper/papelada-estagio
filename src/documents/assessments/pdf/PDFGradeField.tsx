@@ -1,5 +1,5 @@
-import { StyleSheet, Text } from '@react-pdf/renderer';
-import { fonts } from '../../../components/pdf';
+import { StyleSheet, Text } from "@react-pdf/renderer";
+import { fonts } from "../../../components/pdf";
 
 const styles = StyleSheet.create({
   text: {
@@ -16,16 +16,17 @@ interface PDFGradeFieldProps {
 }
 
 export function PDFGradeField({
-  label = 'Dê uma nota de 0 a 10 para o estagiário',
+  label = "Dê uma nota de 0 a 10 para o estagiário",
   grade,
-  sectionNumber
+  sectionNumber,
 }: PDFGradeFieldProps) {
-  const prefix = sectionNumber ? `${sectionNumber}. ` : '';
-  const gradeDisplay = grade !== undefined ? grade : '   ';
+  const prefix = sectionNumber ? `${sectionNumber}. ` : "";
+  const gradeDisplay = grade !== undefined ? grade : "   ";
 
   return (
     <Text style={styles.text}>
-      {prefix}{label}: {gradeDisplay}
+      {prefix}
+      {label}: {gradeDisplay}
     </Text>
   );
 }

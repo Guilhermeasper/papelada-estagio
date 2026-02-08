@@ -1,13 +1,12 @@
-
-import { StyleSheet, Text, View } from '@react-pdf/renderer';
-import React from 'react';
-import { colors, fonts } from './styles';
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import React from "react";
+import { colors, fonts } from "./styles";
 
 const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontFamily: fonts.bold,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 20,
     color: colors.textBlack,
   },
@@ -25,12 +24,12 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontFamily: fonts.regular,
     lineHeight: 1.5,
-    textAlign: 'justify',
+    textAlign: "justify",
     marginBottom: 8,
     color: colors.textBlack,
   },
   labelValueContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 4,
   },
   label: {

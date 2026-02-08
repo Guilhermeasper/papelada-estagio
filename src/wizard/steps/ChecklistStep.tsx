@@ -1,14 +1,17 @@
-import { Button, ChecklistCard, ChecklistItem } from '../../components';
-import type { IStep1Props } from '../step-types';
-import { checklistData } from './checklistData';
+import { Button, ChecklistCard, ChecklistItem } from "../../components";
+import type { IStep1Props } from "../step-types";
+import { checklistData } from "./checklistData";
 
 export function ChecklistStep({ onNext }: IStep1Props) {
   return (
     <div className="space-y-6">
       <div className="mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">Antes de começar</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
+          Antes de começar
+        </h2>
         <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          Para gerar os documentos do estágio CLT, você precisará das seguintes informações. Confira cada documento:
+          Para gerar os documentos do estágio CLT, você precisará das seguintes
+          informações. Confira cada documento:
         </p>
       </div>
 

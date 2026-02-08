@@ -1,12 +1,10 @@
-
-
-import { StyleSheet, Text } from '@react-pdf/renderer';
-import type { ReactNode } from 'react';
+import { StyleSheet, Text } from "@react-pdf/renderer";
+import type { ReactNode } from "react";
 
 const styles = StyleSheet.create({
   paragraph: {
     fontSize: 12,
-    textAlign: 'justify',
+    textAlign: "justify",
     marginBottom: 10,
     lineHeight: 1.3,
   },

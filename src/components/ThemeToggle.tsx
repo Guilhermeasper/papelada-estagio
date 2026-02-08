@@ -1,9 +1,9 @@
-import { useTheme } from '../hooks/useTheme';
-import { Button } from './Button';
+import { useTheme } from "../hooks/useTheme";
+import { Button } from "./Button";
 
 export function ThemeToggle() {
   const { effectiveTheme, toggleTheme } = useTheme();
-  const isDark = effectiveTheme === 'dark';
+  const isDark = effectiveTheme === "dark";
 
   return (
     <Button
@@ -11,11 +11,10 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon"
       className="rounded-lg"
-      aria-label={isDark ? 'Ativar modo claro' : 'Ativar modo escuro'}
-      title={isDark ? 'Modo claro' : 'Modo escuro'}
+      aria-label={isDark ? "Ativar modo claro" : "Ativar modo escuro"}
+      title={isDark ? "Modo claro" : "Modo escuro"}
     >
       {isDark ? (
-
         <svg
           className="w-5 h-5"
           fill="none"
@@ -30,7 +29,6 @@ export function ThemeToggle() {
           />
         </svg>
       ) : (
-
         <svg
           className="w-5 h-5"
           fill="none"

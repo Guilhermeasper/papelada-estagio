@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 interface ChecklistCardProps {
   title: string;
@@ -11,7 +11,11 @@ interface ChecklistItemProps {
   children: ReactNode;
 }
 
-export function ChecklistCard({ title, description, children }: ChecklistCardProps) {
+export function ChecklistCard({
+  title,
+  description,
+  children,
+}: ChecklistCardProps) {
   return (
     <div className="bg-surface-elevated dark:bg-surface-elevated-dark p-5 rounded-lg border border-border dark:border-border-dark shadow-sm">
       <h3 className="font-bold text-base md:text-lg text-text-primary dark:text-text-primary-dark mb-3">

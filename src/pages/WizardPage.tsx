@@ -1,25 +1,49 @@
-import { useState } from 'react';
-import { AppLayout } from '../AppLayout';
-import { HeaderActions } from '../components';
-import { WizardActions, WizardContainer } from '../wizard/WizardContainer';
+import { AppLayout } from "../AppLayout";
+import {
+  HeaderActions,
+  ImportConfirmDialog,
+  ResetConfirmDialog,
+} from "../components";
+import { useWizardData } from "../hooks";
+import { WizardContainer } from "../wizard/WizardContainer";
 
 export function WizardPage() {
-  const [wizardActions, setWizardActions] = useState<WizardActions | null>(null);
+  const { state, actions, dialogs } = useWizardData();
 
   return (
     <AppLayout
       headerActions={
-        wizardActions && (
-          <HeaderActions
-            hasProgress={wizardActions.hasProgress}
-            onImport={wizardActions.onImport}
-            onExport={wizardActions.onExport}
-            onReset={wizardActions.onReset}
-          />
-        )
+        <HeaderActions
+          hasProgress={state.hasProgress}
+          onImport={actions.triggerImport}
+          onExport={actions.exportData}
+          onReset={() => dialogs.setShowResetDialog(true)}
+        />
       }
     >
-      <WizardContainer onActionsReady={setWizardActions} />
+      <ResetConfirmDialog
+        isOpen={dialogs.showResetDialog}
+        onConfirm={actions.reset}
+        onCancel={() => dialogs.setShowResetDialog(false)}
+      />
+
+      <ImportConfirmDialog
+        isOpen={dialogs.importDialog.isOpen}
+        previewData={dialogs.importDialog.previewData}
+        error={dialogs.importDialog.error}
+        onConfirm={dialogs.confirmImport}
+        onCancel={dialogs.cancelImport}
+      />
+
+      <input
+        type="file"
+        ref={dialogs.fileInputRef}
+        accept=".json"
+        onChange={dialogs.handleFileSelect}
+        className="hidden"
+      />
+
+      <WizardContainer state={state} actions={actions} />
     </AppLayout>
   );
 }

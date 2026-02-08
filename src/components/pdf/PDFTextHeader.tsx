@@ -1,22 +1,20 @@
-
-
-import { StyleSheet, Text, View } from '@react-pdf/renderer';
-import { fonts } from './styles';
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import { fonts } from "./styles";
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   subtitle: {
     fontSize: 11,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 2,
   },
   title: {
     fontSize: 11,
     fontFamily: fonts.bold,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 20,
   },
 });

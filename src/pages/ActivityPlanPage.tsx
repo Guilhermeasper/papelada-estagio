@@ -1,11 +1,10 @@
-
-import { PDFViewer } from '@react-pdf/renderer';
-import { ActivityPlanDocument } from '../documents/activity-plan/ActivityPlanDocument';
-import { mockActivityPlanData } from '../mocks/mockActivityPlanData';
+import { PDFViewer } from "@react-pdf/renderer";
+import { ActivityPlanDocument } from "../documents/activity-plan/ActivityPlanDocument";
+import { mockActivityPlanData } from "../mocks/mockActivityPlanData";
 
 export function ActivityPlanPage() {
   return (
-    <PDFViewer style={{ width: '100vw', height: '100vh', border: 'none' }}>
+    <PDFViewer style={{ width: "100vw", height: "100vh", border: "none" }}>
       <ActivityPlanDocument data={mockActivityPlanData} />
     </PDFViewer>
   );

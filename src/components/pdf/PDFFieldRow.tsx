@@ -1,14 +1,12 @@
-
-
-import { StyleSheet, Text, View } from '@react-pdf/renderer';
-import { fonts } from './styles';
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import { fonts } from "./styles";
 
 const styles = StyleSheet.create({
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 3,
     marginLeft: 35,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   label: {
     fontFamily: fonts.bold,

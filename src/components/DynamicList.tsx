@@ -1,4 +1,4 @@
-import { Button } from './Button';
+import { Button } from "./Button";
 
 interface DynamicListProps {
   label: string;
@@ -18,7 +18,7 @@ export function DynamicList({
   onRemove,
   onChange,
   minItems = 1,
-  placeholder = 'Digite aqui...',
+  placeholder = "Digite aqui...",
   error,
 }: DynamicListProps) {
   const canRemove = items.length > minItems;
@@ -37,8 +37,10 @@ export function DynamicList({
 
       <div className="flex flex-col gap-3 md:gap-2">
         {items.map((item, index) => (
-          <div key={index} className="flex flex-col md:flex-row md:items-start gap-1 md:gap-2">
-
+          <div
+            key={index}
+            className="flex flex-col md:flex-row md:items-start gap-1 md:gap-2"
+          >
             <div className="flex items-center justify-between md:hidden">
               <span className="text-xs font-medium text-text-secondary dark:text-text-secondary-dark">
                 {index + 1}.
@@ -55,27 +57,26 @@ export function DynamicList({
                   "
                   title="Remover item"
                 >
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    className="h-4 w-4" 
-                    viewBox="0 0 20 20" 
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    viewBox="0 0 20 20"
                     fill="currentColor"
                   >
-                    <path 
-                      fillRule="evenodd" 
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" 
-                      clipRule="evenodd" 
+                    <path
+                      fillRule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
                     />
                   </svg>
                 </Button>
               )}
             </div>
-            
 
             <span className="hidden md:flex shrink-0 w-6 h-10 items-center justify-center text-sm font-medium text-text-secondary dark:text-text-secondary-dark">
               {index + 1}.
             </span>
-            
+
             <textarea
               value={item}
               onChange={(e) => onChange(index, e.target.value)}
@@ -93,7 +94,6 @@ export function DynamicList({
                 resize-y min-h-[50px] md:min-h-[60px]
               `}
             />
-            
 
             {canRemove && (
               <Button
@@ -109,16 +109,16 @@ export function DynamicList({
                 "
                 title="Remover item"
               >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  className="h-5 w-5" 
-                  viewBox="0 0 20 20" 
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
                   fill="currentColor"
                 >
-                  <path 
-                    fillRule="evenodd" 
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" 
-                    clipRule="evenodd" 
+                  <path
+                    fillRule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd"
                   />
                 </svg>
               </Button>
@@ -134,24 +134,22 @@ export function DynamicList({
         onClick={onAdd}
         className="self-start"
       >
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          className="h-4 w-4" 
-          viewBox="0 0 20 20" 
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4"
+          viewBox="0 0 20 20"
           fill="currentColor"
         >
-          <path 
-            fillRule="evenodd" 
-            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" 
-            clipRule="evenodd" 
+          <path
+            fillRule="evenodd"
+            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+            clipRule="evenodd"
           />
         </svg>
         Adicionar item
       </Button>
 
-      {error && (
-        <p className="text-xs text-cin-red font-medium">{error}</p>
-      )}
+      {error && <p className="text-xs text-cin-red font-medium">{error}</p>}
     </div>
   );
 }

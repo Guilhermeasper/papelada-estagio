@@ -1,5 +1,5 @@
-import { StyleSheet, Text } from '@react-pdf/renderer';
-import type { ReactNode } from 'react';
+import { StyleSheet, Text } from "@react-pdf/renderer";
+import type { ReactNode } from "react";
 
 const styles = StyleSheet.create({
   evalIntro: {

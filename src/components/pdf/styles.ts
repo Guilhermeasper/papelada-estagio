@@ -1,31 +1,24 @@
-import { StyleSheet } from '@react-pdf/renderer';
-
+import { StyleSheet } from "@react-pdf/renderer";
 
 export const colors = {
+  textBlack: "#000000",
+  white: "#FFFFFF",
 
-  textBlack: '#000000',
-  white: '#FFFFFF',
-  
+  primaryRed: "#DB1E2F",
+  borderGray: "#E0E1E0",
 
-  primaryRed: '#DB1E2F',
-  borderGray: '#E0E1E0',
-  
-
-  headerBlue: '#335b8a',
-  subheaderBlue: '#4f81bd',
+  headerBlue: "#335b8a",
+  subheaderBlue: "#4f81bd",
 };
-
 
 export const fonts = {
-  regular: 'Helvetica',
-  bold: 'Helvetica-Bold',
-  serif: 'Times-Roman',
-  serifBold: 'Times-Bold',
+  regular: "Helvetica",
+  bold: "Helvetica-Bold",
+  serif: "Times-Roman",
+  serifBold: "Times-Bold",
 };
 
-
 export const pageStyles = StyleSheet.create({
-
   default: {
     paddingTop: 70,
     paddingBottom: 70,
@@ -36,7 +29,7 @@ export const pageStyles = StyleSheet.create({
     color: colors.textBlack,
     lineHeight: 1.2,
   },
-  
+
   evaluation: {
     paddingTop: 73,
     paddingBottom: 79,
@@ -47,7 +40,7 @@ export const pageStyles = StyleSheet.create({
     color: colors.textBlack,
     lineHeight: 1.08,
   },
-  
+
   cover: {
     paddingTop: 70,
     paddingBottom: 70,
@@ -57,7 +50,7 @@ export const pageStyles = StyleSheet.create({
     fontSize: 12,
     color: colors.textBlack,
   },
-  
+
   activityPlan: {
     paddingTop: 70,
     paddingBottom: 70,
