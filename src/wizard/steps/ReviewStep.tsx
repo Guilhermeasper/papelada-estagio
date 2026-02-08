@@ -114,9 +114,9 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
       </ReviewSection>
 
       <ReviewSection title="Supervisão e Orientação" step={6} onEdit={onEdit}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h4 className="text-sm font-semibold text-text-primary dark:text-text-primary-dark mb-3">
+        <div className="col-span-full grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-3 min-w-0">
+            <h4 className="text-sm font-semibold text-text-primary dark:text-text-primary-dark">
               Supervisor
             </h4>
             <ReviewItem label="Nome" value={data.supervision.supervisorName} />
@@ -134,8 +134,8 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
             />
             <ReviewItem label="CPF" value={data.supervision.supervisorCpf} />
           </div>
-          <div>
-            <h4 className="text-sm font-semibold text-text-primary dark:text-text-primary-dark mb-3">
+          <div className="space-y-3 min-w-0">
+            <h4 className="text-sm font-semibold text-text-primary dark:text-text-primary-dark">
               Professor Orientador
             </h4>
             <ReviewItem label="Nome" value={data.supervision.advisorName} />
@@ -243,7 +243,7 @@ function ReviewItem({ label, value }: ReviewItemProps) {
       <dt className="text-[10px] md:text-xs text-text-secondary dark:text-text-secondary-dark">
         {label}
       </dt>
-      <dd className="text-sm md:text-base text-text-primary dark:text-text-primary-dark font-medium">
+      <dd className="text-sm md:text-base text-text-primary dark:text-text-primary-dark font-medium break-all">
         {value || "-"}
       </dd>
     </div>
