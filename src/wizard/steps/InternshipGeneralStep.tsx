@@ -107,8 +107,8 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
                     w-full px-4 py-2.5 
                     border border-border dark:border-border-dark rounded-md
                     bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark
-                    focus:border-input-focus focus:ring-2 focus:ring-input-focus/20
-                    ${errors.hoursPerDay ? "border-input-error" : ""}
+                    focus:ring-2
+                    ${errors.hoursPerDay ? "border-input-error focus:border-input-error focus:ring-input-error/20" : "focus:border-input-focus focus:ring-input-focus/20"}
                   `}
                 />
                 {errors.hoursPerDay && (

@@ -61,10 +61,10 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             placeholder:text-text-secondary dark:placeholder:text-text-secondary-dark
             transition-colors duration-200
             hover:border-text-secondary dark:hover:border-text-secondary-dark
-            focus:border-input-focus focus:ring-2 focus:ring-input-focus/20
+            focus:ring-2
+            ${error ? "border-input-error focus:border-input-error focus:ring-input-error/20" : "focus:border-input-focus focus:ring-input-focus/20"}
             disabled:bg-text-secondary/20 dark:disabled:bg-text-secondary-dark/20 disabled:cursor-not-allowed
             min-h-[100px]
-            ${error ? "border-input-error" : ""}
             ${className}
           `}
           aria-invalid={!!error}
