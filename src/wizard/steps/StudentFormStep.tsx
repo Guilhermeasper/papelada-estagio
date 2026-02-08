@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Input } from "@papelada-estagio/components";
+import { Autocomplete, Button, Input } from "@papelada-estagio/components";
 import { IStep2Props } from "@papelada-estagio/types";
 import { StudentFormData, studentSchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useForm } from "react-hook-form";
@@ -68,9 +68,15 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
           />
         </div>
 
-        <Input
+        <Autocomplete
           label="Curso"
           placeholder="Ex: Ciência da Computação"
+          options={[
+            "Ciência da Computação",
+            "Engenharia da Computação",
+            "Sistemas de Informação",
+            "Inteligência Artificial",
+          ]}
           {...register("course")}
           error={errors.course?.message}
           required

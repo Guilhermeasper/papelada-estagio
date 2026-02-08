@@ -1,3 +1,4 @@
+export { Autocomplete } from "./Autocomplete";
 export { Button } from "./Button";
 export { ChecklistCard, ChecklistItem } from "./ChecklistCard";
 export { ImportConfirmDialog, ResetConfirmDialog } from "./Dialogs";
