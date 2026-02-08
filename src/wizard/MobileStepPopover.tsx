@@ -1,8 +1,8 @@
 
 
 import { useRef } from 'react';
-import { Button } from '../../components';
-import { IStepInfo, WizardStep } from '../../types/types';
+import { Button } from '../components';
+import { IStepInfo, WizardStep } from '../types/types';
 
 interface MobileStepPopoverProps {
   currentStep: WizardStep;

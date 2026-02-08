@@ -1,5 +1,5 @@
 
-import type { IEvaluationFormData } from '../features/evaluations/pdf';
+import type { IEvaluationFormData } from '../documents/assessments/pdf';
 
 export const mockAdvisorEvaluationData: IEvaluationFormData = {
   communication: 'Ótimo',

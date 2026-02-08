@@ -1,8 +1,10 @@
 
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Button, ThemeToggle } from '../../components';
-import { PersistedWizardState, useTheme, useWizardPersistence } from '../../hooks';
+import { Button, ThemeToggle } from '../components';
+import { StepIndicator } from '../features/wizard/StepIndicator';
+import { STEPS, TOTAL_STEPS } from '../features/wizard/stepConfig';
+import { PersistedWizardState, useTheme, useWizardPersistence } from '../hooks';
 import {
   ICompanyData,
   IInternshipContent,
@@ -11,10 +13,8 @@ import {
   IStudentData,
   ISupervisionData,
   WizardStep
-} from '../../types/types';
+} from '../types/types';
 import { MobileStepPopover } from './MobileStepPopover';
-import { StepIndicator } from './StepIndicator';
-import { STEPS, TOTAL_STEPS } from './stepConfig';
 import { STEP_REGISTRY } from './stepRegistry';
 
 

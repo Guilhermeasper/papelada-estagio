@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Button, Input } from '../../../components';
+import { Button, Input } from '../../components';
 import { SupervisionFormData, supervisionSchema } from '../schemas/validationSchemas';
 import type { IStep6Props } from '../step-types';
 

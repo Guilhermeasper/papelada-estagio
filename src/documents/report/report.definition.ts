@@ -1,7 +1,7 @@
 
 import { DocumentDefinition } from '../../types/document';
 import { IInternshipData } from '../../types/types';
-import { fullInternshipSchema } from '../wizard/schemas/validationSchemas';
+import { fullInternshipSchema } from '../../wizard/schemas/validationSchemas';
 import { ReportDocument } from './ReportDocument';
 
 export const reportDefinition: DocumentDefinition<IInternshipData> = {

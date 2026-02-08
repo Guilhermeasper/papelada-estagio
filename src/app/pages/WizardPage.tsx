@@ -1,1 +1,2 @@
-export { WizardContainer as WizardPage } from '../../features/wizard/WizardContainer';
+export { WizardContainer as WizardPage } from '../../wizard/WizardContainer';
+
