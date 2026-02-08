@@ -93,30 +93,16 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
             name="hoursPerDay"
             control={control}
             render={({ field }) => (
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark">
-                  Horas por Dia <span className="text-destructive">*</span>
-                </label>
-                <input
-                  type="number"
-                  min={1}
-                  max={8}
-                  {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
-                  className={`
-                    w-full px-4 py-2.5 
-                    border border-border dark:border-border-dark rounded-md
-                    bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark
-                    focus:ring-2
-                    ${errors.hoursPerDay ? "border-input-error focus:border-input-error focus:ring-input-focus/20" : "focus:border-input-focus focus:ring-input-focus/20"}
-                  `}
-                />
-                {errors.hoursPerDay && (
-                  <p className="text-xs text-error-text">
-                    {errors.hoursPerDay.message}
-                  </p>
-                )}
-              </div>
+              <Input
+                label="Horas por Dia"
+                type="number"
+                min={1}
+                max={8}
+                {...field}
+                onChange={(e) => field.onChange(Number(e.target.value))}
+                error={errors.hoursPerDay?.message}
+                required
+              />
             )}
           />
 

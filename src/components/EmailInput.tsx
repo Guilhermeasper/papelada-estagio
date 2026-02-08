@@ -1,4 +1,5 @@
 import { forwardRef, InputHTMLAttributes, useRef, useState } from "react";
+import { Input } from "./Input";
 
 interface EmailInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange" | "type"> {
@@ -87,41 +88,21 @@ export const EmailInput = forwardRef<HTMLInputElement, EmailInputProps>(
 
     return (
       <div className="flex flex-col gap-1.5 relative" ref={containerRef}>
-        <label
-          htmlFor={inputId}
-          className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark"
-        >
-          {label}
-          {props.required && <span className="text-destructive ml-0.5">*</span>}
-        </label>
-
-        <input
+        <Input
           ref={ref}
           id={inputId}
+          label={label}
           type="email"
+          error={error}
+          hint={hint}
           onChange={handleChange}
           onBlur={handleBlur}
-          className={`
-            w-full px-4 py-2.5 text-sm md:text-base
-            border border-border dark:border-border-dark rounded-md
-            bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark
-            placeholder:text-text-secondary dark:placeholder:text-text-secondary-dark
-            transition-colors duration-200
-            hover:border-text-secondary dark:hover:border-text-secondary-dark
-            focus:ring-2
-            ${error ? "border-input-error focus:border-input-error focus:ring-input-focus/20" : "focus:border-input-focus focus:ring-input-focus/20"}
-            disabled:bg-text-secondary/20 dark:disabled:bg-text-secondary-dark/20 disabled:cursor-not-allowed
-            ${className}
-          `}
-          aria-invalid={!!error}
-          aria-describedby={
-            error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined
-          }
+          className={className}
           {...props}
         />
 
         {showSuggestions && filteredDomains.length > 0 && (
-          <ul className="absolute top-full left-0 right-0 mt-1 bg-surface-elevated dark:bg-surface-elevated-dark border border-border dark:border-border-dark rounded-md shadow-lg z-10 max-h-40 overflow-y-auto">
+          <ul className="absolute top-17.5 left-0 right-0 mt-1 bg-surface-elevated dark:bg-surface-elevated-dark border border-border dark:border-border-dark rounded-md shadow-lg z-10 max-h-40 overflow-y-auto">
             {filteredDomains.map((domain) => (
               <li
                 key={domain}
@@ -133,24 +114,6 @@ export const EmailInput = forwardRef<HTMLInputElement, EmailInputProps>(
               </li>
             ))}
           </ul>
-        )}
-
-        {hint && !error && (
-          <p
-            id={`${inputId}-hint`}
-            className="text-xs text-text-secondary dark:text-text-secondary-dark"
-          >
-            {hint}
-          </p>
-        )}
-
-        {error && (
-          <p
-            id={`${inputId}-error`}
-            className="text-xs text-error-text font-medium"
-          >
-            {error}
-          </p>
         )}
       </div>
     );

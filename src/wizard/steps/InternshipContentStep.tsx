@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, DynamicList, TextArea } from "@papelada-estagio/components";
+import { Button, DynamicList, Input, TextArea } from "@papelada-estagio/components";
 import { IStep5Props } from "@papelada-estagio/types";
 import {
   InternshipContentFormData,
@@ -144,16 +144,12 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
               </div>
 
               <div className="space-y-3">
-                <input
+                <Input
                   {...register(`schedule.${index}.period`)}
                   placeholder="Ex: 20/11/2025 a 30/11/2025"
-                  className={`w-full px-4 py-2 border border-border dark:border-border-dark rounded-md bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark focus:ring-2 ${errors.schedule?.[index] ? "border-input-error focus:border-input-error focus:ring-input-focus/20" : "focus:border-input-focus focus:ring-input-focus/20"}`}
+                  className="bg-surface-elevated dark:bg-surface-elevated-dark"
+                  error={errors.schedule?.[index]?.period?.message}
                 />
-                {errors.schedule?.[index]?.period && (
-                  <p className="text-xs text-error-text">
-                    {errors.schedule[index]?.period?.message}
-                  </p>
-                )}
 
                 <TextArea
                   {...register(`schedule.${index}.description`)}
