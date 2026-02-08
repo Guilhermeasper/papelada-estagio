@@ -1,5 +1,5 @@
 import { applyMask, MaskType } from "@papelada-estagio/utils/masks";
-import { forwardRef, InputHTMLAttributes } from "react";
+import { forwardRef, InputHTMLAttributes, useRef } from "react";
 
 interface MaskedInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> {
@@ -13,10 +13,23 @@ interface MaskedInputProps
 export const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
   ({ label, error, hint, mask, id, className = "", onChange, ...props }, ref) => {
     const inputId = id || label.toLowerCase().replace(/\s+/g, "-");
+    const prevValueRef = useRef<string>("");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const maskedValue = applyMask(e.target.value, mask);
+      const currentRaw = e.target.value;
+      const prevValue = prevValueRef.current;
+
+      const prevDigits = prevValue.replace(/\D/g, "");
+      const currentDigits = currentRaw.replace(/\D/g, "");
+
+      let valueToMask = currentRaw;
+      if (currentDigits.length === prevDigits.length && currentRaw.length < prevValue.length) {
+        valueToMask = prevDigits.slice(0, -1);
+      }
+
+      const maskedValue = applyMask(valueToMask, mask);
       e.target.value = maskedValue;
+      prevValueRef.current = maskedValue;
       onChange?.(e);
     };
 
