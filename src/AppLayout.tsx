@@ -16,7 +16,7 @@ export function AppLayout({ children, headerActions }: AppLayoutProps) {
             </div>
             <div>
               <h1 className="text-lg md:text-xl font-bold text-text-primary dark:text-text-primary-dark">
-                Documentos de Estágio
+                Papelada Estágio
               </h1>
               <p className="text-xs md:text-sm text-text-secondary dark:text-text-secondary-dark">
                 Centro de Informática - UFPE
@@ -37,7 +37,7 @@ export function AppLayout({ children, headerActions }: AppLayoutProps) {
       <footer className="bg-surface-elevated dark:bg-surface-elevated-dark border-t border-border dark:border-border-dark mt-auto">
         <div className="max-w-6xl mx-auto px-4 py-4">
           <p className="text-center text-sm text-text-secondary dark:text-text-secondary-dark">
-            © {new Date().getFullYear()} Centro de Informática - UFPE
+            © {new Date().getFullYear()} Papelada Estágio
           </p>
         </div>
       </footer>

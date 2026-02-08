@@ -100,7 +100,7 @@ export const DocumentLayout = ({ children }: DocumentLayoutProps) => {
 
         <View style={styles.footer} fixed>
           <Text style={styles.footerText}>
-            Gerado via Sistema de Estágio CIn/UFPE
+            Gerado via Papelada Estágio | CIn-UFPE
           </Text>
           <Text
             style={styles.footerText}
