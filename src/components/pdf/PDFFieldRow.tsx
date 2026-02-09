@@ -4,7 +4,7 @@ import { fonts } from "./styles";
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
-    marginBottom: 3,
+    marginBottom: 2,
     marginLeft: 35,
     flexWrap: "wrap",
   },

@@ -18,10 +18,10 @@ export const PDF_CONTENT = {
     },
     subsections: {
       generalInfo:
-        "Informações Gerais: Período (Vigência), Carga Horária, Dias e horário",
-      activities: "Atividades a serem desenvolvidas",
-      objectives: "Objetivos / metas a serem atingidas",
-      schedule: "Cronograma",
+        "3.1. Informações Gerais: Período (Vigência), Carga Horária, Dias e horário",
+      activities: "3.2. Atividades a serem desenvolvidas",
+      objectives: "3.3. Objetivos / metas a serem atingidas",
+      schedule: "3.4. Cronograma",
     },
     evaluation: {
       subtitle: "(critérios, formas, datas)",

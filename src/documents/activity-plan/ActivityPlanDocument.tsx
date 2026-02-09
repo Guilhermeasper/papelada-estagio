@@ -38,8 +38,8 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
 
   const evalColumns: ColumnConfig[] = [
     { key: "topic", header: "TÓPICO", width: 98 },
-    { key: "description", header: "DESCRIÇÃO", width: 205 },
-    { key: "weight", header: "PESO", width: 44, align: "center" },
+    { key: "description", header: "DESCRIÇÃO", width: 200 },
+    { key: "weight", header: "PESO", width: 50, align: "center" },
   ];
 
   const headerTitle = [
@@ -51,11 +51,15 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
 
   const docSubtitle = [activityPlan.title, activityPlan.subtitle].join("\n");
 
+  const logoHeight = 55;
+  const widthHeightRatio = 1020 / 980;
+  const logoWidth = logoHeight * widthHeightRatio;
+
   return (
     <Document>
       <PDFPage variant="activityPlan" wrap>
         <PDFLogoHeader
-          logos={[{ src: "/image1.png", width: 76, height: 73 }]}
+          logos={[{ src: "/image1.png", width: logoWidth, height: logoHeight }]}
           title={headerTitle}
           subtitle={docSubtitle}
         />
@@ -82,8 +86,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
             titleStyle={{
               marginLeft: 32,
               fontFamily: fonts.regular,
-              marginBottom: 4,
-              marginTop: 8,
+              marginBottom: 12,
             }}
           >
             <PDFFieldRow
@@ -226,27 +229,27 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
 
           <ActivityPlanSignatureLine
             label={activityPlan.signatures.student}
-            style={{ marginLeft: 0, marginTop: 20 }}
+            style={{ marginTop: 20 }}
           />
 
           <ActivityPlanSignatureLine
             label={activityPlan.signatures.supervisor}
             line="_______________________________________"
-            subLabel={`${activityPlan.signatures.fields.field}                        (${supervision.supervisorName})`}
+            subLabel={`${activityPlan.signatures.fields.field}                                  (${supervision.supervisorName})`}
             style={{ marginTop: 20 }}
           />
 
           <ActivityPlanSignatureLine
             label={activityPlan.signatures.advisor}
             line="_______________________________________"
-            subLabel={`${activityPlan.signatures.fields.ufpe}                                    (${supervision.advisorName})`}
+            subLabel={`${activityPlan.signatures.fields.ufpe}                                            (${supervision.advisorName})`}
             style={{ marginTop: 10 }}
           />
 
           <ActivityPlanSignatureLine
             label={activityPlan.signatures.coordinator}
             line="_________________________________"
-            subLabel={`                                                             ${activityPlan.signatures.coordinatorNote}`}
+            subLabel={`                                                                                                  ${activityPlan.signatures.coordinatorNote}`}
             style={{ marginTop: 10 }}
           />
         </ActivityPlanSignatureSection>

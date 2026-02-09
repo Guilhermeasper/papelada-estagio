@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
   scheduleContent: {
     flex: 1,
     textAlign: "justify",
+    lineHeight: 0.7,
   },
 });
 

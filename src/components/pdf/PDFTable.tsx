@@ -3,9 +3,10 @@ import { colors, fonts } from "./styles";
 
 const styles = StyleSheet.create({
   table: {
-    marginTop: 10,
+    marginTop: 8,
     borderWidth: 1,
     borderColor: colors.textBlack,
+    width: 350,
   },
   row: {
     flexDirection: "row",
@@ -16,33 +17,36 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   headerCell: {
-    padding: 5,
+    padding: 2,
     borderRightWidth: 1,
     borderRightColor: colors.textBlack,
   },
   headerCellLast: {
-    padding: 5,
+    padding: 2,
   },
   headerText: {
     fontFamily: fonts.bold,
-    fontSize: 10.5,
+    fontSize: 11,
     textAlign: "center",
   },
   cell: {
-    padding: 5,
     borderRightWidth: 1,
     borderRightColor: colors.textBlack,
   },
   cellLast: {
-    padding: 5,
+    padding: 2,
   },
   cellText: {
     fontFamily: fonts.regular,
-    fontSize: 10.5,
+    fontSize: 10,
+    paddingLeft: 4,
+  },
+  cellTextLast: {
+    textAlign: "center",
   },
   cellTextBold: {
     fontFamily: fonts.bold,
-    fontSize: 10.5,
+    fontSize: 10,
   },
 });
 
@@ -93,7 +97,14 @@ export function PDFTable({ columns, rows, marginLeft }: PDFTableProps) {
                 col.align ? { textAlign: col.align } : {},
               ]}
             >
-              <Text style={col.bold ? styles.cellTextBold : styles.cellText}>
+              <Text
+                style={[
+                  col.bold ? styles.cellTextBold : styles.cellText,
+                  colIndex === columns.length - 1
+                    ? { textAlign: "center" }
+                    : { textAlign: "left" },
+                ]}
+              >
                 {row[col.key] ?? ""}
               </Text>
             </View>

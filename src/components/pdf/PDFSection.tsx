@@ -5,12 +5,12 @@ import { fonts } from "./styles";
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 12,
-    marginBottom: 6,
+    marginBottom: 12,
   },
   title: {
     fontSize: 10,
     fontFamily: fonts.bold,
+    marginBottom: 14,
   },
 });
 

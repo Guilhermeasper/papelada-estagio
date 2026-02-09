@@ -52,8 +52,8 @@ export const pageStyles = StyleSheet.create({
   },
 
   activityPlan: {
-    paddingTop: 70,
-    paddingBottom: 70,
+    paddingTop: 85,
+    paddingBottom: 85,
     paddingLeft: 85,
     paddingRight: 56,
     fontFamily: fonts.regular,

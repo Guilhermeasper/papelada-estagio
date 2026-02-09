@@ -4,27 +4,28 @@ import { fonts } from "./styles";
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 12,
   },
   logoContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     gap: 20,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   title: {
     fontSize: 10,
     fontFamily: fonts.bold,
     textAlign: "center",
-    lineHeight: 1.5,
+    lineHeight: 1.2,
+    marginBottom: 10,
   },
   subtitle: {
     fontSize: 10,
     fontFamily: fonts.bold,
     textAlign: "center",
-    marginTop: 15,
-    marginBottom: 8,
+    lineHeight: 2.4,
+    marginTop: 14,
   },
 });
 
