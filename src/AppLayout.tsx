@@ -11,16 +11,17 @@ export function AppLayout({ children, headerActions }: AppLayoutProps) {
       <header className="bg-surface-elevated dark:bg-surface-elevated-dark border-b border-border dark:border-border-dark">
         <div className="max-w-6xl mx-auto px-4 py-6">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-brand-accent rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">CIn</span>
+            <div className="w-12 h-12 rounded-lg flex items-center justify-center">
+              <img
+                src="/logo.svg"
+                alt="Logo"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div>
               <h1 className="text-lg md:text-xl font-bold text-text-primary dark:text-text-primary-dark">
                 Papelada Estágio
               </h1>
-              <p className="text-xs md:text-sm text-text-secondary dark:text-text-secondary-dark">
-                Centro de Informática - UFPE
-              </p>
             </div>
 
             {headerActions && (
