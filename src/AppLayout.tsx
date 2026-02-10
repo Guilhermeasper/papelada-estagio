@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { getAssetPath } from "./utils/asset";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -13,7 +14,7 @@ export function AppLayout({ children, headerActions }: AppLayoutProps) {
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-lg flex items-center justify-center">
               <img
-                src="/logo.svg"
+                src={getAssetPath("/logo.svg")}
                 alt="Logo"
                 className="w-full h-full object-cover"
               />

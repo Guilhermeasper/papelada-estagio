@@ -8,6 +8,7 @@ import {
   View,
 } from "@react-pdf/renderer";
 import React from "react";
+import { getAssetPath } from "../../utils/asset";
 import { colors, fonts } from "./styles";
 
 const styles = StyleSheet.create({
@@ -87,8 +88,14 @@ export const DocumentLayout = ({ children }: DocumentLayoutProps) => {
         <View style={styles.header} fixed>
           <View style={styles.headerLeft}>
             {/* Using absolute paths for public folder images, relative checks might fail in preview if not handled by PDF renderer properly, assuming standard public handling */}
-            <Image src="/logo_ufpe.png" style={{ width: 25, height: 40 }} />
-            <Image src="/logo_cin.png" style={{ width: 32, height: 32 }} />
+            <Image
+              src={getAssetPath("/logo_ufpe.png")}
+              style={{ width: 25, height: 40 }}
+            />
+            <Image
+              src={getAssetPath("/logo_cin.png")}
+              style={{ width: 32, height: 32 }}
+            />
             <View>
               <Text style={styles.headerText}>{header.university}</Text>
               <Text style={styles.headerSubText}>{header.institution}</Text>

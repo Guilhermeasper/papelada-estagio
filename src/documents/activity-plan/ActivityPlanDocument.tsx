@@ -13,6 +13,7 @@ import {
 import { PDF_CONTENT } from "@papelada-estagio/constants/pdf-content";
 import type { IInternshipData } from "@papelada-estagio/types";
 import { Document, Text } from "@react-pdf/renderer";
+import { getAssetPath } from "../../utils/asset";
 import {
   ActivityPlanEvaluationIndent,
   ActivityPlanEvaluationText,
@@ -59,7 +60,13 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
     <Document>
       <PDFPage variant="activityPlan" wrap>
         <PDFLogoHeader
-          logos={[{ src: "/image1.png", width: logoWidth, height: logoHeight }]}
+          logos={[
+            {
+              src: getAssetPath("/image1.png"),
+              width: logoWidth,
+              height: logoHeight,
+            },
+          ]}
           title={headerTitle}
           subtitle={docSubtitle}
         />
