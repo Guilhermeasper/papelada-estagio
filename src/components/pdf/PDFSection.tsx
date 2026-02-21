@@ -20,6 +20,7 @@ interface PDFSectionProps {
   children?: ReactNode;
   style?: Style;
   titleStyle?: Style;
+  wrap?: boolean;
 }
 
 export function PDFSection({
@@ -28,6 +29,7 @@ export function PDFSection({
   children,
   style,
   titleStyle,
+  wrap = true,
 }: PDFSectionProps) {
   const titleText = number ? `${number}. ${title}` : title;
   const containerStyle = [styles.container, style].filter(Boolean) as Style[];
@@ -36,7 +38,7 @@ export function PDFSection({
   ) as Style[];
 
   return (
-    <View style={containerStyle}>
+    <View style={containerStyle} wrap={wrap}>
       <Text style={combinedTitleStyle}>{titleText}</Text>
       {children}
     </View>

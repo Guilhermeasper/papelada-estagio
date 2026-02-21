@@ -15,7 +15,11 @@ interface PDFPageProps {
   wrap?: boolean;
 }
 
-export function PDFPage({ variant = "default", children, wrap }: PDFPageProps) {
+export function PDFPage({
+  variant = "default",
+  children,
+  wrap = true,
+}: PDFPageProps) {
   const style = pageStyles[variant];
 
   return (

@@ -36,7 +36,7 @@ export function PDFCommentsBox({
   const textLines = splitTextIntoLines(text, lines, charsPerLine);
 
   return (
-    <View style={styles.table}>
+    <View style={styles.table} wrap>
       {textLines.map((line, index) => (
         <View
           key={index}

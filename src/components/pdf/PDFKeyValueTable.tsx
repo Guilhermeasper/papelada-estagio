@@ -48,7 +48,7 @@ export function PDFKeyValueTable({ items, labelWidth }: PDFKeyValueTableProps) {
     : styles.label;
 
   return (
-    <View style={styles.table}>
+    <View style={styles.table} wrap>
       {items.map((item, index) => (
         <View
           key={index}
