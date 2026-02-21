@@ -30,10 +30,10 @@ export function PDFSection({
   titleStyle,
 }: PDFSectionProps) {
   const titleText = number ? `${number}. ${title}` : title;
-  const containerStyle = style ? [styles.container, style] : styles.container;
-  const combinedTitleStyle = titleStyle
-    ? [styles.title, titleStyle]
-    : styles.title;
+  const containerStyle = [styles.container, style].filter(Boolean) as Style[];
+  const combinedTitleStyle = [styles.title, titleStyle].filter(
+    Boolean,
+  ) as Style[];
 
   return (
     <View style={containerStyle}>

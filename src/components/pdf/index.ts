@@ -1,6 +1,7 @@
 export * from "./styles";
 export * from "./utils";
 
+export { PDFLayout } from "./PDFLayout";
 export { PDFPage } from "./PDFPage";
 export type { PageVariant } from "./PDFPage";
 
@@ -21,4 +22,6 @@ export { PDFSection } from "./PDFSection";
 
 export { PDFSignatureBlock } from "./PDFSignatureBlock";
 export type { SignatureConfig } from "./PDFSignatureBlock";
+export { PDFSignatureDate } from "./PDFSignatureDate";
 export { PDFSignatureLine } from "./PDFSignatureLine";
+export { PDFSignatureSection } from "./PDFSignatureSection";

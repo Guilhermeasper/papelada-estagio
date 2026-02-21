@@ -3,11 +3,11 @@ import { SupervisorEvaluationDocument } from "@papelada-estagio/documents/superv
 import { DocumentDefinition, IInternshipData } from "@papelada-estagio/types";
 import { fullInternshipSchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import React from "react";
+import { IEvaluationFormData } from "./EvaluationDocument";
 import {
   advisorEvaluationMetadata,
   supervisorEvaluationMetadata,
 } from "./evaluations.meta";
-import { IEvaluationFormData } from "./pdf";
 
 function getDefaultEvaluationData(): IEvaluationFormData {
   return {

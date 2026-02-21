@@ -1,18 +1,16 @@
 import {
+  fonts,
   formatDatePtBr,
   getMonthName,
   PDFBulletList,
   PDFKeyValueTable,
+  PDFLayout,
+  PDFParagraph,
+  PDFSection,
   PDFTable,
   type ColumnConfig,
   type KeyValueItem,
 } from "@papelada-estagio/components/pdf";
-import {
-  DocSectionTitle,
-  DocText,
-  DocTitle,
-} from "@papelada-estagio/components/pdf/atoms";
-import { DocumentLayout } from "@papelada-estagio/components/pdf/DocumentLayout";
 import { PDF_CONTENT } from "@papelada-estagio/constants/pdf-content";
 import { IInternshipData } from "@papelada-estagio/types";
 import { View } from "@react-pdf/renderer";
@@ -99,84 +97,98 @@ export function ReportDocument({ data }: ReportDocumentProps) {
   ];
 
   return (
-    <DocumentLayout>
+    <PDFLayout variant="report">
       {/* Cover Section */}
       <View style={{ marginTop: 50, marginBottom: 100, alignItems: "center" }}>
-        <DocTitle style={{ fontSize: 24, marginBottom: 40 }}>
+        <PDFParagraph
+          style={{ fontSize: 24, marginBottom: 40, fontFamily: fonts.bold }}
+          align="center"
+        >
           {report.title}
-        </DocTitle>
-        <DocText style={{ fontSize: 16, textAlign: "center" }}>
+        </PDFParagraph>
+        <PDFParagraph style={{ fontSize: 16 }} align="center">
           Graduação em {student.course}
-        </DocText>
-        <DocText style={{ fontSize: 14, textAlign: "center", marginTop: 100 }}>
+        </PDFParagraph>
+        <PDFParagraph style={{ fontSize: 14, marginTop: 100 }} align="center">
           Recife, {coverMonth} de {coverYear}
-        </DocText>
+        </PDFParagraph>
       </View>
 
       <View break />
 
       {/* Identificação */}
-      <DocSectionTitle>{report.sections.identification}</DocSectionTitle>
-      <PDFKeyValueTable items={idItems} labelWidth={200} />
+      <PDFSection title={report.sections.identification}>
+        <PDFKeyValueTable items={idItems} labelWidth={200} />
+      </PDFSection>
 
       <View break />
 
       {/* Introdução */}
-      <DocSectionTitle>{report.sections.introduction}</DocSectionTitle>
-      <DocText>{content.introduction}</DocText>
+      <PDFSection title={report.sections.introduction}>
+        <PDFParagraph>{content.introduction}</PDFParagraph>
+      </PDFSection>
 
       <View break />
 
       {/* Objetivos */}
-      <DocSectionTitle>{report.sections.objectives}</DocSectionTitle>
+      <PDFSection title={report.sections.objectives}>
+        <PDFParagraph style={{ fontFamily: fonts.bold, marginBottom: 5 }}>
+          {report.sections.generalObjectives}
+        </PDFParagraph>
+        <PDFParagraph>{content.generalObjectives}</PDFParagraph>
 
-      <DocText style={{ fontFamily: "Helvetica-Bold", marginBottom: 5 }}>
-        {report.sections.generalObjectives}
-      </DocText>
-      <DocText>{content.generalObjectives}</DocText>
-
-      <DocText
-        style={{ fontFamily: "Helvetica-Bold", marginTop: 15, marginBottom: 5 }}
-      >
-        {report.sections.specificObjectives}
-      </DocText>
-      <DocText>{report.text.specificObjectivesIntro}</DocText>
-      <PDFBulletList items={content.objectives} />
+        <PDFParagraph
+          style={{
+            fontFamily: fonts.bold,
+            marginTop: 15,
+            marginBottom: 5,
+          }}
+        >
+          {report.sections.specificObjectives}
+        </PDFParagraph>
+        <PDFParagraph>{report.text.specificObjectivesIntro}</PDFParagraph>
+        <PDFBulletList items={content.objectives} />
+      </PDFSection>
 
       <View break />
 
       {/* Cronograma */}
-      <DocSectionTitle>{report.sections.schedule}</DocSectionTitle>
-      <DocText>{report.text.scheduleIntro}</DocText>
-      {content.schedule.map((item, index) => (
-        <DocText key={index}>
-          {item.period}: {item.description}
-        </DocText>
-      ))}
+      <PDFSection title={report.sections.schedule}>
+        <PDFParagraph>{report.text.scheduleIntro}</PDFParagraph>
+        {content.schedule.map((item, index) => (
+          <PDFParagraph key={index}>
+            {item.period}: {item.description}
+          </PDFParagraph>
+        ))}
+      </PDFSection>
 
       <View break />
 
       {/* Metodologia */}
-      <DocSectionTitle>{report.sections.methodology}</DocSectionTitle>
-      <DocText>{content.methodology}</DocText>
+      <PDFSection title={report.sections.methodology}>
+        <PDFParagraph>{content.methodology}</PDFParagraph>
+      </PDFSection>
 
       <View break />
 
       {/* Desenvolvimento */}
-      <DocSectionTitle>{report.sections.development}</DocSectionTitle>
-      <DocText>{content.development}</DocText>
+      <PDFSection title={report.sections.development}>
+        <PDFParagraph>{content.development}</PDFParagraph>
+      </PDFSection>
 
       <View break />
 
       {/* Avaliação */}
-      <DocSectionTitle>{report.sections.evaluation}</DocSectionTitle>
-      <PDFTable columns={evalColumns} rows={evalRows} />
+      <PDFSection title={report.sections.evaluation}>
+        <PDFTable columns={evalColumns} rows={evalRows as any} />
+      </PDFSection>
 
       <View break />
 
       {/* Conclusão */}
-      <DocSectionTitle>{report.sections.conclusion}</DocSectionTitle>
-      <DocText>{content.conclusion}</DocText>
-    </DocumentLayout>
+      <PDFSection title={report.sections.conclusion}>
+        <PDFParagraph>{content.conclusion}</PDFParagraph>
+      </PDFSection>
+    </PDFLayout>
   );
 }

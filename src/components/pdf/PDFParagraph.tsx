@@ -29,15 +29,23 @@ interface PDFParagraphProps {
   children: ReactNode;
   align?: "left" | "center" | "right" | "justify";
   style?: Style;
+  marginLeft?: number;
 }
 
 export function PDFParagraph({
   children,
   align = "justify",
   style,
+  marginLeft,
 }: PDFParagraphProps) {
-  const baseStyle = [styles.paragraph, styles[align]];
-  const finalStyle = style ? [...baseStyle, style] : baseStyle;
+  const baseStyle = [
+    styles.paragraph,
+    styles[align],
+    marginLeft !== undefined ? { marginLeft } : {},
+  ];
+  const finalStyle = style
+    ? [...baseStyle, style].filter(Boolean)
+    : baseStyle.filter(Boolean);
 
-  return <Text style={finalStyle}>{children}</Text>;
+  return <Text style={finalStyle as Style[]}>{children}</Text>;
 }

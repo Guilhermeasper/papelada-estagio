@@ -1,43 +1,62 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import type { Style } from "@react-pdf/types";
+import { fonts } from "./styles";
 
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
-    textAlign: "center",
   },
-  line: {
-    fontSize: 11,
-    textAlign: "center",
+  signatureLine: {
+    marginLeft: 35,
+    marginBottom: 3,
   },
-  label: {
-    fontSize: 11,
-    textAlign: "center",
+  signatureLabel: {
+    fontFamily: fonts.bold,
   },
-  subLabel: {
+  signatureSubLabel: {
+    marginLeft: 35,
     fontSize: 9,
+    marginBottom: 15,
+  },
+  centered: {
     textAlign: "center",
-    marginTop: 2,
+    marginLeft: 0,
   },
 });
 
 interface PDFSignatureLineProps {
   label: string;
+  line?: string;
   subLabel?: string;
-  lineWidth?: number;
+  style?: Style;
+  centered?: boolean;
 }
 
 export function PDFSignatureLine({
   label,
+  line = "___________________________________________",
   subLabel,
-  lineWidth = 40,
+  style,
+  centered = false,
 }: PDFSignatureLineProps) {
-  const line = "_".repeat(lineWidth);
+  const containerStyle = [styles.container, style].filter(Boolean) as Style[];
+  const lineStyle = [styles.signatureLine, centered ? styles.centered : {}]
+    .filter(Boolean)
+    .flat() as Style[];
+  const subLabelStyle = [
+    styles.signatureSubLabel,
+    centered ? styles.centered : {},
+  ]
+    .filter(Boolean)
+    .flat() as Style[];
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.line}>{line}</Text>
-      <Text style={styles.label}>{label}</Text>
-      {subLabel && <Text style={styles.subLabel}>{subLabel}</Text>}
+    <View style={containerStyle}>
+      <Text style={lineStyle}>
+        <Text style={styles.signatureLabel}>{label} </Text>
+        {line}
+      </Text>
+      {subLabel && <Text style={subLabelStyle}>{subLabel}</Text>}
     </View>
   );
 }
