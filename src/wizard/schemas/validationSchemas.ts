@@ -44,7 +44,7 @@ export const internshipGeneralSchema = z
       .refine(
         (date) => {
           const validation = validateDate(date);
-          return validation.valid;
+          return validation.isValid;
         },
         {
           message: "Data de início inválida (fim de semana ou feriado)",
@@ -56,7 +56,7 @@ export const internshipGeneralSchema = z
       .refine(
         (date) => {
           const validation = validateDate(date);
-          return validation.valid;
+          return validation.isValid;
         },
         {
           message: "Data de término inválida (fim de semana ou feriado)",
@@ -81,7 +81,7 @@ export const internshipGeneralSchema = z
       data.hoursPerDay,
     );
 
-    if (!validation.valid) {
+    if (!validation.isValid) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: validation.error || "Período inválido",

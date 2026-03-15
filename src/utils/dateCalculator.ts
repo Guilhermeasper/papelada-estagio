@@ -14,7 +14,8 @@ import {
 import { isHoliday, isWorkday } from "./holidays";
 
 export interface DateValidationResult {
-  valid: boolean;
+  isValid: boolean;
+  date?: Date;
   error?: string;
 }
 
@@ -29,15 +30,19 @@ export interface DateCalculationResult {
 
 export function validateDate(isoDate: string): DateValidationResult {
   if (!isoDate) {
-    return { valid: false, error: "Data é obrigatória" };
+    return { isValid: false, error: "Data não informada" };
   }
 
   const date = parseIsoDate(isoDate);
 
+  if (isNaN(date.getTime())) {
+    return { isValid: false, error: "Data inválida" };
+  }
+
   const dayOfWeek = date.getDay();
   if (dayOfWeek === 0 || dayOfWeek === 6) {
     return {
-      valid: false,
+      isValid: false,
       error: `Data inválida: ${getDayOfWeekPtBr(date)} é fim de semana`,
     };
   }
@@ -45,12 +50,12 @@ export function validateDate(isoDate: string): DateValidationResult {
   const holidayCheck = isHoliday(date);
   if (holidayCheck.isHoliday) {
     return {
-      valid: false,
+      isValid: false,
       error: `Data inválida: ${holidayCheck.name}`,
     };
   }
 
-  return { valid: true };
+  return { isValid: true, date };
 }
 
 export function countWorkdays(startIso: string, endIso: string): number {
@@ -78,7 +83,7 @@ export function calculateEndDate(
   const errors: string[] = [];
 
   const startValidation = validateDate(startIso);
-  if (!startValidation.valid) {
+  if (!startValidation.isValid) {
     return {
       isValid: false,
       totalHours: 0,
@@ -139,12 +144,12 @@ export function validateInternshipPeriod(
   hoursPerDay: number,
 ): DateValidationResult {
   const startValidation = validateDate(startIso);
-  if (!startValidation.valid) {
+  if (!startValidation.isValid) {
     return startValidation;
   }
 
   const endValidation = validateDate(endIso);
-  if (!endValidation.valid) {
+  if (!endValidation.isValid) {
     return endValidation;
   }
 
@@ -163,12 +168,12 @@ export function validateInternshipPeriod(
 
   if (totalHours < MIN_INTERNSHIP_HOURS) {
     return {
-      valid: false,
+      isValid: false,
       error: `Período insuficiente: ${totalHours}h (mínimo ${MIN_INTERNSHIP_HOURS}h). Adicione mais ${MIN_INTERNSHIP_HOURS - totalHours}h.`,
     };
   }
 
-  return { valid: true };
+  return { isValid: true };
 }
 
 export interface PeriodInfo {
