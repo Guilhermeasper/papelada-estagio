@@ -1,5 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, EmailInput, Input, MaskedInput } from "@papelada-estagio/components";
+import {
+  Button,
+  EmailInput,
+  Input,
+  MaskedInput,
+} from "@papelada-estagio/components";
 import { IStep6Props } from "@papelada-estagio/types";
 import {
   SupervisionFormData,

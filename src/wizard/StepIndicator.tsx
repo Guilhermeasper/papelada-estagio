@@ -71,9 +71,15 @@ export function StepIndicator({
                       ${isClickable ? "cursor-pointer hover:scale-110" : "cursor-not-allowed"}
                     `}
                     aria-current={isCurrent ? "step" : undefined}
-                    onClick={() => handleStepClick(step)}
-                    onMouseEnter={() => setHoveredStep(step.step)}
-                    onMouseLeave={() => setHoveredStep(null)}
+                    onClick={() => {
+                      handleStepClick(step);
+                    }}
+                    onMouseEnter={() => {
+                      setHoveredStep(step.step);
+                    }}
+                    onMouseLeave={() => {
+                      setHoveredStep(null);
+                    }}
                     role="button"
                     tabIndex={isClickable ? 0 : -1}
                     onKeyDown={(e) => {
@@ -143,7 +149,9 @@ export function StepIndicator({
 
                 <div
                   className={`pt-2 ${isClickable ? "cursor-pointer" : ""}`}
-                  onClick={() => handleStepClick(step)}
+                  onClick={() => {
+                    handleStepClick(step);
+                  }}
                 >
                   <p
                     className={`

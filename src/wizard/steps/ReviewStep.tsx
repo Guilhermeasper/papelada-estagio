@@ -206,7 +206,9 @@ function ReviewSection({ title, step, onEdit, children }: ReviewSectionProps) {
           type="button"
           variant="ghost"
           size="sm"
-          onClick={() => onEdit(step)}
+          onClick={() => {
+            onEdit(step);
+          }}
           className="text-primary dark:text-cin-white hover:text-primary-hover dark:hover:text-cin-gray hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 p-0 h-auto font-medium"
         >
           <svg

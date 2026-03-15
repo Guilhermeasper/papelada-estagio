@@ -161,7 +161,9 @@ export function useWizardData() {
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, [completedSteps, currentStep]);
 
   const persistProgress = useCallback(

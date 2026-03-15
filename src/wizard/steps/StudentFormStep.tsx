@@ -1,7 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Autocomplete, Button, EmailInput, Input, MaskedInput } from "@papelada-estagio/components";
+import {
+  Autocomplete,
+  Button,
+  EmailInput,
+  Input,
+  MaskedInput,
+} from "@papelada-estagio/components";
 import { IStep2Props } from "@papelada-estagio/types";
-import { StudentFormData, studentSchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
+import {
+  StudentFormData,
+  studentSchema,
+} from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useForm } from "react-hook-form";
 
 export function StudentFormStep({ data, onNext }: IStep2Props) {

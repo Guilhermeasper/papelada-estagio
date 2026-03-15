@@ -12,24 +12,32 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   hint?: string;
 }
 
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ label, options, error, hint, id, className = "", ...props }, ref) => {
-    const selectId = id || label.toLowerCase().replace(/\s+/g, "-");
+export const Select = ({
+  ref,
+  label,
+  options,
+  error,
+  hint,
+  id,
+  className = "",
+  ...props
+}: SelectProps & { ref?: React.RefObject<HTMLSelectElement | null> }) => {
+  const selectId = id || label.toLowerCase().replace(/\s+/g, "-");
 
-    return (
-      <div className="flex flex-col gap-1.5">
-        <label
-          htmlFor={selectId}
-          className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark"
-        >
-          {label}
-          {props.required && <span className="text-destructive ml-0.5">*</span>}
-        </label>
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label
+        htmlFor={selectId}
+        className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark"
+      >
+        {label}
+        {props.required && <span className="text-destructive ml-0.5">*</span>}
+      </label>
 
-        <select
-          ref={ref}
-          id={selectId}
-          className={`
+      <select
+        ref={ref}
+        id={selectId}
+        className={`
             w-full px-4 py-2.5 text-sm md:text-base 
             border border-border dark:border-border-dark rounded-md
             bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark
@@ -40,40 +48,39 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             disabled:bg-text-secondary/20 dark:disabled:bg-text-secondary-dark/20 disabled:cursor-not-allowed
             ${className}
           `}
-          aria-invalid={!!error}
-          aria-describedby={
-            error ? `${selectId}-error` : hint ? `${selectId}-hint` : undefined
-          }
-          {...props}
+        aria-invalid={!!error}
+        aria-describedby={
+          error ? `${selectId}-error` : hint ? `${selectId}-hint` : undefined
+        }
+        {...props}
+      >
+        <option value="">Selecione...</option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+
+      {hint && !error && (
+        <p
+          id={`${selectId}-hint`}
+          className="text-xs text-text-secondary dark:text-text-secondary-dark"
         >
-          <option value="">Selecione...</option>
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+          {hint}
+        </p>
+      )}
 
-        {hint && !error && (
-          <p
-            id={`${selectId}-hint`}
-            className="text-xs text-text-secondary dark:text-text-secondary-dark"
-          >
-            {hint}
-          </p>
-        )}
-
-        {error && (
-          <p
-            id={`${selectId}-error`}
-            className="text-xs text-error-text font-medium"
-          >
-            {error}
-          </p>
-        )}
-      </div>
-    );
-  },
-);
+      {error && (
+        <p
+          id={`${selectId}-error`}
+          className="text-xs text-error-text font-medium"
+        >
+          {error}
+        </p>
+      )}
+    </div>
+  );
+};
 
 Select.displayName = "Select";

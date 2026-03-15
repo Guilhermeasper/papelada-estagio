@@ -1,5 +1,8 @@
 import type { IInternshipData, WizardStep } from "@papelada-estagio/types";
-import { CURRENT_DATA_VERSION, migrateData } from "@papelada-estagio/utils/migrations";
+import {
+  CURRENT_DATA_VERSION,
+  migrateData,
+} from "@papelada-estagio/utils/migrations";
 import { persistedStateSchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useCallback } from "react";
 

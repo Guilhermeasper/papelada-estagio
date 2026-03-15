@@ -49,7 +49,9 @@ export function DynamicList({
               {canRemove && (
                 <Button
                   type="button"
-                  onClick={() => onRemove(index)}
+                  onClick={() => {
+                    onRemove(index);
+                  }}
                   variant="ghost"
                   className="
                     p-1.5 h-auto
@@ -80,7 +82,9 @@ export function DynamicList({
 
             <TextArea
               value={item}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onChange(index, e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                onChange(index, e.target.value);
+              }}
               placeholder={placeholder}
               className="min-h-[50px] md:min-h-[60px]"
             />
@@ -88,7 +92,9 @@ export function DynamicList({
             {canRemove && (
               <Button
                 type="button"
-                onClick={() => onRemove(index)}
+                onClick={() => {
+                  onRemove(index);
+                }}
                 variant="ghost"
                 className="
                   hidden md:flex

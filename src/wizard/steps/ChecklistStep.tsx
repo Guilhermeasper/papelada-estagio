@@ -1,4 +1,8 @@
-import { Button, ChecklistCard, ChecklistItem } from "@papelada-estagio/components";
+import {
+  Button,
+  ChecklistCard,
+  ChecklistItem,
+} from "@papelada-estagio/components";
 import { IStep1Props } from "@papelada-estagio/types";
 import { checklistData } from "@papelada-estagio/wizard/data/checklist";
 

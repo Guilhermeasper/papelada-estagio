@@ -109,7 +109,9 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
                       : "border-border dark:border-border-dark hover:border-text-secondary dark:hover:border-text-secondary-dark"
                   }
                 `}
-                onClick={() => toggleDocument(doc.id)}
+                onClick={() => {
+                  toggleDocument(doc.id);
+                }}
               >
                 <div className="flex items-start gap-3">
                   <div

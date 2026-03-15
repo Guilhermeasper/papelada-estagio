@@ -1,5 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, DynamicList, Input, TextArea } from "@papelada-estagio/components";
+import {
+  Button,
+  DynamicList,
+  Input,
+  TextArea,
+} from "@papelada-estagio/components";
 import { IStep5Props } from "@papelada-estagio/types";
 import {
   InternshipContentFormData,
@@ -135,7 +140,9 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
                     type="button"
                     variant="danger-ghost"
                     size="sm"
-                    onClick={() => removeSchedule(index)}
+                    onClick={() => {
+                      removeSchedule(index);
+                    }}
                     className="p-0 h-auto"
                   >
                     Remover
@@ -169,7 +176,9 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
           type="button"
           variant="outline"
           size="sm"
-          onClick={() => appendSchedule({ period: "", description: "" })}
+          onClick={() => {
+            appendSchedule({ period: "", description: "" });
+          }}
           className="mt-4"
         >
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">

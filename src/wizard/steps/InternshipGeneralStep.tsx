@@ -45,10 +45,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
 
   useEffect(() => {
     if (debouncedStartDate && debouncedHoursPerDay) {
-      const result = calculateEndDate(
-        debouncedStartDate,
-        debouncedHoursPerDay,
-      );
+      const result = calculateEndDate(debouncedStartDate, debouncedHoursPerDay);
       if (result.isValid) {
         setValue("endDate", result.endDate);
       }
@@ -99,7 +96,9 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
                 min={1}
                 max={8}
                 {...field}
-                onChange={(e) => field.onChange(Number(e.target.value))}
+                onChange={(e) => {
+                  field.onChange(Number(e.target.value));
+                }}
                 error={errors.hoursPerDay?.message}
                 required
               />

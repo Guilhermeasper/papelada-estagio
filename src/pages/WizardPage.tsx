@@ -17,14 +17,18 @@ export function WizardPage() {
           hasProgress={state.hasProgress}
           onImport={actions.triggerImport}
           onExport={actions.exportData}
-          onReset={() => dialogs.setShowResetDialog(true)}
+          onReset={() => {
+            dialogs.setShowResetDialog(true);
+          }}
         />
       }
     >
       <ResetConfirmDialog
         isOpen={dialogs.showResetDialog}
         onConfirm={actions.reset}
-        onCancel={() => dialogs.setShowResetDialog(false)}
+        onCancel={() => {
+          dialogs.setShowResetDialog(false);
+        }}
       />
 
       <ImportConfirmDialog
@@ -33,14 +37,6 @@ export function WizardPage() {
         error={dialogs.importDialog.error}
         onConfirm={dialogs.confirmImport}
         onCancel={dialogs.cancelImport}
-      />
-
-      <input
-        type="file"
-        ref={dialogs.fileInputRef}
-        accept=".json"
-        onChange={dialogs.handleFileSelect}
-        className="hidden"
       />
 
       <WizardContainer state={state} actions={actions} />

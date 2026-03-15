@@ -1,7 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input, MaskedInput } from "@papelada-estagio/components";
 import { IStep3Props } from "@papelada-estagio/types";
-import { CompanyFormData, companySchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
+import {
+  CompanyFormData,
+  companySchema,
+} from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useForm } from "react-hook-form";
 
 export function CompanyFormStep({ data, onNext, onBack }: IStep3Props) {

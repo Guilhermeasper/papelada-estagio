@@ -44,7 +44,9 @@ export function DebugPage() {
               <Button
                 key={route.path}
                 variant={activePreview === route.path ? "primary" : "outline"}
-                onClick={() => setActivePreview(route.path)}
+                onClick={() => {
+                  setActivePreview(route.path);
+                }}
                 className="w-full justify-start"
               >
                 {route.label}

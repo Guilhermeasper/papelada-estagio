@@ -1,7 +1,10 @@
 import { Button } from "@papelada-estagio/components";
-import type { WizardDataActions, WizardDataState } from "@papelada-estagio/hooks";
+import type {
+  WizardDataActions,
+  WizardDataState,
+} from "@papelada-estagio/hooks";
 import type { WizardStep } from "@papelada-estagio/types";
-import { Suspense, useMemo } from "react";
+import { Suspense, useMemo, useCallback } from "react";
 import { MobileStepPopover } from "./MobileStepPopover";
 import { StepIndicator } from "./StepIndicator";
 import { STEPS, TOTAL_STEPS } from "./data/steps";
@@ -38,7 +41,12 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
     prevStep,
   } = actions;
 
-  const goToStep = (step: WizardStep) => setCurrentStep(step);
+  const goToStep = useCallback(
+    (step: WizardStep) => {
+      setCurrentStep(step);
+    },
+    [setCurrentStep],
+  );
 
   const stepProps = useMemo(() => {
     switch (currentStep) {
@@ -63,7 +71,9 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
           data,
           onNext: nextStep,
           onBack: prevStep,
-          onEdit: (step: number) => goToStep(step as WizardStep),
+          onEdit: (step: number) => {
+            goToStep(step as WizardStep);
+          },
         };
       case 8:
       default:
@@ -79,6 +89,7 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
     updateContent,
     updateSupervision,
     prevStep,
+    goToStep,
   ]);
 
   const StepComponent = STEP_REGISTRY[currentStep];
@@ -126,7 +137,9 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
             if (currentStep < workingStep && workingStepInfo) {
               return (
                 <Button
-                  onClick={() => goToStep(workingStep)}
+                  onClick={() => {
+                    goToStep(workingStep);
+                  }}
                   variant="outline"
                   className="mb-4 w-full"
                 >

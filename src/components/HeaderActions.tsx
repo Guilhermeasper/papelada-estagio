@@ -72,13 +72,17 @@ function MobileActionsDropdown({
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   return (
     <div ref={dropdownRef} className="relative md:hidden">
       <Button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
         variant="ghost"
         size="icon"
         aria-label="Opções"

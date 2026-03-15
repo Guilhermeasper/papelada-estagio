@@ -12,49 +12,54 @@ interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   hint?: string;
 }
 
-export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  (
-    { label, error, hint, id, className = "", onInput, ...props },
-    ref,
-  ) => {
-    const textareaId = id || label?.toLowerCase().replace(/\s+/g, "-");
-    const localRef = useRef<HTMLTextAreaElement>(null);
+export const TextArea = ({
+  ref,
+  label,
+  error,
+  hint,
+  id,
+  className = "",
+  onInput,
+  ...props
+}: TextAreaProps & { ref?: React.RefObject<HTMLTextAreaElement | null> }) => {
+  const textareaId = id || label?.toLowerCase().replace(/\s+/g, "-");
+  const localRef = useRef<HTMLTextAreaElement>(null);
 
-    useImperativeHandle(ref, () => localRef.current as HTMLTextAreaElement);
+  useImperativeHandle(ref, () => localRef.current!);
 
-    const adjustHeight = () => {
-      const textarea = localRef.current;
-      if (textarea) {
-        textarea.style.height = "0px";
-        textarea.style.height = `${textarea.scrollHeight}px`;
-      }
-    };
+  const adjustHeight = () => {
+    const textarea = localRef.current;
+    if (textarea) {
+      textarea.style.height = "0px";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  };
 
-    useLayoutEffect(() => {
-      adjustHeight();
-    }, []);
+  useLayoutEffect(() => {
+    adjustHeight();
+  }, []);
 
-    useLayoutEffect(() => {
-      adjustHeight();
-    }, [props.value]);
+  useLayoutEffect(() => {
+    adjustHeight();
+  }, [props.value]);
 
-    return (
-      <div className="flex flex-col gap-1.5">
-        {label && (
-          <label
-            htmlFor={textareaId}
-            className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark"
-          >
-            {label}
-            {props.required && <span className="text-destructive ml-0.5">*</span>}
-          </label>
-        )}
+  return (
+    <div className="flex flex-col gap-1.5">
+      {label && (
+        <label
+          htmlFor={textareaId}
+          className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark"
+        >
+          {label}
+          {props.required && <span className="text-destructive ml-0.5">*</span>}
+        </label>
+      )}
 
-        <textarea
-          ref={localRef}
-          id={textareaId}
-          style={{ overflow: "hidden", resize: "none" }}
-          className={`
+      <textarea
+        ref={localRef}
+        id={textareaId}
+        style={{ overflow: "hidden", resize: "none" }}
+        className={`
             w-full px-4 py-2.5 text-sm md:text-base 
             border border-border dark:border-border-dark rounded-md
             bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark
@@ -67,41 +72,40 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             min-h-[100px]
             ${className}
           `}
-          aria-invalid={!!error}
-          aria-describedby={
-            error
-              ? `${textareaId}-error`
-              : hint
-                ? `${textareaId}-hint`
-                : undefined
-          }
-          onInput={(e) => {
-            adjustHeight();
-            onInput?.(e);
-          }}
-          {...props}
-        />
+        aria-invalid={!!error}
+        aria-describedby={
+          error
+            ? `${textareaId}-error`
+            : hint
+              ? `${textareaId}-hint`
+              : undefined
+        }
+        onInput={(e) => {
+          adjustHeight();
+          onInput?.(e);
+        }}
+        {...props}
+      />
 
-        {hint && !error && (
-          <p
-            id={`${textareaId}-hint`}
-            className="text-xs text-text-secondary dark:text-text-secondary-dark"
-          >
-            {hint}
-          </p>
-        )}
+      {hint && !error && (
+        <p
+          id={`${textareaId}-hint`}
+          className="text-xs text-text-secondary dark:text-text-secondary-dark"
+        >
+          {hint}
+        </p>
+      )}
 
-        {error && (
-          <p
-            id={`${textareaId}-error`}
-            className="text-xs text-error-text font-medium"
-          >
-            {error}
-          </p>
-        )}
-      </div>
-    );
-  },
-);
+      {error && (
+        <p
+          id={`${textareaId}-error`}
+          className="text-xs text-error-text font-medium"
+        >
+          {error}
+        </p>
+      )}
+    </div>
+  );
+};
 
 TextArea.displayName = "TextArea";
