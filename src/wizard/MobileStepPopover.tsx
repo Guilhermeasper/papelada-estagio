@@ -46,8 +46,7 @@ export function MobileStepPopover({
   return (
     <>
       <Button
-        // @ts-expect-error - popoverTarget is a new attribute
-        popovertarget="steps-popover"
+        popoverTarget="steps-popover"
         variant="ghost"
         className="w-full flex items-center justify-between bg-surface-elevated dark:bg-surface-elevated-dark border border-border dark:border-border-dark rounded-lg p-3 shadow-sm hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 transition-colors h-auto"
       >

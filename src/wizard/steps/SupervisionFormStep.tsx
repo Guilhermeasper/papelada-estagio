@@ -50,6 +50,7 @@ export function SupervisionFormStep({ data, onNext, onBack }: IStep6Props) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Input
+            id="supervisorName"
             label="Nome Completo"
             placeholder="Nome do supervisor"
             {...register("supervisorName")}
@@ -58,6 +59,7 @@ export function SupervisionFormStep({ data, onNext, onBack }: IStep6Props) {
           />
 
           <Input
+            id="supervisorPosition"
             label="Cargo"
             placeholder="Ex: Team Lead"
             {...register("supervisorPosition")}
@@ -66,6 +68,7 @@ export function SupervisionFormStep({ data, onNext, onBack }: IStep6Props) {
           />
 
           <EmailInput
+            id="supervisorEmail"
             label="E-mail"
             placeholder="email@empresa.com"
             {...register("supervisorEmail")}
@@ -107,6 +110,7 @@ export function SupervisionFormStep({ data, onNext, onBack }: IStep6Props) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Input
+            id="advisorName"
             label="Nome Completo"
             placeholder="Nome do professor"
             {...register("advisorName")}
@@ -115,6 +119,7 @@ export function SupervisionFormStep({ data, onNext, onBack }: IStep6Props) {
           />
 
           <Input
+            id="advisorPosition"
             label="Cargo"
             placeholder="Ex: Professor Adjunto I"
             {...register("advisorPosition")}
@@ -123,6 +128,7 @@ export function SupervisionFormStep({ data, onNext, onBack }: IStep6Props) {
           />
 
           <EmailInput
+            id="advisorEmail"
             label="E-mail"
             placeholder="email@cin.ufpe.br"
             {...register("advisorEmail")}
