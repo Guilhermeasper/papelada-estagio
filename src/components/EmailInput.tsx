@@ -28,6 +28,7 @@ export const EmailInput = forwardRef<HTMLInputElement, EmailInputProps>(
       id,
       className = "",
       onChange,
+      onBlur,
       domainSuggestions = DEFAULT_DOMAINS,
       ...props
     },
@@ -82,8 +83,9 @@ export const EmailInput = forwardRef<HTMLInputElement, EmailInputProps>(
       setShowSuggestions(false);
     };
 
-    const handleBlur = () => {
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
       setTimeout(() => setShowSuggestions(false), 150);
+      onBlur?.(e);
     };
 
     return (
