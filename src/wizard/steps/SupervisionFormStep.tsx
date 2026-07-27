@@ -1,20 +1,31 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, EmailInput, Input, MaskedInput } from "@papelada-estagio/components";
 import { IStep6Props } from "@papelada-estagio/types";
+import { addDays, parseIsoDate, toIsoString } from "@papelada-estagio/utils/dateUtils";
 import {
   SupervisionFormData,
   supervisionSchema,
 } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useForm } from "react-hook-form";
 
-export function SupervisionFormStep({ data, onNext, onBack }: IStep6Props) {
+export function SupervisionFormStep({
+  data,
+  endDate,
+  onNext,
+  onBack,
+}: IStep6Props) {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<SupervisionFormData>({
     resolver: zodResolver(supervisionSchema),
-    defaultValues: data,
+    defaultValues: {
+      ...data,
+      evaluationDeadline:
+        data.evaluationDeadline ||
+        (endDate ? toIsoString(addDays(parseIsoDate(endDate), 12)) : ""),
+    },
   });
 
   const onSubmit = (formData: SupervisionFormData) => {
@@ -141,6 +152,16 @@ export function SupervisionFormStep({ data, onNext, onBack }: IStep6Props) {
             placeholder="Matrícula SIAPE"
             {...register("advisorSiape")}
             error={errors.advisorSiape?.message}
+            required
+          />
+
+          <Input
+            id="evaluationDeadline"
+            label="Data para emissão do parecer"
+            type="date"
+            {...register("evaluationDeadline")}
+            error={errors.evaluationDeadline?.message}
+            hint="Prazo para o professor orientador emitir o parecer"
             required
           />
         </div>

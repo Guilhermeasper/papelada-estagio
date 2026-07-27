@@ -55,6 +55,7 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
       case 6:
         return {
           data: data.supervision,
+          endDate: data.general.endDate,
           onNext: updateSupervision,
           onBack: prevStep,
         };

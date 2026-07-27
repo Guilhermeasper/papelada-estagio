@@ -27,9 +27,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
   const { student, company, general, content, supervision } = data;
   const { activityPlan, header } = PDF_CONTENT;
 
-  const endDateObj = new Date(general.endDate);
-  endDateObj.setDate(endDateObj.getDate() + 12);
-  const evalDate = endDateObj.toISOString().split("T")[0];
+  const evalDate = supervision.evaluationDeadline;
 
   const evalColumns: ColumnConfig[] = [
     { key: "topic", header: "TÓPICO", width: 98 },

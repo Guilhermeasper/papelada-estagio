@@ -81,5 +81,6 @@ export const mockActivityPlanData: IInternshipData = {
     advisorEmail: "carlos.santos@exemplo.com",
     advisorSiape: "1234567",
     advisorPosition: "Professor Adjunto I",
+    evaluationDeadline: "2026-01-26",
   },
 };

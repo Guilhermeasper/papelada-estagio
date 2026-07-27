@@ -145,6 +145,10 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
             />
             <ReviewItem label="E-mail" value={data.supervision.advisorEmail} />
             <ReviewItem label="SIAPE" value={data.supervision.advisorSiape} />
+            <ReviewItem
+              label="Data para emissão do parecer"
+              value={formatDatePtBr(data.supervision.evaluationDeadline)}
+            />
           </div>
         </div>
       </ReviewSection>

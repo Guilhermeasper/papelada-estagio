@@ -66,6 +66,8 @@ export interface ISupervisionData {
   advisorEmail: string;
   advisorSiape: string;
   advisorPosition: string;
+
+  evaluationDeadline: string;
 }
 
 export interface IInternshipData {

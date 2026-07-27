@@ -45,6 +45,7 @@ export interface IInternshipContentStepProps {
 
 export interface ISupervisionFormStepProps {
   data: ISupervisionData;
+  endDate: string;
   onNext: (data: ISupervisionData) => void;
   onBack: () => void;
 }

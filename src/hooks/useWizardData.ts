@@ -75,6 +75,7 @@ function createInitialData(): IInternshipData {
       advisorEmail: "",
       advisorSiape: "",
       advisorPosition: "",
+      evaluationDeadline: "",
     },
   };
 }

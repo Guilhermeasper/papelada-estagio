@@ -156,6 +156,10 @@ export const supervisionSchema = z.object({
   advisorEmail: z.string().regex(emailRegex, "E-mail inválido"),
   advisorSiape: z.string().min(5, "SIAPE é obrigatório"),
   advisorPosition: z.string().min(2, "Cargo é obrigatório"),
+
+  evaluationDeadline: z
+    .string()
+    .min(1, "Data para emissão do parecer é obrigatória"),
 });
 
 export type SupervisionFormData = z.infer<typeof supervisionSchema>;
@@ -223,6 +227,7 @@ const supervisionImportSchema = z.object({
   advisorEmail: z.string(),
   advisorSiape: z.string(),
   advisorPosition: z.string(),
+  evaluationDeadline: z.string(),
 });
 
 const importDataSchema = z.object({

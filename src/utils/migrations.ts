@@ -2,13 +2,22 @@
 // We use 'any' here because old versions might not match current types
 export type MigrationFunction = (data: any) => any;
 
-export const CURRENT_DATA_VERSION = 1;
+export const CURRENT_DATA_VERSION = 2;
 
 export const MIGRATIONS: Record<number, MigrationFunction> = {
-  // Example migration:
-  // 1: (data) => {
-  //   return { ...data, newField: 'default' };
-  // },
+  1: (data) => {
+    const endDate = new Date(data.general.endDate);
+    endDate.setDate(endDate.getDate() + 12);
+    const evaluationDeadline = endDate.toISOString().split("T")[0];
+
+    return {
+      ...data,
+      supervision: {
+        ...data.supervision,
+        evaluationDeadline,
+      },
+    };
+  },
 };
 
 export function migrateData(data: any, fromVersion: number): any {
