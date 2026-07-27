@@ -3,16 +3,17 @@ import type { IInternshipData } from "@papelada-estagio/types";
 export const mockInternshipData: IInternshipData = {
   student: {
     fullName: "João da Silva",
-    email: "joao.silva@email.com",
+    email: "joao.silva@exemplo.com",
     address: "Rua das Flores, 123 - Centro - Cidade - UF",
-    phone: "(99) 99999-9999",
-    course: "Engenharia de Software",
-    enrollmentYear: "2022.1",
+    phone: "(81) 99999-9999",
+    course: "Ciência da Computação",
+    enrollmentYear: "2020.1",
     studentId: "12345678900",
   },
   company: {
     companyName: "Empresa Modelo Ltda",
-    companyAddress: "Av. Principal, 1000 - Centro Empresarial - Cidade - UF",
+    companyAddress:
+      "AVENIDA DAS NAÇÕES, 1000, SALA 101 A 105 - CENTRO, CIDADE - UF",
     companyCnpj: "00.000.000/0001-00",
   },
   general: {
@@ -25,54 +26,54 @@ export const mockInternshipData: IInternshipData = {
   },
   content: {
     activities: [
-      "Desenvolvimento e manutenção de componentes de interface para aplicações WEB;",
-      "Desenvolvimento e implementação de scripts e rotinas de automação de processos;",
-      "Refatoração de código e aplicação de padrões de projeto em sistemas existentes;",
-      "Execução e manutenção de testes de software e garantia de qualidade;",
-      "Gestão de configuração e preparação de versões para implantação.",
+      "Primeira atividade de exemplo prevista para o período de estágio supervisionado;",
+      "Segunda atividade de exemplo, utilizada apenas para validação do layout do documento;",
+      "Terceira atividade de exemplo, com texto de preenchimento de comprimento equivalente;",
+      "Quarta atividade de exemplo, sem qualquer vínculo com dados reais de estágio;",
+      "Quinta atividade de exemplo, mantida somente para testes de quebra de linha e paginação.",
     ],
     objectives: [
-      "Implementar e padronizar sistemas de design através de tokens de estilização;",
-      "Desenvolver ferramentas de automação para otimizar o suporte e o fluxo de desenvolvimento;",
-      "Realizar a migração e atualização de frameworks de front-end para versões atuais;",
-      "Modularizar componentes para reutilização em contextos móveis;",
-      "Documentar especificações técnicas e participar do planejamento de roadmap.",
+      "Primeiro objetivo de exemplo definido para o período de estágio supervisionado;",
+      "Segundo objetivo de exemplo, utilizado apenas para validação visual do documento;",
+      "Terceiro objetivo de exemplo, com texto de preenchimento de comprimento equivalente;",
+      "Quarto objetivo de exemplo, sem qualquer vínculo com dados reais de estágio;",
+      "Quinto objetivo de exemplo, mantido somente para testes de layout e paginação.",
     ],
     schedule: [
       {
         period: "Novembro/2025",
         description:
-          "Foco na integridade visual e aplicação de novos padrões de arquitetura de informação (tokens).",
+          "Descrição de exemplo para o primeiro período do cronograma, usada apenas para testes de layout.",
       },
       {
         period: "Dezembro/2025",
         description:
-          "Ênfase em automação de processos, correção de dívida técnica e ferramentas de design.",
+          "Descrição de exemplo para o segundo período do cronograma, com comprimento equivalente ao original.",
       },
       {
         period: "Janeiro/2026",
         description:
-          "Dedicado à atualização estrutural (migração de framework) e definições arquiteturais para componentes móveis.",
+          "Descrição de exemplo para o terceiro período do cronograma, mantida somente para validação visual.",
       },
     ],
     introduction:
-      "O estágio foi realizado em uma empresa de tecnologia focada no desenvolvimento de produtos digitais. O período compreendeu atividades críticas no ciclo de vida do software, passando pela manutenção de interfaces, criação de ferramentas de produtividade interna e, mais recentemente, a modernização da infraestrutura tecnológica da aplicação principal. Este relatório detalha as atividades de engenharia de software desempenhadas, com ênfase na padronização de design systems, automação de fluxos de trabalho e atualização tecnológica de frameworks.",
+      "Texto de exemplo utilizado para preencher a seção de introdução do relatório e validar o comportamento do documento gerado. Este conteúdo não descreve nenhuma experiência real e existe apenas para que a paginação, o alinhamento e a quebra de parágrafos possam ser conferidos com um volume de texto semelhante ao de um relatório preenchido. Qualquer semelhança com uma organização, projeto ou pessoa é meramente coincidental, já que todos os campos deste arquivo são valores fictícios de demonstração.",
     generalObjectives:
-      "Aplicar conceitos avançados de engenharia de software na manutenção e evolução de aplicações web de grande porte, participando de decisões arquiteturais e processos de garantia de qualidade.",
+      "Objetivo geral de exemplo, escrito apenas para ocupar o espaço reservado a esta seção no documento e permitir a conferência do layout com um texto de comprimento realista.",
     specificObjectives: "",
     methodology:
-      "As atividades utilizaram uma stack de desenvolvimento web moderna. O controle de versão e a integração contínua (CI/CD) foram fundamentais para a gestão das releases. Para a modernização da aplicação, foram utilizados scripts de migração automatizada combinados com refatoração manual. A gestão de estilos foi feita através de uma arquitetura de tokens semânticos. A qualidade foi assegurada através de suítes de testes automatizados e validações de regressão visual.",
-    development: `As atividades realizadas durante o período de estágio podem ser categorizadas nos seguintes tópicos principais:
+      "Metodologia de exemplo descrita somente para fins de demonstração do documento. O texto ocupa um volume semelhante ao de uma seção preenchida, permitindo verificar espaçamento entre linhas, margens e o comportamento das quebras de página. Nenhuma ferramenta, processo ou prática citada aqui corresponde a uma situação real, pois todo o conteúdo deste arquivo é um valor fictício mantido apenas para testes.",
+    development: `Texto de exemplo para a seção de desenvolvimento, organizado em tópicos para reproduzir a estrutura de um relatório preenchido:
 
-1. Padronização e Design System - Uma parte substancial do trabalho envolveu a implementação e renomeação de "tokens de design". O estagiário atuou na revisão de código para garantir que os componentes da biblioteca consumissem as novas definições de estilo, alinhando a implementação técnica com as diretrizes visuais atualizadas. Isso inclui ajustes em componentes complexos de navegação e seleção de dados.
+1. Primeiro Tópico de Exemplo - Parágrafo de preenchimento utilizado para validar o alinhamento do texto, o recuo dos tópicos numerados e a quebra de linha dentro de blocos mais longos. O conteúdo não descreve nenhuma atividade real e serve apenas como massa de teste para a geração do PDF.
 
-2. Automação e Ferramentas de Produtividade - Foi desenvolvido e implementado um sistema de automação focado no suporte e na atualização de registros internos (tickets), reduzindo o esforço manual da equipe. Paralelamente, o estagiário trabalhou na publicação e manutenção de ferramentas (plugins) que integram o software de design ao ambiente de desenvolvimento, facilitando a passagem de bastão entre designers e desenvolvedores.
+2. Segundo Tópico de Exemplo - Parágrafo de preenchimento com comprimento semelhante ao anterior, mantido para que a distribuição do texto entre as páginas seja verificada em condições próximas às de um documento completo.
 
-3. Garantia de Qualidade (QA) - Houve uma atuação constante na correção de bugs em elementos de interface, especificamente em camadas de sobreposição (overlays) e seletores. Além disso, foi responsabilidade do estagiário manter a saúde dos testes automatizados (end-to-end), corrigindo falhas geradas pelas atualizações de interface e garantindo a estabilidade das versões de release.
+3. Terceiro Tópico de Exemplo - Parágrafo de preenchimento destinado a conferir o comportamento do documento quando a seção se estende por mais de uma página, incluindo a repetição de cabeçalhos e a numeração das páginas.
 
-4. Migração e Arquitetura (Fase Final) - Na etapa final do estágio (finais de dezembro e início de janeiro), o foco mudou para infraestrutura. O estagiário participou ativamente da migração do framework principal da aplicação para sua versão mais recente, lidando com ajustes de build e compatibilidade. Simultaneamente, trabalhou na exportação de componentes da versão web para funcionarem de forma independente (standalone) em contextos móveis, finalizando com a redação das especificações técnicas para essas novas implementações.`,
+4. Quarto Tópico de Exemplo - Parágrafo final de preenchimento, encerrando a seção com um volume de texto equivalente ao dos demais tópicos e permitindo a validação do espaçamento antes da conclusão.`,
     conclusion:
-      "O estágio permitiu vivenciar não apenas o desenvolvimento de funcionalidades (features), mas também o aspecto estrutural da engenharia de software, como migrações de versão e arquitetura de sistemas de design. A experiência de lidar com automação de processos e modularização de componentes móveis agregou conhecimentos valiosos sobre escalabilidade e manutenção de software a longo prazo. As metas estabelecidas foram cumpridas, entregando valor real à equipe através das ferramentas de automação e da modernização da base de código.",
+      "Conclusão de exemplo utilizada apenas para preencher a última seção do relatório e permitir a conferência do layout do documento gerado. O texto tem comprimento semelhante ao de uma conclusão real, de modo que o espaçamento, as margens e a assinatura ao final da página possam ser avaliados. Nenhuma informação aqui apresentada corresponde a uma experiência, organização ou pessoa real, pois todos os campos deste arquivo são valores fictícios de demonstração.",
   },
   evaluation: {
     grades: [
@@ -80,25 +81,25 @@ export const mockInternshipData: IInternshipData = {
         item: "Aquisição de Novas Experiências",
         grade: 10,
         observation:
-          "Tive oportunidade de trabalhar com tecnologias com as quais não tinha familiaridade, como desenvolvimento de WebServices, APIs REST, Testes exploratórios em ambiente ágil.",
+          "Observação de exemplo para o primeiro item de avaliação, com comprimento suficiente para testar a quebra de linha dentro da célula da tabela.",
       },
       {
         item: "Acompanhamento do supervisor",
         grade: 10,
         observation:
-          "O supervisor sempre esteve presente e disponível para solucionar problemas técnicos e/ou burocráticos enfrentados.",
+          "Observação de exemplo para o segundo item de avaliação, mantida apenas para validação visual do documento gerado.",
       },
       {
         item: "Interação com colegas do Trabalho",
         grade: 10,
         observation:
-          "Apesar da rotatividade de projetos e colegas, o ambiente sempre foi muito bom com todos (estagiários e funcionários) tentando ajudar a cumprir as metas estabelecidas para os projetos.",
+          "Observação de exemplo para o terceiro item de avaliação, escrita somente para ocupar o espaço reservado a este campo na tabela.",
       },
       {
         item: "Ambiente de Trabalho",
         grade: 10,
         observation:
-          "O ambiente de trabalho é o melhor que se pode fazer diante de algumas deficiências físicas do prédio, como na época de chuvas em que foram alagadas algumas estações de trabalho e foi necessário um remanejamento de pessoas e computadores.",
+          "Observação de exemplo para o quarto item de avaliação, com texto de preenchimento equivalente ao dos demais itens da lista.",
       },
     ],
     flexibleSchedule: true,
@@ -109,13 +110,13 @@ export const mockInternshipData: IInternshipData = {
   },
   supervision: {
     supervisorName: "Maria Oliveira",
-    supervisorEmail: "maria.oliveira@empresa.com",
-    supervisorPhone: "(99) 88888-8888",
-    supervisorPosition: "Gerente de Projetos",
+    supervisorEmail: "maria.oliveira@exemplo.com",
+    supervisorPhone: "(31) 3333-4444",
+    supervisorPosition: "Team Lead",
     supervisorCpf: "111.222.333-44",
     advisorName: "Prof. Dr. Carlos Santos",
-    advisorEmail: "carlos.santos@universidade.edu",
+    advisorEmail: "carlos.santos@exemplo.com",
     advisorSiape: "1234567",
-    advisorPosition: "Professor Associado",
+    advisorPosition: "Professor Adjunto I",
   },
 };

@@ -1,4 +1,4 @@
-import type { IEvaluationFormData } from "@papelada-estagio/documents/assessments/pdf";
+import type { IEvaluationFormData } from "@papelada-estagio/documents/assessments/EvaluationDocument";
 
 export const mockSupervisorEvaluationData: IEvaluationFormData = {
   communication: "Ótimo",
@@ -8,7 +8,7 @@ export const mockSupervisorEvaluationData: IEvaluationFormData = {
   knowledgeLevel: "Ótimo",
   overallPerformance: "Ótimo",
   detailedComments:
-    "O João desde sempre é muito presente e competente nos debates e execução das tarefas diárias. Traz bons argumentos, se preocupa com o impacto nos muitos consumidores que utilizam o software que desenvolvemos e é uma pessoa que trabalha muito bem em equipe. Ele é referência técnica e entre os colegas e é constantemente consultado por mim (líder) quanto pelos seus colegas por ter um ponto de vista bastante crítico e valioso, além de ser uma pessoa ótima de se lidar e muito criativo",
+    "Comentário de exemplo utilizado para preencher o campo de observações da ficha de avaliação. O texto tem comprimento semelhante ao de um parecer real, de modo que a caixa de comentários, a quebra de linha e o espaçamento até a linha de assinatura possam ser conferidos no documento gerado. Nenhuma informação aqui apresentada corresponde a uma pessoa, organização ou avaliação real, pois todos os campos deste arquivo são valores fictícios de demonstração.",
   finalGrade: 10,
   evaluationDate: "2026-01-26",
 };

@@ -3,16 +3,17 @@ import type { IInternshipData } from "@papelada-estagio/types";
 export const mockActivityPlanData: IInternshipData = {
   student: {
     fullName: "João da Silva",
-    email: "joao.silva@email.com",
+    email: "joao.silva@exemplo.com",
     address: "Rua das Flores, 123 - Centro - Cidade - UF",
-    phone: "(99) 99999-9999",
-    course: "Engenharia de Software",
-    enrollmentYear: "2022.1",
+    phone: "(81) 99999-9999",
+    course: "Ciência da Computação",
+    enrollmentYear: "2020.1",
     studentId: "12345678900",
   },
   company: {
     companyName: "Empresa Modelo Ltda",
-    companyAddress: "Av. Principal, 1000 - Centro Empresarial - Cidade - UF",
+    companyAddress:
+      "AVENIDA DAS NAÇÕES, 1000, SALA 101 A 105 - CENTRO, CIDADE - UF",
     companyCnpj: "00.000.000/0001-00",
   },
   general: {
@@ -25,34 +26,34 @@ export const mockActivityPlanData: IInternshipData = {
   },
   content: {
     activities: [
-      "Desenvolvimento e manutenção de componentes de interface para aplicações WEB;",
-      "Desenvolvimento e implementação de scripts e rotinas de automação de processos;",
-      "Refatoração de código e aplicação de padrões de projeto em sistemas existentes;",
-      "Execução e manutenção de testes de software e garantia de qualidade;",
-      "Gestão de configuração e preparação de versões para implantação.",
+      "Primeira atividade de exemplo prevista para o período de estágio supervisionado;",
+      "Segunda atividade de exemplo, utilizada apenas para validação do layout do documento;",
+      "Terceira atividade de exemplo, com texto de preenchimento de comprimento equivalente;",
+      "Quarta atividade de exemplo, sem qualquer vínculo com dados reais de estágio;",
+      "Quinta atividade de exemplo, mantida somente para testes de quebra de linha e paginação.",
     ],
     objectives: [
-      "Aplicar conhecimentos de engenharia de software na manutenção de sistemas de grande escala;",
-      "Otimizar fluxos de trabalho através do desenvolvimento de ferramentas de automação;",
-      "Garantir a integridade visual e funcional das aplicações através de correções e testes;",
-      "Compreender e executar o ciclo de vida completo de desenvolvimento, desde a codificação até a entrega;",
-      "Contribuir para a padronização e documentação de bibliotecas de software.",
+      "Primeiro objetivo de exemplo definido para o período de estágio supervisionado;",
+      "Segundo objetivo de exemplo, utilizado apenas para validação visual do documento;",
+      "Terceiro objetivo de exemplo, com texto de preenchimento de comprimento equivalente;",
+      "Quarto objetivo de exemplo, sem qualquer vínculo com dados reais de estágio;",
+      "Quinto objetivo de exemplo, mantido somente para testes de layout e paginação.",
     ],
     schedule: [
       {
         period: "19/11/2025 a 30/11/2025",
         description:
-          "Padronização de Interface e Manutenção Corretiva. Foco na refatoração de código para adoção de novos padrões de estilização (design tokens) e renomeação de parâmetros em larga escala. Realização de correções de bugs em componentes de interface e elementos de navegação. Início do levantamento de requisitos para o sistema de automação.",
+          "Descrição de exemplo para o primeiro período do cronograma. O texto ocupa um volume semelhante ao de um plano de atividades preenchido, permitindo conferir o alinhamento, o espaçamento entre as linhas e a quebra de página da tabela. Nenhuma atividade descrita aqui corresponde a uma situação real.",
       },
       {
         period: "01/12/2025 a 23/12/2025",
         description:
-          "Automação, Ferramentas Internas e QA. Desenvolvimento e implementação técnica de sistemas para automação de processos de suporte. Publicação e atualização de ferramentas de apoio ao desenvolvimento (plugins e extensões). Execução intensiva de correções em testes automatizados (end-to-end) e preparação de ambientes para releases de fim de ano.",
+          "Descrição de exemplo para o segundo período do cronograma. O conteúdo existe apenas como massa de teste para a geração do PDF e mantém comprimento equivalente ao do primeiro período, de modo que a distribuição do texto entre as células possa ser avaliada.",
       },
       {
         period: "29/12/2025 a 14/01/2026",
         description:
-          "Modernização de Infraestrutura e Planejamento. Execução da migração do framework principal da aplicação para versão mais recente (upgrade de versão). Modularização de componentes para arquitetura móvel (exportação standalone). Redação de especificações técnicas, documentação de requisitos e planejamento do roadmap para o próximo ciclo.",
+          "Descrição de exemplo para o terceiro período do cronograma. Assim como os demais campos deste arquivo, trata-se de um valor fictício mantido somente para validação visual do documento gerado e das quebras de linha em textos mais longos.",
       },
     ],
     introduction: "",
@@ -72,13 +73,13 @@ export const mockActivityPlanData: IInternshipData = {
   },
   supervision: {
     supervisorName: "Maria Oliveira",
-    supervisorEmail: "maria.oliveira@empresa.com",
-    supervisorPhone: "(99) 88888-8888",
-    supervisorPosition: "Gerente de Projetos",
+    supervisorEmail: "maria.oliveira@exemplo.com",
+    supervisorPhone: "(31) 3333-4444",
+    supervisorPosition: "Team Lead",
     supervisorCpf: "111.222.333-44",
     advisorName: "Prof. Dr. Carlos Santos",
-    advisorEmail: "carlos.santos@universidade.edu",
+    advisorEmail: "carlos.santos@exemplo.com",
     advisorSiape: "1234567",
-    advisorPosition: "Professor Associado",
+    advisorPosition: "Professor Adjunto I",
   },
 };
