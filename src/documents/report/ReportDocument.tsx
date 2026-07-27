@@ -23,9 +23,9 @@ export function ReportDocument({ data }: ReportDocumentProps) {
   const { student, company, general, content, evaluation, supervision } = data;
   const { report } = PDF_CONTENT;
 
-  const endDate = new Date(general.endDate);
-  const coverMonth = getMonthName(endDate.getMonth() + 1);
-  const coverYear = endDate.getFullYear();
+  const [endYear, endMonth] = general.endDate.split("-").map(Number);
+  const coverMonth = getMonthName(endMonth);
+  const coverYear = endYear;
 
   const weeklyHours = general.hoursPerDay * 5;
 
