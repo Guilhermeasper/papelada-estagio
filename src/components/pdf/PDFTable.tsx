@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
     borderWidth: 1,
     borderColor: colors.textBlack,
-    width: 350,
   },
   row: {
     flexDirection: "row",
@@ -65,8 +64,16 @@ interface PDFTableProps {
 }
 
 export function PDFTable({ columns, rows, marginLeft }: PDFTableProps) {
+  const tableWidth = columns.reduce((sum, col) => sum + col.width, 0);
+
   return (
-    <View style={[styles.table, marginLeft ? { marginLeft } : {}]}>
+    <View
+      style={[
+        styles.table,
+        { width: tableWidth },
+        marginLeft ? { marginLeft } : {},
+      ]}
+    >
       <View style={styles.row}>
         {columns.map((col, index) => (
           <View
