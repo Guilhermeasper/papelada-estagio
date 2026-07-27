@@ -20,11 +20,8 @@ export function formatDatePtBr(isoDate: string): string {
 
 export function formatDateLong(isoDate?: string): string {
   if (!isoDate) return "";
-  const date = new Date(isoDate);
-  const day = date.getDate();
-  const month = MONTHS_PT[date.getMonth()];
-  const year = date.getFullYear();
-  return `${day} de ${month} de ${year}`;
+  const [year, month, day] = isoDate.split("-").map(Number);
+  return `${day} de ${MONTHS_PT[month - 1]} de ${year}`;
 }
 
 export function getMonthName(month: number): string {
