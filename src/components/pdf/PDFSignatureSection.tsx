@@ -5,7 +5,6 @@ import type { ReactNode } from "react";
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
-    breakInside: "avoid",
   },
 });
 
@@ -20,5 +19,9 @@ export function PDFSignatureSection({
 }: PDFSignatureSectionProps) {
   const containerStyle = [styles.container, style].filter(Boolean) as Style[];
 
-  return <View style={containerStyle}>{children}</View>;
+  return (
+    <View style={containerStyle} wrap>
+      {children}
+    </View>
+  );
 }

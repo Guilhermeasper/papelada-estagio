@@ -1,34 +1,32 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
 import { colors } from "./styles";
 
+/** Borders sit on the cells — see the note in PDFTable. */
 const styles = StyleSheet.create({
   table: {
     width: "100%",
-    borderWidth: 1,
-    borderColor: colors.textBlack,
     marginBottom: 15,
   },
   row: {
     flexDirection: "row",
-    borderBottomWidth: 1,
-    borderBottomColor: colors.textBlack,
     minHeight: 25,
   },
-  rowLast: {
-    flexDirection: "row",
-    minHeight: 25,
+  cell: {
+    padding: 7,
+    paddingTop: 12,
+    borderLeftWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: colors.textBlack,
+  },
+  cellFirstRow: {
+    borderTopWidth: 1,
   },
   label: {
     width: 169,
-    padding: 7,
-    paddingTop: 12,
-    borderRightWidth: 1,
-    borderRightColor: colors.textBlack,
   },
   value: {
     flex: 1,
-    padding: 7,
-    paddingTop: 12,
+    borderRightWidth: 1,
   },
 });
 
@@ -43,25 +41,29 @@ interface PDFKeyValueTableProps {
 }
 
 export function PDFKeyValueTable({ items, labelWidth }: PDFKeyValueTableProps) {
-  const labelStyle = labelWidth
-    ? { ...styles.label, width: labelWidth }
-    : styles.label;
-
   return (
-    <View style={styles.table} wrap>
-      {items.map((item, index) => (
-        <View
-          key={index}
-          style={index === items.length - 1 ? styles.rowLast : styles.row}
-        >
-          <View style={labelStyle}>
-            <Text>{item.label}</Text>
+    <View style={styles.table}>
+      {items.map((item, index) => {
+        const firstRow = index === 0 ? styles.cellFirstRow : {};
+
+        return (
+          <View key={index} style={styles.row} wrap={false}>
+            <View
+              style={[
+                styles.cell,
+                styles.label,
+                labelWidth ? { width: labelWidth } : {},
+                firstRow,
+              ]}
+            >
+              <Text>{item.label}</Text>
+            </View>
+            <View style={[styles.cell, styles.value, firstRow]}>
+              <Text>{item.value}</Text>
+            </View>
           </View>
-          <View style={styles.value}>
-            <Text>{item.value}</Text>
-          </View>
-        </View>
-      ))}
+        );
+      })}
     </View>
   );
 }

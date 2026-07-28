@@ -83,7 +83,6 @@ export function EvaluationDocument({
           fontFamily: fonts.bold,
           marginBottom: 10,
         }}
-        wrap={true}
       >
         <PDFKeyValueTable items={idItems} />
       </PDFSection>
@@ -96,7 +95,6 @@ export function EvaluationDocument({
           fontFamily: fonts.bold,
           marginBottom: 10,
         }}
-        wrap={true}
       >
         <PDFParagraph style={{ fontSize: 10, marginBottom: 15 }}>
           {evaluationDocument.shared.intro}
@@ -123,7 +121,6 @@ export function EvaluationDocument({
           fontFamily: fonts.bold,
           marginBottom: 10,
         }}
-        wrap={true}
       >
         <PDFCommentsBox text={evaluation.detailedComments} lines={10} />
       </PDFSection>
@@ -136,21 +133,19 @@ export function EvaluationDocument({
           fontFamily: fonts.bold,
           marginBottom: 10,
         }}
-        wrap={true}
       >
         <PDFParagraph>
           Nota atribuída ao estagiário: {evaluation.finalGrade ?? ""}
         </PDFParagraph>
       </PDFSection>
 
-      <View style={{ marginTop: 20, marginBottom: 40 }} wrap={false}>
+      <View style={{ marginTop: 20 }} wrap={false}>
         <Text>
           {evaluationDocument.shared.datePrefix}{" "}
           {formatDateLong(signatureDate)}
         </Text>
+        <PDFSignatureLine label={config.signatureLabel} centered />
       </View>
-
-      <PDFSignatureLine label={config.signatureLabel} centered />
     </PDFLayout>
   );
 }

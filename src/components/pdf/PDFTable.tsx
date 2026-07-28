@@ -1,47 +1,39 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
 import { colors, fonts } from "./styles";
 
+/**
+ * Borders live on the cells rather than on the table container: a bordered
+ * container that gets split across pages is stretched to the full remaining
+ * page height by react-pdf, leaving an empty boxed stub behind.
+ */
 const styles = StyleSheet.create({
   table: {
     marginTop: 8,
-    borderWidth: 1,
-    borderColor: colors.textBlack,
   },
   row: {
     flexDirection: "row",
+  },
+  cell: {
+    paddingVertical: 3,
+    paddingHorizontal: 4,
+    borderLeftWidth: 1,
     borderBottomWidth: 1,
-    borderBottomColor: colors.textBlack,
+    borderColor: colors.textBlack,
   },
-  rowLast: {
-    flexDirection: "row",
-  },
-  headerCell: {
-    padding: 2,
+  cellLastColumn: {
     borderRightWidth: 1,
-    borderRightColor: colors.textBlack,
   },
-  headerCellLast: {
-    padding: 2,
+  cellHeader: {
+    borderTopWidth: 1,
   },
   headerText: {
     fontFamily: fonts.bold,
     fontSize: 11,
     textAlign: "center",
   },
-  cell: {
-    borderRightWidth: 1,
-    borderRightColor: colors.textBlack,
-  },
-  cellLast: {
-    padding: 2,
-  },
   cellText: {
     fontFamily: fonts.regular,
     fontSize: 10,
-    paddingLeft: 4,
-  },
-  cellTextLast: {
-    textAlign: "center",
   },
   cellTextBold: {
     fontFamily: fonts.bold,
@@ -66,6 +58,13 @@ interface PDFTableProps {
 export function PDFTable({ columns, rows, marginLeft }: PDFTableProps) {
   const tableWidth = columns.reduce((sum, col) => sum + col.width, 0);
 
+  const cellStyle = (colIndex: number, isHeader: boolean) => [
+    styles.cell,
+    { width: columns[colIndex].width },
+    colIndex === columns.length - 1 ? styles.cellLastColumn : {},
+    isHeader ? styles.cellHeader : {},
+  ];
+
   return (
     <View
       style={[
@@ -74,42 +73,22 @@ export function PDFTable({ columns, rows, marginLeft }: PDFTableProps) {
         marginLeft ? { marginLeft } : {},
       ]}
     >
-      <View style={styles.row}>
+      <View style={styles.row} wrap={false}>
         {columns.map((col, index) => (
-          <View
-            key={col.key}
-            style={[
-              index === columns.length - 1
-                ? styles.headerCellLast
-                : styles.headerCell,
-              { width: col.width },
-            ]}
-          >
+          <View key={col.key} style={cellStyle(index, true)}>
             <Text style={styles.headerText}>{col.header}</Text>
           </View>
         ))}
       </View>
 
       {rows.map((row, rowIndex) => (
-        <View
-          key={rowIndex}
-          style={rowIndex === rows.length - 1 ? styles.rowLast : styles.row}
-        >
+        <View key={rowIndex} style={styles.row} wrap={false}>
           {columns.map((col, colIndex) => (
-            <View
-              key={col.key}
-              style={[
-                colIndex === columns.length - 1 ? styles.cellLast : styles.cell,
-                { width: col.width },
-                col.align ? { textAlign: col.align } : {},
-              ]}
-            >
+            <View key={col.key} style={cellStyle(colIndex, false)}>
               <Text
                 style={[
                   col.bold ? styles.cellTextBold : styles.cellText,
-                  colIndex === columns.length - 1
-                    ? { textAlign: "center" }
-                    : { textAlign: "left" },
+                  { textAlign: col.align ?? "left" },
                 ]}
               >
                 {row[col.key] ?? ""}

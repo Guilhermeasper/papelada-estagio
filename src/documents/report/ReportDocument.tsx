@@ -121,14 +121,10 @@ export function ReportDocument({ data }: ReportDocumentProps) {
         <PDFKeyValueTable items={idItems} labelWidth={200} />
       </PDFSection>
 
-      <View break />
-
       {/* Introdução */}
       <PDFSection title={report.sections.introduction}>
         <PDFParagraph>{content.introduction}</PDFParagraph>
       </PDFSection>
-
-      <View break />
 
       {/* Objetivos */}
       <PDFSection title={report.sections.objectives}>
@@ -150,8 +146,6 @@ export function ReportDocument({ data }: ReportDocumentProps) {
         <PDFBulletList items={content.objectives} />
       </PDFSection>
 
-      <View break />
-
       {/* Cronograma */}
       <PDFSection title={report.sections.schedule}>
         <PDFParagraph>{report.text.scheduleIntro}</PDFParagraph>
@@ -162,28 +156,20 @@ export function ReportDocument({ data }: ReportDocumentProps) {
         ))}
       </PDFSection>
 
-      <View break />
-
       {/* Metodologia */}
       <PDFSection title={report.sections.methodology}>
         <PDFParagraph>{content.methodology}</PDFParagraph>
       </PDFSection>
-
-      <View break />
 
       {/* Desenvolvimento */}
       <PDFSection title={report.sections.development}>
         <PDFParagraph>{content.development}</PDFParagraph>
       </PDFSection>
 
-      <View break />
-
       {/* Avaliação */}
       <PDFSection title={report.sections.evaluation}>
         <PDFTable columns={evalColumns} rows={evalRows as any} />
       </PDFSection>
-
-      <View break />
 
       {/* Conclusão */}
       <PDFSection title={report.sections.conclusion}>

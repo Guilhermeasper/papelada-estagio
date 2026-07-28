@@ -1,20 +1,17 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
 
+const MARKER_WIDTH = 18;
+
 const styles = StyleSheet.create({
   container: {
     marginBottom: 8,
   },
   item: {
-    flexDirection: "row",
     marginBottom: 4,
     marginLeft: 60,
+    paddingLeft: MARKER_WIDTH,
     paddingRight: 20,
-  },
-  number: {
-    width: 18,
-  },
-  text: {
-    flex: 1,
+    textIndent: -MARKER_WIDTH,
     textAlign: "justify",
   },
 });
@@ -33,13 +30,12 @@ export function PDFNumberedList({
   return (
     <View style={styles.container}>
       {items.map((item, index) => (
-        <View
+        <Text
           key={index}
           style={[styles.item, marginLeft !== undefined ? { marginLeft } : {}]}
         >
-          <Text style={styles.number}>{startIndex + index}.</Text>
-          <Text style={styles.text}>{item}</Text>
-        </View>
+          {`${startIndex + index}.\u00a0\u00a0${item}`}
+        </Text>
       ))}
     </View>
   );

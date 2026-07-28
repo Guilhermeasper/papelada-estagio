@@ -8,6 +8,8 @@
     "build:dev": "tsc -b && vite build --mode development",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "pdf:snapshot": "node scripts/render-pdfs.mjs",
+    "pdf:check": "node scripts/render-pdfs.mjs && node scripts/check-layout.mjs",
     "prettier": "prettier --write .",
     "preview": "vite preview"
   },

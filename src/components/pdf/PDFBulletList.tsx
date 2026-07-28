@@ -1,20 +1,17 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer";
 
+const MARKER_WIDTH = 18;
+
 const styles = StyleSheet.create({
   container: {
     marginBottom: 8,
   },
   item: {
-    flexDirection: "row",
     marginBottom: 8,
     marginLeft: 36,
+    paddingLeft: MARKER_WIDTH,
     paddingRight: 20,
-  },
-  bullet: {
-    width: 18,
-  },
-  text: {
-    flex: 1,
+    textIndent: -MARKER_WIDTH,
     textAlign: "justify",
   },
 });
@@ -28,13 +25,12 @@ export function PDFBulletList({ items, marginLeft }: PDFBulletListProps) {
   return (
     <View style={styles.container}>
       {items.map((item, index) => (
-        <View
+        <Text
           key={index}
           style={[styles.item, marginLeft !== undefined ? { marginLeft } : {}]}
         >
-          <Text style={styles.bullet}>•</Text>
-          <Text style={styles.text}>{item}</Text>
-        </View>
+          {`•\u00a0\u00a0${item}`}
+        </Text>
       ))}
     </View>
   );

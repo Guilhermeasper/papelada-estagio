@@ -247,7 +247,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
         />
       </PDFSignatureSection>
 
-      <PDFParagraph style={{ fontSize: 8, marginTop: 20 }}>
+      <PDFParagraph style={{ fontSize: 8, marginTop: 8, marginBottom: 0 }}>
         {activityPlan.footer}
       </PDFParagraph>
     </PDFLayout>

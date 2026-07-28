@@ -38,7 +38,7 @@ export const pageStyles = StyleSheet.create({
     fontFamily: fonts.regular,
     fontSize: 11,
     color: colors.textBlack,
-    lineHeight: 1.08,
+    lineHeight: 1.25,
   },
 
   cover: {
@@ -59,7 +59,7 @@ export const pageStyles = StyleSheet.create({
     fontFamily: fonts.regular,
     fontSize: 10,
     color: colors.textBlack,
-    lineHeight: 1.0,
+    lineHeight: 1.25,
   },
 
   report: {

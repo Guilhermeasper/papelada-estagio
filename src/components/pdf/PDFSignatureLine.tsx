@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
   signatureSubLabel: {
     marginLeft: 35,
     fontSize: 9,
-    marginBottom: 15,
   },
   centered: {
     textAlign: "center",
@@ -51,7 +50,7 @@ export function PDFSignatureLine({
     .flat() as Style[];
 
   return (
-    <View style={containerStyle}>
+    <View style={containerStyle} wrap={false}>
       <Text style={lineStyle}>
         <Text style={styles.signatureLabel}>{label} </Text>
         {line}

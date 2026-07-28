@@ -2,23 +2,23 @@ import { StyleSheet, Text, View } from "@react-pdf/renderer";
 import { colors } from "./styles";
 import { splitTextIntoLines } from "./utils";
 
+/** Borders sit on the rows — see the note in PDFTable. */
 const styles = StyleSheet.create({
   table: {
     width: "100%",
-    borderWidth: 1,
-    borderColor: colors.textBlack,
     marginBottom: 15,
     marginTop: 10,
   },
   row: {
+    minHeight: 25,
+    padding: 5,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
     borderBottomWidth: 1,
-    borderBottomColor: colors.textBlack,
-    minHeight: 25,
-    padding: 5,
+    borderColor: colors.textBlack,
   },
-  rowLast: {
-    minHeight: 25,
-    padding: 5,
+  rowFirst: {
+    borderTopWidth: 1,
   },
 });
 
@@ -36,11 +36,12 @@ export function PDFCommentsBox({
   const textLines = splitTextIntoLines(text, lines, charsPerLine);
 
   return (
-    <View style={styles.table} wrap>
+    <View style={styles.table}>
       {textLines.map((line, index) => (
         <View
           key={index}
-          style={index === lines - 1 ? styles.rowLast : styles.row}
+          style={[styles.row, index === 0 ? styles.rowFirst : {}]}
+          wrap={false}
         >
           <Text>{line}</Text>
         </View>
