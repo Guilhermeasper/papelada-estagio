@@ -1,6 +1,11 @@
 import { Button, ChecklistCard, ChecklistItem } from "@papelada-estagio/components";
 import { IStep1Props } from "@papelada-estagio/types";
-import { checklistData } from "@papelada-estagio/wizard/data/checklist";
+import { ProcessCard } from "@papelada-estagio/wizard/ProcessCard";
+import {
+  checklistData,
+  SOURCE_LABELS,
+} from "@papelada-estagio/wizard/data/checklist";
+import { beforeStage } from "@papelada-estagio/wizard/data/process";
 
 export function ChecklistStep({ onNext }: IStep1Props) {
   return (
@@ -15,12 +20,18 @@ export function ChecklistStep({ onNext }: IStep1Props) {
         </p>
       </div>
 
+      <ProcessCard stage={beforeStage} />
+
       <div className="space-y-4">
         {checklistData.map((card, cardIndex) => (
           <ChecklistCard
             key={cardIndex}
             title={card.title}
             description={card.description}
+            badge={{
+              label: SOURCE_LABELS[card.source],
+              variant: card.source,
+            }}
           >
             {card.items.map((item, itemIndex) => (
               <ChecklistItem key={itemIndex} label={item.label}>

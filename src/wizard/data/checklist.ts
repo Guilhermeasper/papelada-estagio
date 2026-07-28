@@ -1,3 +1,5 @@
+export type ChecklistSource = "gerado" | "externo";
+
 export interface ChecklistItemData {
   label?: string;
   content: string;
@@ -6,13 +8,20 @@ export interface ChecklistItemData {
 export interface ChecklistCardData {
   title: string;
   description: string;
+  source: ChecklistSource;
   items: ChecklistItemData[];
 }
+
+export const SOURCE_LABELS: Record<ChecklistSource, string> = {
+  gerado: "Gerado por este app",
+  externo: "Você providencia",
+};
 
 export const checklistData: ChecklistCardData[] = [
   {
     title: "Plano de Atividades (Modelo CIn)",
     description: "Documento de formalização inicial do estágio",
+    source: "gerado",
     items: [
       {
         label: "Dados do Estagiário",
@@ -47,6 +56,7 @@ export const checklistData: ChecklistCardData[] = [
   {
     title: "Declaração da Empresa (Vínculo CLT)",
     description: "Substitui o TCE para alunos com contrato CLT",
+    source: "externo",
     items: [
       {
         label: "Identificação do Vínculo",
@@ -71,6 +81,7 @@ export const checklistData: ChecklistCardData[] = [
   {
     title: "Cópia da Carteira de Trabalho (CTPS)",
     description: "Documento probatório exigido pela resolução",
+    source: "externo",
     items: [
       { content: "Página com foto e dados de identificação do portador" },
       {
@@ -82,6 +93,7 @@ export const checklistData: ChecklistCardData[] = [
   {
     title: "Relatório Final de Estágio",
     description: "Relatório detalhado para conclusão da disciplina",
+    source: "gerado",
     items: [
       { label: "Capa", content: "UFPE, CIn, Título, Curso, Local, Mês/Ano" },
       {
@@ -108,6 +120,7 @@ export const checklistData: ChecklistCardData[] = [
   {
     title: "Avaliação pelo Professor Orientador",
     description: "Parecer e nota emitidos pelo orientador do CIn",
+    source: "gerado",
     items: [
       {
         label: "Identificação",
@@ -127,6 +140,7 @@ export const checklistData: ChecklistCardData[] = [
   {
     title: "Avaliação pelo Supervisor",
     description: "Parecer e nota emitidos pelo supervisor da empresa",
+    source: "gerado",
     items: [
       {
         label: "Identificação",

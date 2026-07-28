@@ -1,73 +1,63 @@
-# React + TypeScript + Vite
+# Papelada Estágio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Gerador de documentos de estágio obrigatório do CIn/UFPE. Um wizard de 8 passos
+coleta os dados uma única vez e produz os PDFs no formato dos modelos oficiais:
 
-Currently, two official plugins are available:
+- Plano de Atividades
+- Relatório de Estágio
+- Avaliação do Professor Orientador
+- Avaliação do Supervisor
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A "Declaração da Empresa (Vínculo CLT)" e a cópia da CTPS **não** são geradas
+aqui — vêm da empresa e do próprio aluno.
 
-## React Compiler
+## Escopo: só a preparação dos documentos
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+O processo oficial da SecGrad tem etapas antes e depois da geração dos PDFs.
+Este app cobre apenas "preparar a documentação". As demais etapas estão descritas
+dentro do próprio wizard (passo 1 e passo 8), e o ponto crítico é este:
 
-## Expanding the ESLint configuration
+> Colha todas as assinaturas **exceto a da coordenação**, entregue à Secretaria
+> da Graduação para conferência, e é a SecGrad quem encaminha o documento à
+> Coordenação de Estágio para a assinatura final.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+O rodapé do Plano de Atividades — texto do formulário oficial, reproduzido sem
+alteração — diz que o documento deve conter "obrigatoriamente, todas as
+assinaturas". Isso descreve o documento pronto, não a ordem em que assiná-lo.
 
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
+Comece o processo com **3 semanas de antecedência**.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Fonte das regras
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+<https://secgrad.cin.ufpe.br/perguntas-frequentes>
+
+O checklist e as regras deste app são derivados do site da SecGrad e podem
+desatualizar. Em caso de divergência, **o site prevalece**.
+
+## Desenvolvimento
+
+```bash
+npm install
+npm run dev       # servidor local
+npm run lint
+npm run build
+npm run pdf:check # renderiza os PDFs e checa o layout
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Stack: React 19, TypeScript, Vite, Tailwind 4, react-hook-form + Zod,
+@react-pdf/renderer.
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+### Estrutura
 
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+| Caminho | Conteúdo |
+|---|---|
+| `src/wizard/steps/` | Os 8 passos do formulário |
+| `src/wizard/data/` | Checklist de documentos e etapas do processo |
+| `src/documents/` | Um diretório por documento gerado (metadata + definição + componente PDF) |
+| `src/components/pdf/` | Primitivas de layout de PDF compartilhadas |
+| `src/constants/pdf-content.ts` | Textos oficiais dos formulários |
+| `scripts/` | Renderização de PDFs e verificação de layout fora do browser |
+
+Os documentos são registrados em `src/config/documentRegistry.ts` e carregados
+sob demanda. Para adicionar um documento novo, crie o diretório em
+`src/documents/` e registre-o ali.

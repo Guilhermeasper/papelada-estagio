@@ -1,6 +1,8 @@
 import { Button } from "@papelada-estagio/components";
 import { DocumentType, IStep8Props } from "@papelada-estagio/types";
 import { pdfService } from "@papelada-estagio/utils/pdfService";
+import { ProcessCard } from "@papelada-estagio/wizard/ProcessCard";
+import { afterStage } from "@papelada-estagio/wizard/data/process";
 import { useState } from "react";
 
 export function DownloadStep({ data, onBack }: IStep8Props) {
@@ -213,6 +215,8 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
           </Button>
         </div>
       )}
+
+      <ProcessCard stage={afterStage} />
 
       <div className="flex justify-between pt-6 border-t border-border dark:border-border-dark">
         <Button type="button" variant="ghost" onClick={onBack}>

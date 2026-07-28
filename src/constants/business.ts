@@ -1,4 +1,5 @@
 export const MIN_INTERNSHIP_HOURS = 300;
+export const MIN_LEAD_TIME_WEEKS = 3;
 export const MAX_HOURS_PER_DAY = 8;
 export const MIN_HOURS_PER_DAY = 1;
 export const WORKDAYS_PER_WEEK = 5;

@@ -30,7 +30,9 @@
   --color-error-text: var(--color-cin-red);
   --color-error-bg: #fff1f2;
   --color-success: #15803d;
+  --color-success-dark: #4ade80;
   --color-warning: #ca8a04;
+  --color-warning-dark: #facc15;
 
   --color-input-border: var(--color-cin-gray);
   --color-input-focus: var(--color-cin-black);

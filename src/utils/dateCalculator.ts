@@ -2,6 +2,7 @@ import {
   MAX_HOURS_PER_DAY,
   MIN_HOURS_PER_DAY,
   MIN_INTERNSHIP_HOURS,
+  MIN_LEAD_TIME_WEEKS,
   WORKDAYS_PER_WEEK,
 } from "@papelada-estagio/constants";
 import {
@@ -51,6 +52,30 @@ export function validateDate(isoDate: string): DateValidationResult {
   }
 
   return { valid: true };
+}
+
+export function getLeadTimeWarning(startIso: string): string | null {
+  if (!startIso) return null;
+
+  const start = parseIsoDate(startIso);
+  const today = parseIsoDate(toIsoString(new Date()));
+  const daysAhead = Math.round(
+    (start.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+  );
+
+  if (daysAhead >= MIN_LEAD_TIME_WEEKS * 7) return null;
+
+  const antecedencia = `A SecGrad pede que o processo comece com ${MIN_LEAD_TIME_WEEKS} semanas de antecedência.`;
+
+  if (daysAhead < 0) {
+    return `A data de início já passou. ${antecedencia}`;
+  }
+
+  if (daysAhead === 0) {
+    return `A data de início é hoje. ${antecedencia}`;
+  }
+
+  return `Faltam ${daysAhead} ${daysAhead === 1 ? "dia" : "dias"} para o início. ${antecedencia}`;
 }
 
 export function countWorkdays(startIso: string, endIso: string): number {
