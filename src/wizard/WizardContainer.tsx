@@ -94,7 +94,7 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <div className="md:hidden mb-4">
+      <div className="md:hidden sticky top-0 z-20 -mx-4 px-4 pt-2 pb-3 bg-surface dark:bg-surface-dark">
         <MobileStepPopover
           currentStep={currentStep}
           steps={STEPS}
