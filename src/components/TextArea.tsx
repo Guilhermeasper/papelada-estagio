@@ -19,6 +19,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ) => {
     const textareaId = id || label?.toLowerCase().replace(/\s+/g, "-");
     const localRef = useRef<HTMLTextAreaElement>(null);
+    const lastWidthRef = useRef<number | null>(null);
 
     useImperativeHandle(ref, () => localRef.current as HTMLTextAreaElement);
 
@@ -26,7 +27,8 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       const textarea = localRef.current;
       if (textarea) {
         textarea.style.height = "0px";
-        textarea.style.height = `${textarea.scrollHeight}px`;
+        const borders = textarea.offsetHeight - textarea.clientHeight;
+        textarea.style.height = `${textarea.scrollHeight + borders}px`;
       }
     };
 
@@ -38,8 +40,23 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       adjustHeight();
     }, [props.value]);
 
+    useLayoutEffect(() => {
+      const textarea = localRef.current;
+      if (!textarea) return;
+
+      const observer = new ResizeObserver((entries) => {
+        const width = entries[0].contentRect.width;
+        if (width === lastWidthRef.current) return;
+        lastWidthRef.current = width;
+        adjustHeight();
+      });
+
+      observer.observe(textarea);
+      return () => observer.disconnect();
+    }, []);
+
     return (
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-1.5 w-full min-w-0">
         {label && (
           <label
             htmlFor={textareaId}

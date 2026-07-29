@@ -17,7 +17,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     const selectId = id || label.toLowerCase().replace(/\s+/g, "-");
 
     return (
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-1.5 w-full min-w-0">
         <label
           htmlFor={selectId}
           className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark"

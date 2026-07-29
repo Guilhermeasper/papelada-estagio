@@ -89,7 +89,7 @@ export const EmailInput = forwardRef<HTMLInputElement, EmailInputProps>(
     };
 
     return (
-      <div className="flex flex-col gap-1.5 relative" ref={containerRef}>
+      <div className="flex flex-col gap-1.5 relative w-full min-w-0" ref={containerRef}>
         <Input
           ref={ref}
           id={inputId}
