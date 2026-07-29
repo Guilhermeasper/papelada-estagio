@@ -27,14 +27,20 @@ import {
 } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useCallback, useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
-
-const modalityOptions = [
-  { value: "Remoto", label: "Remoto" },
-  { value: "Presencial", label: "Presencial" },
-  { value: "Híbrido", label: "Híbrido" },
-];
+import { useTranslation } from "react-i18next";
 
 export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
+  const { t } = useTranslation();
+
+  const modalityOptions = useMemo(
+    () => [
+      { value: "Remoto", label: t("forms.general.modalities.remote") },
+      { value: "Presencial", label: t("forms.general.modalities.presential") },
+      { value: "Híbrido", label: t("forms.general.modalities.hybrid") },
+    ],
+    [t],
+  );
+
   const {
     handleSubmit,
     control,
@@ -113,16 +119,16 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="mb-6">
         <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          Informações Gerais
+          {t("forms.general.title")}
         </h2>
         <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          Configuração do período e carga horária do estágio.
+          {t("forms.general.subtitle")}
         </p>
       </div>
 
       <div className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 space-y-6 border border-border dark:border-border-dark">
         <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark">
-          Período e Carga Horária
+          {t("forms.general.periodSectionTitle")}
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -131,7 +137,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
             control={control}
             render={({ field }) => (
               <DateInput
-                label="Data de Início"
+                label={t("forms.general.startDateLabel")}
                 {...field}
                 onChange={(isoDate) => {
                   field.onChange(isoDate);
@@ -142,7 +148,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
                   );
                 }}
                 error={errors.startDate?.message}
-                hint="Não pode ser fim de semana ou feriado"
+                hint={t("forms.general.startDateHint")}
                 required
               />
             )}
@@ -153,7 +159,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
             control={control}
             render={({ field }) => (
               <Input
-                label="Horas por Dia"
+                label={t("forms.general.hoursPerDayLabel")}
                 type="number"
                 min={MIN_HOURS_PER_DAY}
                 max={MAX_HOURS_PER_DAY}
@@ -170,10 +176,10 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
             control={control}
             render={({ field }) => (
               <DateInput
-                label="Data de Término"
+                label={t("forms.general.endDateLabel")}
                 {...field}
                 error={errors.endDate?.message}
-                hint="Calculada automaticamente (mín. 300h) Altere apenas se necessário"
+                hint={t("forms.general.endDateHint")}
                 required
               />
             )}
@@ -193,7 +199,9 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
                 clipRule="evenodd"
               />
             </svg>
-            <span>{leadTimeWarning} Você pode continuar mesmo assim.</span>
+            <span>
+              {leadTimeWarning} {t("forms.general.leadTimeWarningSuffix")}
+            </span>
           </div>
         )}
 
@@ -212,37 +220,43 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
                 />
               </svg>
               <span className="font-medium text-text-primary dark:text-text-primary-dark">
-                Resumo do Período
+                {t("forms.general.summaryTitle")}
               </span>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
               <div>
                 <span className="text-text-secondary dark:text-text-secondary-dark">
-                  Início:
+                  {t("forms.general.summaryStart")}
                 </span>
                 <p className="font-medium">{formatDatePtBr(startDate)}</p>
               </div>
               <div>
                 <span className="text-text-secondary dark:text-text-secondary-dark">
-                  Término:
+                  {t("forms.general.summaryEnd")}
                 </span>
                 <p className="font-medium">{formatDatePtBr(endDate)}</p>
               </div>
               <div>
                 <span className="text-text-secondary dark:text-text-secondary-dark">
-                  Dias úteis:
+                  {t("forms.general.summaryWorkdays")}
                 </span>
-                <p className="font-medium">{periodInfo.workdays} dias</p>
+                <p className="font-medium">
+                  {t("forms.general.summaryWorkdaysCount", {
+                    count: periodInfo.workdays,
+                  })}
+                </p>
               </div>
               <div>
                 <span className="text-text-secondary dark:text-text-secondary-dark">
-                  Total de horas:
+                  {t("forms.general.summaryTotalHours")}
                 </span>
                 <p
                   className={`font-medium ${periodInfo.totalHours >= 300 ? "text-success" : "text-error-text"}`}
                 >
                   {periodInfo.totalHours}h
-                  {periodInfo.totalHours >= 300 ? " ✓" : " (mín. 300h)"}
+                  {periodInfo.totalHours >= 300
+                    ? " ✓"
+                    : ` ${t("forms.general.summaryMinHours")}`}
                 </p>
               </div>
             </div>
@@ -257,14 +271,14 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
           render={({ field }) => (
             <CheckboxGroup
               name="workDays"
-              label="Dias de Trabalho"
+              label={t("forms.general.workDaysLabel")}
               options={WEEKDAY_OPTIONS}
               value={field.value ?? []}
               onChange={field.onChange}
               onBlur={field.onBlur}
               ref={field.ref}
               error={errors.workDays?.message}
-              hint="Desmarcar dias estende a data de término"
+              hint={t("forms.general.workDaysHint")}
               required
             />
           )}
@@ -275,7 +289,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
           control={control}
           render={({ field }) => (
             <WorkScheduleField
-              label="Horário de Trabalho"
+              label={t("forms.general.workScheduleLabel")}
               value={field.value}
               onChange={field.onChange}
               onBlur={field.onBlur}
@@ -292,7 +306,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
           render={({ field }) => (
             <RadioGroup
               name="modality"
-              label="Modalidade"
+              label={t("forms.general.modalityLabel")}
               options={modalityOptions}
               value={field.value}
               onChange={field.onChange}
@@ -320,11 +334,11 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          Voltar
+          {t("app.back")}
         </Button>
 
         <Button type="submit" isLoading={isSubmitting}>
-          Próximo
+          {t("app.next")}
           <svg
             className="w-4 h-4"
             fill="none"

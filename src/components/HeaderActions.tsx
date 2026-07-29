@@ -1,5 +1,6 @@
 import { useTheme } from "@papelada-estagio/hooks";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button, ThemeToggle } from "./";
 
 interface HeaderActionsProps {
@@ -11,6 +12,7 @@ interface HeaderActionsProps {
 
 function ThemeToggleButton() {
   const { effectiveTheme, toggleTheme } = useTheme();
+  const { t } = useTranslation();
   const isDark = effectiveTheme === "dark";
 
   return (
@@ -48,7 +50,7 @@ function ThemeToggleButton() {
           />
         </svg>
       )}
-      {isDark ? "Tema claro" : "Tema escuro"}
+      {isDark ? t("app.themeLight") : t("app.themeDark")}
     </Button>
   );
 }
@@ -59,6 +61,7 @@ function MobileActionsDropdown({
   onExport,
   onReset,
 }: HeaderActionsProps) {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -81,7 +84,7 @@ function MobileActionsDropdown({
         onClick={() => setIsOpen(!isOpen)}
         variant="ghost"
         size="icon"
-        aria-label="Opções"
+        aria-label={t("app.options")}
       >
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
           <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
@@ -98,7 +101,7 @@ function MobileActionsDropdown({
             <>
               <div className="flex items-center gap-3 px-4 py-2.5 text-sm text-text-secondary dark:text-text-secondary-dark">
                 <div className="w-2 h-2 bg-green-500 rounded-full" />
-                Progresso salvo
+                {t("app.savedProgress")}
               </div>
               <div className="border-t border-border dark:border-border-dark my-1" />
             </>
@@ -129,7 +132,7 @@ function MobileActionsDropdown({
                 d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
               />
             </svg>
-            Importar
+            {t("app.import")}
           </Button>
 
           {hasProgress && (
@@ -155,7 +158,7 @@ function MobileActionsDropdown({
                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                   />
                 </svg>
-                Exportar
+                {t("app.export")}
               </Button>
 
               <div className="border-t border-border dark:border-border-dark my-1" />
@@ -181,7 +184,7 @@ function MobileActionsDropdown({
                     d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                   />
                 </svg>
-                Limpar dados
+                {t("app.clearData")}
               </Button>
             </>
           )}
@@ -197,6 +200,8 @@ export function HeaderActions({
   onExport,
   onReset,
 }: HeaderActionsProps) {
+  const { t } = useTranslation();
+
   return (
     <>
       <MobileActionsDropdown
@@ -210,7 +215,7 @@ export function HeaderActions({
         {hasProgress && (
           <div className="flex items-center gap-2 text-sm text-text-secondary dark:text-text-secondary-dark">
             <div className="w-2 h-2 bg-green-500 rounded-full" />
-            <span>Salvo</span>
+            <span>{t("app.saved")}</span>
           </div>
         )}
 
@@ -218,9 +223,9 @@ export function HeaderActions({
           onClick={onImport}
           variant="ghost"
           size="sm"
-          title="Importar progresso de arquivo JSON"
+          title={t("app.importTooltip")}
         >
-          Importar
+          {t("app.import")}
         </Button>
 
         {hasProgress && (
@@ -229,13 +234,13 @@ export function HeaderActions({
               onClick={onExport}
               variant="ghost"
               size="sm"
-              title="Exportar progresso como JSON"
+              title={t("app.exportTooltip")}
             >
-              Exportar
+              {t("app.export")}
             </Button>
 
             <Button onClick={onReset} variant="danger-ghost" size="sm">
-              Limpar
+              {t("app.clear")}
             </Button>
           </>
         )}

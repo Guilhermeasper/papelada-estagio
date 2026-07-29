@@ -1,6 +1,7 @@
 import { Button } from "@papelada-estagio/components";
 import { IStepInfo, WizardStep } from "@papelada-estagio/types";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 interface MobileStepPopoverProps {
   currentStep: WizardStep;
@@ -15,6 +16,7 @@ export function MobileStepPopover({
   completedSteps,
   onStepClick,
 }: MobileStepPopoverProps) {
+  const { t } = useTranslation();
   const popoverRef = useRef<HTMLDivElement>(null);
   const currentStepInfo = steps.find((s) => s.step === currentStep);
 
@@ -56,7 +58,7 @@ export function MobileStepPopover({
           </div>
           <div className="text-left">
             <p className="text-xs text-text-secondary dark:text-text-secondary-dark font-normal">
-              Passo {currentStep} de {steps.length}
+              {t("dialogs.import.stepCount", { current: currentStep })}
             </p>
             <p className="text-sm font-semibold text-brand-accent">
               {currentStepInfo?.title}
@@ -90,14 +92,14 @@ export function MobileStepPopover({
       >
         <div className="flex items-center justify-between p-4 border-b border-border dark:border-border-dark bg-surface-elevated dark:bg-surface-elevated-dark sticky top-0">
           <h2 className="text-base font-bold text-text-primary dark:text-text-primary-dark">
-            Navegação
+            {t("steps.indicatorLabel")}
           </h2>
           <Button
             onClick={closePopover}
             variant="ghost"
             size="icon"
             className="rounded-full"
-            aria-label="Fechar"
+            aria-label={t("app.close")}
           >
             <svg
               className="w-6 h-6 text-text-primary dark:text-text-primary-dark"

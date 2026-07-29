@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { getAssetPath } from "./utils/asset";
 
 interface AppLayoutProps {
@@ -7,6 +8,8 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children, headerActions }: AppLayoutProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-surface dark:bg-surface-dark flex flex-col">
       <header className="bg-surface-elevated dark:bg-surface-elevated-dark border-b border-border dark:border-border-dark">
@@ -21,7 +24,7 @@ export function AppLayout({ children, headerActions }: AppLayoutProps) {
             </div>
             <div>
               <h1 className="text-lg md:text-xl font-bold text-text-primary dark:text-text-primary-dark">
-                Papelada Estágio
+                {t("app.title")}
               </h1>
             </div>
 
@@ -39,7 +42,7 @@ export function AppLayout({ children, headerActions }: AppLayoutProps) {
       <footer className="bg-surface-elevated dark:bg-surface-elevated-dark border-t border-border dark:border-border-dark mt-auto">
         <div className="max-w-6xl mx-auto px-4 py-4">
           <p className="text-center text-sm text-text-secondary dark:text-text-secondary-dark">
-            © {new Date().getFullYear()} Papelada Estágio
+            {t("app.copyright", { year: new Date().getFullYear() })}
           </p>
         </div>
       </footer>

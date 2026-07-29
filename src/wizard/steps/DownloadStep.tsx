@@ -2,10 +2,13 @@ import { Button } from "@papelada-estagio/components";
 import { DocumentType, IStep8Props } from "@papelada-estagio/types";
 import { pdfService } from "@papelada-estagio/utils/pdfService";
 import { ProcessCard } from "@papelada-estagio/wizard/ProcessCard";
-import { afterStage } from "@papelada-estagio/wizard/data/process";
+import { useAfterStage } from "@papelada-estagio/wizard/data/process";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export function DownloadStep({ data, onBack }: IStep8Props) {
+  const { t } = useTranslation();
+  const afterStage = useAfterStage();
   const [selectedDocs, setSelectedDocs] = useState<Set<DocumentType>>(
     new Set(),
   );
@@ -40,7 +43,7 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
     try {
       const result = await pdfService.generateDocument(type, data);
       if (!result.success || !result.pdfBytes) {
-        throw new Error(result.error || "Falha ao gerar documento");
+        throw new Error(result.error || t("download.fetchError"));
       }
       const info = pdfService.getDocumentInfo(type);
       const downloadResult = pdfService.downloadPdf(
@@ -48,12 +51,12 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
         info?.filename || `${type}.pdf`,
       );
       if (!downloadResult.success) {
-        throw new Error(downloadResult.error || "Falha ao fazer download");
+        throw new Error(downloadResult.error || t("download.downloadError"));
       }
       setGenerated((prev) => new Set([...prev, type]));
     } catch (err) {
       console.error("Erro ao gerar PDF:", err);
-      setError("Erro ao gerar documento. Por favor, tente novamente.");
+      setError(t("download.genError"));
     } finally {
       setGenerating(null);
     }
@@ -69,17 +72,20 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
     <div className="space-y-8">
       <div className="mb-6">
         <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          Download dos Documentos
+          {t("download.title")}
         </h2>
         <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          Selecione os documentos que deseja gerar e fazer download.
+          {t("download.subtitle")}
         </p>
       </div>
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <span className="text-sm text-text-secondary dark:text-text-secondary-dark">
-            {selectedDocs.size} de {documentOptions.length} selecionados
+            {t("download.selectedCount", {
+              count: selectedDocs.size,
+              total: documentOptions.length,
+            })}
           </span>
           <Button
             type="button"
@@ -89,8 +95,8 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
             className="text-primary dark:text-cin-white hover:text-primary-hover dark:hover:text-cin-gray font-medium hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 p-0 px-2 h-auto"
           >
             {selectedDocs.size === documentOptions.length
-              ? "Desmarcar todos"
-              : "Selecionar todos"}
+              ? t("download.deselectAll")
+              : t("download.selectAll")}
           </Button>
         </div>
 
@@ -142,7 +148,7 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
                       </h3>
                       {isGenerated && (
                         <span className="text-xs text-green-600 bg-green-100 px-2 py-0.5 rounded">
-                          ✓ Gerado
+                          {t("download.generatedBadge")}
                         </span>
                       )}
                     </div>
@@ -163,7 +169,9 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
                     disabled={isGenerating}
                     className="flex-shrink-0"
                   >
-                    {isGenerating ? "Gerando..." : "Download"}
+                    {isGenerating
+                      ? t("download.generating")
+                      : t("download.downloadBtn")}
                   </Button>
                 </div>
               </div>
@@ -191,10 +199,10 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
         <div className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-4 flex items-center justify-between border border-border dark:border-border-dark">
           <div>
             <p className="font-medium text-text-primary dark:text-text-primary-dark">
-              Download em lote
+              {t("download.batchTitle")}
             </p>
             <p className="text-sm text-text-secondary dark:text-text-secondary-dark">
-              Baixe todos os {selectedDocs.size} documentos selecionados
+              {t("download.batchDesc", { count: selectedDocs.size })}
             </p>
           </div>
           <Button onClick={handleDownloadAll} disabled={generating !== null}>
@@ -211,7 +219,7 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
                 d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
               />
             </svg>
-            Baixar Selecionados
+            {t("download.batchButton")}
           </Button>
         </div>
       )}
@@ -233,11 +241,12 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          Voltar
+          {t("app.back")}
         </Button>
 
         <div className="text-sm text-text-secondary">
-          {generated.size > 0 && `${generated.size} documento(s) gerado(s)`}
+          {generated.size > 0 &&
+            t("download.generatedSummary", { count: generated.size })}
         </div>
       </div>
     </div>

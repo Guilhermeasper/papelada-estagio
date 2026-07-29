@@ -13,6 +13,7 @@ import {
   supervisionSchema,
 } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 export function SupervisionFormStep({
   data,
@@ -20,6 +21,7 @@ export function SupervisionFormStep({
   onNext,
   onBack,
 }: IStep6Props) {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -43,10 +45,10 @@ export function SupervisionFormStep({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
       <div className="mb-6">
         <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          Supervisão e Orientação
+          {t("forms.supervision.title")}
         </h2>
         <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          Dados do supervisor da empresa e do professor orientador.
+          {t("forms.supervision.subtitle")}
         </p>
       </div>
 
@@ -63,14 +65,14 @@ export function SupervisionFormStep({
               clipRule="evenodd"
             />
           </svg>
-          Supervisor da Empresa
+          {t("forms.supervision.supervisorSection")}
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Input
             id="supervisorName"
-            label="Nome Completo"
-            placeholder="Nome do supervisor"
+            label={t("forms.supervision.supervisorNameLabel")}
+            placeholder={t("forms.supervision.supervisorNamePlaceholder")}
             {...register("supervisorName")}
             error={errors.supervisorName?.message}
             required
@@ -78,8 +80,8 @@ export function SupervisionFormStep({
 
           <Input
             id="supervisorPosition"
-            label="Cargo"
-            placeholder="Ex: Team Lead"
+            label={t("forms.supervision.supervisorPositionLabel")}
+            placeholder={t("forms.supervision.supervisorPositionPlaceholder")}
             {...register("supervisorPosition")}
             error={errors.supervisorPosition?.message}
             required
@@ -87,15 +89,15 @@ export function SupervisionFormStep({
 
           <EmailInput
             id="supervisorEmail"
-            label="E-mail"
-            placeholder="email@empresa.com"
+            label={t("forms.supervision.supervisorEmailLabel")}
+            placeholder={t("forms.supervision.supervisorEmailPlaceholder")}
             {...register("supervisorEmail")}
             error={errors.supervisorEmail?.message}
             required
           />
 
           <MaskedInput
-            label="Telefone"
+            label={t("forms.supervision.supervisorPhoneLabel")}
             mask="phone"
             placeholder="(00) 00000-0000"
             {...register("supervisorPhone")}
@@ -104,7 +106,7 @@ export function SupervisionFormStep({
           />
 
           <MaskedInput
-            label="CPF"
+            label={t("forms.supervision.supervisorCpfLabel")}
             mask="cpf"
             placeholder="000.000.000-00"
             {...register("supervisorCpf")}
@@ -123,14 +125,14 @@ export function SupervisionFormStep({
           >
             <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
           </svg>
-          Professor Orientador
+          {t("forms.supervision.advisorSection")}
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Input
             id="advisorName"
-            label="Nome Completo"
-            placeholder="Nome do professor"
+            label={t("forms.supervision.advisorNameLabel")}
+            placeholder={t("forms.supervision.advisorNamePlaceholder")}
             {...register("advisorName")}
             error={errors.advisorName?.message}
             required
@@ -138,8 +140,8 @@ export function SupervisionFormStep({
 
           <Input
             id="advisorPosition"
-            label="Cargo"
-            placeholder="Ex: Professor Adjunto I"
+            label={t("forms.supervision.advisorPositionLabel")}
+            placeholder={t("forms.supervision.advisorPositionPlaceholder")}
             {...register("advisorPosition")}
             error={errors.advisorPosition?.message}
             required
@@ -147,16 +149,16 @@ export function SupervisionFormStep({
 
           <EmailInput
             id="advisorEmail"
-            label="E-mail"
-            placeholder="email@cin.ufpe.br"
+            label={t("forms.supervision.advisorEmailLabel")}
+            placeholder={t("forms.supervision.advisorEmailPlaceholder")}
             {...register("advisorEmail")}
             error={errors.advisorEmail?.message}
             required
           />
 
           <Input
-            label="SIAPE"
-            placeholder="Matrícula SIAPE"
+            label={t("forms.supervision.advisorSiapeLabel")}
+            placeholder={t("forms.supervision.advisorSiapePlaceholder")}
             {...register("advisorSiape")}
             error={errors.advisorSiape?.message}
             required
@@ -168,10 +170,10 @@ export function SupervisionFormStep({
             render={({ field }) => (
               <DateInput
                 id="evaluationDeadline"
-                label="Data para emissão do parecer"
+                label={t("forms.supervision.evaluationDeadlineLabel")}
                 {...field}
                 error={errors.evaluationDeadline?.message}
-                hint="Prazo para o professor orientador emitir o parecer"
+                hint={t("forms.supervision.evaluationDeadlineHint")}
                 required
               />
             )}
@@ -194,11 +196,11 @@ export function SupervisionFormStep({
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          Voltar
+          {t("app.back")}
         </Button>
 
         <Button type="submit" isLoading={isSubmitting}>
-          Próximo
+          {t("app.next")}
           <svg
             className="w-4 h-4"
             fill="none"

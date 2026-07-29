@@ -1,3 +1,7 @@
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
+
 export type ChecklistSource = "gerado" | "externo";
 
 export interface ChecklistItemData {
@@ -12,149 +16,152 @@ export interface ChecklistCardData {
   items: ChecklistItemData[];
 }
 
-export const SOURCE_LABELS: Record<ChecklistSource, string> = {
-  gerado: "Gerado pelo Papelada",
-  externo: "Você providencia",
-};
+export const getSourceLabels = (): Record<ChecklistSource, string> => ({
+  gerado: i18n.t("checklist.sources.gerado"),
+  externo: i18n.t("checklist.sources.externo"),
+});
 
-export const checklistData: ChecklistCardData[] = [
+export function useSourceLabels(): Record<ChecklistSource, string> {
+  const { t } = useTranslation();
+  return useMemo(() => getSourceLabels(), [t]);
+}
+
+export const getChecklistData = (): ChecklistCardData[] => [
   {
-    title: "Plano de Atividades (Modelo CIn)",
-    description: "Documento de formalização inicial do estágio",
+    title: i18n.t("checklist.items.planTitle"),
+    description: i18n.t("checklist.items.planDesc"),
     source: "gerado",
     items: [
       {
-        label: "Dados do Estagiário",
-        content:
-          "Nome, E-mail, Endereço, Telefone, Curso, Ano de Ingresso, Matrícula",
+        label: i18n.t("checklist.items.planItem1Label"),
+        content: i18n.t("checklist.items.planItem1Content"),
       },
       {
-        label: "Identificação da Empresa",
-        content: "Razão Social, Endereço, CNPJ",
+        label: i18n.t("checklist.items.planItem2Label"),
+        content: i18n.t("checklist.items.planItem2Content"),
       },
       {
-        label: "Programa de Estágio",
-        content:
-          "Período (Início/Fim), Carga Horária diária, Dias da semana, Horário, Modalidade",
+        label: i18n.t("checklist.items.planItem3Label"),
+        content: i18n.t("checklist.items.planItem3Content"),
       },
       {
-        label: "Conteúdo Técnico",
-        content: "Lista de atividades, Objetivos/metas, Cronograma detalhado",
+        label: i18n.t("checklist.items.planItem4Label"),
+        content: i18n.t("checklist.items.planItem4Content"),
       },
       {
-        label: "Supervisão",
-        content:
-          "Dados do Supervisor (empresa) e do Professor Orientador (CIn)",
+        label: i18n.t("checklist.items.planItem5Label"),
+        content: i18n.t("checklist.items.planItem5Content"),
       },
       {
-        label: "Critérios de Avaliação",
-        content:
-          "Data do parecer, Pesos (Assiduidade, Comprometimento, Independência, etc.)",
+        label: i18n.t("checklist.items.planItem6Label"),
+        content: i18n.t("checklist.items.planItem6Content"),
       },
     ],
   },
   {
-    title: "Declaração da Empresa (Vínculo CLT)",
-    description: "Substitui o TCE para alunos com contrato CLT",
+    title: i18n.t("checklist.items.declarationTitle"),
+    description: i18n.t("checklist.items.declarationDesc"),
     source: "externo",
     items: [
       {
-        label: "Identificação do Vínculo",
-        content: "Nome do aluno, Matrícula, Regime CLT, Cargo, Data de início",
-      },
-      { label: "Carga Horária", content: "CH semanal (ex: 40 horas)" },
-      {
-        label: "Atividades",
-        content:
-          "Lista de tarefas técnicas com correlação a Ciência da Computação",
+        label: i18n.t("checklist.items.declarationItem1Label"),
+        content: i18n.t("checklist.items.declarationItem1Content"),
       },
       {
-        label: "Cláusula de Compatibilidade",
-        content: "Declaração de compatibilidade com o Projeto Pedagógico",
+        label: i18n.t("checklist.items.declarationItem2Label"),
+        content: i18n.t("checklist.items.declarationItem2Content"),
       },
       {
-        label: "Assinatura do Supervisor",
-        content: "Nome completo, Cargo, Data",
+        label: i18n.t("checklist.items.declarationItem3Label"),
+        content: i18n.t("checklist.items.declarationItem3Content"),
+      },
+      {
+        label: i18n.t("checklist.items.declarationItem4Label"),
+        content: i18n.t("checklist.items.declarationItem4Content"),
+      },
+      {
+        label: i18n.t("checklist.items.declarationItem5Label"),
+        content: i18n.t("checklist.items.declarationItem5Content"),
       },
     ],
   },
   {
-    title: "Cópia da Carteira de Trabalho (CTPS)",
-    description: "Documento probatório exigido pela resolução",
+    title: i18n.t("checklist.items.ctpsTitle"),
+    description: i18n.t("checklist.items.ctpsDesc"),
     source: "externo",
     items: [
-      { content: "Página com foto e dados de identificação do portador" },
+      { content: i18n.t("checklist.items.ctpsItem1Content") },
+      { content: i18n.t("checklist.items.ctpsItem2Content") },
+    ],
+  },
+  {
+    title: i18n.t("checklist.items.reportTitle"),
+    description: i18n.t("checklist.items.reportDesc"),
+    source: "gerado",
+    items: [
       {
-        content:
-          "Página do contrato de trabalho com dados da empresa e data de admissão",
+        label: i18n.t("checklist.items.reportItem1Label"),
+        content: i18n.t("checklist.items.reportItem1Content"),
+      },
+      {
+        label: i18n.t("checklist.items.reportItem2Label"),
+        content: i18n.t("checklist.items.reportItem2Content"),
+      },
+      {
+        label: i18n.t("checklist.items.reportItem3Label"),
+        content: i18n.t("checklist.items.reportItem3Content"),
+      },
+      {
+        label: i18n.t("checklist.items.reportItem4Label"),
+        content: i18n.t("checklist.items.reportItem4Content"),
+      },
+      {
+        label: i18n.t("checklist.items.reportItem5Label"),
+        content: i18n.t("checklist.items.reportItem5Content"),
       },
     ],
   },
   {
-    title: "Relatório Final de Estágio",
-    description: "Relatório detalhado para conclusão da disciplina",
+    title: i18n.t("checklist.items.advisorEvalTitle"),
+    description: i18n.t("checklist.items.advisorEvalDesc"),
     source: "gerado",
     items: [
-      { label: "Capa", content: "UFPE, CIn, Título, Curso, Local, Mês/Ano" },
       {
-        label: "Identificação",
-        content: "Nome, Semestre, Empresa, Supervisor, Datas, CH, Orientador",
+        label: i18n.t("checklist.items.advisorEvalItem1Label"),
+        content: i18n.t("checklist.items.advisorEvalItem1Content"),
       },
       {
-        label: "Corpo do Texto",
-        content:
-          "Índice, Introdução, Objetivos (Gerais/Específicos), Cronograma, Metodologia, Desenvolvimento, Conclusão",
+        label: i18n.t("checklist.items.advisorEvalItem2Label"),
+        content: i18n.t("checklist.items.advisorEvalItem2Content"),
       },
       {
-        label: "Autoavaliação",
-        content:
-          "Notas (0-10) para Aquisição de Experiências, Acompanhamento, Interação, Ambiente",
-      },
-      {
-        label: "Questionário da Concedente",
-        content:
-          "Flexibilidade, Redução em provas, Preocupação acadêmica, Convênio",
+        label: i18n.t("checklist.items.advisorEvalItem3Label"),
+        content: i18n.t("checklist.items.advisorEvalItem3Content"),
       },
     ],
   },
   {
-    title: "Avaliação pelo Professor Orientador",
-    description: "Parecer e nota emitidos pelo orientador do CIn",
+    title: i18n.t("checklist.items.supervisorEvalTitle"),
+    description: i18n.t("checklist.items.supervisorEvalDesc"),
     source: "gerado",
     items: [
       {
-        label: "Identificação",
-        content: "Nome do aluno, Curso, Empresa, Período, Orientador",
+        label: i18n.t("checklist.items.supervisorEvalItem1Label"),
+        content: i18n.t("checklist.items.supervisorEvalItem1Content"),
       },
       {
-        label: "Tabela de Desempenho",
-        content:
-          "Comunicação, Assiduidade, Cooperação, Independência, Conhecimento, Desempenho Geral",
+        label: i18n.t("checklist.items.supervisorEvalItem2Label"),
+        content: i18n.t("checklist.items.supervisorEvalItem2Content"),
       },
       {
-        label: "Parecer e Nota",
-        content: "Texto detalhado e nota final (0-10)",
-      },
-    ],
-  },
-  {
-    title: "Avaliação pelo Supervisor",
-    description: "Parecer e nota emitidos pelo supervisor da empresa",
-    source: "gerado",
-    items: [
-      {
-        label: "Identificação",
-        content: "Nome do aluno, Curso, Empresa, Período, Supervisor",
-      },
-      {
-        label: "Tabela de Desempenho",
-        content:
-          "Comunicação, Assiduidade, Cooperação, Independência, Conhecimento, Desempenho Geral",
-      },
-      {
-        label: "Parecer e Nota",
-        content: "Texto com elogios/pontos de melhoria e nota final (0-10)",
+        label: i18n.t("checklist.items.supervisorEvalItem3Label"),
+        content: i18n.t("checklist.items.supervisorEvalItem3Content"),
       },
     ],
   },
 ];
+
+export function useChecklistData(): ChecklistCardData[] {
+  const { t } = useTranslation();
+  return useMemo(() => getChecklistData(), [t]);
+}

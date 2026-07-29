@@ -1,3 +1,7 @@
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
+
 export interface ProcessStepData {
   label: string;
   content: string;
@@ -14,66 +18,65 @@ export interface ProcessStageData {
 export const SECGRAD_FAQ_URL =
   "https://secgrad.cin.ufpe.br/perguntas-frequentes";
 
-export const beforeStage: ProcessStageData = {
-  title: "Antes de preencher",
-  description:
-    "Este app cobre apenas a preparação dos documentos. O processo do CIn tem outras etapas antes e depois.",
+export const getBeforeStage = (): ProcessStageData => ({
+  title: i18n.t("process.before.title"),
+  description: i18n.t("process.before.description"),
   steps: [
     {
-      label: "Comece com antecedência",
-      content:
-        "Inicie o processo pelo menos 3 semanas antes da data de início do estágio.",
+      label: i18n.t("process.before.step1Label"),
+      content: i18n.t("process.before.step1Content"),
       highlight: true,
     },
     {
-      label: "Consulte o site da SecGrad",
-      content:
-        "As regras oficiais e as perguntas frequentes ficam no site abaixo. Em caso de divergência, o site prevalece sobre este app.",
+      label: i18n.t("process.before.step2Label"),
+      content: i18n.t("process.before.step2Content"),
       link: SECGRAD_FAQ_URL,
     },
     {
-      label: "Fale com a Secretaria da Graduação",
-      content:
-        "A SecGrad é o ponto de contato para orientações gerais sobre o processo.",
+      label: i18n.t("process.before.step3Label"),
+      content: i18n.t("process.before.step3Content"),
     },
     {
-      label: "Coordenação de Estágio, só se a dúvida persistir",
-      content:
-        "Procure a Coordenação apenas depois de ter consultado o site e a SecGrad.",
+      label: i18n.t("process.before.step4Label"),
+      content: i18n.t("process.before.step4Content"),
     },
   ],
-};
+});
 
-export const afterStage: ProcessStageData = {
-  title: "Depois de baixar os documentos",
-  description:
-    "A geração dos PDFs é o meio do caminho. Siga a ordem abaixo para não ter a documentação devolvida.",
+export function useBeforeStage(): ProcessStageData {
+  const { t } = useTranslation();
+  return useMemo(() => getBeforeStage(), [t]);
+}
+
+export const getAfterStage = (): ProcessStageData => ({
+  title: i18n.t("process.after.title"),
+  description: i18n.t("process.after.description"),
   steps: [
     {
-      label: "Colha todas as assinaturas, exceto a da coordenação",
-      content:
-        "Assine e obtenha as assinaturas do supervisor da empresa e do professor orientador. Não procure a Coordenação de Estágio: a assinatura dela é a última e quem encaminha o documento é a SecGrad.",
+      label: i18n.t("process.after.step1Label"),
+      content: i18n.t("process.after.step1Content"),
       highlight: true,
     },
     {
-      label: "Entregue à SecGrad para conferência",
-      content:
-        "A Secretaria da Graduação confirma o recebimento e confere a documentação.",
+      label: i18n.t("process.after.step2Label"),
+      content: i18n.t("process.after.step2Content"),
     },
     {
-      label: "Corrija, se for solicitado",
-      content:
-        "Se a SecGrad apontar problemas, corrija e reenvie. Seus dados ficam salvos neste navegador: basta voltar ao formulário e gerar os documentos de novo.",
+      label: i18n.t("process.after.step3Label"),
+      content: i18n.t("process.after.step3Content"),
     },
     {
-      label: "A SecGrad encaminha à Coordenação",
-      content:
-        "A Coordenação de Estágio assina e devolve à SecGrad. As regras são aplicadas sem flexibilização.",
+      label: i18n.t("process.after.step4Label"),
+      content: i18n.t("process.after.step4Content"),
     },
     {
-      label: "Conclusão",
-      content:
-        "A SecGrad informa a conclusão do processo e arquiva a documentação.",
+      label: i18n.t("process.after.step5Label"),
+      content: i18n.t("process.after.step5Content"),
     },
   ],
-};
+});
+
+export function useAfterStage(): ProcessStageData {
+  const { t } = useTranslation();
+  return useMemo(() => getAfterStage(), [t]);
+}

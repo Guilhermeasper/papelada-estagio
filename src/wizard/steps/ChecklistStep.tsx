@@ -2,21 +2,26 @@ import { Button, ChecklistCard, ChecklistItem } from "@papelada-estagio/componen
 import { IStep1Props } from "@papelada-estagio/types";
 import { ProcessCard } from "@papelada-estagio/wizard/ProcessCard";
 import {
-  checklistData,
-  SOURCE_LABELS,
+  useChecklistData,
+  useSourceLabels,
 } from "@papelada-estagio/wizard/data/checklist";
-import { beforeStage } from "@papelada-estagio/wizard/data/process";
+import { useBeforeStage } from "@papelada-estagio/wizard/data/process";
+import { useTranslation } from "react-i18next";
 
 export function ChecklistStep({ onNext }: IStep1Props) {
+  const { t } = useTranslation();
+  const checklistData = useChecklistData();
+  const sourceLabels = useSourceLabels();
+  const beforeStage = useBeforeStage();
+
   return (
     <div className="space-y-6">
       <div className="mb-6">
         <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          Antes de começar
+          {t("checklist.beforeTitle")}
         </h2>
         <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          Para gerar os documentos do estágio CLT, você precisará das seguintes
-          informações. Confira cada documento:
+          {t("checklist.beforeSubtitle")}
         </p>
       </div>
 
@@ -29,7 +34,7 @@ export function ChecklistStep({ onNext }: IStep1Props) {
             title={card.title}
             description={card.description}
             badge={{
-              label: SOURCE_LABELS[card.source],
+              label: sourceLabels[card.source],
               variant: card.source,
             }}
           >
@@ -44,7 +49,7 @@ export function ChecklistStep({ onNext }: IStep1Props) {
 
       <div className="flex justify-end pt-6 border-t border-border dark:border-border-dark mt-8">
         <Button onClick={onNext}>
-          Tenho tudo em mãos
+          {t("checklist.readyButton")}
           <svg
             className="w-4 h-4 ml-2"
             fill="none"

@@ -19,6 +19,7 @@ import { isHoliday } from "@papelada-estagio/utils/holidays";
 import { isValidIsoDate } from "@papelada-estagio/utils/scheduleRanges";
 import { isValidWorkSchedule } from "@papelada-estagio/utils/workSchedule";
 import { z } from "zod";
+import i18n from "../../i18n";
 
 const workPeriodSchema = z.object({
   start: z.number(),
@@ -38,26 +39,26 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const studentSchema = z.object({
   fullName: z
     .string()
-    .min(3, "Nome deve ter pelo menos 3 caracteres")
-    .max(100, "Nome muito longo"),
-  email: z.string().regex(emailRegex, "E-mail inválido"),
-  address: z.string().min(10, "Endereço deve ter pelo menos 10 caracteres"),
-  phone: z.string().regex(phoneRegex, "Telefone inválido. Ex: (81) 98888-7777"),
-  course: z.string().min(3, "Curso é obrigatório"),
+    .min(3, i18n.t("validation.nameMin"))
+    .max(100, i18n.t("validation.nameMax")),
+  email: z.string().regex(emailRegex, i18n.t("validation.invalidEmail")),
+  address: z.string().min(10, i18n.t("validation.addressMin")),
+  phone: z.string().regex(phoneRegex, i18n.t("validation.invalidPhone")),
+  course: z.string().min(3, i18n.t("validation.courseRequired")),
   enrollmentYear: z
     .string()
-    .regex(/^[0-9]{4}\.[1-2]$/, "Formato inválido. Use: AAAA.S (ex: 2018.2)"),
-  studentId: z.string().min(5, "Matrícula é obrigatória"),
+    .regex(/^[0-9]{4}\.[1-2]$/, i18n.t("validation.invalidEnrollmentYear")),
+  studentId: z.string().min(5, i18n.t("validation.studentIdRequired")),
 });
 
 export type StudentFormData = z.infer<typeof studentSchema>;
 
 export const companySchema = z.object({
-  companyName: z.string().min(2, "Nome da empresa é obrigatório"),
-  companyAddress: z.string().min(10, "Endereço da empresa é obrigatório"),
-  companyCnpj: z
+  companyName: z.string().min(2, i18n.t("validation.companyNameRequired")),
+  companyAddress: z
     .string()
-    .regex(cnpjRegex, "CNPJ inválido. Ex: 00.000.000/0000-00"),
+    .min(10, i18n.t("validation.companyAddressRequired")),
+  companyCnpj: z.string().regex(cnpjRegex, i18n.t("validation.invalidCnpj")),
 });
 
 export type CompanyFormData = z.infer<typeof companySchema>;
@@ -66,38 +67,44 @@ export const internshipGeneralSchema = z
   .object({
     startDate: z
       .string()
-      .min(1, "Informe a data de início (DD/MM/AAAA)")
+      .min(1, i18n.t("validation.startDateRequired"))
       .refine(
         (date) => {
           const validation = validateDate(date);
           return validation.valid;
         },
         {
-          message: "Data de início inválida (fim de semana ou feriado)",
+          message: i18n.t("validation.startDateInvalid"),
         },
       ),
     endDate: z
       .string()
-      .min(1, "Informe a data de término (DD/MM/AAAA)")
+      .min(1, i18n.t("validation.endDateRequired"))
       .refine(
         (date) => {
           const validation = validateDate(date);
           return validation.valid;
         },
         {
-          message: "Data de término inválida (fim de semana ou feriado)",
+          message: i18n.t("validation.endDateInvalid"),
         },
       ),
     hoursPerDay: z
       .number()
-      .min(MIN_HOURS_PER_DAY, `Mínimo ${MIN_HOURS_PER_DAY} horas por dia`)
-      .max(MAX_HOURS_PER_DAY, `Máximo ${MAX_HOURS_PER_DAY} horas por dia`),
+      .min(
+        MIN_HOURS_PER_DAY,
+        i18n.t("validation.hoursMin", { min: MIN_HOURS_PER_DAY }),
+      )
+      .max(
+        MAX_HOURS_PER_DAY,
+        i18n.t("validation.hoursMax", { max: MAX_HOURS_PER_DAY }),
+      ),
     workDays: z
       .array(z.number().int().min(MIN_WEEKDAY).max(MAX_WEEKDAY))
-      .min(1, "Selecione pelo menos 1 dia"),
+      .min(1, i18n.t("validation.workDaysMin")),
     workSchedule: workScheduleSchema,
     modality: z.enum(["Remoto", "Presencial", "Híbrido"], {
-      message: "Selecione a modalidade",
+      message: i18n.t("validation.modalityRequired"),
     }),
   })
   .superRefine((data, ctx) => {
@@ -106,7 +113,9 @@ export const internshipGeneralSchema = z
     if (!isValidWorkSchedule(data.workSchedule, data.hoursPerDay * 60)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: `O horário deve somar ${data.hoursPerDay}h por dia`,
+        message: i18n.t("validation.scheduleTotalMismatch", {
+          hours: data.hoursPerDay,
+        }),
         path: ["workSchedule"],
       });
     }
@@ -119,7 +128,7 @@ export const internshipGeneralSchema = z
     ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "A data de início deve cair em um dia de trabalho selecionado",
+        message: i18n.t("validation.startDateNotWorkDay"),
         path: ["startDate"],
       });
       return;
@@ -135,21 +144,21 @@ export const internshipGeneralSchema = z
     if (!validation.valid) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: validation.error || "Período inválido",
+        message: validation.error || i18n.t("validation.invalidPeriod"),
         path: ["endDate"],
       });
     }
   });
 
-export type InternshipGeneralFormData = z.infer<typeof internshipGeneralSchema>;
+export type InternshipGeneralFormData = z.infer<
+  typeof internshipGeneralSchema
+>;
 
 export const scheduleItemSchema = z
   .object({
-    periodStart: z.string().min(1, "Informe a data de início (DD/MM/AAAA)"),
-    periodEnd: z.string().min(1, "Informe a data de término (DD/MM/AAAA)"),
-    description: z
-      .string()
-      .min(10, "Descrição deve ter pelo menos 10 caracteres"),
+    periodStart: z.string().min(1, i18n.t("validation.periodStartRequired")),
+    periodEnd: z.string().min(1, i18n.t("validation.periodEndRequired")),
+    description: z.string().min(10, i18n.t("validation.descriptionMin")),
   })
   .superRefine((item, ctx) => {
     if (!item.periodStart || !item.periodEnd) return;
@@ -157,7 +166,7 @@ export const scheduleItemSchema = z
     if (parseIsoDate(item.periodEnd) < parseIsoDate(item.periodStart)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "A data de término deve ser posterior à data de início",
+        message: i18n.t("validation.periodEndAfterStart"),
         path: ["periodEnd"],
       });
     }
@@ -171,30 +180,20 @@ export const evaluationGradeSchema = z.object({
 
 export const internshipContentSchema = z.object({
   activities: z
-    .array(z.string().min(5, "Atividade deve ter pelo menos 5 caracteres"))
-    .min(1, "Adicione pelo menos 1 atividade"),
+    .array(z.string().min(5, i18n.t("validation.activitiesMin")))
+    .min(1, i18n.t("validation.activitiesCount")),
   objectives: z
-    .array(z.string().min(5, "Objetivo deve ter pelo menos 5 caracteres"))
-    .min(1, "Adicione pelo menos 1 objetivo"),
+    .array(z.string().min(5, i18n.t("validation.objectivesMin")))
+    .min(1, i18n.t("validation.objectivesCount")),
   schedule: z
     .array(scheduleItemSchema)
-    .min(1, "Adicione pelo menos 1 item no cronograma"),
-  introduction: z
-    .string()
-    .min(50, "Introdução deve ter pelo menos 50 caracteres"),
-  generalObjectives: z
-    .string()
-    .min(30, "Objetivos gerais devem ter pelo menos 30 caracteres"),
-  specificObjectives: z
-    .string()
-    .min(30, "Objetivos específicos devem ter pelo menos 30 caracteres"),
-  methodology: z
-    .string()
-    .min(30, "Metodologia deve ter pelo menos 30 caracteres"),
-  development: z
-    .string()
-    .min(50, "Desenvolvimento deve ter pelo menos 50 caracteres"),
-  conclusion: z.string().min(30, "Conclusão deve ter pelo menos 30 caracteres"),
+    .min(1, i18n.t("validation.scheduleCount")),
+  introduction: z.string().min(50, i18n.t("validation.introMin")),
+  generalObjectives: z.string().min(30, i18n.t("validation.generalObjMin")),
+  specificObjectives: z.string().min(30, i18n.t("validation.specificObjMin")),
+  methodology: z.string().min(30, i18n.t("validation.methodologyMin")),
+  development: z.string().min(50, i18n.t("validation.developmentMin")),
+  conclusion: z.string().min(30, i18n.t("validation.conclusionMin")),
 });
 
 export type ScheduleBounds = Pick<
@@ -207,14 +206,18 @@ function getScheduleDateIssue(
   workDays: number[],
 ): string | null {
   const holiday = isHoliday(date);
-  if (holiday.isHoliday) return `Data inválida: ${holiday.name}`;
+  if (holiday.isHoliday) {
+    return i18n.t("validation.holidayInvalid", { name: holiday.name });
+  }
 
   if (isWeekend(date)) {
-    return `Data inválida: ${getDayOfWeekPtBr(date)} é fim de semana`;
+    return i18n.t("validation.weekendInvalid", {
+      day: getDayOfWeekPtBr(date),
+    });
   }
 
   if (!workDays.includes(date.getDay())) {
-    return `${getDayOfWeekPtBr(date)} não é um dia de trabalho selecionado`;
+    return i18n.t("validation.notWorkDay", { day: getDayOfWeekPtBr(date) });
   }
 
   return null;
@@ -246,12 +249,12 @@ export function makeInternshipContentSchema({
 
         const date = parseIsoDate(value);
         if (Number.isNaN(date.getTime())) {
-          addIssue("Data inválida");
+          addIssue(i18n.t("validation.invalidDate"));
           return;
         }
 
         if (date < min || date > max) {
-          addIssue(`A data deve estar entre ${range}`);
+          addIssue(i18n.t("validation.dateMustBeBetween", { range }));
           return;
         }
 
@@ -271,25 +274,33 @@ export const evaluationSchema = z.object({
   recommendsPartnership: z.boolean(),
 });
 
-export type InternshipContentFormData = z.infer<typeof internshipContentSchema>;
+export type InternshipContentFormData = z.infer<
+  typeof internshipContentSchema
+>;
 export type EvaluationFormData = z.infer<typeof evaluationSchema>;
 
 export const supervisionSchema = z.object({
-  supervisorName: z.string().min(3, "Nome do supervisor é obrigatório"),
-  supervisorEmail: z.string().regex(emailRegex, "E-mail inválido"),
-  supervisorPhone: z.string().regex(phoneRegex, "Telefone inválido"),
-  supervisorPosition: z.string().min(2, "Cargo é obrigatório"),
-  supervisorCpf: z.string().regex(cpfRegex, "CPF inválido. Ex: 000.000.000-00"),
+  supervisorName: z
+    .string()
+    .min(3, i18n.t("validation.supervisorNameRequired")),
+  supervisorEmail: z.string().regex(emailRegex, i18n.t("validation.invalidEmail")),
+  supervisorPhone: z.string().regex(phoneRegex, i18n.t("validation.invalidPhone")),
+  supervisorPosition: z
+    .string()
+    .min(2, i18n.t("validation.supervisorPositionRequired")),
+  supervisorCpf: z.string().regex(cpfRegex, i18n.t("validation.invalidCpf")),
 
-  advisorName: z.string().min(3, "Nome do professor é obrigatório"),
-  advisorEmail: z.string().regex(emailRegex, "E-mail inválido"),
-  advisorSiape: z.string().min(5, "SIAPE é obrigatório"),
-  advisorPosition: z.string().min(2, "Cargo é obrigatório"),
+  advisorName: z.string().min(3, i18n.t("validation.advisorNameRequired")),
+  advisorEmail: z.string().regex(emailRegex, i18n.t("validation.invalidEmail")),
+  advisorSiape: z.string().min(5, i18n.t("validation.advisorSiapeRequired")),
+  advisorPosition: z
+    .string()
+    .min(2, i18n.t("validation.advisorPositionRequired")),
 
   evaluationDeadline: z
     .string()
-    .min(1, "Informe a data para emissão do parecer (DD/MM/AAAA)")
-    .refine(isValidIsoDate, "Data inválida"),
+    .min(1, i18n.t("validation.evaluationDeadlineRequired"))
+    .refine(isValidIsoDate, i18n.t("validation.invalidDate")),
 });
 
 export type SupervisionFormData = z.infer<typeof supervisionSchema>;

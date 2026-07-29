@@ -3,8 +3,10 @@ import { Autocomplete, Button, EmailInput, Input, MaskedInput } from "@papelada-
 import { IStep2Props } from "@papelada-estagio/types";
 import { StudentFormData, studentSchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 export function StudentFormStep({ data, onNext }: IStep2Props) {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -22,18 +24,18 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="mb-6">
         <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          Dados do Aluno
+          {t("forms.student.title")}
         </h2>
         <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          Preencha suas informações pessoais e acadêmicas.
+          {t("forms.student.subtitle")}
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="md:col-span-2">
           <Input
-            label="Nome Completo"
-            placeholder="Seu nome completo"
+            label={t("forms.student.fullNameLabel")}
+            placeholder={t("forms.student.fullNamePlaceholder")}
             {...register("fullName")}
             error={errors.fullName?.message}
             required
@@ -41,17 +43,17 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
         </div>
 
         <EmailInput
-          label="E-mail"
-          placeholder="seu.email@exemplo.com"
+          label={t("forms.student.emailLabel")}
+          placeholder={t("forms.student.emailPlaceholder")}
           {...register("email")}
           error={errors.email?.message}
           required
         />
 
         <MaskedInput
-          label="Telefone"
+          label={t("forms.student.phoneLabel")}
           mask="phone"
-          placeholder="(00) 00000-0000"
+          placeholder={t("forms.student.phonePlaceholder")}
           {...register("phone")}
           error={errors.phone?.message}
           required
@@ -59,8 +61,8 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
 
         <div className="md:col-span-2">
           <Input
-            label="Endereço"
-            placeholder="Rua, número, bairro, cidade - UF"
+            label={t("forms.student.addressLabel")}
+            placeholder={t("forms.student.addressPlaceholder")}
             {...register("address")}
             error={errors.address?.message}
             required
@@ -68,8 +70,8 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
         </div>
 
         <Autocomplete
-          label="Curso"
-          placeholder="Ex: Ciência da Computação"
+          label={t("forms.student.courseLabel")}
+          placeholder={t("forms.student.coursePlaceholder")}
           options={[
             "Ciência da Computação",
             "Engenharia da Computação",
@@ -82,18 +84,18 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
         />
 
         <MaskedInput
-          label="Ano de Ingresso"
+          label={t("forms.student.enrollmentYearLabel")}
           mask="enrollmentYear"
-          placeholder="Ex: 2018.2"
+          placeholder={t("forms.student.enrollmentYearPlaceholder")}
           {...register("enrollmentYear")}
           error={errors.enrollmentYear?.message}
-          hint="Formato: AAAA.S (ano.semestre)"
+          hint={t("forms.student.enrollmentYearHint")}
           required
         />
 
         <Input
-          label="Matrícula"
-          placeholder="Sua matrícula"
+          label={t("forms.student.studentIdLabel")}
+          placeholder={t("forms.student.studentIdPlaceholder")}
           {...register("studentId")}
           error={errors.studentId?.message}
           required
@@ -102,7 +104,7 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
 
       <div className="flex justify-end pt-6 border-t border-border dark:border-border-dark">
         <Button type="submit" isLoading={isSubmitting}>
-          Próximo
+          {t("app.next")}
           <svg
             className="w-4 h-4"
             fill="none"

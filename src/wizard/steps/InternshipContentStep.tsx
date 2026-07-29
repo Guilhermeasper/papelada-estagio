@@ -22,6 +22,7 @@ import {
 } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useMemo, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 const emptyScheduleItem: IScheduleItem = {
   periodStart: "",
@@ -48,6 +49,8 @@ export function InternshipContentStep({
   onNext,
   onBack,
 }: IStep5Props) {
+  const { t } = useTranslation();
+
   const {
     startDate = "",
     endDate = "",
@@ -110,8 +113,8 @@ export function InternshipContentStep({
     !reachedScheduleLimit && (!hasGeneralPeriod || canSplitLast);
 
   const addPeriodHint = reachedScheduleLimit
-    ? `Máximo de ${MAX_SCHEDULE_ITEMS} períodos.`
-    : "O último período não tem dias úteis suficientes para ser dividido.";
+    ? t("forms.content.addPeriodLimit", { max: MAX_SCHEDULE_ITEMS })
+    : t("forms.content.addPeriodNotEnoughDays");
 
   const scheduleMismatch = hasGeneralPeriod
     ? getScheduleMismatch(schedule ?? [], startDate, endDate)
@@ -197,51 +200,51 @@ export function InternshipContentStep({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
       <div className="mb-4 md:mb-6">
         <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          Conteúdo do Estágio
+          {t("forms.content.title")}
         </h2>
         <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          Descreva as atividades, objetivos e detalhes do seu estágio.
+          {t("forms.content.subtitle")}
         </p>
       </div>
 
       <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-4 md:p-6 border border-border dark:border-border-dark">
         <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-3 md:mb-4">
-          Atividades a serem desenvolvidas
+          {t("forms.content.activitiesSection")}
         </h3>
         <DynamicList
-          label="Atividades"
+          label={t("forms.content.activitiesLabel")}
           items={activities}
           onAdd={handleAddActivity}
           onRemove={handleRemoveActivity}
           onChange={handleChangeActivity}
-          placeholder="Descreva uma atividade..."
+          placeholder={t("forms.content.activitiesPlaceholder")}
           error={errors.activities?.message || errors.activities?.root?.message}
         />
       </section>
 
       <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-4 md:p-6 border border-border dark:border-border-dark">
         <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-3 md:mb-4">
-          Objetivos / Metas a serem atingidas
+          {t("forms.content.objectivesSection")}
         </h3>
         <DynamicList
-          label="Objetivos"
+          label={t("forms.content.objectivesLabel")}
           items={objectives}
           onAdd={handleAddObjective}
           onRemove={handleRemoveObjective}
           onChange={handleChangeObjective}
-          placeholder="Descreva um objetivo..."
+          placeholder={t("forms.content.objectivesPlaceholder")}
           error={errors.objectives?.message || errors.objectives?.root?.message}
         />
       </section>
 
       <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-4 md:p-6 border border-border dark:border-border-dark">
         <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-3 md:mb-4">
-          Cronograma
+          {t("forms.content.scheduleSection")}
         </h3>
 
         {!hasGeneralPeriod && (
           <p className="text-sm text-text-secondary dark:text-text-secondary-dark mb-4">
-            Preencha o passo 4 para calcular os períodos automaticamente.
+            {t("forms.content.scheduleFillNotice")}
           </p>
         )}
 
@@ -266,7 +269,7 @@ export function InternshipContentStep({
                 size="sm"
                 onClick={handleRecalculateSchedule}
               >
-                Recalcular cronograma
+                {t("forms.content.scheduleRecalculate")}
               </Button>
             </div>
           </div>
@@ -291,7 +294,7 @@ export function InternshipContentStep({
               >
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark">
-                    Período {index + 1}
+                    {t("forms.content.periodLabel", { index: index + 1 })}
                   </span>
                   {scheduleFields.length > 1 && (
                     <Button
@@ -301,7 +304,7 @@ export function InternshipContentStep({
                       onClick={() => handleRemovePeriod(index)}
                       className="p-0 h-auto"
                     >
-                      Remover
+                      {t("app.remove")}
                     </Button>
                   )}
                 </div>
@@ -314,7 +317,7 @@ export function InternshipContentStep({
                       render={({ field }) => (
                         <DateInput
                           id={`schedule-${index}-start`}
-                          label="Início"
+                          label={t("forms.content.periodStart")}
                           min={startDate || undefined}
                           max={endDate || undefined}
                           {...field}
@@ -330,7 +333,7 @@ export function InternshipContentStep({
                       render={({ field }) => (
                         <DateInput
                           id={`schedule-${index}-end`}
-                          label="Término"
+                          label={t("forms.content.periodEnd")}
                           min={item?.periodStart || startDate || undefined}
                           max={endDate || undefined}
                           {...field}
@@ -343,13 +346,16 @@ export function InternshipContentStep({
 
                   {itemInfo && (
                     <p className="text-xs text-text-secondary dark:text-text-secondary-dark">
-                      {itemInfo.workdays} dias úteis · {itemInfo.totalHours}h
+                      {t("forms.content.periodSummary", {
+                        workdays: itemInfo.workdays,
+                        hours: itemInfo.totalHours,
+                      })}
                     </p>
                   )}
 
                   <TextArea
                     {...register(`schedule.${index}.description`)}
-                    placeholder="Descrição das atividades do período..."
+                    placeholder={t("forms.content.scheduleDescPlaceholder")}
                   />
                   {errors.schedule?.[index]?.description && (
                     <p className="text-xs text-error-text">
@@ -377,7 +383,7 @@ export function InternshipContentStep({
                 clipRule="evenodd"
               />
             </svg>
-            Adicionar período
+            {t("forms.content.addPeriod")}
           </Button>
 
           {!canAddPeriod && (
@@ -390,61 +396,61 @@ export function InternshipContentStep({
 
       <section className="space-y-4 md:space-y-6">
         <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark">
-          Conteúdo do Relatório
+          {t("forms.content.reportContentSection")}
         </h3>
 
         <TextArea
-          label="Introdução"
+          label={t("forms.content.introLabel")}
           {...register("introduction")}
           error={errors.introduction?.message}
-          placeholder="Apresentação do estágio, empresa e objetivos..."
+          placeholder={t("forms.content.introPlaceholder")}
           rows={5}
           required
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
           <TextArea
-            label="Objetivos Gerais"
+            label={t("forms.content.generalObjLabel")}
             {...register("generalObjectives")}
             error={errors.generalObjectives?.message}
-            placeholder="O objetivo geral do estágio foi..."
+            placeholder={t("forms.content.generalObjPlaceholder")}
             rows={4}
             required
           />
 
           <TextArea
-            label="Objetivos Específicos"
+            label={t("forms.content.specificObjLabel")}
             {...register("specificObjectives")}
             error={errors.specificObjectives?.message}
-            placeholder="Os objetivos específicos incluíram..."
+            placeholder={t("forms.content.specificObjPlaceholder")}
             rows={4}
             required
           />
         </div>
 
         <TextArea
-          label="Material e Método"
+          label={t("forms.content.methodologyLabel")}
           {...register("methodology")}
           error={errors.methodology?.message}
-          placeholder="Tecnologias, metodologias e ferramentas utilizadas..."
+          placeholder={t("forms.content.methodologyPlaceholder")}
           rows={4}
           required
         />
 
         <TextArea
-          label="Desenvolvimento"
+          label={t("forms.content.developmentLabel")}
           {...register("development")}
           error={errors.development?.message}
-          placeholder="Descrição detalhada das atividades realizadas..."
+          placeholder={t("forms.content.developmentPlaceholder")}
           rows={6}
           required
         />
 
         <TextArea
-          label="Conclusão"
+          label={t("forms.content.conclusionLabel")}
           {...register("conclusion")}
           error={errors.conclusion?.message}
-          placeholder="Considerações finais sobre o estágio..."
+          placeholder={t("forms.content.conclusionPlaceholder")}
           rows={4}
           required
         />
@@ -465,11 +471,11 @@ export function InternshipContentStep({
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          Voltar
+          {t("app.back")}
         </Button>
 
         <Button type="submit" isLoading={isSubmitting}>
-          Próximo
+          {t("app.next")}
           <svg
             className="w-4 h-4"
             fill="none"

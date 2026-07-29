@@ -113,9 +113,9 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
             
             {isOpen && filteredOptions.length > 0 && (
                 <ul className="absolute z-10 w-full mt-1 max-h-60 overflow-auto bg-surface-elevated dark:bg-surface-elevated-dark border border-border dark:border-border-dark rounded-md shadow-lg">
-                    {filteredOptions.map((option) => (
+                    {filteredOptions.map((option, index) => (
                         <li
-                            key={option}
+                            key={`opt-${index}-${option}`}
                             className="px-4 py-2 text-sm text-text-primary dark:text-text-primary-dark hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 cursor-pointer transition-colors duration-150"
                             onClick={() => handleSelectOption(option)}
                         >

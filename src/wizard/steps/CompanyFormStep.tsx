@@ -3,8 +3,10 @@ import { Button, Input, MaskedInput } from "@papelada-estagio/components";
 import { IStep3Props } from "@papelada-estagio/types";
 import { CompanyFormData, companySchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 export function CompanyFormStep({ data, onNext, onBack }: IStep3Props) {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -22,34 +24,34 @@ export function CompanyFormStep({ data, onNext, onBack }: IStep3Props) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="mb-6">
         <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          Dados da Empresa
+          {t("forms.company.title")}
         </h2>
         <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          Informações da empresa concedente do estágio.
+          {t("forms.company.subtitle")}
         </p>
       </div>
 
       <div className="space-y-6">
         <Input
-          label="Nome da Empresa"
-          placeholder="Nome completo da empresa"
+          label={t("forms.company.companyNameLabel")}
+          placeholder={t("forms.company.companyNamePlaceholder")}
           {...register("companyName")}
           error={errors.companyName?.message}
           required
         />
 
         <Input
-          label="Endereço da Empresa"
-          placeholder="Rua, número, bairro, cidade - UF"
+          label={t("forms.company.companyAddressLabel")}
+          placeholder={t("forms.company.companyAddressPlaceholder")}
           {...register("companyAddress")}
           error={errors.companyAddress?.message}
           required
         />
 
         <MaskedInput
-          label="CNPJ"
+          label={t("forms.company.companyCnpjLabel")}
           mask="cnpj"
-          placeholder="00.000.000/0000-00"
+          placeholder={t("forms.company.companyCnpjPlaceholder")}
           {...register("companyCnpj")}
           error={errors.companyCnpj?.message}
           required
@@ -71,11 +73,11 @@ export function CompanyFormStep({ data, onNext, onBack }: IStep3Props) {
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          Voltar
+          {t("app.back")}
         </Button>
 
         <Button type="submit" isLoading={isSubmitting}>
-          Próximo
+          {t("app.next")}
           <svg
             className="w-4 h-4"
             fill="none"

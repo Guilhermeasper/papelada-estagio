@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Button } from "./Button";
 import { TextArea } from "./TextArea";
 
@@ -19,10 +20,12 @@ export function DynamicList({
   onRemove,
   onChange,
   minItems = 1,
-  placeholder = "Digite aqui...",
+  placeholder,
   error,
 }: DynamicListProps) {
+  const { t } = useTranslation();
   const canRemove = items.length > minItems;
+  const itemPlaceholder = placeholder || t("components.dynamicList.defaultPlaceholder");
 
   return (
     <div className="flex flex-col gap-3">
@@ -32,7 +35,7 @@ export function DynamicList({
           <span className="text-destructive ml-0.5">*</span>
         </label>
         <span className="text-xs text-text-secondary dark:text-text-secondary-dark">
-          Mínimo: {minItems} item(s)
+          {t("components.dynamicList.minItems", { min: minItems })}
         </span>
       </div>
 
@@ -56,7 +59,7 @@ export function DynamicList({
                     text-text-secondary dark:text-text-secondary-dark hover:text-destructive
                     hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10
                   "
-                  title="Remover item"
+                  title={t("components.dynamicList.removeItem")}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -80,8 +83,10 @@ export function DynamicList({
 
             <TextArea
               value={item}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onChange(index, e.target.value)}
-              placeholder={placeholder}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                onChange(index, e.target.value)
+              }
+              placeholder={itemPlaceholder}
               className="min-h-[50px] md:min-h-[60px]"
             />
 
@@ -97,7 +102,7 @@ export function DynamicList({
                   text-text-secondary dark:text-text-secondary-dark hover:text-destructive
                   hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10
                 "
-                title="Remover item"
+                title={t("components.dynamicList.removeItem")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +141,7 @@ export function DynamicList({
             clipRule="evenodd"
           />
         </svg>
-        Adicionar item
+        {t("components.dynamicList.addItem")}
       </Button>
 
       {error && <p className="text-xs text-error-text font-medium">{error}</p>}

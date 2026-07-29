@@ -1,0 +1,639 @@
+{
+  "app": {
+    "title": "Papelada Estágio",
+    "copyright": "© {{year}} Papelada Estágio",
+    "saved": "Salvo",
+    "savedProgress": "Progresso salvo",
+    "import": "Importar",
+    "export": "Exportar",
+    "clearData": "Limpar dados",
+    "clear": "Limpar",
+    "options": "Opções",
+    "importTooltip": "Importar progresso de arquivo JSON",
+    "exportTooltip": "Exportar progresso como JSON",
+    "themeLight": "Tema claro",
+    "themeDark": "Tema escuro",
+    "toggleTheme": "Alternar tema",
+    "back": "Voltar",
+    "next": "Próximo",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "close": "Fechar",
+    "edit": "Editar",
+    "loading": "Carregando...",
+    "remove": "Remover",
+    "add": "Adicionar",
+    "required": "*"
+  },
+  "dialogs": {
+    "reset": {
+      "title": "Apagar todos os dados?",
+      "description": "Esta ação irá remover todos os dados salvos e reiniciar o formulário. Esta ação não pode ser desfeita.",
+      "confirm": "Apagar dados e reiniciar",
+      "cancel": "Cancelar"
+    },
+    "import": {
+      "title": "Importar progresso?",
+      "errorTitle": "Erro ao importar",
+      "studentLabel": "Aluno:",
+      "stepLabel": "Passo atual:",
+      "stepCount": "{{current}} de 8",
+      "savedAtLabel": "Salvo em:",
+      "unfilled": "(não preenchido)",
+      "warning": "Isso irá substituir todos os dados atuais. Deseja continuar?",
+      "confirm": "Importar e substituir",
+      "cancel": "Cancelar",
+      "close": "Fechar"
+    }
+  },
+  "steps": {
+    "indicatorLabel": "Progresso",
+    "backToStep": "Voltar para Passo {{step}}: {{title}}",
+    "step1": {
+      "title": "Checklist",
+      "description": "Documentos necessários",
+      "req1": "Plano de Atividades (Modelo CIn)",
+      "req2": "Declaração da Empresa (Vínculo CLT)",
+      "req3": "Cópia da CTPS (foto e contrato)",
+      "req4": "Relatório Final de Estágio",
+      "req5": "Avaliação pelo Professor Orientador",
+      "req6": "Avaliação pelo Supervisor"
+    },
+    "step2": {
+      "title": "Dados do Aluno",
+      "description": "Informações pessoais e acadêmicas",
+      "req1": "Nome completo",
+      "req2": "E-mail",
+      "req3": "Endereço residencial completo",
+      "req4": "Telefone",
+      "req5": "Curso e Ano de Ingresso",
+      "req6": "Matrícula"
+    },
+    "step3": {
+      "title": "Empresa",
+      "description": "Dados da empresa concedente",
+      "req1": "Razão Social",
+      "req2": "Endereço completo",
+      "req3": "CNPJ"
+    },
+    "step4": {
+      "title": "Info. Gerais",
+      "description": "Período e carga horária",
+      "req1": "Período de vigência (Início e Fim)",
+      "req2": "Carga horária diária (máx. 8h para CLT)",
+      "req3": "Dias da semana",
+      "req4": "Horário de trabalho (entrada, intervalo, saída)",
+      "req5": "Modalidade (Presencial ou Remoto)"
+    },
+    "step5": {
+      "title": "Conteúdo",
+      "description": "Atividades e objetivos",
+      "req1": "Lista de atividades a serem desenvolvidas",
+      "req2": "Objetivos/metas a serem atingidas",
+      "req3": "Cronograma detalhado (datas e tarefas)"
+    },
+    "step6": {
+      "title": "Supervisão",
+      "description": "Supervisor e orientador",
+      "req1": "Supervisor (Empresa): Nome, E-mail, Telefone, Cargo, CPF",
+      "req2": "Professor Orientador (CIn): Nome, E-mail, SIAPE, Cargo",
+      "req3": "Data para emissão do parecer"
+    },
+    "step7": {
+      "title": "Revisão",
+      "description": "Confirmar dados",
+      "req1": "Revisar todas as informações",
+      "req2": "Corrigir dados se necessário"
+    },
+    "step8": {
+      "title": "Download",
+      "description": "Gerar documentos",
+      "req1": "Baixar documentos gerados",
+      "req2": "Verificar formatação"
+    }
+  },
+  "checklist": {
+    "beforeTitle": "Antes de começar",
+    "beforeSubtitle": "Para gerar os documentos do estágio CLT, você precisará das seguintes informações. Confira cada documento:",
+    "readyButton": "Tenho tudo em mãos",
+    "sources": {
+      "gerado": "Gerado pelo Papelada",
+      "externo": "Você providencia"
+    },
+    "items": {
+      "planTitle": "Plano de Atividades (Modelo CIn)",
+      "planDesc": "Documento de formalização inicial do estágio",
+      "planItem1Label": "Dados do Estagiário",
+      "planItem1Content": "Nome, E-mail, Endereço, Telefone, Curso, Ano de Ingresso, Matrícula",
+      "planItem2Label": "Identificação da Empresa",
+      "planItem2Content": "Razão Social, Endereço, CNPJ",
+      "planItem3Label": "Programa de Estágio",
+      "planItem3Content": "Período (Início/Fim), Carga Horária diária, Dias da semana, Horário, Modalidade",
+      "planItem4Label": "Conteúdo Técnico",
+      "planItem4Content": "Lista de atividades, Objetivos/metas, Cronograma detalhado",
+      "planItem5Label": "Supervisão",
+      "planItem5Content": "Dados do Supervisor (empresa) e do Professor Orientador (CIn)",
+      "planItem6Label": "Critérios de Avaliação",
+      "planItem6Content": "Data do parecer, Pesos (Assiduidade, Comprometimento, Independência, etc.)",
+      "declarationTitle": "Declaração da Empresa (Vínculo CLT)",
+      "declarationDesc": "Substitui o TCE para alunos com contrato CLT",
+      "declarationItem1Label": "Identificação do Vínculo",
+      "declarationItem1Content": "Nome do aluno, Matrícula, Regime CLT, Cargo, Data de início",
+      "declarationItem2Label": "Carga Horária",
+      "declarationItem2Content": "CH semanal (ex: 40 horas)",
+      "declarationItem3Label": "Atividades",
+      "declarationItem3Content": "Lista de tarefas técnicas com correlação a Ciência da Computação",
+      "declarationItem4Label": "Cláusula de Compatibilidade",
+      "declarationItem4Content": "Declaração de compatibilidade com o Projeto Pedagógico",
+      "declarationItem5Label": "Assinatura do Supervisor",
+      "declarationItem5Content": "Nome completo, Cargo, Data",
+      "ctpsTitle": "Cópia da Carteira de Trabalho (CTPS)",
+      "ctpsDesc": "Documento probatório exigido pela resolução",
+      "ctpsItem1Content": "Página com foto e dados de identificação do portador",
+      "ctpsItem2Content": "Página do contrato de trabalho com dados da empresa e data de admissão",
+      "reportTitle": "Relatório Final de Estágio",
+      "reportDesc": "Relatório detalhado para conclusão da disciplina",
+      "reportItem1Label": "Capa",
+      "reportItem1Content": "UFPE, CIn, Título, Curso, Local, Mês/Ano",
+      "reportItem2Label": "Identificação",
+      "reportItem2Content": "Nome, Semestre, Empresa, Supervisor, Datas, CH, Orientador",
+      "reportItem3Label": "Corpo do Texto",
+      "reportItem3Content": "Índice, Introdução, Objetivos (Gerais/Específicos), Cronograma, Metodologia, Desenvolvimento, Conclusão",
+      "reportItem4Label": "Autoavaliação",
+      "reportItem4Content": "Notas (0-10) para Aquisição de Experiências, Acompanhamento, Interação, Ambiente",
+      "reportItem5Label": "Questionário da Concedente",
+      "reportItem5Content": "Flexibilidade, Redução em provas, Preocupação acadêmica, Convênio",
+      "advisorEvalTitle": "Avaliação pelo Professor Orientador",
+      "advisorEvalDesc": "Parecer e nota emitidos pelo orientador do CIn",
+      "advisorEvalItem1Label": "Identificação",
+      "advisorEvalItem1Content": "Nome do aluno, Curso, Empresa, Período, Orientador",
+      "advisorEvalItem2Label": "Tabela de Desempenho",
+      "advisorEvalItem2Content": "Comunicação, Assiduidade, Cooperação, Independência, Conhecimento, Desempenho Geral",
+      "advisorEvalItem3Label": "Parecer e Nota",
+      "advisorEvalItem3Content": "Texto detalhado e nota final (0-10)",
+      "supervisorEvalTitle": "Avaliação pelo Supervisor",
+      "supervisorEvalDesc": "Parecer e nota emitidos pelo supervisor da empresa",
+      "supervisorEvalItem1Label": "Identificação",
+      "supervisorEvalItem1Content": "Nome do aluno, Curso, Empresa, Período, Supervisor",
+      "supervisorEvalItem2Label": "Tabela de Desempenho",
+      "supervisorEvalItem2Content": "Comunicação, Assiduidade, Cooperação, Independência, Conhecimento, Desempenho Geral",
+      "supervisorEvalItem3Label": "Parecer e Nota",
+      "supervisorEvalItem3Content": "Texto com elogios/pontos de melhoria e nota final (0-10)"
+    }
+  },
+  "process": {
+    "before": {
+      "title": "Antes de preencher",
+      "description": "Este app cobre apenas a preparação dos documentos. O processo do CIn tem outras etapas antes e depois.",
+      "step1Label": "Comece com antecedência",
+      "step1Content": "Inicie o processo pelo menos 3 semanas antes da data de início do estágio.",
+      "step2Label": "Consulte o site da SecGrad",
+      "step2Content": "As regras oficiais e as perguntas frequentes ficam no site abaixo. Em caso de divergência, o site prevalece sobre este app.",
+      "step3Label": "Fale com a Secretaria da Graduação",
+      "step3Content": "A SecGrad é o ponto de contato para orientações gerais sobre o processo.",
+      "step4Label": "Coordenação de Estágio, só se a dúvida persistir",
+      "step4Content": "Procure a Coordenação apenas depois de ter consultado o site e a SecGrad."
+    },
+    "after": {
+      "title": "Depois de baixar os documentos",
+      "description": "A geração dos PDFs é o meio do caminho. Siga a ordem abaixo para não ter a documentação devolvida.",
+      "step1Label": "Colha todas as assinaturas, exceto a da coordenação",
+      "step1Content": "Assine e obtenha as assinaturas do supervisor da empresa e do professor orientador. Não procure a Coordenação de Estágio: a assinatura dela é a última e quem encaminha o documento é a SecGrad.",
+      "step2Label": "Entregue à SecGrad para conferência",
+      "step2Content": "A Secretaria da Graduação confirma o recebimento e confere a documentação.",
+      "step3Label": "Corrija, se for solicitado",
+      "step3Content": "Se a SecGrad apontar problemas, corrija e reenvie. Seus dados ficam salvos neste navegador: basta voltar ao formulário e gerar os documentos de novo.",
+      "step4Label": "A SecGrad encaminha à Coordenação",
+      "step4Content": "A Coordenação de Estágio assina e devolve à SecGrad. As regras são aplicadas sem flexibilização.",
+      "step5Label": "Conclusão",
+      "step5Content": "A SecGrad informa a conclusão do processo e arquiva a documentação."
+    }
+  },
+  "forms": {
+    "student": {
+      "title": "Dados do Aluno",
+      "subtitle": "Preencha suas informações pessoais e acadêmicas.",
+      "fullNameLabel": "Nome Completo",
+      "fullNamePlaceholder": "Seu nome completo",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "seu.email@exemplo.com",
+      "phoneLabel": "Telefone",
+      "phonePlaceholder": "(00) 00000-0000",
+      "addressLabel": "Endereço",
+      "addressPlaceholder": "Rua, número, bairro, cidade - UF",
+      "courseLabel": "Curso",
+      "coursePlaceholder": "Ex: Ciência da Computação",
+      "enrollmentYearLabel": "Ano de Ingresso",
+      "enrollmentYearPlaceholder": "Ex: 2018.2",
+      "enrollmentYearHint": "Formato: AAAA.S (ano.semestre)",
+      "studentIdLabel": "Matrícula",
+      "studentIdPlaceholder": "Sua matrícula"
+    },
+    "company": {
+      "title": "Dados da Empresa",
+      "subtitle": "Informações da empresa concedente do estágio.",
+      "companyNameLabel": "Nome da Empresa",
+      "companyNamePlaceholder": "Nome completo da empresa",
+      "companyAddressLabel": "Endereço da Empresa",
+      "companyAddressPlaceholder": "Rua, número, bairro, cidade - UF",
+      "companyCnpjLabel": "CNPJ",
+      "companyCnpjPlaceholder": "00.000.000/0000-00"
+    },
+    "general": {
+      "title": "Informações Gerais",
+      "subtitle": "Configuração do período e carga horária do estágio.",
+      "periodSectionTitle": "Período e Carga Horária",
+      "startDateLabel": "Data de Início",
+      "startDateHint": "Não pode ser fim de semana ou feriado",
+      "hoursPerDayLabel": "Horas por Dia",
+      "endDateLabel": "Data de Término",
+      "endDateHint": "Calculada automaticamente (mín. 300h) Altere apenas se necessário",
+      "workDaysLabel": "Dias de Trabalho",
+      "workDaysHint": "Desmarcar dias estende a data de término",
+      "workScheduleLabel": "Horário de Trabalho",
+      "modalityLabel": "Modalidade",
+      "leadTimeWarningSuffix": "Você pode continuar mesmo assim.",
+      "summaryTitle": "Resumo do Período",
+      "summaryStart": "Início:",
+      "summaryEnd": "Término:",
+      "summaryWorkdays": "Dias úteis:",
+      "summaryWorkdaysCount": "{{count}} dias",
+      "summaryTotalHours": "Total de horas:",
+      "summaryMinHours": "(mín. 300h)",
+      "modalities": {
+        "remote": "Remoto",
+        "presential": "Presencial",
+        "hybrid": "Híbrido"
+      }
+    },
+    "content": {
+      "title": "Conteúdo do Estágio",
+      "subtitle": "Descreva as atividades, objetivos e detalhes do seu estágio.",
+      "activitiesSection": "Atividades a serem desenvolvidas",
+      "activitiesLabel": "Atividades",
+      "activitiesPlaceholder": "Descreva uma atividade...",
+      "objectivesSection": "Objetivos / Metas a serem atingidas",
+      "objectivesLabel": "Objetivos",
+      "objectivesPlaceholder": "Descreva um objetivo...",
+      "scheduleSection": "Cronograma",
+      "scheduleFillNotice": "Preencha o passo 4 para calcular os períodos automaticamente.",
+      "scheduleRecalculate": "Recalcular cronograma",
+      "periodLabel": "Período {{index}}",
+      "periodStart": "Início",
+      "periodEnd": "Término",
+      "periodSummary": "{{workdays}} dias úteis · {{hours}}h",
+      "scheduleDescPlaceholder": "Descrição das atividades do período...",
+      "addPeriod": "Adicionar período",
+      "addPeriodLimit": "Máximo de {{max}} períodos.",
+      "addPeriodNotEnoughDays": "O último período não tem dias úteis suficientes para ser dividido.",
+      "reportContentSection": "Conteúdo do Relatório",
+      "introLabel": "Introdução",
+      "introPlaceholder": "Apresentação do estágio, empresa e objetivos...",
+      "generalObjLabel": "Objetivos Gerais",
+      "generalObjPlaceholder": "O objetivo geral do estágio foi...",
+      "specificObjLabel": "Objetivos Específicos",
+      "specificObjPlaceholder": "Os objetivos específicos incluíram...",
+      "methodologyLabel": "Material e Método",
+      "methodologyPlaceholder": "Tecnologias, metodologias e ferramentas utilizadas...",
+      "developmentLabel": "Desenvolvimento",
+      "developmentPlaceholder": "Descrição detalhada das atividades realizadas...",
+      "conclusionLabel": "Conclusão",
+      "conclusionPlaceholder": "Considerações finais sobre o estágio..."
+    },
+    "supervision": {
+      "title": "Supervisão e Orientação",
+      "subtitle": "Dados do supervisor da empresa e do professor orientador.",
+      "supervisorSection": "Supervisor da Empresa",
+      "supervisorNameLabel": "Nome Completo",
+      "supervisorNamePlaceholder": "Nome do supervisor",
+      "supervisorPositionLabel": "Cargo",
+      "supervisorPositionPlaceholder": "Ex: Team Lead",
+      "supervisorEmailLabel": "E-mail",
+      "supervisorEmailPlaceholder": "email@empresa.com",
+      "supervisorPhoneLabel": "Telefone",
+      "supervisorCpfLabel": "CPF",
+      "advisorSection": "Professor Orientador",
+      "advisorNameLabel": "Nome Completo",
+      "advisorNamePlaceholder": "Nome do professor",
+      "advisorPositionLabel": "Cargo",
+      "advisorPositionPlaceholder": "Ex: Professor Adjunto I",
+      "advisorEmailLabel": "E-mail",
+      "advisorEmailPlaceholder": "email@cin.ufpe.br",
+      "advisorSiapeLabel": "SIAPE",
+      "advisorSiapePlaceholder": "Matrícula SIAPE",
+      "evaluationDeadlineLabel": "Data para emissão do parecer",
+      "evaluationDeadlineHint": "Prazo para o professor orientador emitir o parecer"
+    }
+  },
+  "validation": {
+    "nameMin": "Nome deve ter pelo menos 3 caracteres",
+    "nameMax": "Nome muito longo",
+    "invalidEmail": "E-mail inválido",
+    "addressMin": "Endereço deve ter pelo menos 10 caracteres",
+    "invalidPhone": "Telefone inválido. Ex: (81) 98888-7777",
+    "courseRequired": "Curso é obrigatório",
+    "invalidEnrollmentYear": "Formato inválido. Use: AAAA.S (ex: 2018.2)",
+    "studentIdRequired": "Matrícula é obrigatória",
+    "companyNameRequired": "Nome da empresa é obrigatório",
+    "companyAddressRequired": "Endereço da empresa é obrigatório",
+    "invalidCnpj": "CNPJ inválido. Ex: 00.000.000/0000-00",
+    "startDateRequired": "Informe a data de início (DD/MM/AAAA)",
+    "startDateInvalid": "Data de início inválida (fim de semana ou feriado)",
+    "endDateRequired": "Informe a data de término (DD/MM/AAAA)",
+    "endDateInvalid": "Data de término inválida (fim de semana ou feriado)",
+    "hoursMin": "Mínimo {{min}} horas por dia",
+    "hoursMax": "Máximo {{max}} horas por dia",
+    "workDaysMin": "Selecione pelo menos 1 dia",
+    "modalityRequired": "Selecione a modalidade",
+    "scheduleTotalMismatch": "O horário deve somar {{hours}}h por dia",
+    "startDateNotWorkDay": "A data de início deve cair em um dia de trabalho selecionado",
+    "invalidPeriod": "Período inválido",
+    "periodStartRequired": "Informe a data de início (DD/MM/AAAA)",
+    "periodEndRequired": "Informe a data de término (DD/MM/AAAA)",
+    "descriptionMin": "Descrição deve ter pelo menos 10 caracteres",
+    "periodEndAfterStart": "A data de término deve ser posterior à data de início",
+    "activitiesMin": "Atividade deve ter pelo menos 5 caracteres",
+    "activitiesCount": "Adicione pelo menos 1 atividade",
+    "objectivesMin": "Objetivo deve ter pelo menos 5 caracteres",
+    "objectivesCount": "Adicione pelo menos 1 objetivo",
+    "scheduleCount": "Adicione pelo menos 1 item no cronograma",
+    "introMin": "Introdução deve ter pelo menos 50 caracteres",
+    "generalObjMin": "Objetivos gerais devem ter pelo menos 30 caracteres",
+    "specificObjMin": "Objetivos específicos devem ter pelo menos 30 caracteres",
+    "methodologyMin": "Metodologia deve ter pelo menos 30 caracteres",
+    "developmentMin": "Desenvolvimento deve ter pelo menos 50 caracteres",
+    "conclusionMin": "Conclusão deve ter pelo menos 30 caracteres",
+    "holidayInvalid": "Data inválida: {{name}}",
+    "weekendInvalid": "Data inválida: {{day}} é fim de semana",
+    "notWorkDay": "{{day}} não é um dia de trabalho selecionado",
+    "invalidDate": "Data inválida",
+    "dateMustBeBetween": "A data deve estar entre {{range}}",
+    "supervisorNameRequired": "Nome do supervisor é obrigatório",
+    "supervisorPositionRequired": "Cargo é obrigatório",
+    "invalidCpf": "CPF inválido. Ex: 000.000.000-00",
+    "advisorNameRequired": "Nome do professor é obrigatório",
+    "advisorPositionRequired": "Cargo é obrigatório",
+    "advisorSiapeRequired": "SIAPE é obrigatório",
+    "evaluationDeadlineRequired": "Informe a data para emissão do parecer (DD/MM/AAAA)"
+  },
+  "review": {
+    "title": "Revisão dos Dados",
+    "subtitle": "Confira todas as informações antes de gerar os documentos.",
+    "studentSection": "Dados do Aluno",
+    "companySection": "Dados da Empresa",
+    "generalSection": "Informações Gerais",
+    "contentSection": "Conteúdo do Estágio",
+    "supervisionSection": "Supervisão e Orientação",
+    "name": "Nome",
+    "email": "E-mail",
+    "phone": "Telefone",
+    "address": "Endereço",
+    "course": "Curso",
+    "enrollmentYear": "Ano de Ingresso",
+    "studentId": "Matrícula",
+    "company": "Empresa",
+    "cnpj": "CNPJ",
+    "period": "Período",
+    "periodValue": "{{start}} a {{end}}",
+    "hours": "Carga Horária",
+    "hoursValue": "{{hours}}h/dia",
+    "days": "Dias",
+    "schedule": "Horário",
+    "modality": "Modalidade",
+    "activities": "Atividades",
+    "objectives": "Objetivos",
+    "scheduleSectionTitle": "Cronograma",
+    "supervisor": "Supervisor",
+    "position": "Cargo",
+    "cpf": "CPF",
+    "advisor": "Professor Orientador",
+    "siape": "SIAPE",
+    "evaluationDeadline": "Data para emissão do parecer",
+    "edit": "Editar",
+    "nextButton": "Continuar para Download",
+    "unspecified": "-"
+  },
+  "download": {
+    "title": "Download dos Documentos",
+    "subtitle": "Selecione os documentos que deseja gerar e fazer download.",
+    "selectedCount": "{{count}} de {{total}} selecionados",
+    "selectAll": "Selecionar todos",
+    "deselectAll": "Desmarcar todos",
+    "generatedBadge": "✓ Gerado",
+    "generating": "Gerando...",
+    "downloadBtn": "Download",
+    "batchTitle": "Download em lote",
+    "batchDesc": "Baixe todos os {{count}} documentos selecionados",
+    "batchButton": "Baixar Selecionados",
+    "generatedSummary": "{{count}} documento(s) gerado(s)",
+    "genError": "Erro ao gerar documento. Por favor, tente novamente.",
+    "fetchError": "Falha ao gerar documento",
+    "downloadError": "Falha ao fazer download",
+    "docOptions": {
+      "activityPlan": {
+        "label": "Plano de Atividades",
+        "desc": "Modelo CIn para formalização do estágio"
+      },
+      "report": {
+        "label": "Relatório Final de Estágio",
+        "desc": "Relatório completo com introdução, cronograma e conclusões"
+      },
+      "advisorEval": {
+        "label": "Avaliação do Professor Orientador",
+        "desc": "Ficha de avaliação a ser preenchida pelo orientador"
+      },
+      "supervisorEval": {
+        "label": "Avaliação do Supervisor",
+        "desc": "Ficha de avaliação a ser preenchida pelo supervisor na empresa"
+      }
+    }
+  },
+  "components": {
+    "dynamicList": {
+      "minItems": "Mínimo: {{min}} item(s)",
+      "removeItem": "Remover item",
+      "addItem": "Adicionar item",
+      "defaultPlaceholder": "Digite aqui..."
+    },
+    "workSchedule": {
+      "interval": "Intervalo: {{duration}}",
+      "morning": "Manhã",
+      "afternoon": "Tarde",
+      "summaryText": "Os dois períodos sempre somam {{duration}}. Arraste o fim da manhã para mudar a divisão."
+    }
+  },
+  "pages": {
+    "notFound": {
+      "title": "404",
+      "subtitle": "Página não encontrada",
+      "description": "O estágiario deve ter movido a página para outro local.",
+      "backHome": "Voltar para o Início"
+    },
+    "debug": {
+      "title": "Debug & Previews",
+      "backHome": "Voltar para Início",
+      "documents": "Documentos",
+      "routeTest": "Teste de Rotas",
+      "test404": "Testar 404",
+      "openNewTab": "Abrir em nova aba ↗",
+      "emptyState": "Selecione um documento para visualizar",
+      "previewRoutes": {
+        "activityPlan": "Plano de Atividades",
+        "report": "Relatório Final",
+        "advisorEval": "Avaliação do Orientador",
+        "supervisorEval": "Avaliação do Supervisor"
+      }
+    }
+  },
+  "pdf": {
+    "header": {
+      "service": "SERVIÇO PÚBLICO FEDERAL",
+      "university": "UNIVERSIDADE FEDERAL DE PERNAMBUCO",
+      "department": "PRÓ-REITORIA PARA ASSUNTOS ACADÊMICOS",
+      "coordination": "Coordenação de Apoio Acadêmico",
+      "institution": "Centro de Informática"
+    },
+    "activityPlan": {
+      "title": "ESTÁGIO CURRICULAR OBRIGATÓRIO",
+      "subtitle": "PLANO DE ATIVIDADES",
+      "sections": {
+        "student": "DADOS DE IDENTIFICAÇÃO DO ESTAGIÁRIO",
+        "company": "IDENTIFICAÇÃO DA EMPRESA",
+        "program": "PROGRAMA DE ESTÁGIO",
+        "supervision": "ORIENTAÇÃO E SUPERVISÃO",
+        "evaluation": "AVALIAÇÃO"
+      },
+      "subsections": {
+        "generalInfo": "3.1. Informações Gerais: Período (Vigência), Carga Horária, Dias e horário",
+        "activities": "3.2. Atividades a serem desenvolvidas",
+        "objectives": "3.3. Objetivos / metas a serem atingidas",
+        "schedule": "3.4. Cronograma"
+      },
+      "evaluation": {
+        "subtitle": "(critérios, formas, datas)",
+        "text1": "Ao fim do segundo período o supervisor produzirá um relatório acerca da integração do estagiário com a rotina da corporação e sua interação intra e extra departamental.",
+        "text2": "Para cada um dos itens abaixo será emitida uma nota de 1 a 5, sendo:",
+        "legends": [
+          "1 – Insatisfatório",
+          "2 – Pouco desenvolvido",
+          "3 – Satisfatório",
+          "4 – Atende acima das expectativas",
+          "5 – Acima das expectativas"
+        ],
+        "text3": "Farão parte do relatório:",
+        "criteria": {
+          "assiduidade": {
+            "topic": "Assiduidade",
+            "description": "Frequência e participação"
+          },
+          "comprometimento": {
+            "topic": "Comprometimento",
+            "description": "Aderência a prazos e objetivos acordados"
+          },
+          "independencia": {
+            "topic": "Independência",
+            "description": "Evolução autônoma"
+          },
+          "criatividade": {
+            "topic": "Criatividade",
+            "description": "Encontrar soluções inovadoras"
+          },
+          "lideranca": {
+            "topic": "Liderança",
+            "description": "Defesa do ponto de vista"
+          },
+          "relacionamento": {
+            "topic": "Relacionamento",
+            "description": "Trabalho em equipe"
+          },
+          "dominioTeorico": {
+            "topic": "Domínio Teórico",
+            "description": "Capacidade técnica"
+          },
+          "iniciativa": {
+            "topic": "Iniciativa",
+            "description": "Ação proativa"
+          }
+        },
+        "text4": "O objetivo do terceiro período é a entrega das aplicações e a avaliação da técnica e clareza do código fonte.",
+        "text5": "Será objeto desta avaliação o cumprimento das fases de Levantamento dos Requisitos, Projeto, Especificação, Codificação, Testes e Integração."
+      },
+      "signatures": {
+        "title": "Assinaturas:",
+        "student": "Estagiário:",
+        "supervisor": "Supervisor de Estágio:",
+        "advisor": "Orientador de Estágio:",
+        "coordinator": "Coordenador de Estágio ou do Curso:",
+        "coordinatorNote": "(Não colocar nome)",
+        "fields": {
+          "field": "(Campo de Estágio)",
+          "ufpe": "(UFPE)"
+        }
+      },
+      "footer": "O Plano de Atividades deverá ser elaborado em conformidade com as especificidades do Curso e deve ser parte integrante do Termo de Compromisso e deverá conter, obrigatoriamente, todas as assinaturas."
+    },
+    "report": {
+      "title": "Relatório de Estágio Obrigatório",
+      "tocTitle": "Índice",
+      "tocItems": {
+        "identification": "Identificação",
+        "introduction": "Introdução",
+        "objectives": "Objetivos",
+        "generalObjectives": "Gerais",
+        "specificObjectives": "Específicos",
+        "schedule": "Cronograma",
+        "methodology": "Material e Método",
+        "development": "Desenvolvimento",
+        "evaluation": "Avaliação do Estágio",
+        "conclusion": "Conclusão"
+      },
+      "sections": {
+        "identification": "Identificação",
+        "introduction": "Introdução",
+        "objectives": "Objetivos",
+        "generalObjectives": "Gerais",
+        "specificObjectives": "Específicos",
+        "schedule": "Cronograma",
+        "methodology": "Material e Método",
+        "development": "Desenvolvimento",
+        "evaluation": "Avaliação do Estágio",
+        "conclusion": "Conclusão"
+      },
+      "text": {
+        "specificObjectivesIntro": "Conforme estabelecido no Plano de Atividades, os objetivos específicos incluíram:",
+        "scheduleIntro": "O cronograma executado seguiu a dinâmica dos projetos da empresa, dividindo-se em três grandes fases:"
+      },
+      "evaluationQuestions": [
+        "A concedente permite flexibilidade de horário?",
+        "A concedente reduz sua jornada de trabalho no período próximo a provas e/ou trabalhos?",
+        "Quando reduz sua jornada de trabalho por causa de provas e/ou trabalhos, a concedente exige que você compense estas horas?",
+        "A concedente se preocupa com seu desempenho acadêmico?",
+        "Você considera que a UFPE deve manter o convênio com a instituição concedente para que outros estudantes façam estágio nela?"
+      ]
+    },
+    "evaluationDocument": {
+      "supervisorTitle": "Avaliação do Supervisor do Estágio",
+      "supervisorLastRow": "Nome do supervisor:",
+      "supervisorSignature": "Supervisor do Estágio",
+      "advisorTitle": "Avaliação do Professor Orientador",
+      "advisorLastRow": "Nome do Professor Orientador:",
+      "advisorSignature": "Professor Orientador",
+      "shared": {
+        "subtitle": "Estágio Supervisionado",
+        "identification": "Identificação",
+        "evaluation": "Avaliação",
+        "intro": "Como você avalia o desempenho do estagiário em cada um dos aspectos a seguir:",
+        "criteria": {
+          "communication": "Facilidade de comunicação",
+          "attendance": "Assiduidade",
+          "cooperation": "Disposição para ajudar/cooperar com colaboradores",
+          "independence": "Capacidade para desenvolver as atividades sem depender dos outros",
+          "knowledgeLevel": "Nível de conhecimento para desenvolver as atividades relacionadas ao estágio",
+          "overallPerformance": "Avaliação geral do desempenho do estagiário na execução das atividades"
+        },
+        "commentsTitle": "Caso deseje, utilize o espaço abaixo para uma avaliação mais detalhada sobre o estagiário.",
+        "datePrefix": "Data:"
+      }
+    }
+  }
+}

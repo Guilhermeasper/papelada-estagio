@@ -1,85 +1,94 @@
 import { IStepInfo } from "@papelada-estagio/types";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "../../i18n";
 
-export const STEPS: IStepInfo[] = [
+export const getSteps = (): IStepInfo[] => [
   {
     step: 1,
-    title: "Checklist",
-    description: "Documentos necessários",
+    title: i18n.t("steps.step1.title"),
+    description: i18n.t("steps.step1.description"),
     requirements: [
-      "Plano de Atividades (Modelo CIn)",
-      "Declaração da Empresa (Vínculo CLT)",
-      "Cópia da CTPS (foto e contrato)",
-      "Relatório Final de Estágio",
-      "Avaliação pelo Professor Orientador",
-      "Avaliação pelo Supervisor",
+      i18n.t("steps.step1.req1"),
+      i18n.t("steps.step1.req2"),
+      i18n.t("steps.step1.req3"),
+      i18n.t("steps.step1.req4"),
+      i18n.t("steps.step1.req5"),
+      i18n.t("steps.step1.req6"),
     ],
   },
   {
     step: 2,
-    title: "Dados do Aluno",
-    description: "Informações pessoais e acadêmicas",
+    title: i18n.t("steps.step2.title"),
+    description: i18n.t("steps.step2.description"),
     requirements: [
-      "Nome completo",
-      "E-mail",
-      "Endereço residencial completo",
-      "Telefone",
-      "Curso e Ano de Ingresso",
-      "Matrícula",
+      i18n.t("steps.step2.req1"),
+      i18n.t("steps.step2.req2"),
+      i18n.t("steps.step2.req3"),
+      i18n.t("steps.step2.req4"),
+      i18n.t("steps.step2.req5"),
+      i18n.t("steps.step2.req6"),
     ],
   },
   {
     step: 3,
-    title: "Empresa",
-    description: "Dados da empresa concedente",
-    requirements: ["Razão Social", "Endereço completo", "CNPJ"],
+    title: i18n.t("steps.step3.title"),
+    description: i18n.t("steps.step3.description"),
+    requirements: [
+      i18n.t("steps.step3.req1"),
+      i18n.t("steps.step3.req2"),
+      i18n.t("steps.step3.req3"),
+    ],
   },
   {
     step: 4,
-    title: "Info. Gerais",
-    description: "Período e carga horária",
+    title: i18n.t("steps.step4.title"),
+    description: i18n.t("steps.step4.description"),
     requirements: [
-      "Período de vigência (Início e Fim)",
-      "Carga horária diária (máx. 8h para CLT)",
-      "Dias da semana",
-      "Horário de trabalho (entrada, intervalo, saída)",
-      "Modalidade (Presencial ou Remoto)",
+      i18n.t("steps.step4.req1"),
+      i18n.t("steps.step4.req2"),
+      i18n.t("steps.step4.req3"),
+      i18n.t("steps.step4.req4"),
+      i18n.t("steps.step4.req5"),
     ],
   },
   {
     step: 5,
-    title: "Conteúdo",
-    description: "Atividades e objetivos",
+    title: i18n.t("steps.step5.title"),
+    description: i18n.t("steps.step5.description"),
     requirements: [
-      "Lista de atividades a serem desenvolvidas",
-      "Objetivos/metas a serem atingidas",
-      "Cronograma detalhado (datas e tarefas)",
+      i18n.t("steps.step5.req1"),
+      i18n.t("steps.step5.req2"),
+      i18n.t("steps.step5.req3"),
     ],
   },
   {
     step: 6,
-    title: "Supervisão",
-    description: "Supervisor e orientador",
+    title: i18n.t("steps.step6.title"),
+    description: i18n.t("steps.step6.description"),
     requirements: [
-      "Supervisor (Empresa): Nome, E-mail, Telefone, Cargo, CPF",
-      "Professor Orientador (CIn): Nome, E-mail, SIAPE, Cargo",
-      "Data para emissão do parecer",
+      i18n.t("steps.step6.req1"),
+      i18n.t("steps.step6.req2"),
+      i18n.t("steps.step6.req3"),
     ],
   },
   {
     step: 7,
-    title: "Revisão",
-    description: "Confirmar dados",
-    requirements: [
-      "Revisar todas as informações",
-      "Corrigir dados se necessário",
-    ],
+    title: i18n.t("steps.step7.title"),
+    description: i18n.t("steps.step7.description"),
+    requirements: [i18n.t("steps.step7.req1"), i18n.t("steps.step7.req2")],
   },
   {
     step: 8,
-    title: "Download",
-    description: "Gerar documentos",
-    requirements: ["Baixar documentos gerados", "Verificar formatação"],
+    title: i18n.t("steps.step8.title"),
+    description: i18n.t("steps.step8.description"),
+    requirements: [i18n.t("steps.step8.req1"), i18n.t("steps.step8.req2")],
   },
 ];
 
-export const TOTAL_STEPS = STEPS.length;
+export function useSteps(): IStepInfo[] {
+  const { t } = useTranslation();
+  return useMemo(() => getSteps(), [t]);
+}
+
+export const TOTAL_STEPS = 8;

@@ -1,4 +1,5 @@
 import { PersistedWizardState } from "@papelada-estagio/hooks";
+import { useTranslation } from "react-i18next";
 import { Button } from "./Button";
 
 interface ResetDialogProps {
@@ -12,6 +13,7 @@ export function ResetConfirmDialog({
   onConfirm,
   onCancel,
 }: ResetDialogProps) {
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   return (
@@ -23,17 +25,16 @@ export function ResetConfirmDialog({
 
       <div className="relative bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
         <h2 className="text-lg md:text-xl font-bold text-text-primary dark:text-text-primary-dark mb-3">
-          Apagar todos os dados?
+          {t("dialogs.reset.title")}
         </h2>
 
         <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mb-6">
-          Esta ação irá remover todos os dados salvos e reiniciar o formulário.
-          Esta ação não pode ser desfeita.
+          {t("dialogs.reset.description")}
         </p>
 
         <div className="flex flex-col gap-3">
           <Button onClick={onConfirm} variant="danger" className="w-full">
-            Apagar dados e reiniciar
+            {t("dialogs.reset.confirm")}
           </Button>
 
           <Button
@@ -42,7 +43,7 @@ export function ResetConfirmDialog({
             size="sm"
             className="w-full"
           >
-            Cancelar
+            {t("dialogs.reset.cancel")}
           </Button>
         </div>
       </div>
@@ -65,6 +66,7 @@ export function ImportConfirmDialog({
   onCancel,
   error,
 }: ImportDialogProps) {
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   const formatDate = (isoString: string) => {
@@ -86,41 +88,44 @@ export function ImportConfirmDialog({
         {error ? (
           <>
             <h2 className="text-xl font-bold text-red-600 dark:text-red-400 mb-3">
-              Erro ao importar
+              {t("dialogs.import.errorTitle")}
             </h2>
             <p className="text-text-secondary dark:text-text-secondary-dark mb-6">
               {error}
             </p>
             <Button onClick={onCancel} variant="secondary" className="w-full">
-              Fechar
+              {t("dialogs.import.close")}
             </Button>
           </>
         ) : previewData ? (
           <>
             <h2 className="text-lg md:text-xl font-bold text-text-primary dark:text-text-primary-dark mb-3">
-              Importar progresso?
+              {t("dialogs.import.title")}
             </h2>
 
             <div className="bg-surface dark:bg-surface-dark rounded-lg p-4 mb-4 space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-text-secondary dark:text-text-secondary-dark">
-                  Aluno:
+                  {t("dialogs.import.studentLabel")}
                 </span>
                 <span className="text-text-primary dark:text-text-primary-dark font-medium">
-                  {previewData.data.student.fullName || "(não preenchido)"}
+                  {previewData.data.student.fullName ||
+                    t("dialogs.import.unfilled")}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-text-secondary dark:text-text-secondary-dark">
-                  Passo atual:
+                  {t("dialogs.import.stepLabel")}
                 </span>
                 <span className="text-text-primary dark:text-text-primary-dark font-medium">
-                  {previewData.currentStep} de 8
+                  {t("dialogs.import.stepCount", {
+                    current: previewData.currentStep,
+                  })}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-text-secondary dark:text-text-secondary-dark">
-                  Salvo em:
+                  {t("dialogs.import.savedAtLabel")}
                 </span>
                 <span className="text-text-primary dark:text-text-primary-dark font-medium">
                   {formatDate(previewData.savedAt)}
@@ -129,12 +134,12 @@ export function ImportConfirmDialog({
             </div>
 
             <p className="text-text-secondary dark:text-text-secondary-dark mb-6 text-sm">
-              Isso irá substituir todos os dados atuais. Deseja continuar?
+              {t("dialogs.import.warning")}
             </p>
 
             <div className="flex flex-col gap-3">
               <Button onClick={onConfirm} className="w-full">
-                Importar e substituir
+                {t("dialogs.import.confirm")}
               </Button>
 
               <Button
@@ -143,7 +148,7 @@ export function ImportConfirmDialog({
                 size="sm"
                 className="w-full"
               >
-                Cancelar
+                {t("dialogs.import.cancel")}
               </Button>
             </div>
           </>

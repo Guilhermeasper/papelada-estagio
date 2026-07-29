@@ -1,5 +1,6 @@
 import { IStepInfo, WizardStep } from "@papelada-estagio/types";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface StepIndicatorProps {
   currentStep: WizardStep;
@@ -14,6 +15,7 @@ export function StepIndicator({
   completedSteps,
   onStepClick,
 }: StepIndicatorProps) {
+  const { t } = useTranslation();
   const [hoveredStep, setHoveredStep] = useState<WizardStep | null>(null);
 
   const highestCompleted =
@@ -36,7 +38,7 @@ export function StepIndicator({
   };
 
   return (
-    <nav aria-label="Progresso" className="w-full">
+    <nav aria-label={t("steps.indicatorLabel")} className="w-full">
       <ol className="flex flex-col gap-0">
         {steps.map((step, index) => {
           const isCompleted =

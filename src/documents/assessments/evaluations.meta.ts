@@ -1,15 +1,34 @@
 import { DocumentMetadata } from "@papelada-estagio/types";
+import i18n from "../../i18n";
 
-export const advisorEvaluationMetadata: DocumentMetadata = {
+export const getAdvisorEvaluationMetadata = (): DocumentMetadata => ({
   id: "advisor-eval",
-  label: "Avaliação do Orientador",
-  description: "Avaliação de desempenho realizada pelo orientador.",
+  label: i18n.t("download.docOptions.advisorEval.label"),
+  description: i18n.t("download.docOptions.advisorEval.desc"),
   filename: "avaliacao-orientador.pdf",
-};
+});
 
-export const supervisorEvaluationMetadata: DocumentMetadata = {
+export const advisorEvaluationMetadata: DocumentMetadata = new Proxy(
+  {} as DocumentMetadata,
+  {
+    get(_target, prop: keyof DocumentMetadata) {
+      return getAdvisorEvaluationMetadata()[prop];
+    },
+  },
+);
+
+export const getSupervisorEvaluationMetadata = (): DocumentMetadata => ({
   id: "supervisor-eval",
-  label: "Avaliação do Supervisor",
-  description: "Avaliação de desempenho realizada pelo supervisor.",
+  label: i18n.t("download.docOptions.supervisorEval.label"),
+  description: i18n.t("download.docOptions.supervisorEval.desc"),
   filename: "avaliacao-supervisor.pdf",
-};
+});
+
+export const supervisorEvaluationMetadata: DocumentMetadata = new Proxy(
+  {} as DocumentMetadata,
+  {
+    get(_target, prop: keyof DocumentMetadata) {
+      return getSupervisorEvaluationMetadata()[prop];
+    },
+  },
+);

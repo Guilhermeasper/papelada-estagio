@@ -6,70 +6,76 @@ import {
 } from "@papelada-estagio/utils/dateUtils";
 import { formatWorkDays } from "@papelada-estagio/utils/workDays";
 import { formatWorkSchedule } from "@papelada-estagio/utils/workSchedule";
+import { useTranslation } from "react-i18next";
 
 export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-8">
       <div className="mb-6">
         <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          Revisão dos Dados
+          {t("review.title")}
         </h2>
         <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          Confira todas as informações antes de gerar os documentos.
+          {t("review.subtitle")}
         </p>
       </div>
 
-      <ReviewSection title="Dados do Aluno" step={2} onEdit={onEdit}>
-        <ReviewItem label="Nome" value={data.student.fullName} />
-        <ReviewItem label="E-mail" value={data.student.email} />
-        <ReviewItem label="Telefone" value={data.student.phone} />
-        <ReviewItem label="Endereço" value={data.student.address} />
-        <ReviewItem label="Curso" value={data.student.course} />
+      <ReviewSection title={t("review.studentSection")} step={2} onEdit={onEdit}>
+        <ReviewItem label={t("review.name")} value={data.student.fullName} />
+        <ReviewItem label={t("review.email")} value={data.student.email} />
+        <ReviewItem label={t("review.phone")} value={data.student.phone} />
+        <ReviewItem label={t("review.address")} value={data.student.address} />
+        <ReviewItem label={t("review.course")} value={data.student.course} />
         <ReviewItem
-          label="Ano de Ingresso"
+          label={t("review.enrollmentYear")}
           value={data.student.enrollmentYear}
         />
-        <ReviewItem label="Matrícula" value={data.student.studentId} />
+        <ReviewItem label={t("review.studentId")} value={data.student.studentId} />
       </ReviewSection>
 
-      <ReviewSection title="Dados da Empresa" step={3} onEdit={onEdit}>
-        <ReviewItem label="Empresa" value={data.company.companyName} />
-        <ReviewItem label="Endereço" value={data.company.companyAddress} />
-        <ReviewItem label="CNPJ" value={data.company.companyCnpj} />
+      <ReviewSection title={t("review.companySection")} step={3} onEdit={onEdit}>
+        <ReviewItem label={t("review.company")} value={data.company.companyName} />
+        <ReviewItem label={t("review.address")} value={data.company.companyAddress} />
+        <ReviewItem label={t("review.cnpj")} value={data.company.companyCnpj} />
       </ReviewSection>
 
-      <ReviewSection title="Informações Gerais" step={4} onEdit={onEdit}>
+      <ReviewSection title={t("review.generalSection")} step={4} onEdit={onEdit}>
         <ReviewItem
-          label="Período"
-          value={`${formatDatePtBr(data.general.startDate)} a ${formatDatePtBr(data.general.endDate)}`}
+          label={t("review.period")}
+          value={t("review.periodValue", {
+            start: formatDatePtBr(data.general.startDate),
+            end: formatDatePtBr(data.general.endDate),
+          })}
         />
         <ReviewItem
-          label="Carga Horária"
-          value={`${data.general.hoursPerDay}h/dia`}
+          label={t("review.hours")}
+          value={t("review.hoursValue", { hours: data.general.hoursPerDay })}
         />
         <ReviewItem
-          label="Dias"
+          label={t("review.days")}
           value={formatWorkDays(data.general.workDays)}
         />
         <ReviewItem
-          label="Horário"
+          label={t("review.schedule")}
           value={formatWorkSchedule(data.general.workSchedule)}
         />
-        <ReviewItem label="Modalidade" value={data.general.modality} />
+        <ReviewItem label={t("review.modality")} value={data.general.modality} />
       </ReviewSection>
 
-      <ReviewSection title="Conteúdo do Estágio" step={5} onEdit={onEdit}>
+      <ReviewSection title={t("review.contentSection")} step={5} onEdit={onEdit}>
         <div className="space-y-4">
           <div>
             <h4 className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark mb-2">
-              Atividades
+              {t("review.activities")}
             </h4>
             <ul className="list-disc list-inside space-y-1">
               {data.content.activities
                 .filter(Boolean)
-                .map((activity: string) => (
+                .map((activity: string, index: number) => (
                   <li
-                    key={`activity-${activity}`}
+                    key={`activity-${index}-${activity}`}
                     className="text-sm text-text-primary dark:text-text-primary-dark"
                   >
                     {activity}
@@ -80,14 +86,14 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
 
           <div>
             <h4 className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark mb-2">
-              Objetivos
+              {t("review.objectives")}
             </h4>
             <ul className="list-disc list-inside space-y-1">
               {data.content.objectives
                 .filter(Boolean)
-                .map((objective: string) => (
+                .map((objective: string, index: number) => (
                   <li
-                    key={`objective-${objective}`}
+                    key={`objective-${index}-${objective}`}
                     className="text-sm text-text-primary dark:text-text-primary-dark"
                   >
                     {objective}
@@ -98,7 +104,7 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
 
           <div>
             <h4 className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark mb-2">
-              Cronograma
+              {t("review.scheduleSectionTitle")}
             </h4>
             <div className="space-y-2">
               {data.content.schedule
@@ -124,40 +130,40 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
         </div>
       </ReviewSection>
 
-      <ReviewSection title="Supervisão e Orientação" step={6} onEdit={onEdit}>
+      <ReviewSection title={t("review.supervisionSection")} step={6} onEdit={onEdit}>
         <div className="col-span-full grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-3 min-w-0">
             <h4 className="text-sm font-semibold text-text-primary dark:text-text-primary-dark">
-              Supervisor
+              {t("review.supervisor")}
             </h4>
-            <ReviewItem label="Nome" value={data.supervision.supervisorName} />
+            <ReviewItem label={t("review.name")} value={data.supervision.supervisorName} />
             <ReviewItem
-              label="Cargo"
+              label={t("review.position")}
               value={data.supervision.supervisorPosition}
             />
             <ReviewItem
-              label="E-mail"
+              label={t("review.email")}
               value={data.supervision.supervisorEmail}
             />
             <ReviewItem
-              label="Telefone"
+              label={t("review.phone")}
               value={data.supervision.supervisorPhone}
             />
-            <ReviewItem label="CPF" value={data.supervision.supervisorCpf} />
+            <ReviewItem label={t("review.cpf")} value={data.supervision.supervisorCpf} />
           </div>
           <div className="space-y-3 min-w-0">
             <h4 className="text-sm font-semibold text-text-primary dark:text-text-primary-dark">
-              Professor Orientador
+              {t("review.advisor")}
             </h4>
-            <ReviewItem label="Nome" value={data.supervision.advisorName} />
+            <ReviewItem label={t("review.name")} value={data.supervision.advisorName} />
             <ReviewItem
-              label="Cargo"
+              label={t("review.position")}
               value={data.supervision.advisorPosition}
             />
-            <ReviewItem label="E-mail" value={data.supervision.advisorEmail} />
-            <ReviewItem label="SIAPE" value={data.supervision.advisorSiape} />
+            <ReviewItem label={t("review.email")} value={data.supervision.advisorEmail} />
+            <ReviewItem label={t("review.siape")} value={data.supervision.advisorSiape} />
             <ReviewItem
-              label="Data para emissão do parecer"
+              label={t("review.evaluationDeadline")}
               value={formatDatePtBr(data.supervision.evaluationDeadline)}
             />
           </div>
@@ -179,11 +185,11 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          Voltar
+          {t("app.back")}
         </Button>
 
         <Button onClick={onNext}>
-          Continuar para Download
+          {t("review.nextButton")}
           <svg
             className="w-4 h-4"
             fill="none"
@@ -211,6 +217,7 @@ interface ReviewSectionProps {
 }
 
 function ReviewSection({ title, step, onEdit, children }: ReviewSectionProps) {
+  const { t } = useTranslation();
   return (
     <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 border border-border dark:border-border-dark">
       <div className="flex items-center justify-between mb-4">
@@ -237,7 +244,7 @@ function ReviewSection({ title, step, onEdit, children }: ReviewSectionProps) {
               d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
             />
           </svg>
-          Editar
+          {t("review.edit")}
         </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
@@ -253,13 +260,14 @@ interface ReviewItemProps {
 }
 
 function ReviewItem({ label, value }: ReviewItemProps) {
+  const { t } = useTranslation();
   return (
     <div>
       <dt className="text-[10px] md:text-xs text-text-secondary dark:text-text-secondary-dark">
         {label}
       </dt>
       <dd className="text-sm md:text-base text-text-primary dark:text-text-primary-dark font-medium break-all">
-        {value || "-"}
+        {value || t("review.unspecified")}
       </dd>
     </div>
   );

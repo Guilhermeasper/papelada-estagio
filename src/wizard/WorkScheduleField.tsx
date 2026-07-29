@@ -10,6 +10,7 @@ import {
   formatMinutes,
   resolveWorkSchedule,
 } from "@papelada-estagio/utils/workSchedule";
+import { useTranslation } from "react-i18next";
 
 interface WorkScheduleFieldProps {
   label: string;
@@ -30,6 +31,7 @@ export function WorkScheduleField({
   error,
   required,
 }: WorkScheduleFieldProps) {
+  const { t } = useTranslation();
   const totalMinutes = hoursPerDay * 60;
 
   const morningMinutes = value.morning.end - value.morning.start;
@@ -64,13 +66,15 @@ export function WorkScheduleField({
           {required && <span className="text-destructive ml-0.5">*</span>}
         </span>
         <span className="text-xs text-text-secondary dark:text-text-secondary-dark">
-          Intervalo: {formatDuration(breakMinutes)}
+          {t("components.workSchedule.interval", {
+            duration: formatDuration(breakMinutes),
+          })}
         </span>
       </div>
 
       <RangeSlider
         name="work-schedule-morning"
-        label="Manhã"
+        label={t("components.workSchedule.morning")}
         min={DAY_START_MINUTES}
         max={DAY_END_MINUTES}
         step={SCHEDULE_STEP_MINUTES}
@@ -83,7 +87,7 @@ export function WorkScheduleField({
 
       <RangeSlider
         name="work-schedule-afternoon"
-        label="Tarde"
+        label={t("components.workSchedule.afternoon")}
         min={DAY_START_MINUTES}
         max={DAY_END_MINUTES}
         step={SCHEDULE_STEP_MINUTES}
@@ -98,8 +102,9 @@ export function WorkScheduleField({
         <p className="text-xs text-error-text font-medium">{error}</p>
       ) : (
         <p className="text-xs text-text-secondary dark:text-text-secondary-dark">
-          Os dois períodos sempre somam {formatDuration(totalMinutes)}. Arraste
-          o fim da manhã para mudar a divisão.
+          {t("components.workSchedule.summaryText", {
+            duration: formatDuration(totalMinutes),
+          })}
         </p>
       )}
     </div>

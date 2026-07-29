@@ -1,190 +1,239 @@
-export const PDF_CONTENT = {
+import i18n from "../i18n";
+
+export const getPdfContent = () => ({
   header: {
-    service: "SERVIÇO PÚBLICO FEDERAL",
-    university: "UNIVERSIDADE FEDERAL DE PERNAMBUCO",
-    department: "PRÓ-REITORIA PARA ASSUNTOS ACADÊMICOS",
-    coordination: "Coordenação de Apoio Acadêmico",
-    institution: "Centro de Informática",
+    service: i18n.t("pdf.header.service"),
+    university: i18n.t("pdf.header.university"),
+    department: i18n.t("pdf.header.department"),
+    coordination: i18n.t("pdf.header.coordination"),
+    institution: i18n.t("pdf.header.institution"),
   },
   activityPlan: {
-    title: "ESTÁGIO CURRICULAR OBRIGATÓRIO",
-    subtitle: "PLANO DE ATIVIDADES",
+    title: i18n.t("pdf.activityPlan.title"),
+    subtitle: i18n.t("pdf.activityPlan.subtitle"),
     sections: {
-      student: "DADOS DE IDENTIFICAÇÃO DO ESTAGIÁRIO",
-      company: "IDENTIFICAÇÃO DA EMPRESA",
-      program: "PROGRAMA DE ESTÁGIO",
-      supervision: "ORIENTAÇÃO E SUPERVISÃO",
-      evaluation: "AVALIAÇÃO",
+      student: i18n.t("pdf.activityPlan.sections.student"),
+      company: i18n.t("pdf.activityPlan.sections.company"),
+      program: i18n.t("pdf.activityPlan.sections.program"),
+      supervision: i18n.t("pdf.activityPlan.sections.supervision"),
+      evaluation: i18n.t("pdf.activityPlan.sections.evaluation"),
     },
     subsections: {
-      generalInfo:
-        "3.1. Informações Gerais: Período (Vigência), Carga Horária, Dias e horário",
-      activities: "3.2. Atividades a serem desenvolvidas",
-      objectives: "3.3. Objetivos / metas a serem atingidas",
-      schedule: "3.4. Cronograma",
+      generalInfo: i18n.t("pdf.activityPlan.subsections.generalInfo"),
+      activities: i18n.t("pdf.activityPlan.subsections.activities"),
+      objectives: i18n.t("pdf.activityPlan.subsections.objectives"),
+      schedule: i18n.t("pdf.activityPlan.subsections.schedule"),
     },
     evaluation: {
-      subtitle: "(critérios, formas, datas)",
-      text1:
-        "Ao fim do segundo período o supervisor produzirá um relatório acerca da integração do estagiário com a rotina da corporação e sua interação intra e extra departamental.",
-      text2:
-        "Para cada um dos itens abaixo será emitida uma nota de 1 a 5, sendo:",
-      legends: [
-        "1 – Insatisfatório",
-        "2 – Pouco desenvolvido",
-        "3 – Satisfatório",
-        "4 – Atende acima das expectativas",
-        "5 – Acima das expectativas",
-      ],
-      text3: "Farão parte do relatório:",
+      subtitle: i18n.t("pdf.activityPlan.evaluation.subtitle"),
+      text1: i18n.t("pdf.activityPlan.evaluation.text1"),
+      text2: i18n.t("pdf.activityPlan.evaluation.text2"),
+      legends: i18n.t("pdf.activityPlan.evaluation.legends", {
+        returnObjects: true,
+      }) as string[],
+      text3: i18n.t("pdf.activityPlan.evaluation.text3"),
       criteria: [
         {
-          topic: "Assiduidade",
-          description: "Frequência e participação",
+          topic: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.assiduidade.topic",
+          ),
+          description: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.assiduidade.description",
+          ),
           weight: "2",
         },
         {
-          topic: "Comprometimento",
-          description: "Aderência a prazos e objetivos acordados",
+          topic: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.comprometimento.topic",
+          ),
+          description: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.comprometimento.description",
+          ),
           weight: "2",
         },
         {
-          topic: "Independência",
-          description: "Evolução autônoma",
+          topic: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.independencia.topic",
+          ),
+          description: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.independencia.description",
+          ),
           weight: "1",
         },
         {
-          topic: "Criatividade",
-          description: "Encontrar soluções inovadoras",
+          topic: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.criatividade.topic",
+          ),
+          description: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.criatividade.description",
+          ),
           weight: "1",
         },
         {
-          topic: "Liderança",
-          description: "Defesa do ponto de vista",
+          topic: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.lideranca.topic",
+          ),
+          description: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.lideranca.description",
+          ),
           weight: "1",
         },
         {
-          topic: "Relacionamento",
-          description: "Trabalho em equipe",
+          topic: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.relacionamento.topic",
+          ),
+          description: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.relacionamento.description",
+          ),
           weight: "3",
         },
         {
-          topic: "Domínio Teórico",
-          description: "Capacidade técnica",
+          topic: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.dominioTeorico.topic",
+          ),
+          description: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.dominioTeorico.description",
+          ),
           weight: "3",
         },
-        { topic: "Iniciativa", description: "Ação proativa", weight: "2" },
+        {
+          topic: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.iniciativa.topic",
+          ),
+          description: i18n.t(
+            "pdf.activityPlan.evaluation.criteria.iniciativa.description",
+          ),
+          weight: "2",
+        },
       ],
-      text4:
-        "O objetivo do terceiro período é a entrega das aplicações e a avaliação da técnica e clareza do código fonte.",
-      text5:
-        "Será objeto desta avaliação o cumprimento das fases de Levantamento dos Requisitos, Projeto, Especificação, Codificação, Testes e Integração.",
+      text4: i18n.t("pdf.activityPlan.evaluation.text4"),
+      text5: i18n.t("pdf.activityPlan.evaluation.text5"),
     },
     signatures: {
-      title: "Assinaturas:",
-      student: "Estagiário:",
-      supervisor: "Supervisor de Estágio:",
-      advisor: "Orientador de Estágio:",
-      coordinator: "Coordenador de Estágio ou do Curso:",
-      coordinatorNote: "(Não colocar nome)",
+      title: i18n.t("pdf.activityPlan.signatures.title"),
+      student: i18n.t("pdf.activityPlan.signatures.student"),
+      supervisor: i18n.t("pdf.activityPlan.signatures.supervisor"),
+      advisor: i18n.t("pdf.activityPlan.signatures.advisor"),
+      coordinator: i18n.t("pdf.activityPlan.signatures.coordinator"),
+      coordinatorNote: i18n.t("pdf.activityPlan.signatures.coordinatorNote"),
       fields: {
-        field: "(Campo de Estágio)",
-        ufpe: "(UFPE)",
+        field: i18n.t("pdf.activityPlan.signatures.fields.field"),
+        ufpe: i18n.t("pdf.activityPlan.signatures.fields.ufpe"),
       },
     },
-    footer:
-      "O Plano de Atividades deverá ser elaborado em conformidade com as especificidades do Curso e deve ser parte integrante do Termo de Compromisso e deverá conter, obrigatoriamente, todas as assinaturas.",
+    footer: i18n.t("pdf.activityPlan.footer"),
   },
   report: {
-    title: "Relatório de Estágio Obrigatório",
+    title: i18n.t("pdf.report.title"),
     toc: {
-      title: "Índice",
+      title: i18n.t("pdf.report.tocTitle"),
       items: [
-        { label: "Identificação", page: 3 },
-        { label: "Introdução", page: 4 },
-        { label: "Objetivos", page: 5 },
-        { label: "Gerais", page: 5, indent: true },
-        { label: "Específicos", page: 5, indent: true },
-        { label: "Cronograma", page: 6 },
-        { label: "Material e Método", page: 7 },
-        { label: "Desenvolvimento", page: 8 },
-        { label: "Avaliação do Estágio", page: 9 },
-        { label: "Conclusão", page: 10 },
+        { label: i18n.t("pdf.report.tocItems.identification"), page: 3 },
+        { label: i18n.t("pdf.report.tocItems.introduction"), page: 4 },
+        { label: i18n.t("pdf.report.tocItems.objectives"), page: 5 },
+        {
+          label: i18n.t("pdf.report.tocItems.generalObjectives"),
+          page: 5,
+          indent: true,
+        },
+        {
+          label: i18n.t("pdf.report.tocItems.specificObjectives"),
+          page: 5,
+          indent: true,
+        },
+        { label: i18n.t("pdf.report.tocItems.schedule"), page: 6 },
+        { label: i18n.t("pdf.report.tocItems.methodology"), page: 7 },
+        { label: i18n.t("pdf.report.tocItems.development"), page: 8 },
+        { label: i18n.t("pdf.report.tocItems.evaluation"), page: 9 },
+        { label: i18n.t("pdf.report.tocItems.conclusion"), page: 10 },
       ],
     },
     sections: {
-      identification: "Identificação",
-      introduction: "Introdução",
-      objectives: "Objetivos",
-      generalObjectives: "Gerais",
-      specificObjectives: "Específicos",
-      schedule: "Cronograma",
-      methodology: "Material e Método",
-      development: "Desenvolvimento",
-      evaluation: "Avaliação do Estágio",
-      conclusion: "Conclusão",
+      identification: i18n.t("pdf.report.sections.identification"),
+      introduction: i18n.t("pdf.report.sections.introduction"),
+      objectives: i18n.t("pdf.report.sections.objectives"),
+      generalObjectives: i18n.t("pdf.report.sections.generalObjectives"),
+      specificObjectives: i18n.t("pdf.report.sections.specificObjectives"),
+      schedule: i18n.t("pdf.report.sections.schedule"),
+      methodology: i18n.t("pdf.report.sections.methodology"),
+      development: i18n.t("pdf.report.sections.development"),
+      evaluation: i18n.t("pdf.report.sections.evaluation"),
+      conclusion: i18n.t("pdf.report.sections.conclusion"),
     },
     text: {
-      specificObjectivesIntro:
-        "Conforme estabelecido no Plano de Atividades, os objetivos específicos incluíram:",
-      scheduleIntro:
-        "O cronograma executado seguiu a dinâmica dos projetos da empresa, dividindo-se em três grandes fases:",
+      specificObjectivesIntro: i18n.t(
+        "pdf.report.text.specificObjectivesIntro",
+      ),
+      scheduleIntro: i18n.t("pdf.report.text.scheduleIntro"),
     },
-    evaluationQuestions: [
-      "A concedente permite flexibilidade de horário?",
-      "A concedente reduz sua jornada de trabalho no período próximo a provas e/ou trabalhos?",
-      "Quando reduz sua jornada de trabalho por causa de provas e/ou trabalhos, a concedente exige que você compense estas horas?",
-      "A concedente se preocupa com seu desempenho acadêmico?",
-      "Você considera que a UFPE deve manter o convênio com a instituição concedente para que outros estudantes façam estágio nela?",
-    ],
+    evaluationQuestions: i18n.t("pdf.report.evaluationQuestions", {
+      returnObjects: true,
+    }) as string[],
   },
   evaluationDocument: {
     supervisor: {
-      title: "Avaliação do Supervisor do Estágio",
-      lastRowLabel: "Nome do supervisor:",
-      signatureLabel: "Supervisor do Estágio",
+      title: i18n.t("pdf.evaluationDocument.supervisorTitle"),
+      lastRowLabel: i18n.t("pdf.evaluationDocument.supervisorLastRow"),
+      signatureLabel: i18n.t("pdf.evaluationDocument.supervisorSignature"),
     },
     advisor: {
-      title: "Avaliação do Professor Orientador",
-      lastRowLabel: "Nome do Professor Orientador:",
-      signatureLabel: "Professor Orientador",
+      title: i18n.t("pdf.evaluationDocument.advisorTitle"),
+      lastRowLabel: i18n.t("pdf.evaluationDocument.advisorLastRow"),
+      signatureLabel: i18n.t("pdf.evaluationDocument.advisorSignature"),
     },
     shared: {
-      subtitle: "Estágio Supervisionado",
+      subtitle: i18n.t("pdf.evaluationDocument.shared.subtitle"),
       sections: {
-        identification: "Identificação",
-        evaluation: "Avaliação",
+        identification: i18n.t(
+          "pdf.evaluationDocument.shared.identification",
+        ),
+        evaluation: i18n.t("pdf.evaluationDocument.shared.evaluation"),
       },
-      intro:
-        "Como você avalia o desempenho do estagiário em cada um dos aspectos a seguir:",
+      intro: i18n.t("pdf.evaluationDocument.shared.intro"),
       criteria: [
-        { key: "communication", label: "Facilidade de comunicação" },
-        { key: "attendance", label: "Assiduidade" },
+        {
+          key: "communication",
+          label: i18n.t(
+            "pdf.evaluationDocument.shared.criteria.communication",
+          ),
+        },
+        {
+          key: "attendance",
+          label: i18n.t("pdf.evaluationDocument.shared.criteria.attendance"),
+        },
         {
           key: "cooperation",
-          label: "Disposição para ajudar/cooperar com colaboradores",
+          label: i18n.t("pdf.evaluationDocument.shared.criteria.cooperation"),
         },
         {
           key: "independence",
-          label:
-            "Capacidade para desenvolver as atividades sem depender dos outros",
+          label: i18n.t(
+            "pdf.evaluationDocument.shared.criteria.independence",
+          ),
         },
         {
           key: "knowledgeLevel",
-          label:
-            "Nível de conhecimento para desenvolver as atividades relacionadas ao estágio",
+          label: i18n.t(
+            "pdf.evaluationDocument.shared.criteria.knowledgeLevel",
+          ),
         },
         {
           key: "overallPerformance",
-          label:
-            "Avaliação geral do desempenho do estagiário na execução das atividades",
+          label: i18n.t(
+            "pdf.evaluationDocument.shared.criteria.overallPerformance",
+          ),
         },
       ],
       comments: {
-        title:
-          "Caso deseje, utilize o espaço abaixo para uma avaliação mais detalhada sobre o estagiário.",
+        title: i18n.t("pdf.evaluationDocument.shared.commentsTitle"),
       },
-      datePrefix: "Data:",
+      datePrefix: i18n.t("pdf.evaluationDocument.shared.datePrefix"),
     },
   },
-};
+});
+
+export const PDF_CONTENT = new Proxy({} as ReturnType<typeof getPdfContent>, {
+  get(_target, prop: keyof ReturnType<typeof getPdfContent>) {
+    return getPdfContent()[prop];
+  },
+});

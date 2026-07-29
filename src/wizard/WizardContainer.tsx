@@ -2,18 +2,20 @@ import { Button } from "@papelada-estagio/components";
 import type { WizardDataActions, WizardDataState } from "@papelada-estagio/hooks";
 import type { WizardStep } from "@papelada-estagio/types";
 import { Suspense, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { MobileStepPopover } from "./MobileStepPopover";
 import { StepIndicator } from "./StepIndicator";
-import { STEPS, TOTAL_STEPS } from "./data/steps";
+import { TOTAL_STEPS, useSteps } from "./data/steps";
 import { STEP_REGISTRY } from "./stepRegistry";
 
 function StepLoading() {
+  const { t } = useTranslation();
   return (
     <div className="flex items-center justify-center py-12">
       <div className="flex flex-col items-center gap-4">
         <div className="w-8 h-8 border-4 border-border dark:border-border-dark border-t-brand-accent rounded-full animate-spin" />
         <p className="text-text-secondary dark:text-text-secondary-dark text-sm">
-          Carregando...
+          {t("app.loading")}
         </p>
       </div>
     </div>
@@ -26,6 +28,8 @@ interface WizardContainerProps {
 }
 
 export function WizardContainer({ state, actions }: WizardContainerProps) {
+  const { t } = useTranslation();
+  const steps = useSteps();
   const { data, currentStep, completedSteps, isInitialized } = state;
   const {
     setCurrentStep,
@@ -102,7 +106,7 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
       <div className="md:hidden sticky top-0 z-20 -mx-4 px-4 pt-2 pb-3 bg-surface dark:bg-surface-dark">
         <MobileStepPopover
           currentStep={currentStep}
-          steps={STEPS}
+          steps={steps}
           completedSteps={completedSteps}
           onStepClick={goToStep}
         />
@@ -113,7 +117,7 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
           <div className="sticky top-8">
             <StepIndicator
               currentStep={currentStep}
-              steps={STEPS}
+              steps={steps}
               completedSteps={completedSteps}
               onStepClick={goToStep}
             />
@@ -128,7 +132,7 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
               highestCompleted + 1,
               TOTAL_STEPS,
             ) as WizardStep;
-            const workingStepInfo = STEPS.find((s) => s.step === workingStep);
+            const workingStepInfo = steps.find((s) => s.step === workingStep);
             if (currentStep < workingStep && workingStepInfo) {
               return (
                 <Button
@@ -149,7 +153,10 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
                       d="M13 7l5 5m0 0l-5 5m5-5H6"
                     />
                   </svg>
-                  Voltar para Passo {workingStep}: {workingStepInfo.title}
+                  {t("steps.backToStep", {
+                    step: workingStep,
+                    title: workingStepInfo.title,
+                  })}
                 </Button>
               );
             }
