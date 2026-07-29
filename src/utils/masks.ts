@@ -88,7 +88,25 @@ export function maskEnrollmentYear(value: string): string {
   return `${digits.slice(0, 4)}.${digits.slice(4, 5)}`;
 }
 
-export type MaskType = "phone" | "cnpj" | "cpf" | "enrollmentYear";
+export function maskDate(value: string): string {
+  const digits = value.replace(/\D/g, "").slice(0, 8);
+
+  if (digits.length < 2) {
+    return digits;
+  }
+  if (digits.length === 2) {
+    return `${digits}/`;
+  }
+  if (digits.length < 4) {
+    return `${digits.slice(0, 2)}/${digits.slice(2)}`;
+  }
+  if (digits.length === 4) {
+    return `${digits.slice(0, 2)}/${digits.slice(2)}/`;
+  }
+  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
+}
+
+export type MaskType = "phone" | "cnpj" | "cpf" | "enrollmentYear" | "date";
 
 export function applyMask(value: string, mask: MaskType): string {
   switch (mask) {
@@ -100,6 +118,8 @@ export function applyMask(value: string, mask: MaskType): string {
       return maskCpf(value);
     case "enrollmentYear":
       return maskEnrollmentYear(value);
+    case "date":
+      return maskDate(value);
     default:
       return value;
   }

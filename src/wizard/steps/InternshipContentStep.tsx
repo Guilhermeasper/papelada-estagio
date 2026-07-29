@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Button,
+  DateInput,
   DynamicList,
-  Input,
   TextArea,
 } from "@papelada-estagio/components";
 import { MAX_SCHEDULE_ITEMS } from "@papelada-estagio/constants";
@@ -21,7 +21,7 @@ import {
   makeInternshipContentSchema,
 } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useMemo, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 
 const emptyScheduleItem: IScheduleItem = {
   periodStart: "",
@@ -308,26 +308,36 @@ export function InternshipContentStep({
 
                 <div className="space-y-3">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <Input
-                      id={`schedule-${index}-start`}
-                      label="Início"
-                      type="date"
-                      min={startDate || undefined}
-                      max={endDate || undefined}
-                      {...register(`schedule.${index}.periodStart`)}
-                      className="bg-surface-elevated dark:bg-surface-elevated-dark"
-                      error={errors.schedule?.[index]?.periodStart?.message}
+                    <Controller
+                      name={`schedule.${index}.periodStart`}
+                      control={control}
+                      render={({ field }) => (
+                        <DateInput
+                          id={`schedule-${index}-start`}
+                          label="Início"
+                          min={startDate || undefined}
+                          max={endDate || undefined}
+                          {...field}
+                          className="bg-surface-elevated dark:bg-surface-elevated-dark"
+                          error={errors.schedule?.[index]?.periodStart?.message}
+                        />
+                      )}
                     />
 
-                    <Input
-                      id={`schedule-${index}-end`}
-                      label="Término"
-                      type="date"
-                      min={item?.periodStart || startDate || undefined}
-                      max={endDate || undefined}
-                      {...register(`schedule.${index}.periodEnd`)}
-                      className="bg-surface-elevated dark:bg-surface-elevated-dark"
-                      error={errors.schedule?.[index]?.periodEnd?.message}
+                    <Controller
+                      name={`schedule.${index}.periodEnd`}
+                      control={control}
+                      render={({ field }) => (
+                        <DateInput
+                          id={`schedule-${index}-end`}
+                          label="Término"
+                          min={item?.periodStart || startDate || undefined}
+                          max={endDate || undefined}
+                          {...field}
+                          className="bg-surface-elevated dark:bg-surface-elevated-dark"
+                          error={errors.schedule?.[index]?.periodEnd?.message}
+                        />
+                      )}
                     />
                   </div>
 

@@ -2,6 +2,7 @@ export { Autocomplete } from "./Autocomplete";
 export { Button } from "./Button";
 export { ChecklistCard, ChecklistItem } from "./ChecklistCard";
 export { CheckboxGroup } from "./CheckboxGroup";
+export { DateInput } from "./DateInput";
 export { ImportConfirmDialog, ResetConfirmDialog } from "./Dialogs";
 export { DynamicList } from "./DynamicList";
 export { EmailInput } from "./EmailInput";

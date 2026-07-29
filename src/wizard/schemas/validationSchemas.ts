@@ -16,6 +16,7 @@ import {
   parseIsoDate,
 } from "@papelada-estagio/utils/dateUtils";
 import { isHoliday } from "@papelada-estagio/utils/holidays";
+import { isValidIsoDate } from "@papelada-estagio/utils/scheduleRanges";
 import { isValidWorkSchedule } from "@papelada-estagio/utils/workSchedule";
 import { z } from "zod";
 
@@ -65,7 +66,7 @@ export const internshipGeneralSchema = z
   .object({
     startDate: z
       .string()
-      .min(1, "Data de início é obrigatória")
+      .min(1, "Informe a data de início (DD/MM/AAAA)")
       .refine(
         (date) => {
           const validation = validateDate(date);
@@ -77,7 +78,7 @@ export const internshipGeneralSchema = z
       ),
     endDate: z
       .string()
-      .min(1, "Data de término é obrigatória")
+      .min(1, "Informe a data de término (DD/MM/AAAA)")
       .refine(
         (date) => {
           const validation = validateDate(date);
@@ -144,8 +145,8 @@ export type InternshipGeneralFormData = z.infer<typeof internshipGeneralSchema>;
 
 export const scheduleItemSchema = z
   .object({
-    periodStart: z.string().min(1, "Data de início é obrigatória"),
-    periodEnd: z.string().min(1, "Data de término é obrigatória"),
+    periodStart: z.string().min(1, "Informe a data de início (DD/MM/AAAA)"),
+    periodEnd: z.string().min(1, "Informe a data de término (DD/MM/AAAA)"),
     description: z
       .string()
       .min(10, "Descrição deve ter pelo menos 10 caracteres"),
@@ -287,7 +288,8 @@ export const supervisionSchema = z.object({
 
   evaluationDeadline: z
     .string()
-    .min(1, "Data para emissão do parecer é obrigatória"),
+    .min(1, "Informe a data para emissão do parecer (DD/MM/AAAA)")
+    .refine(isValidIsoDate, "Data inválida"),
 });
 
 export type SupervisionFormData = z.infer<typeof supervisionSchema>;

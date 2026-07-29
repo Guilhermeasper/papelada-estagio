@@ -1,14 +1,16 @@
-import { forwardRef, InputHTMLAttributes } from "react";
+import { forwardRef, InputHTMLAttributes, ReactNode } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   hint?: string;
+  trailing?: ReactNode;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, hint, id, className = "", ...props }, ref) => {
-    const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, "-") : undefined);
+  ({ label, error, hint, trailing, id, className = "", ...props }, ref) => {
+    const inputId =
+      id || (label ? label.toLowerCase().replace(/\s+/g, "-") : undefined);
 
     return (
       <div className="flex flex-col gap-1.5 w-full min-w-0">
@@ -18,14 +20,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark"
           >
             {label}
-            {props.required && <span className="text-destructive ml-0.5">*</span>}
+            {props.required && (
+              <span className="text-destructive ml-0.5">*</span>
+            )}
           </label>
         )}
 
-        <input
-          ref={ref}
-          id={inputId}
-          className={`
+        <div className="relative">
+          <input
+            ref={ref}
+            id={inputId}
+            className={`
             w-full px-4 py-2.5 text-sm md:text-base
             border border-border dark:border-border-dark rounded-md
             bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark
@@ -35,14 +40,22 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             focus:ring-2
             ${error ? "border-input-error focus:border-input-error focus:ring-input-focus/20" : "focus:border-input-focus focus:ring-input-focus/20"}
             disabled:bg-text-secondary/20 dark:disabled:bg-text-secondary-dark/20 disabled:cursor-not-allowed
+            ${trailing ? "pr-11" : ""}
             ${className}
           `}
-          aria-invalid={!!error}
-          aria-describedby={
-            error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined
-          }
-          {...props}
-        />
+            aria-invalid={!!error}
+            aria-describedby={
+              error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined
+            }
+            {...props}
+          />
+
+          {trailing && (
+            <div className="absolute inset-y-0 right-0 flex items-center pr-2">
+              {trailing}
+            </div>
+          )}
+        </div>
 
         {hint && !error && (
           <p

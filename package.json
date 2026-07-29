@@ -11,7 +11,8 @@
     "pdf:snapshot": "node scripts/render-pdfs.mjs",
     "pdf:check": "node scripts/render-pdfs.mjs && node scripts/check-layout.mjs",
     "prettier": "prettier --write .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test \"src/**/*.test.ts\""
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

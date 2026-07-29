@@ -4,12 +4,6 @@ export function formatDatePtBr(isoDate: string): string {
   return `${day}/${month}/${year}`;
 }
 
-export function formatDateIso(ptBrDate: string): string {
-  if (!ptBrDate) return "";
-  const [day, month, year] = ptBrDate.split("/");
-  return `${year}-${month}-${day}`;
-}
-
 export function formatPeriod(startIso: string, endIso: string): string {
   if (!startIso && !endIso) return "";
   if (!startIso || !endIso) return formatDatePtBr(startIso || endIso);
@@ -18,6 +12,21 @@ export function formatPeriod(startIso: string, endIso: string): string {
 
 const PT_BR_DATE = /^(\d{2})\/(\d{2})\/(\d{4})$/;
 const LEGACY_PERIOD_SEPARATOR = /\s+a\s+/i;
+
+export function formatDateIso(ptBrDate: string): string {
+  const match = PT_BR_DATE.exec(ptBrDate.trim());
+  if (!match) return "";
+
+  const [, day, month, year] = match;
+  const isoDate = `${year}-${month}-${day}`;
+  const parsed = parseIsoDate(isoDate);
+
+  if (Number.isNaN(parsed.getTime())) return "";
+  if (parsed.getDate() !== Number(day)) return "";
+  if (parsed.getMonth() !== Number(month) - 1) return "";
+
+  return isoDate;
+}
 
 export interface LegacyPeriodParts {
   periodStart: string;
@@ -31,13 +40,8 @@ export function parseLegacyPeriod(period: unknown): LegacyPeriodParts {
   const parts = period.split(LEGACY_PERIOD_SEPARATOR);
   if (parts.length !== 2) return empty;
 
-  const toIso = (value: string) => {
-    const match = PT_BR_DATE.exec(value.trim());
-    return match ? `${match[3]}-${match[2]}-${match[1]}` : "";
-  };
-
-  const periodStart = toIso(parts[0]);
-  const periodEnd = toIso(parts[1]);
+  const periodStart = formatDateIso(parts[0]);
+  const periodEnd = formatDateIso(parts[1]);
 
   return periodStart && periodEnd ? { periodStart, periodEnd } : empty;
 }

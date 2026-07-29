@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Button,
   CheckboxGroup,
+  DateInput,
   Input,
   RadioGroup,
 } from "@papelada-estagio/components";
@@ -35,7 +36,6 @@ const modalityOptions = [
 
 export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
   const {
-    register,
     handleSubmit,
     control,
     watch,
@@ -97,8 +97,6 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
     );
   }, [debouncedHoursPerDay, getValues, setValue]);
 
-  const startDateField = register("startDate");
-
   const periodInfo = useMemo(() => {
     return getPeriodInfo(startDate, endDate, hoursPerDay, workDays);
   }, [startDate, endDate, hoursPerDay, workDays]);
@@ -128,21 +126,26 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Input
-            label="Data de Início"
-            type="date"
-            {...startDateField}
-            onChange={(e) => {
-              startDateField.onChange(e);
-              syncEndDate(
-                e.target.value,
-                getValues("hoursPerDay"),
-                getValues("workDays"),
-              );
-            }}
-            error={errors.startDate?.message}
-            hint="Não pode ser fim de semana ou feriado"
-            required
+          <Controller
+            name="startDate"
+            control={control}
+            render={({ field }) => (
+              <DateInput
+                label="Data de Início"
+                {...field}
+                onChange={(isoDate) => {
+                  field.onChange(isoDate);
+                  syncEndDate(
+                    isoDate,
+                    getValues("hoursPerDay"),
+                    getValues("workDays"),
+                  );
+                }}
+                error={errors.startDate?.message}
+                hint="Não pode ser fim de semana ou feriado"
+                required
+              />
+            )}
           />
 
           <Controller
@@ -162,13 +165,18 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
             )}
           />
 
-          <Input
-            label="Data de Término"
-            type="date"
-            {...register("endDate")}
-            error={errors.endDate?.message}
-            hint="Calculada automaticamente (mín. 300h) Altere apenas se necessário"
-            required
+          <Controller
+            name="endDate"
+            control={control}
+            render={({ field }) => (
+              <DateInput
+                label="Data de Término"
+                {...field}
+                error={errors.endDate?.message}
+                hint="Calculada automaticamente (mín. 300h) Altere apenas se necessário"
+                required
+              />
+            )}
           />
         </div>
 

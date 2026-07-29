@@ -1,12 +1,18 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, EmailInput, Input, MaskedInput } from "@papelada-estagio/components";
+import {
+  Button,
+  DateInput,
+  EmailInput,
+  Input,
+  MaskedInput,
+} from "@papelada-estagio/components";
 import { IStep6Props } from "@papelada-estagio/types";
 import { addDays, parseIsoDate, toIsoString } from "@papelada-estagio/utils/dateUtils";
 import {
   SupervisionFormData,
   supervisionSchema,
 } from "@papelada-estagio/wizard/schemas/validationSchemas";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 
 export function SupervisionFormStep({
   data,
@@ -17,6 +23,7 @@ export function SupervisionFormStep({
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<SupervisionFormData>({
     resolver: zodResolver(supervisionSchema),
@@ -155,14 +162,19 @@ export function SupervisionFormStep({
             required
           />
 
-          <Input
-            id="evaluationDeadline"
-            label="Data para emissão do parecer"
-            type="date"
-            {...register("evaluationDeadline")}
-            error={errors.evaluationDeadline?.message}
-            hint="Prazo para o professor orientador emitir o parecer"
-            required
+          <Controller
+            name="evaluationDeadline"
+            control={control}
+            render={({ field }) => (
+              <DateInput
+                id="evaluationDeadline"
+                label="Data para emissão do parecer"
+                {...field}
+                error={errors.evaluationDeadline?.message}
+                hint="Prazo para o professor orientador emitir o parecer"
+                required
+              />
+            )}
           />
         </div>
       </section>
