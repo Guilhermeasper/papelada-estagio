@@ -12,7 +12,7 @@ import {
   InternshipGeneralFormData,
   internshipGeneralSchema,
 } from "@papelada-estagio/wizard/schemas/validationSchemas";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 const modalityOptions = [
@@ -28,6 +28,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
     control,
     watch,
     setValue,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm<InternshipGeneralFormData>({
     resolver: zodResolver(internshipGeneralSchema),
@@ -41,20 +42,25 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
   const hoursPerDay = watch("hoursPerDay");
   const endDate = watch("endDate");
 
-  const debouncedStartDate = useDebounce(startDate, 300);
   const debouncedHoursPerDay = useDebounce(hoursPerDay, 300);
 
+  const syncEndDate = useCallback(
+    (start: string, hours: number) => {
+      if (!start || !hours) return;
+
+      const result = calculateEndDate(start, hours);
+      setValue("endDate", result.isValid ? result.endDate : "", {
+        shouldValidate: result.isValid,
+      });
+    },
+    [setValue],
+  );
+
   useEffect(() => {
-    if (debouncedStartDate && debouncedHoursPerDay) {
-      const result = calculateEndDate(
-        debouncedStartDate,
-        debouncedHoursPerDay,
-      );
-      if (result.isValid) {
-        setValue("endDate", result.endDate);
-      }
-    }
-  }, [debouncedStartDate, debouncedHoursPerDay, setValue]);
+    syncEndDate(getValues("startDate"), debouncedHoursPerDay);
+  }, [debouncedHoursPerDay, getValues, syncEndDate]);
+
+  const startDateField = register("startDate");
 
   const periodInfo = useMemo(() => {
     return getPeriodInfo(startDate, endDate, hoursPerDay);
@@ -88,7 +94,11 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
           <Input
             label="Data de Início"
             type="date"
-            {...register("startDate")}
+            {...startDateField}
+            onChange={(e) => {
+              startDateField.onChange(e);
+              syncEndDate(e.target.value, getValues("hoursPerDay"));
+            }}
             error={errors.startDate?.message}
             hint="Não pode ser fim de semana ou feriado"
             required
@@ -116,7 +126,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
             type="date"
             {...register("endDate")}
             error={errors.endDate?.message}
-            hint="Calculada automaticamente (mín. 300h)"
+            hint="Calculada automaticamente (mín. 300h) Altere apenas se necessário"
             required
           />
         </div>
