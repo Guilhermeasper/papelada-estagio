@@ -1,4 +1,6 @@
+import { toFieldId } from "@papelada-estagio/utils/fieldId";
 import { forwardRef, InputHTMLAttributes, ReactNode } from "react";
+import { FormField } from "./FormField";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -9,23 +11,16 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, hint, trailing, id, className = "", ...props }, ref) => {
-    const inputId =
-      id || (label ? label.toLowerCase().replace(/\s+/g, "-") : undefined);
+    const inputId = toFieldId(label, id);
 
     return (
-      <div className="flex flex-col gap-1.5 w-full min-w-0">
-        {label && (
-          <label
-            htmlFor={inputId}
-            className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark"
-          >
-            {label}
-            {props.required && (
-              <span className="text-destructive ml-0.5">*</span>
-            )}
-          </label>
-        )}
-
+      <FormField
+        id={inputId}
+        label={label}
+        required={props.required}
+        error={error}
+        hint={hint}
+      >
         <div className="relative">
           <input
             ref={ref}
@@ -56,25 +51,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             </div>
           )}
         </div>
-
-        {hint && !error && (
-          <p
-            id={`${inputId}-hint`}
-            className="text-xs text-text-secondary dark:text-text-secondary-dark"
-          >
-            {hint}
-          </p>
-        )}
-
-        {error && (
-          <p
-            id={`${inputId}-error`}
-            className="text-xs text-error-text font-medium"
-          >
-            {error}
-          </p>
-        )}
-      </div>
+      </FormField>
     );
   },
 );

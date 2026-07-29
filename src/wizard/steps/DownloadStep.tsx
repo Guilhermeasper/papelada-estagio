@@ -2,6 +2,9 @@ import { Button } from "@papelada-estagio/components";
 import { DocumentType, IStep8Props } from "@papelada-estagio/types";
 import { pdfService } from "@papelada-estagio/utils/pdfService";
 import { ProcessCard } from "@papelada-estagio/wizard/ProcessCard";
+import { StepFooter } from "@papelada-estagio/wizard/StepFooter";
+import { StepHeader } from "@papelada-estagio/wizard/StepHeader";
+import { StepSection } from "@papelada-estagio/wizard/StepSection";
 import { useAfterStage } from "@papelada-estagio/wizard/data/process";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -70,14 +73,10 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
 
   return (
     <div className="space-y-8">
-      <div className="mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          {t("download.title")}
-        </h2>
-        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          {t("download.subtitle")}
-        </p>
-      </div>
+      <StepHeader
+        title={t("download.title")}
+        subtitle={t("download.subtitle")}
+      />
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
@@ -196,7 +195,7 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
       )}
 
       {selectedDocs.size > 1 && (
-        <div className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-4 flex items-center justify-between border border-border dark:border-border-dark">
+        <StepSection className="p-4 flex items-center justify-between">
           <div>
             <p className="font-medium text-text-primary dark:text-text-primary-dark">
               {t("download.batchTitle")}
@@ -221,34 +220,20 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
             </svg>
             {t("download.batchButton")}
           </Button>
-        </div>
+        </StepSection>
       )}
 
       <ProcessCard stage={afterStage} />
 
-      <div className="flex justify-between pt-6 border-t border-border dark:border-border-dark">
-        <Button type="button" variant="ghost" onClick={onBack}>
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          {t("app.back")}
-        </Button>
-
-        <div className="text-sm text-text-secondary">
-          {generated.size > 0 &&
-            t("download.generatedSummary", { count: generated.size })}
-        </div>
-      </div>
+      <StepFooter
+        onBack={onBack}
+        right={
+          <div className="text-sm text-text-secondary">
+            {generated.size > 0 &&
+              t("download.generatedSummary", { count: generated.size })}
+          </div>
+        }
+      />
     </div>
   );
 }

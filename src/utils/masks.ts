@@ -124,3 +124,19 @@ export function applyMask(value: string, mask: MaskType): string {
       return value;
   }
 }
+
+export function getBackspacedMaskValue(
+  currentRaw: string,
+  prevFormatted: string,
+): string {
+  const prevDigits = prevFormatted.replace(/\D/g, "");
+  const currentDigits = currentRaw.replace(/\D/g, "");
+
+  if (
+    currentDigits.length === prevDigits.length &&
+    currentRaw.length < prevFormatted.length
+  ) {
+    return prevDigits.slice(0, -1);
+  }
+  return currentRaw;
+}

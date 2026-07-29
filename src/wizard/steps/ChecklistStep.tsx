@@ -1,6 +1,8 @@
-import { Button, ChecklistCard, ChecklistItem } from "@papelada-estagio/components";
+import { ChecklistCard, ChecklistItem } from "@papelada-estagio/components";
 import { IStep1Props } from "@papelada-estagio/types";
 import { ProcessCard } from "@papelada-estagio/wizard/ProcessCard";
+import { StepFooter } from "@papelada-estagio/wizard/StepFooter";
+import { StepHeader } from "@papelada-estagio/wizard/StepHeader";
 import {
   useChecklistData,
   useSourceLabels,
@@ -16,14 +18,10 @@ export function ChecklistStep({ onNext }: IStep1Props) {
 
   return (
     <div className="space-y-6">
-      <div className="mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          {t("checklist.beforeTitle")}
-        </h2>
-        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          {t("checklist.beforeSubtitle")}
-        </p>
-      </div>
+      <StepHeader
+        title={t("checklist.beforeTitle")}
+        subtitle={t("checklist.beforeSubtitle")}
+      />
 
       <ProcessCard stage={beforeStage} />
 
@@ -47,24 +45,12 @@ export function ChecklistStep({ onNext }: IStep1Props) {
         ))}
       </div>
 
-      <div className="flex justify-end pt-6 border-t border-border dark:border-border-dark mt-8">
-        <Button onClick={onNext}>
-          {t("checklist.readyButton")}
-          <svg
-            className="w-4 h-4 ml-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </Button>
-      </div>
+      <StepFooter
+        onNext={onNext}
+        nextLabel={t("checklist.readyButton")}
+        nextType="button"
+        className="mt-8"
+      />
     </div>
   );
 }

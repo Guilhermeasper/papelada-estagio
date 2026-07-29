@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Autocomplete, Button, EmailInput, Input, MaskedInput } from "@papelada-estagio/components";
+import { Autocomplete, EmailInput, Input, MaskedInput } from "@papelada-estagio/components";
 import { IStep2Props } from "@papelada-estagio/types";
+import { StepFooter } from "@papelada-estagio/wizard/StepFooter";
+import { StepHeader } from "@papelada-estagio/wizard/StepHeader";
 import { StudentFormData, studentSchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -22,14 +24,10 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          {t("forms.student.title")}
-        </h2>
-        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          {t("forms.student.subtitle")}
-        </p>
-      </div>
+      <StepHeader
+        title={t("forms.student.title")}
+        subtitle={t("forms.student.subtitle")}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="md:col-span-2">
@@ -102,24 +100,7 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
         />
       </div>
 
-      <div className="flex justify-end pt-6 border-t border-border dark:border-border-dark">
-        <Button type="submit" isLoading={isSubmitting}>
-          {t("app.next")}
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </Button>
-      </div>
+      <StepFooter isSubmitting={isSubmitting} />
     </form>
   );
 }

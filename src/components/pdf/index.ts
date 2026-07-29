@@ -4,6 +4,7 @@ export * from "./utils";
 export { PDFLayout } from "./PDFLayout";
 export { PDFPage } from "./PDFPage";
 export type { PageVariant } from "./PDFPage";
+export { PDFPageViewer } from "./PDFPageViewer";
 
 export { PDFLogoHeader } from "./PDFLogoHeader";
 export { PDFTextHeader } from "./PDFTextHeader";

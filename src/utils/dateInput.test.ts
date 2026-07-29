@@ -5,7 +5,7 @@ import {
   formatDatePtBr,
   parseLegacyPeriod,
 } from "./dateUtils.ts";
-import { maskDate } from "./masks.ts";
+import { getBackspacedMaskValue, maskDate } from "./masks.ts";
 
 describe("maskDate", () => {
   it("returns empty for empty input", () => {
@@ -35,6 +35,26 @@ describe("maskDate", () => {
   it("strips non-digits", () => {
     assert.equal(maskDate("06/01/2025"), "06/01/2025");
     assert.equal(maskDate("ab06cd01ef2025"), "06/01/2025");
+  });
+});
+
+describe("getBackspacedMaskValue", () => {
+  it("passes typed input through untouched", () => {
+    assert.equal(getBackspacedMaskValue("060", "06/"), "060");
+    assert.equal(getBackspacedMaskValue("06", ""), "06");
+  });
+
+  it("drops the preceding digit when a separator is backspaced", () => {
+    assert.equal(getBackspacedMaskValue("06", "06/"), "0");
+    assert.equal(getBackspacedMaskValue("06/01", "06/01/"), "060");
+  });
+
+  it("passes through when a digit itself is backspaced", () => {
+    assert.equal(getBackspacedMaskValue("06/", "06/1"), "06/");
+  });
+
+  it("passes through when the value grows", () => {
+    assert.equal(getBackspacedMaskValue("06/012", "06/01/"), "06/012");
   });
 });
 

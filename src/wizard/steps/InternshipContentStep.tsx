@@ -16,6 +16,9 @@ import {
   splitRange,
   toRange,
 } from "@papelada-estagio/utils/scheduleRanges";
+import { StepFooter } from "@papelada-estagio/wizard/StepFooter";
+import { StepHeader } from "@papelada-estagio/wizard/StepHeader";
+import { StepSection } from "@papelada-estagio/wizard/StepSection";
 import {
   InternshipContentFormData,
   makeInternshipContentSchema,
@@ -104,8 +107,8 @@ export function InternshipContentStep({
 
   const canSplitLast = Boolean(
     hasGeneralPeriod &&
-      lastScheduleItem &&
-      splitRange(toRange(lastScheduleItem), workDays),
+    lastScheduleItem &&
+    splitRange(toRange(lastScheduleItem), workDays),
   );
 
   const reachedScheduleLimit = scheduleFields.length >= MAX_SCHEDULE_ITEMS;
@@ -162,35 +165,25 @@ export function InternshipContentStep({
     );
   };
 
-  const handleAddActivity = () => {
-    setValue("activities", [...activities, ""]);
-  };
+  const createArrayFieldHandlers = (
+    field: "activities" | "objectives",
+    currentItems: string[],
+  ) => ({
+    onAdd: () => setValue(field, [...currentItems, ""]),
+    onRemove: (index: number) =>
+      setValue(
+        field,
+        currentItems.filter((_, i) => i !== index),
+      ),
+    onChange: (index: number, value: string) => {
+      const next = [...currentItems];
+      next[index] = value;
+      setValue(field, next);
+    },
+  });
 
-  const handleRemoveActivity = (index: number) => {
-    const newActivities = activities.filter((_, i) => i !== index);
-    setValue("activities", newActivities);
-  };
-
-  const handleChangeActivity = (index: number, value: string) => {
-    const newActivities = [...activities];
-    newActivities[index] = value;
-    setValue("activities", newActivities);
-  };
-
-  const handleAddObjective = () => {
-    setValue("objectives", [...objectives, ""]);
-  };
-
-  const handleRemoveObjective = (index: number) => {
-    const newObjectives = objectives.filter((_, i) => i !== index);
-    setValue("objectives", newObjectives);
-  };
-
-  const handleChangeObjective = (index: number, value: string) => {
-    const newObjectives = [...objectives];
-    newObjectives[index] = value;
-    setValue("objectives", newObjectives);
-  };
+  const activityHandlers = createArrayFieldHandlers("activities", activities);
+  const objectiveHandlers = createArrayFieldHandlers("objectives", objectives);
 
   const onSubmit = (formData: InternshipContentFormData) => {
     onNext(formData);
@@ -198,50 +191,49 @@ export function InternshipContentStep({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-      <div className="mb-4 md:mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          {t("forms.content.title")}
-        </h2>
-        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          {t("forms.content.subtitle")}
-        </p>
-      </div>
+      <StepHeader
+        title={t("forms.content.title")}
+        subtitle={t("forms.content.subtitle")}
+        className="mb-4 md:mb-6"
+      />
 
-      <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-4 md:p-6 border border-border dark:border-border-dark">
-        <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-3 md:mb-4">
-          {t("forms.content.activitiesSection")}
-        </h3>
+      <StepSection
+        title={t("forms.content.activitiesSection")}
+        className="p-4 md:p-6"
+        headerClassName="mb-3 md:mb-4"
+      >
         <DynamicList
           label={t("forms.content.activitiesLabel")}
           items={activities}
-          onAdd={handleAddActivity}
-          onRemove={handleRemoveActivity}
-          onChange={handleChangeActivity}
+          onAdd={activityHandlers.onAdd}
+          onRemove={activityHandlers.onRemove}
+          onChange={activityHandlers.onChange}
           placeholder={t("forms.content.activitiesPlaceholder")}
           error={errors.activities?.message || errors.activities?.root?.message}
         />
-      </section>
+      </StepSection>
 
-      <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-4 md:p-6 border border-border dark:border-border-dark">
-        <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-3 md:mb-4">
-          {t("forms.content.objectivesSection")}
-        </h3>
+      <StepSection
+        title={t("forms.content.objectivesSection")}
+        className="p-4 md:p-6"
+        headerClassName="mb-3 md:mb-4"
+      >
         <DynamicList
           label={t("forms.content.objectivesLabel")}
           items={objectives}
-          onAdd={handleAddObjective}
-          onRemove={handleRemoveObjective}
-          onChange={handleChangeObjective}
+          onAdd={objectiveHandlers.onAdd}
+          onRemove={objectiveHandlers.onRemove}
+          onChange={objectiveHandlers.onChange}
           placeholder={t("forms.content.objectivesPlaceholder")}
           error={errors.objectives?.message || errors.objectives?.root?.message}
         />
-      </section>
+      </StepSection>
 
-      <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-4 md:p-6 border border-border dark:border-border-dark">
-        <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-3 md:mb-4">
-          {t("forms.content.scheduleSection")}
-        </h3>
-
+      <StepSection
+        title={t("forms.content.scheduleSection")}
+        className="p-4 md:p-6"
+        headerClassName="mb-3 md:mb-4"
+      >
         {!hasGeneralPeriod && (
           <p className="text-sm text-text-secondary dark:text-text-secondary-dark mb-4">
             {t("forms.content.scheduleFillNotice")}
@@ -392,7 +384,7 @@ export function InternshipContentStep({
             </span>
           )}
         </div>
-      </section>
+      </StepSection>
 
       <section className="space-y-4 md:space-y-6">
         <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark">
@@ -456,41 +448,7 @@ export function InternshipContentStep({
         />
       </section>
 
-      <div className="flex justify-between pt-6 border-t border-border dark:border-border-dark">
-        <Button type="button" variant="ghost" onClick={onBack}>
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          {t("app.back")}
-        </Button>
-
-        <Button type="submit" isLoading={isSubmitting}>
-          {t("app.next")}
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </Button>
-      </div>
+      <StepFooter onBack={onBack} isSubmitting={isSubmitting} />
     </form>
   );
 }

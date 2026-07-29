@@ -1,13 +1,19 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  Button,
   DateInput,
   EmailInput,
   Input,
   MaskedInput,
 } from "@papelada-estagio/components";
 import { IStep6Props } from "@papelada-estagio/types";
-import { addDays, parseIsoDate, toIsoString } from "@papelada-estagio/utils/dateUtils";
+import {
+  addDays,
+  parseIsoDate,
+  toIsoString,
+} from "@papelada-estagio/utils/dateUtils";
+import { StepFooter } from "@papelada-estagio/wizard/StepFooter";
+import { StepHeader } from "@papelada-estagio/wizard/StepHeader";
+import { StepSection } from "@papelada-estagio/wizard/StepSection";
 import {
   SupervisionFormData,
   supervisionSchema,
@@ -43,31 +49,30 @@ export function SupervisionFormStep({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-      <div className="mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          {t("forms.supervision.title")}
-        </h2>
-        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          {t("forms.supervision.subtitle")}
-        </p>
-      </div>
+      <StepHeader
+        title={t("forms.supervision.title")}
+        subtitle={t("forms.supervision.subtitle")}
+      />
 
-      <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 border border-border dark:border-border-dark">
-        <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-4 flex items-center gap-2">
-          <svg
-            className="w-5 h-5 text-brand-accent"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-              clipRule="evenodd"
-            />
-          </svg>
-          {t("forms.supervision.supervisorSection")}
-        </h3>
-
+      <StepSection
+        headerClassName="mb-4"
+        title={
+          <>
+            <svg
+              className="w-5 h-5 text-brand-accent"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                clipRule="evenodd"
+              />
+            </svg>
+            {t("forms.supervision.supervisorSection")}
+          </>
+        }
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Input
             id="supervisorName"
@@ -114,20 +119,23 @@ export function SupervisionFormStep({
             required
           />
         </div>
-      </section>
+      </StepSection>
 
-      <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 border border-border dark:border-border-dark">
-        <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark mb-4 flex items-center gap-2">
-          <svg
-            className="w-5 h-5 text-brand-accent"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
-          </svg>
-          {t("forms.supervision.advisorSection")}
-        </h3>
-
+      <StepSection
+        headerClassName="mb-4"
+        title={
+          <>
+            <svg
+              className="w-5 h-5 text-brand-accent"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+            </svg>
+            {t("forms.supervision.advisorSection")}
+          </>
+        }
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Input
             id="advisorName"
@@ -179,43 +187,9 @@ export function SupervisionFormStep({
             )}
           />
         </div>
-      </section>
+      </StepSection>
 
-      <div className="flex justify-between pt-6 border-t border-border dark:border-border-dark">
-        <Button type="button" variant="ghost" onClick={onBack}>
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          {t("app.back")}
-        </Button>
-
-        <Button type="submit" isLoading={isSubmitting}>
-          {t("app.next")}
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </Button>
-      </div>
+      <StepFooter onBack={onBack} isSubmitting={isSubmitting} />
     </form>
   );
 }

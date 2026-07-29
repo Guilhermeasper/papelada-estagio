@@ -2,7 +2,7 @@ import {
   formatDateIso,
   formatDatePtBr,
 } from "@papelada-estagio/utils/dateUtils";
-import { maskDate } from "@papelada-estagio/utils/masks";
+import { getBackspacedMaskValue, maskDate } from "@papelada-estagio/utils/masks";
 import { forwardRef, InputHTMLAttributes, useRef, useState } from "react";
 import { Button } from "./Button";
 import { Input } from "./Input";
@@ -41,19 +41,7 @@ export const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const currentRaw = e.target.value;
-
-      const prevDigits = display.replace(/\D/g, "");
-      const currentDigits = currentRaw.replace(/\D/g, "");
-
-      let valueToMask = currentRaw;
-      if (
-        currentDigits.length === prevDigits.length &&
-        currentRaw.length < display.length
-      ) {
-        valueToMask = prevDigits.slice(0, -1);
-      }
-
+      const valueToMask = getBackspacedMaskValue(e.target.value, display);
       commit(maskDate(valueToMask));
     };
 

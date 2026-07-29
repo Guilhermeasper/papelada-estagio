@@ -36,14 +36,27 @@ const cnpjRegex = /^[0-9]{2}\.?[0-9]{3}\.?[0-9]{3}\/?[0-9]{4}-?[0-9]{2}$/;
 const cpfRegex = /^[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}-?[0-9]{2}$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+export const emailSchema = z
+  .string()
+  .regex(emailRegex, i18n.t("validation.invalidEmail"));
+export const phoneSchema = z
+  .string()
+  .regex(phoneRegex, i18n.t("validation.invalidPhone"));
+export const cnpjSchema = z
+  .string()
+  .regex(cnpjRegex, i18n.t("validation.invalidCnpj"));
+export const cpfSchema = z
+  .string()
+  .regex(cpfRegex, i18n.t("validation.invalidCpf"));
+
 export const studentSchema = z.object({
   fullName: z
     .string()
     .min(3, i18n.t("validation.nameMin"))
     .max(100, i18n.t("validation.nameMax")),
-  email: z.string().regex(emailRegex, i18n.t("validation.invalidEmail")),
+  email: emailSchema,
   address: z.string().min(10, i18n.t("validation.addressMin")),
-  phone: z.string().regex(phoneRegex, i18n.t("validation.invalidPhone")),
+  phone: phoneSchema,
   course: z.string().min(3, i18n.t("validation.courseRequired")),
   enrollmentYear: z
     .string()
@@ -58,7 +71,7 @@ export const companySchema = z.object({
   companyAddress: z
     .string()
     .min(10, i18n.t("validation.companyAddressRequired")),
-  companyCnpj: z.string().regex(cnpjRegex, i18n.t("validation.invalidCnpj")),
+  companyCnpj: cnpjSchema,
 });
 
 export type CompanyFormData = z.infer<typeof companySchema>;
@@ -283,15 +296,15 @@ export const supervisionSchema = z.object({
   supervisorName: z
     .string()
     .min(3, i18n.t("validation.supervisorNameRequired")),
-  supervisorEmail: z.string().regex(emailRegex, i18n.t("validation.invalidEmail")),
-  supervisorPhone: z.string().regex(phoneRegex, i18n.t("validation.invalidPhone")),
+  supervisorEmail: emailSchema,
+  supervisorPhone: phoneSchema,
   supervisorPosition: z
     .string()
     .min(2, i18n.t("validation.supervisorPositionRequired")),
-  supervisorCpf: z.string().regex(cpfRegex, i18n.t("validation.invalidCpf")),
+  supervisorCpf: cpfSchema,
 
   advisorName: z.string().min(3, i18n.t("validation.advisorNameRequired")),
-  advisorEmail: z.string().regex(emailRegex, i18n.t("validation.invalidEmail")),
+  advisorEmail: emailSchema,
   advisorSiape: z.string().min(5, i18n.t("validation.advisorSiapeRequired")),
   advisorPosition: z
     .string()
@@ -316,21 +329,17 @@ export const fullInternshipSchema = z.object({
 
 export type FullInternshipData = z.infer<typeof fullInternshipSchema>;
 
-const studentImportSchema = z.object({
-  fullName: z.string(),
-  email: z.string(),
-  address: z.string(),
-  phone: z.string(),
-  course: z.string(),
-  enrollmentYear: z.string(),
-  studentId: z.string(),
-});
+function stringShape<T extends z.ZodRawShape>(schema: z.ZodObject<T>) {
+  const shape = {} as { [K in keyof T]: z.ZodString };
+  for (const key of Object.keys(schema.shape) as (keyof T)[]) {
+    shape[key] = z.string();
+  }
+  return z.object(shape);
+}
 
-const companyImportSchema = z.object({
-  companyName: z.string(),
-  companyAddress: z.string(),
-  companyCnpj: z.string(),
-});
+const studentImportSchema = stringShape(studentSchema);
+const companyImportSchema = stringShape(companySchema);
+const supervisionImportSchema = stringShape(supervisionSchema);
 
 const generalImportSchema = z.object({
   startDate: z.string(),
@@ -357,19 +366,6 @@ const contentImportSchema = z.object({
   methodology: z.string(),
   development: z.string(),
   conclusion: z.string(),
-});
-
-const supervisionImportSchema = z.object({
-  supervisorName: z.string(),
-  supervisorEmail: z.string(),
-  supervisorPhone: z.string(),
-  supervisorPosition: z.string(),
-  supervisorCpf: z.string(),
-  advisorName: z.string(),
-  advisorEmail: z.string(),
-  advisorSiape: z.string(),
-  advisorPosition: z.string(),
-  evaluationDeadline: z.string(),
 });
 
 const importDataSchema = z.object({

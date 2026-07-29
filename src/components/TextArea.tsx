@@ -1,3 +1,4 @@
+import { toFieldId } from "@papelada-estagio/utils/fieldId";
 import {
   forwardRef,
   TextareaHTMLAttributes,
@@ -5,6 +6,7 @@ import {
   useLayoutEffect,
   useRef,
 } from "react";
+import { FormField } from "./FormField";
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
@@ -17,7 +19,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     { label, error, hint, id, className = "", onInput, ...props },
     ref,
   ) => {
-    const textareaId = id || label?.toLowerCase().replace(/\s+/g, "-");
+    const textareaId = toFieldId(label, id);
     const localRef = useRef<HTMLTextAreaElement>(null);
     const lastWidthRef = useRef<number | null>(null);
 
@@ -56,17 +58,13 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     }, []);
 
     return (
-      <div className="flex flex-col gap-1.5 w-full min-w-0">
-        {label && (
-          <label
-            htmlFor={textareaId}
-            className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark"
-          >
-            {label}
-            {props.required && <span className="text-destructive ml-0.5">*</span>}
-          </label>
-        )}
-
+      <FormField
+        id={textareaId}
+        label={label}
+        required={props.required}
+        error={error}
+        hint={hint}
+      >
         <textarea
           ref={localRef}
           id={textareaId}
@@ -98,25 +96,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           }}
           {...props}
         />
-
-        {hint && !error && (
-          <p
-            id={`${textareaId}-hint`}
-            className="text-xs text-text-secondary dark:text-text-secondary-dark"
-          >
-            {hint}
-          </p>
-        )}
-
-        {error && (
-          <p
-            id={`${textareaId}-error`}
-            className="text-xs text-error-text font-medium"
-          >
-            {error}
-          </p>
-        )}
-      </div>
+      </FormField>
     );
   },
 );

@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  Button,
   CheckboxGroup,
   DateInput,
   Input,
@@ -20,6 +19,9 @@ import {
 import { formatDatePtBr } from "@papelada-estagio/utils/dateUtils";
 import { WEEKDAY_OPTIONS } from "@papelada-estagio/utils/workDays";
 import { rebalanceForTotal } from "@papelada-estagio/utils/workSchedule";
+import { StepFooter } from "@papelada-estagio/wizard/StepFooter";
+import { StepHeader } from "@papelada-estagio/wizard/StepHeader";
+import { StepSection } from "@papelada-estagio/wizard/StepSection";
 import { WorkScheduleField } from "@papelada-estagio/wizard/WorkScheduleField";
 import {
   InternshipGeneralFormData,
@@ -117,20 +119,15 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          {t("forms.general.title")}
-        </h2>
-        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          {t("forms.general.subtitle")}
-        </p>
-      </div>
+      <StepHeader
+        title={t("forms.general.title")}
+        subtitle={t("forms.general.subtitle")}
+      />
 
-      <div className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 space-y-6 border border-border dark:border-border-dark">
-        <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark">
-          {t("forms.general.periodSectionTitle")}
-        </h3>
-
+      <StepSection
+        className="p-6 space-y-6"
+        title={t("forms.general.periodSectionTitle")}
+      >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Controller
             name="startDate"
@@ -262,9 +259,9 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
             </div>
           </div>
         )}
-      </div>
+      </StepSection>
 
-      <div className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 space-y-6 border border-border dark:border-border-dark">
+      <StepSection className="p-6 space-y-6">
         <Controller
           name="workDays"
           control={control}
@@ -317,43 +314,9 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
             />
           )}
         />
-      </div>
+      </StepSection>
 
-      <div className="flex justify-between pt-6 border-t border-border dark:border-border-dark">
-        <Button type="button" variant="ghost" onClick={onBack}>
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          {t("app.back")}
-        </Button>
-
-        <Button type="submit" isLoading={isSubmitting}>
-          {t("app.next")}
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </Button>
-      </div>
+      <StepFooter onBack={onBack} isSubmitting={isSubmitting} />
     </form>
   );
 }

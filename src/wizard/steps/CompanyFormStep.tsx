@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Input, MaskedInput } from "@papelada-estagio/components";
+import { Input, MaskedInput } from "@papelada-estagio/components";
 import { IStep3Props } from "@papelada-estagio/types";
+import { StepFooter } from "@papelada-estagio/wizard/StepFooter";
+import { StepHeader } from "@papelada-estagio/wizard/StepHeader";
 import { CompanyFormData, companySchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -22,14 +24,10 @@ export function CompanyFormStep({ data, onNext, onBack }: IStep3Props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          {t("forms.company.title")}
-        </h2>
-        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          {t("forms.company.subtitle")}
-        </p>
-      </div>
+      <StepHeader
+        title={t("forms.company.title")}
+        subtitle={t("forms.company.subtitle")}
+      />
 
       <div className="space-y-6">
         <Input
@@ -58,41 +56,7 @@ export function CompanyFormStep({ data, onNext, onBack }: IStep3Props) {
         />
       </div>
 
-      <div className="flex justify-between pt-6 border-t border-border dark:border-border-dark">
-        <Button type="button" variant="ghost" onClick={onBack}>
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          {t("app.back")}
-        </Button>
-
-        <Button type="submit" isLoading={isSubmitting}>
-          {t("app.next")}
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </Button>
-      </div>
+      <StepFooter onBack={onBack} isSubmitting={isSubmitting} />
     </form>
   );
 }

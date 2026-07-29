@@ -6,6 +6,9 @@ import {
 } from "@papelada-estagio/utils/dateUtils";
 import { formatWorkDays } from "@papelada-estagio/utils/workDays";
 import { formatWorkSchedule } from "@papelada-estagio/utils/workSchedule";
+import { StepFooter } from "@papelada-estagio/wizard/StepFooter";
+import { StepHeader } from "@papelada-estagio/wizard/StepHeader";
+import { StepSection } from "@papelada-estagio/wizard/StepSection";
 import { useTranslation } from "react-i18next";
 
 export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
@@ -13,16 +16,13 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
 
   return (
     <div className="space-y-8">
-      <div className="mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-text-primary dark:text-text-primary-dark">
-          {t("review.title")}
-        </h2>
-        <p className="text-sm md:text-base text-text-secondary dark:text-text-secondary-dark mt-1">
-          {t("review.subtitle")}
-        </p>
-      </div>
+      <StepHeader title={t("review.title")} subtitle={t("review.subtitle")} />
 
-      <ReviewSection title={t("review.studentSection")} step={2} onEdit={onEdit}>
+      <ReviewSection
+        title={t("review.studentSection")}
+        step={2}
+        onEdit={onEdit}
+      >
         <ReviewItem label={t("review.name")} value={data.student.fullName} />
         <ReviewItem label={t("review.email")} value={data.student.email} />
         <ReviewItem label={t("review.phone")} value={data.student.phone} />
@@ -32,16 +32,33 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
           label={t("review.enrollmentYear")}
           value={data.student.enrollmentYear}
         />
-        <ReviewItem label={t("review.studentId")} value={data.student.studentId} />
+        <ReviewItem
+          label={t("review.studentId")}
+          value={data.student.studentId}
+        />
       </ReviewSection>
 
-      <ReviewSection title={t("review.companySection")} step={3} onEdit={onEdit}>
-        <ReviewItem label={t("review.company")} value={data.company.companyName} />
-        <ReviewItem label={t("review.address")} value={data.company.companyAddress} />
+      <ReviewSection
+        title={t("review.companySection")}
+        step={3}
+        onEdit={onEdit}
+      >
+        <ReviewItem
+          label={t("review.company")}
+          value={data.company.companyName}
+        />
+        <ReviewItem
+          label={t("review.address")}
+          value={data.company.companyAddress}
+        />
         <ReviewItem label={t("review.cnpj")} value={data.company.companyCnpj} />
       </ReviewSection>
 
-      <ReviewSection title={t("review.generalSection")} step={4} onEdit={onEdit}>
+      <ReviewSection
+        title={t("review.generalSection")}
+        step={4}
+        onEdit={onEdit}
+      >
         <ReviewItem
           label={t("review.period")}
           value={t("review.periodValue", {
@@ -61,10 +78,17 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
           label={t("review.schedule")}
           value={formatWorkSchedule(data.general.workSchedule)}
         />
-        <ReviewItem label={t("review.modality")} value={data.general.modality} />
+        <ReviewItem
+          label={t("review.modality")}
+          value={data.general.modality}
+        />
       </ReviewSection>
 
-      <ReviewSection title={t("review.contentSection")} step={5} onEdit={onEdit}>
+      <ReviewSection
+        title={t("review.contentSection")}
+        step={5}
+        onEdit={onEdit}
+      >
         <div className="space-y-4">
           <div>
             <h4 className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark mb-2">
@@ -130,13 +154,20 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
         </div>
       </ReviewSection>
 
-      <ReviewSection title={t("review.supervisionSection")} step={6} onEdit={onEdit}>
+      <ReviewSection
+        title={t("review.supervisionSection")}
+        step={6}
+        onEdit={onEdit}
+      >
         <div className="col-span-full grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-3 min-w-0">
             <h4 className="text-sm font-semibold text-text-primary dark:text-text-primary-dark">
               {t("review.supervisor")}
             </h4>
-            <ReviewItem label={t("review.name")} value={data.supervision.supervisorName} />
+            <ReviewItem
+              label={t("review.name")}
+              value={data.supervision.supervisorName}
+            />
             <ReviewItem
               label={t("review.position")}
               value={data.supervision.supervisorPosition}
@@ -149,19 +180,31 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
               label={t("review.phone")}
               value={data.supervision.supervisorPhone}
             />
-            <ReviewItem label={t("review.cpf")} value={data.supervision.supervisorCpf} />
+            <ReviewItem
+              label={t("review.cpf")}
+              value={data.supervision.supervisorCpf}
+            />
           </div>
           <div className="space-y-3 min-w-0">
             <h4 className="text-sm font-semibold text-text-primary dark:text-text-primary-dark">
               {t("review.advisor")}
             </h4>
-            <ReviewItem label={t("review.name")} value={data.supervision.advisorName} />
+            <ReviewItem
+              label={t("review.name")}
+              value={data.supervision.advisorName}
+            />
             <ReviewItem
               label={t("review.position")}
               value={data.supervision.advisorPosition}
             />
-            <ReviewItem label={t("review.email")} value={data.supervision.advisorEmail} />
-            <ReviewItem label={t("review.siape")} value={data.supervision.advisorSiape} />
+            <ReviewItem
+              label={t("review.email")}
+              value={data.supervision.advisorEmail}
+            />
+            <ReviewItem
+              label={t("review.siape")}
+              value={data.supervision.advisorSiape}
+            />
             <ReviewItem
               label={t("review.evaluationDeadline")}
               value={formatDatePtBr(data.supervision.evaluationDeadline)}
@@ -170,41 +213,12 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
         </div>
       </ReviewSection>
 
-      <div className="flex justify-between pt-6 border-t border-border dark:border-border-dark">
-        <Button type="button" variant="ghost" onClick={onBack}>
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          {t("app.back")}
-        </Button>
-
-        <Button onClick={onNext}>
-          {t("review.nextButton")}
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </Button>
-      </div>
+      <StepFooter
+        onBack={onBack}
+        onNext={onNext}
+        nextLabel={t("review.nextButton")}
+        nextType="button"
+      />
     </div>
   );
 }
@@ -219,11 +233,10 @@ interface ReviewSectionProps {
 function ReviewSection({ title, step, onEdit, children }: ReviewSectionProps) {
   const { t } = useTranslation();
   return (
-    <section className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 border border-border dark:border-border-dark">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark">
-          {title}
-        </h3>
+    <StepSection
+      title={title}
+      headerClassName="mb-4"
+      action={
         <Button
           type="button"
           variant="ghost"
@@ -246,11 +259,12 @@ function ReviewSection({ title, step, onEdit, children }: ReviewSectionProps) {
           </svg>
           {t("review.edit")}
         </Button>
-      </div>
+      }
+    >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
         {children}
       </div>
-    </section>
+    </StepSection>
   );
 }
 

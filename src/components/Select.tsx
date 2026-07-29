@@ -1,4 +1,6 @@
+import { toFieldId } from "@papelada-estagio/utils/fieldId";
 import { forwardRef, SelectHTMLAttributes } from "react";
+import { FormField } from "./FormField";
 
 interface SelectOption {
   value: string;
@@ -14,18 +16,16 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   ({ label, options, error, hint, id, className = "", ...props }, ref) => {
-    const selectId = id || label.toLowerCase().replace(/\s+/g, "-");
+    const selectId = toFieldId(label, id);
 
     return (
-      <div className="flex flex-col gap-1.5 w-full min-w-0">
-        <label
-          htmlFor={selectId}
-          className="text-xs md:text-sm font-medium text-text-primary dark:text-text-primary-dark"
-        >
-          {label}
-          {props.required && <span className="text-destructive ml-0.5">*</span>}
-        </label>
-
+      <FormField
+        id={selectId}
+        label={label}
+        required={props.required}
+        error={error}
+        hint={hint}
+      >
         <select
           ref={ref}
           id={selectId}
@@ -53,25 +53,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             </option>
           ))}
         </select>
-
-        {hint && !error && (
-          <p
-            id={`${selectId}-hint`}
-            className="text-xs text-text-secondary dark:text-text-secondary-dark"
-          >
-            {hint}
-          </p>
-        )}
-
-        {error && (
-          <p
-            id={`${selectId}-error`}
-            className="text-xs text-error-text font-medium"
-          >
-            {error}
-          </p>
-        )}
-      </div>
+      </FormField>
     );
   },
 );
