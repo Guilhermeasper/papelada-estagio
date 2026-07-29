@@ -13,7 +13,7 @@ export interface ChecklistCardData {
 }
 
 export const SOURCE_LABELS: Record<ChecklistSource, string> = {
-  gerado: "Gerado por este app",
+  gerado: "Gerado pelo Papelada",
   externo: "Você providencia",
 };
 
