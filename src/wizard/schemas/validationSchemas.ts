@@ -4,11 +4,18 @@ import {
   MIN_HOURS_PER_DAY,
   MIN_WEEKDAY,
 } from "@papelada-estagio/constants";
+import type { IInternshipGeneral } from "@papelada-estagio/types";
 import {
   validateDate,
   validateInternshipPeriod,
 } from "@papelada-estagio/utils/dateCalculator";
-import { parseIsoDate } from "@papelada-estagio/utils/dateUtils";
+import {
+  formatDatePtBr,
+  getDayOfWeekPtBr,
+  isWeekend,
+  parseIsoDate,
+} from "@papelada-estagio/utils/dateUtils";
+import { isHoliday } from "@papelada-estagio/utils/holidays";
 import { isValidWorkSchedule } from "@papelada-estagio/utils/workSchedule";
 import { z } from "zod";
 
@@ -135,12 +142,25 @@ export const internshipGeneralSchema = z
 
 export type InternshipGeneralFormData = z.infer<typeof internshipGeneralSchema>;
 
-export const scheduleItemSchema = z.object({
-  period: z.string().min(1, "Período é obrigatório"),
-  description: z
-    .string()
-    .min(10, "Descrição deve ter pelo menos 10 caracteres"),
-});
+export const scheduleItemSchema = z
+  .object({
+    periodStart: z.string().min(1, "Data de início é obrigatória"),
+    periodEnd: z.string().min(1, "Data de término é obrigatória"),
+    description: z
+      .string()
+      .min(10, "Descrição deve ter pelo menos 10 caracteres"),
+  })
+  .superRefine((item, ctx) => {
+    if (!item.periodStart || !item.periodEnd) return;
+
+    if (parseIsoDate(item.periodEnd) < parseIsoDate(item.periodStart)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "A data de término deve ser posterior à data de início",
+        path: ["periodEnd"],
+      });
+    }
+  });
 
 export const evaluationGradeSchema = z.object({
   item: z.string(),
@@ -175,6 +195,71 @@ export const internshipContentSchema = z.object({
     .min(50, "Desenvolvimento deve ter pelo menos 50 caracteres"),
   conclusion: z.string().min(30, "Conclusão deve ter pelo menos 30 caracteres"),
 });
+
+export type ScheduleBounds = Pick<
+  IInternshipGeneral,
+  "startDate" | "endDate" | "workDays"
+>;
+
+function getScheduleDateIssue(
+  date: Date,
+  workDays: number[],
+): string | null {
+  const holiday = isHoliday(date);
+  if (holiday.isHoliday) return `Data inválida: ${holiday.name}`;
+
+  if (isWeekend(date)) {
+    return `Data inválida: ${getDayOfWeekPtBr(date)} é fim de semana`;
+  }
+
+  if (!workDays.includes(date.getDay())) {
+    return `${getDayOfWeekPtBr(date)} não é um dia de trabalho selecionado`;
+  }
+
+  return null;
+}
+
+export function makeInternshipContentSchema({
+  startDate,
+  endDate,
+  workDays,
+}: ScheduleBounds) {
+  return internshipContentSchema.superRefine((content, ctx) => {
+    if (!startDate || !endDate || workDays.length === 0) return;
+
+    const min = parseIsoDate(startDate);
+    const max = parseIsoDate(endDate);
+    const range = `${formatDatePtBr(startDate)} e ${formatDatePtBr(endDate)}`;
+
+    content.schedule.forEach((item, index) => {
+      (["periodStart", "periodEnd"] as const).forEach((key) => {
+        const value = item[key];
+        if (!value) return;
+
+        const addIssue = (message: string) =>
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message,
+            path: ["schedule", index, key],
+          });
+
+        const date = parseIsoDate(value);
+        if (Number.isNaN(date.getTime())) {
+          addIssue("Data inválida");
+          return;
+        }
+
+        if (date < min || date > max) {
+          addIssue(`A data deve estar entre ${range}`);
+          return;
+        }
+
+        const issue = getScheduleDateIssue(date, workDays);
+        if (issue) addIssue(issue);
+      });
+    });
+  });
+}
 
 export const evaluationSchema = z.object({
   grades: z.array(evaluationGradeSchema),
@@ -244,8 +329,9 @@ const generalImportSchema = z.object({
 });
 
 const scheduleItemImportSchema = z.object({
-  period: z.string(),
-  description: z.string(),
+  periodStart: z.string().catch(""),
+  periodEnd: z.string().catch(""),
+  description: z.string().catch(""),
 });
 
 const contentImportSchema = z.object({

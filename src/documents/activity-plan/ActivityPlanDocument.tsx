@@ -18,6 +18,7 @@ import { PDF_CONTENT } from "@papelada-estagio/constants/pdf-content";
 import type { IInternshipData } from "@papelada-estagio/types";
 import { Text } from "@react-pdf/renderer";
 import { getAssetPath } from "../../utils/asset";
+import { formatPeriod } from "../../utils/dateUtils";
 import { formatWorkDays } from "../../utils/workDays";
 import { formatWorkSchedule } from "../../utils/workSchedule";
 
@@ -143,7 +144,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
           {content.schedule.map((item, index) => (
             <PDFFieldRow
               key={index}
-              label={`${index + 1}. ${item.period}`}
+              label={`${index + 1}. ${formatPeriod(item.periodStart, item.periodEnd)}`}
               value={item.description}
               marginLeft={60}
               labelStyle={{ fontFamily: fonts.regular }}

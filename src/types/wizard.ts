@@ -39,6 +39,7 @@ export interface IInternshipGeneralStepProps {
 
 export interface IInternshipContentStepProps {
   data: IInternshipContent;
+  general: IInternshipGeneral;
   onNext: (data: IInternshipContent) => void;
   onBack: () => void;
 }

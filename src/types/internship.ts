@@ -34,7 +34,8 @@ export interface IInternshipGeneral {
 }
 
 export interface IScheduleItem {
-  period: string;
+  periodStart: string;
+  periodEnd: string;
   description: string;
 }
 

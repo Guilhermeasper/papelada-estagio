@@ -1,6 +1,9 @@
 import { Button } from "@papelada-estagio/components";
-import { IStep7Props } from "@papelada-estagio/types";
-import { formatDatePtBr } from "@papelada-estagio/utils/dateUtils";
+import { IScheduleItem, IStep7Props } from "@papelada-estagio/types";
+import {
+  formatDatePtBr,
+  formatPeriod,
+} from "@papelada-estagio/utils/dateUtils";
 import { formatWorkDays } from "@papelada-estagio/utils/workDays";
 import { formatWorkSchedule } from "@papelada-estagio/utils/workSchedule";
 
@@ -100,16 +103,16 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
             <div className="space-y-2">
               {data.content.schedule
                 .filter(
-                  (item: { period: string; description: string }) =>
-                    item.period || item.description,
+                  (item: IScheduleItem) =>
+                    item.periodStart || item.periodEnd || item.description,
                 )
-                .map((item: { period: string; description: string }) => (
+                .map((item: IScheduleItem, index: number) => (
                   <div
-                    key={`schedule-${item.period}-${item.description}`}
+                    key={`schedule-${index}`}
                     className="bg-surface-elevated dark:bg-surface-elevated-dark rounded p-3 border border-border dark:border-border-dark"
                   >
                     <p className="text-xs font-medium text-brand-accent">
-                      {item.period}
+                      {formatPeriod(item.periodStart, item.periodEnd)}
                     </p>
                     <p className="text-sm text-text-primary dark:text-text-primary-dark mt-1">
                       {item.description}

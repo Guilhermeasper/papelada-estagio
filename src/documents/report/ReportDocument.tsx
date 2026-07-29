@@ -13,6 +13,7 @@ import {
 } from "@papelada-estagio/components/pdf";
 import { PDF_CONTENT } from "@papelada-estagio/constants/pdf-content";
 import { IInternshipData } from "@papelada-estagio/types";
+import { formatPeriod } from "@papelada-estagio/utils/dateUtils";
 import { View } from "@react-pdf/renderer";
 
 interface ReportDocumentProps {
@@ -151,7 +152,7 @@ export function ReportDocument({ data }: ReportDocumentProps) {
         <PDFParagraph>{report.text.scheduleIntro}</PDFParagraph>
         {content.schedule.map((item, index) => (
           <PDFParagraph key={index}>
-            {item.period}: {item.description}
+            {formatPeriod(item.periodStart, item.periodEnd)}: {item.description}
           </PDFParagraph>
         ))}
       </PDFSection>

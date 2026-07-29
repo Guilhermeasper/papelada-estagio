@@ -42,7 +42,7 @@ function createInitialData(): IInternshipData {
     content: {
       activities: [""],
       objectives: [""],
-      schedule: [{ period: "", description: "" }],
+      schedule: [{ periodStart: "", periodEnd: "", description: "" }],
       introduction: "",
       generalObjectives: "",
       specificObjectives: "",

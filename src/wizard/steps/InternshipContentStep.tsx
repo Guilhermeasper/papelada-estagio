@@ -1,37 +1,93 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, DynamicList, Input, TextArea } from "@papelada-estagio/components";
-import { IStep5Props } from "@papelada-estagio/types";
+import {
+  Button,
+  DynamicList,
+  Input,
+  TextArea,
+} from "@papelada-estagio/components";
+import { MAX_SCHEDULE_ITEMS } from "@papelada-estagio/constants";
+import { IScheduleItem, IStep5Props } from "@papelada-estagio/types";
+import { getPeriodInfo } from "@papelada-estagio/utils/dateCalculator";
+import {
+  applyRanges,
+  buildRanges,
+  getScheduleMismatch,
+  removeRangeAt,
+  splitRange,
+  toRange,
+} from "@papelada-estagio/utils/scheduleRanges";
 import {
   InternshipContentFormData,
-  internshipContentSchema,
+  makeInternshipContentSchema,
 } from "@papelada-estagio/wizard/schemas/validationSchemas";
+import { useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
-export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
+const emptyScheduleItem: IScheduleItem = {
+  periodStart: "",
+  periodEnd: "",
+  description: "",
+};
+
+function resolveInitialSchedule(
+  items: IScheduleItem[],
+  startDate: string,
+  endDate: string,
+  workDays: number[],
+): IScheduleItem[] {
+  if (items.some((item) => item.periodStart || item.periodEnd)) return items;
+
+  const count = Math.max(items.length, 1);
+
+  return applyRanges(items, buildRanges(count, startDate, endDate, workDays));
+}
+
+export function InternshipContentStep({
+  data,
+  general,
+  onNext,
+  onBack,
+}: IStep5Props) {
+  const {
+    startDate = "",
+    endDate = "",
+    workDays = [],
+    hoursPerDay = 0,
+  } = general ?? {};
+
+  const hasGeneralPeriod = Boolean(startDate && endDate && workDays.length > 0);
+
+  const [initialSchedule] = useState(() =>
+    resolveInitialSchedule(data.schedule, startDate, endDate, workDays),
+  );
+
+  const contentSchema = useMemo(
+    () => makeInternshipContentSchema({ startDate, endDate, workDays }),
+    [startDate, endDate, workDays],
+  );
+
   const {
     register,
     handleSubmit,
     control,
     watch,
     setValue,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm<InternshipContentFormData>({
-    resolver: zodResolver(internshipContentSchema),
+    resolver: zodResolver(contentSchema),
     defaultValues: {
       ...data,
       activities: data.activities.length > 0 ? data.activities : [""],
       objectives: data.objectives.length > 0 ? data.objectives : [""],
-      schedule:
-        data.schedule.length > 0
-          ? data.schedule
-          : [{ period: "", description: "" }],
+      schedule: initialSchedule,
     },
   });
 
   const {
     fields: scheduleFields,
     append: appendSchedule,
-    remove: removeSchedule,
+    replace: replaceSchedule,
   } = useFieldArray({
     control,
     name: "schedule",
@@ -39,6 +95,69 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
 
   const activities = watch("activities");
   const objectives = watch("objectives");
+  const schedule = watch("schedule");
+
+  const lastScheduleItem = schedule?.[schedule.length - 1];
+
+  const canSplitLast = Boolean(
+    hasGeneralPeriod &&
+      lastScheduleItem &&
+      splitRange(toRange(lastScheduleItem), workDays),
+  );
+
+  const reachedScheduleLimit = scheduleFields.length >= MAX_SCHEDULE_ITEMS;
+  const canAddPeriod =
+    !reachedScheduleLimit && (!hasGeneralPeriod || canSplitLast);
+
+  const addPeriodHint = reachedScheduleLimit
+    ? `Máximo de ${MAX_SCHEDULE_ITEMS} períodos.`
+    : "O último período não tem dias úteis suficientes para ser dividido.";
+
+  const scheduleMismatch = hasGeneralPeriod
+    ? getScheduleMismatch(schedule ?? [], startDate, endDate)
+    : null;
+
+  const handleAddPeriod = () => {
+    const items = getValues("schedule");
+    if (items.length >= MAX_SCHEDULE_ITEMS) return;
+
+    const lastIndex = items.length - 1;
+    const halves = items[lastIndex]
+      ? splitRange(toRange(items[lastIndex]), workDays)
+      : null;
+
+    if (!halves) {
+      appendSchedule({ ...emptyScheduleItem });
+      return;
+    }
+
+    setValue(`schedule.${lastIndex}.periodEnd`, halves[0].end, {
+      shouldDirty: true,
+    });
+    appendSchedule({
+      periodStart: halves[1].start,
+      periodEnd: halves[1].end,
+      description: "",
+    });
+  };
+
+  const handleRemovePeriod = (index: number) => {
+    const items = getValues("schedule");
+    if (items.length <= 1) return;
+
+    replaceSchedule(removeRangeAt(items, index));
+  };
+
+  const handleRecalculateSchedule = () => {
+    const items = getValues("schedule");
+
+    replaceSchedule(
+      applyRanges(
+        items,
+        buildRanges(items.length, startDate, endDate, workDays),
+      ),
+    );
+  };
 
   const handleAddActivity = () => {
     setValue("activities", [...activities, ""]);
@@ -120,67 +239,143 @@ export function InternshipContentStep({ data, onNext, onBack }: IStep5Props) {
           Cronograma
         </h3>
 
-        <div className="space-y-4">
-          {scheduleFields.map((field, index) => (
-            <div
-              key={field.id}
-              className="bg-surface dark:bg-surface-dark rounded-md p-4 border border-border dark:border-border-dark"
+        {!hasGeneralPeriod && (
+          <p className="text-sm text-text-secondary dark:text-text-secondary-dark mb-4">
+            Preencha o passo 4 para calcular os períodos automaticamente.
+          </p>
+        )}
+
+        {scheduleMismatch && (
+          <div className="bg-warning/10 border border-warning/40 rounded-md p-4 flex items-start gap-2 text-sm text-warning dark:text-warning-dark mb-4">
+            <svg
+              className="w-5 h-5 flex-shrink-0"
+              fill="currentColor"
+              viewBox="0 0 20 20"
             >
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark">
-                  Período {index + 1}
-                </span>
-                {scheduleFields.length > 1 && (
-                  <Button
-                    type="button"
-                    variant="danger-ghost"
-                    size="sm"
-                    onClick={() => removeSchedule(index)}
-                    className="p-0 h-auto"
-                  >
-                    Remover
-                  </Button>
-                )}
-              </div>
-
-              <div className="space-y-3">
-                <Input
-                  {...register(`schedule.${index}.period`)}
-                  placeholder="Ex: 20/11/2025 a 30/11/2025"
-                  className="bg-surface-elevated dark:bg-surface-elevated-dark"
-                  error={errors.schedule?.[index]?.period?.message}
-                />
-
-                <TextArea
-                  {...register(`schedule.${index}.description`)}
-                  placeholder="Descrição das atividades do período..."
-                />
-                {errors.schedule?.[index]?.description && (
-                  <p className="text-xs text-error-text">
-                    {errors.schedule[index]?.description?.message}
-                  </p>
-                )}
-              </div>
+              <path
+                fillRule="evenodd"
+                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <div className="space-y-2">
+              <span>{scheduleMismatch}</span>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleRecalculateSchedule}
+              >
+                Recalcular cronograma
+              </Button>
             </div>
-          ))}
+          </div>
+        )}
+
+        <div className="space-y-4">
+          {scheduleFields.map((field, index) => {
+            const item = schedule?.[index];
+            const itemInfo = item
+              ? getPeriodInfo(
+                  item.periodStart,
+                  item.periodEnd,
+                  hoursPerDay,
+                  workDays,
+                )
+              : null;
+
+            return (
+              <div
+                key={field.id}
+                className="bg-surface dark:bg-surface-dark rounded-md p-4 border border-border dark:border-border-dark"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-sm font-medium text-text-secondary dark:text-text-secondary-dark">
+                    Período {index + 1}
+                  </span>
+                  {scheduleFields.length > 1 && (
+                    <Button
+                      type="button"
+                      variant="danger-ghost"
+                      size="sm"
+                      onClick={() => handleRemovePeriod(index)}
+                      className="p-0 h-auto"
+                    >
+                      Remover
+                    </Button>
+                  )}
+                </div>
+
+                <div className="space-y-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <Input
+                      id={`schedule-${index}-start`}
+                      label="Início"
+                      type="date"
+                      min={startDate || undefined}
+                      max={endDate || undefined}
+                      {...register(`schedule.${index}.periodStart`)}
+                      className="bg-surface-elevated dark:bg-surface-elevated-dark"
+                      error={errors.schedule?.[index]?.periodStart?.message}
+                    />
+
+                    <Input
+                      id={`schedule-${index}-end`}
+                      label="Término"
+                      type="date"
+                      min={item?.periodStart || startDate || undefined}
+                      max={endDate || undefined}
+                      {...register(`schedule.${index}.periodEnd`)}
+                      className="bg-surface-elevated dark:bg-surface-elevated-dark"
+                      error={errors.schedule?.[index]?.periodEnd?.message}
+                    />
+                  </div>
+
+                  {itemInfo && (
+                    <p className="text-xs text-text-secondary dark:text-text-secondary-dark">
+                      {itemInfo.workdays} dias úteis · {itemInfo.totalHours}h
+                    </p>
+                  )}
+
+                  <TextArea
+                    {...register(`schedule.${index}.description`)}
+                    placeholder="Descrição das atividades do período..."
+                  />
+                  {errors.schedule?.[index]?.description && (
+                    <p className="text-xs text-error-text">
+                      {errors.schedule[index]?.description?.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
 
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() => appendSchedule({ period: "", description: "" })}
-          className="mt-4"
-        >
-          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fillRule="evenodd"
-              d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-              clipRule="evenodd"
-            />
-          </svg>
-          Adicionar período
-        </Button>
+        <div className="flex flex-wrap items-center gap-3 mt-4">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handleAddPeriod}
+            disabled={!canAddPeriod}
+          >
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Adicionar período
+          </Button>
+
+          {!canAddPeriod && (
+            <span className="text-xs text-text-secondary dark:text-text-secondary-dark">
+              {addPeriodHint}
+            </span>
+          )}
+        </div>
       </section>
 
       <section className="space-y-4 md:space-y-6">

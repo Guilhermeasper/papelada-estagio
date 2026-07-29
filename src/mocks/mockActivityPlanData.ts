@@ -44,17 +44,20 @@ export const mockActivityPlanData: IInternshipData = {
     ],
     schedule: [
       {
-        period: "19/11/2025 a 30/11/2025",
+        periodStart: "2025-11-19",
+        periodEnd: "2025-12-05",
         description:
           "Descrição de exemplo para o primeiro período do cronograma. O texto ocupa um volume semelhante ao de um plano de atividades preenchido, permitindo conferir o alinhamento, o espaçamento entre as linhas e a quebra de página da tabela. Nenhuma atividade descrita aqui corresponde a uma situação real.",
       },
       {
-        period: "01/12/2025 a 23/12/2025",
+        periodStart: "2025-12-08",
+        periodEnd: "2025-12-24",
         description:
           "Descrição de exemplo para o segundo período do cronograma. O conteúdo existe apenas como massa de teste para a geração do PDF e mantém comprimento equivalente ao do primeiro período, de modo que a distribuição do texto entre as células possa ser avaliada.",
       },
       {
-        period: "29/12/2025 a 14/01/2026",
+        periodStart: "2025-12-26",
+        periodEnd: "2026-01-14",
         description:
           "Descrição de exemplo para o terceiro período do cronograma. Assim como os demais campos deste arquivo, trata-se de um valor fictício mantido somente para validação visual do documento gerado e das quebras de linha em textos mais longos.",
       },

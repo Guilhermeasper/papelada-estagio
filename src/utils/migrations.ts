@@ -3,6 +3,7 @@ import {
   MAX_HOURS_PER_DAY,
   MIN_HOURS_PER_DAY,
 } from "@papelada-estagio/constants";
+import { parseLegacyPeriod } from "./dateUtils";
 import { parseLegacyWorkDays, toWeekdayRange } from "./workDays";
 import { defaultWorkSchedule, parseLegacyWorkSchedule } from "./workSchedule";
 
@@ -10,7 +11,7 @@ import { defaultWorkSchedule, parseLegacyWorkSchedule } from "./workSchedule";
 // We use 'any' here because old versions might not match current types
 export type MigrationFunction = (data: any) => any;
 
-export const CURRENT_DATA_VERSION = 3;
+export const CURRENT_DATA_VERSION = 4;
 
 export const MIGRATIONS: Record<number, MigrationFunction> = {
   1: (data) => {
@@ -56,6 +57,37 @@ export const MIGRATIONS: Record<number, MigrationFunction> = {
         hoursPerDay,
         workDays,
         workSchedule,
+      },
+    };
+  },
+  3: (data) => {
+    const content = data.content ?? {};
+    const schedule: unknown[] = Array.isArray(content.schedule)
+      ? content.schedule
+      : [];
+
+    return {
+      ...data,
+      content: {
+        ...content,
+        schedule: schedule.map((raw) => {
+          const item = (raw ?? {}) as Record<string, unknown>;
+          const description =
+            typeof item.description === "string" ? item.description : "";
+
+          if (
+            typeof item.periodStart === "string" &&
+            typeof item.periodEnd === "string"
+          ) {
+            return {
+              periodStart: item.periodStart,
+              periodEnd: item.periodEnd,
+              description,
+            };
+          }
+
+          return { ...parseLegacyPeriod(item.period), description };
+        }),
       },
     };
   },

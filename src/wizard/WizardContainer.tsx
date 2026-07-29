@@ -51,7 +51,12 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
       case 4:
         return { data: data.general, onNext: updateGeneral, onBack: prevStep };
       case 5:
-        return { data: data.content, onNext: updateContent, onBack: prevStep };
+        return {
+          data: data.content,
+          general: data.general,
+          onNext: updateContent,
+          onBack: prevStep,
+        };
       case 6:
         return {
           data: data.supervision,

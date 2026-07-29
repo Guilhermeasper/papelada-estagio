@@ -11,7 +11,35 @@ export function formatDateIso(ptBrDate: string): string {
 }
 
 export function formatPeriod(startIso: string, endIso: string): string {
+  if (!startIso && !endIso) return "";
+  if (!startIso || !endIso) return formatDatePtBr(startIso || endIso);
   return `${formatDatePtBr(startIso)} a ${formatDatePtBr(endIso)}`;
+}
+
+const PT_BR_DATE = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+const LEGACY_PERIOD_SEPARATOR = /\s+a\s+/i;
+
+export interface LegacyPeriodParts {
+  periodStart: string;
+  periodEnd: string;
+}
+
+export function parseLegacyPeriod(period: unknown): LegacyPeriodParts {
+  const empty = { periodStart: "", periodEnd: "" };
+  if (typeof period !== "string") return empty;
+
+  const parts = period.split(LEGACY_PERIOD_SEPARATOR);
+  if (parts.length !== 2) return empty;
+
+  const toIso = (value: string) => {
+    const match = PT_BR_DATE.exec(value.trim());
+    return match ? `${match[3]}-${match[2]}-${match[1]}` : "";
+  };
+
+  const periodStart = toIso(parts[0]);
+  const periodEnd = toIso(parts[1]);
+
+  return periodStart && periodEnd ? { periodStart, periodEnd } : empty;
 }
 
 export const WEEKDAY_NAMES_PT_BR = [

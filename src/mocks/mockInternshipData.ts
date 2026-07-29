@@ -44,17 +44,20 @@ export const mockInternshipData: IInternshipData = {
     ],
     schedule: [
       {
-        period: "Novembro/2025",
+        periodStart: "2025-11-19",
+        periodEnd: "2025-12-05",
         description:
           "Descrição de exemplo para o primeiro período do cronograma, usada apenas para testes de layout.",
       },
       {
-        period: "Dezembro/2025",
+        periodStart: "2025-12-08",
+        periodEnd: "2025-12-24",
         description:
           "Descrição de exemplo para o segundo período do cronograma, com comprimento equivalente ao original.",
       },
       {
-        period: "Janeiro/2026",
+        periodStart: "2025-12-26",
+        periodEnd: "2026-01-14",
         description:
           "Descrição de exemplo para o terceiro período do cronograma, mantida somente para validação visual.",
       },
