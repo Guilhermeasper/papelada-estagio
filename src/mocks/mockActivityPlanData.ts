@@ -20,8 +20,11 @@ export const mockActivityPlanData: IInternshipData = {
     startDate: "2025-11-19",
     endDate: "2026-01-14",
     hoursPerDay: 8,
-    workDays: "Segunda-Feira à sexta-feira",
-    workSchedule: "Das 9:00h às 12:00h e 13:00h às 18:00h",
+    workDays: [1, 2, 3, 4, 5],
+    workSchedule: {
+      morning: { start: 540, end: 720 },
+      afternoon: { start: 780, end: 1080 },
+    },
     modality: "Remoto",
   },
   content: {

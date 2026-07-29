@@ -1,9 +1,9 @@
 import {
+  DEFAULT_WORK_DAYS,
   MAX_HOURS_PER_DAY,
   MIN_HOURS_PER_DAY,
   MIN_INTERNSHIP_HOURS,
   MIN_LEAD_TIME_WEEKS,
-  WORKDAYS_PER_WEEK,
 } from "@papelada-estagio/constants";
 import {
   addDays,
@@ -78,7 +78,19 @@ export function getLeadTimeWarning(startIso: string): string | null {
   return `Faltam ${daysAhead} ${daysAhead === 1 ? "dia" : "dias"} para o início. ${antecedencia}`;
 }
 
-export function countWorkdays(startIso: string, endIso: string): number {
+const MAX_CALENDAR_ITERATIONS = 20000;
+
+export function isSelectedWorkday(date: Date, workDays: number[]): boolean {
+  return isWorkday(date) && workDays.includes(date.getDay());
+}
+
+export function countWorkdays(
+  startIso: string,
+  endIso: string,
+  workDays: number[] = DEFAULT_WORK_DAYS,
+): number {
+  if (workDays.length === 0) return 0;
+
   const start = parseIsoDate(startIso);
   const end = parseIsoDate(endIso);
 
@@ -86,7 +98,7 @@ export function countWorkdays(startIso: string, endIso: string): number {
   let current = new Date(start);
 
   while (current <= end) {
-    if (isWorkday(current)) {
+    if (isSelectedWorkday(current, workDays)) {
       count++;
     }
     current = addDays(current, 1);
@@ -98,6 +110,7 @@ export function countWorkdays(startIso: string, endIso: string): number {
 export function calculateEndDate(
   startIso: string,
   hoursPerDay: number,
+  workDays: number[] = DEFAULT_WORK_DAYS,
   minTotalHours: number = MIN_INTERNSHIP_HOURS,
 ): DateCalculationResult {
   const errors: string[] = [];
@@ -111,6 +124,17 @@ export function calculateEndDate(
       endDate: "",
       weeksNeeded: 0,
       errors: [startValidation.error!],
+    };
+  }
+
+  if (workDays.length === 0) {
+    return {
+      isValid: false,
+      totalHours: 0,
+      totalWorkdays: 0,
+      endDate: "",
+      weeksNeeded: 0,
+      errors: ["Selecione pelo menos 1 dia de trabalho"],
     };
   }
 
@@ -129,15 +153,27 @@ export function calculateEndDate(
   }
 
   const workdaysNeeded = Math.ceil(minTotalHours / hoursPerDay);
-  const hoursPerWeek = hoursPerDay * WORKDAYS_PER_WEEK;
+  const hoursPerWeek = hoursPerDay * workDays.length;
   const weeksNeeded = Math.ceil(minTotalHours / hoursPerWeek);
 
   const start = parseIsoDate(startIso);
   let current = new Date(start);
   let workdaysCounted = 0;
+  let iterations = 0;
 
   while (workdaysCounted < workdaysNeeded) {
-    if (isWorkday(current)) {
+    if (iterations++ > MAX_CALENDAR_ITERATIONS) {
+      return {
+        isValid: false,
+        totalHours: 0,
+        totalWorkdays: 0,
+        endDate: "",
+        weeksNeeded: 0,
+        errors: ["Não foi possível calcular a data de término"],
+      };
+    }
+
+    if (isSelectedWorkday(current, workDays)) {
       workdaysCounted++;
       if (workdaysCounted === workdaysNeeded) {
         break;
@@ -162,7 +198,12 @@ export function validateInternshipPeriod(
   startIso: string,
   endIso: string,
   hoursPerDay: number,
+  workDays: number[] = DEFAULT_WORK_DAYS,
 ): DateValidationResult {
+  if (workDays.length === 0) {
+    return { valid: false, error: "Selecione pelo menos 1 dia de trabalho" };
+  }
+
   const startValidation = validateDate(startIso);
   if (!startValidation.valid) {
     return startValidation;
@@ -183,7 +224,7 @@ export function validateInternshipPeriod(
     };
   }
 
-  const workdays = countWorkdays(startIso, endIso);
+  const workdays = countWorkdays(startIso, endIso, workDays);
   const totalHours = workdays * hoursPerDay;
 
   if (totalHours < MIN_INTERNSHIP_HOURS) {
@@ -207,10 +248,12 @@ export function getPeriodInfo(
   startDate: string,
   endDate: string,
   hoursPerDay: number,
+  workDays: number[] = DEFAULT_WORK_DAYS,
 ): PeriodInfo | null {
   if (!startDate || !endDate || !hoursPerDay) return null;
+  if (workDays.length === 0) return null;
 
-  const workdays = countWorkdays(startDate, endDate);
+  const workdays = countWorkdays(startDate, endDate, workDays);
   const totalHours = workdays * hoursPerDay;
 
   return {

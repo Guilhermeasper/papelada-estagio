@@ -14,12 +14,22 @@ export interface ICompanyData {
   companyCnpj: string;
 }
 
+export interface IWorkPeriod {
+  start: number;
+  end: number;
+}
+
+export interface IWorkSchedule {
+  morning: IWorkPeriod;
+  afternoon: IWorkPeriod;
+}
+
 export interface IInternshipGeneral {
   startDate: string;
   endDate: string;
   hoursPerDay: number;
-  workDays: string;
-  workSchedule: string;
+  workDays: number[];
+  workSchedule: IWorkSchedule;
   modality: "Remoto" | "Presencial" | "Híbrido";
 }
 

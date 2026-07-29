@@ -1,3 +1,4 @@
+import { DEFAULT_WORK_DAYS } from "@papelada-estagio/constants";
 import {
   ICompanyData,
   IInternshipContent,
@@ -7,6 +8,7 @@ import {
   ISupervisionData,
   WizardStep,
 } from "@papelada-estagio/types";
+import { defaultWorkSchedule } from "@papelada-estagio/utils/workSchedule";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   PersistedWizardState,
@@ -33,8 +35,8 @@ function createInitialData(): IInternshipData {
       startDate: "",
       endDate: "",
       hoursPerDay: 6,
-      workDays: "Segunda-feira a Sexta-feira",
-      workSchedule: "",
+      workDays: DEFAULT_WORK_DAYS,
+      workSchedule: defaultWorkSchedule(6 * 60),
       modality: "Remoto",
     },
     content: {

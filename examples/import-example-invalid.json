@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "data": {
     "student": {
       "fullName": "João da Silva",
@@ -24,8 +24,12 @@
       "modality": "Home Office"
     },
     "content": {
-      "activities": ["Primeira atividade de exemplo;"],
-      "objectives": ["Primeiro objetivo de exemplo;"],
+      "activities": [
+        "Primeira atividade de exemplo;"
+      ],
+      "objectives": [
+        "Primeiro objetivo de exemplo;"
+      ],
       "schedule": [
         {
           "period": "19/11/2025 a 14/01/2026",
@@ -67,6 +71,10 @@
     }
   },
   "currentStep": 12,
-  "completedSteps": [1, 2, 3],
+  "completedSteps": [
+    1,
+    2,
+    3
+  ],
   "savedAt": "2026-01-20T13:45:00.000Z"
 }

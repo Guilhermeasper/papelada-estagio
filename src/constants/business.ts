@@ -1,8 +1,18 @@
 export const MIN_INTERNSHIP_HOURS = 300;
 export const MIN_LEAD_TIME_WEEKS = 3;
 export const MAX_HOURS_PER_DAY = 8;
-export const MIN_HOURS_PER_DAY = 1;
+export const MIN_HOURS_PER_DAY = 2;
 export const WORKDAYS_PER_WEEK = 5;
+export const DEFAULT_WORK_DAYS = [1, 2, 3, 4, 5];
+export const MIN_WEEKDAY = 1;
+export const MAX_WEEKDAY = 5;
+
+export const DAY_START_MINUTES = 300;
+export const DAY_END_MINUTES = 1320;
+export const SCHEDULE_STEP_MINUTES = 30;
+export const MIN_PERIOD_MINUTES = 60;
+export const MIN_BREAK_MINUTES = 60;
+export const DEFAULT_SCHEDULE_START_MINUTES = 540;
 export const MAX_NUMBERED_LIST_ITEMS = 10;
 export const MAX_SCHEDULE_ITEMS = 10;
 export const MAX_EVALUATION_GRADES = 10;

@@ -18,6 +18,8 @@ import { PDF_CONTENT } from "@papelada-estagio/constants/pdf-content";
 import type { IInternshipData } from "@papelada-estagio/types";
 import { Text } from "@react-pdf/renderer";
 import { getAssetPath } from "../../utils/asset";
+import { formatWorkDays } from "../../utils/workDays";
+import { formatWorkSchedule } from "../../utils/workSchedule";
 
 interface ActivityPlanDocumentProps {
   data: IInternshipData;
@@ -103,10 +105,14 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
             value={`${general.hoursPerDay}h/dia`}
             marginLeft={60}
           />
-          <PDFFieldRow label="Dias" value={general.workDays} marginLeft={60} />
+          <PDFFieldRow
+            label="Dias"
+            value={formatWorkDays(general.workDays)}
+            marginLeft={60}
+          />
           <PDFFieldRow
             label="Horário"
-            value={general.workSchedule}
+            value={formatWorkSchedule(general.workSchedule)}
             marginLeft={60}
           />
           <PDFFieldRow

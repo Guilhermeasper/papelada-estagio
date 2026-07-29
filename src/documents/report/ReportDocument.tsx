@@ -27,7 +27,7 @@ export function ReportDocument({ data }: ReportDocumentProps) {
   const coverMonth = getMonthName(endMonth);
   const coverYear = endYear;
 
-  const weeklyHours = general.hoursPerDay * 5;
+  const weeklyHours = general.hoursPerDay * general.workDays.length;
 
   const idItems: KeyValueItem[] = [
     { label: "Nome", value: student.fullName },

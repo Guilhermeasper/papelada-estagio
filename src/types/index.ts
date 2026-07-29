@@ -8,6 +8,8 @@ export type {
   IScheduleItem,
   IStudentData,
   ISupervisionData,
+  IWorkPeriod,
+  IWorkSchedule,
 } from "./internship";
 
 export type {

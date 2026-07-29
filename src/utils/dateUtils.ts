@@ -14,17 +14,18 @@ export function formatPeriod(startIso: string, endIso: string): string {
   return `${formatDatePtBr(startIso)} a ${formatDatePtBr(endIso)}`;
 }
 
+export const WEEKDAY_NAMES_PT_BR = [
+  "Domingo",
+  "Segunda-feira",
+  "Terça-feira",
+  "Quarta-feira",
+  "Quinta-feira",
+  "Sexta-feira",
+  "Sábado",
+];
+
 export function getDayOfWeekPtBr(date: Date): string {
-  const days = [
-    "Domingo",
-    "Segunda-feira",
-    "Terça-feira",
-    "Quarta-feira",
-    "Quinta-feira",
-    "Sexta-feira",
-    "Sábado",
-  ];
-  return days[date.getDay()];
+  return WEEKDAY_NAMES_PT_BR[date.getDay()];
 }
 
 export function isWeekend(date: Date): boolean {

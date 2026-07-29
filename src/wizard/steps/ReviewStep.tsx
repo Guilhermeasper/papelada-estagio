@@ -1,6 +1,8 @@
 import { Button } from "@papelada-estagio/components";
 import { IStep7Props } from "@papelada-estagio/types";
 import { formatDatePtBr } from "@papelada-estagio/utils/dateUtils";
+import { formatWorkDays } from "@papelada-estagio/utils/workDays";
+import { formatWorkSchedule } from "@papelada-estagio/utils/workSchedule";
 
 export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
   return (
@@ -42,8 +44,14 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
           label="Carga Horária"
           value={`${data.general.hoursPerDay}h/dia`}
         />
-        <ReviewItem label="Dias" value={data.general.workDays} />
-        <ReviewItem label="Horário" value={data.general.workSchedule} />
+        <ReviewItem
+          label="Dias"
+          value={formatWorkDays(data.general.workDays)}
+        />
+        <ReviewItem
+          label="Horário"
+          value={formatWorkSchedule(data.general.workSchedule)}
+        />
         <ReviewItem label="Modalidade" value={data.general.modality} />
       </ReviewSection>
 

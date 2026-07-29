@@ -1,8 +1,26 @@
 import {
+  MAX_HOURS_PER_DAY,
+  MAX_WEEKDAY,
+  MIN_HOURS_PER_DAY,
+  MIN_WEEKDAY,
+} from "@papelada-estagio/constants";
+import {
   validateDate,
   validateInternshipPeriod,
 } from "@papelada-estagio/utils/dateCalculator";
+import { parseIsoDate } from "@papelada-estagio/utils/dateUtils";
+import { isValidWorkSchedule } from "@papelada-estagio/utils/workSchedule";
 import { z } from "zod";
+
+const workPeriodSchema = z.object({
+  start: z.number(),
+  end: z.number(),
+});
+
+const workScheduleSchema = z.object({
+  morning: workPeriodSchema,
+  afternoon: workPeriodSchema,
+});
 
 const phoneRegex = /^\(?[0-9]{2}\)?[\s]?[0-9]{4,5}[-\s]?[0-9]{4}$/;
 const cnpjRegex = /^[0-9]{2}\.?[0-9]{3}\.?[0-9]{3}\/?[0-9]{4}-?[0-9]{2}$/;
@@ -64,21 +82,46 @@ export const internshipGeneralSchema = z
       ),
     hoursPerDay: z
       .number()
-      .min(1, "Mínimo 1 hora por dia")
-      .max(8, "Máximo 8 horas por dia"),
-    workDays: z.string().min(1, "Dias de trabalho é obrigatório"),
-    workSchedule: z.string().min(1, "Horário de trabalho é obrigatório"),
+      .min(MIN_HOURS_PER_DAY, `Mínimo ${MIN_HOURS_PER_DAY} horas por dia`)
+      .max(MAX_HOURS_PER_DAY, `Máximo ${MAX_HOURS_PER_DAY} horas por dia`),
+    workDays: z
+      .array(z.number().int().min(MIN_WEEKDAY).max(MAX_WEEKDAY))
+      .min(1, "Selecione pelo menos 1 dia"),
+    workSchedule: workScheduleSchema,
     modality: z.enum(["Remoto", "Presencial", "Híbrido"], {
       message: "Selecione a modalidade",
     }),
   })
   .superRefine((data, ctx) => {
-    if (!data.startDate || !data.endDate || !data.hoursPerDay) return;
+    if (!data.hoursPerDay) return;
+
+    if (!isValidWorkSchedule(data.workSchedule, data.hoursPerDay * 60)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `O horário deve somar ${data.hoursPerDay}h por dia`,
+        path: ["workSchedule"],
+      });
+    }
+
+    if (!data.startDate || !data.endDate) return;
+
+    if (
+      data.workDays.length > 0 &&
+      !data.workDays.includes(parseIsoDate(data.startDate).getDay())
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "A data de início deve cair em um dia de trabalho selecionado",
+        path: ["startDate"],
+      });
+      return;
+    }
 
     const validation = validateInternshipPeriod(
       data.startDate,
       data.endDate,
       data.hoursPerDay,
+      data.workDays,
     );
 
     if (!validation.valid) {
@@ -195,8 +238,8 @@ const generalImportSchema = z.object({
   startDate: z.string(),
   endDate: z.string(),
   hoursPerDay: z.number(),
-  workDays: z.string(),
-  workSchedule: z.string(),
+  workDays: z.array(z.number()),
+  workSchedule: workScheduleSchema,
   modality: z.enum(["Remoto", "Presencial", "Híbrido"]),
 });
 

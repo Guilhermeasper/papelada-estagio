@@ -1,5 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Input, Select } from "@papelada-estagio/components";
+import {
+  Button,
+  CheckboxGroup,
+  Input,
+  RadioGroup,
+} from "@papelada-estagio/components";
+import {
+  MAX_HOURS_PER_DAY,
+  MIN_HOURS_PER_DAY,
+} from "@papelada-estagio/constants";
 import { useDebounce } from "@papelada-estagio/hooks";
 import { IStep4Props } from "@papelada-estagio/types";
 import {
@@ -8,6 +17,9 @@ import {
   getPeriodInfo,
 } from "@papelada-estagio/utils/dateCalculator";
 import { formatDatePtBr } from "@papelada-estagio/utils/dateUtils";
+import { WEEKDAY_OPTIONS } from "@papelada-estagio/utils/workDays";
+import { rebalanceForTotal } from "@papelada-estagio/utils/workSchedule";
+import { WorkScheduleField } from "@papelada-estagio/wizard/WorkScheduleField";
 import {
   InternshipGeneralFormData,
   internshipGeneralSchema,
@@ -29,6 +41,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
     watch,
     setValue,
     getValues,
+    trigger,
     formState: { errors, isSubmitting },
   } = useForm<InternshipGeneralFormData>({
     resolver: zodResolver(internshipGeneralSchema),
@@ -41,14 +54,15 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
   const startDate = watch("startDate");
   const hoursPerDay = watch("hoursPerDay");
   const endDate = watch("endDate");
+  const workDays = watch("workDays");
 
   const debouncedHoursPerDay = useDebounce(hoursPerDay, 300);
 
   const syncEndDate = useCallback(
-    (start: string, hours: number) => {
-      if (!start || !hours) return;
+    (start: string, hours: number, days: number[]) => {
+      if (!start || !hours || !days?.length) return;
 
-      const result = calculateEndDate(start, hours);
+      const result = calculateEndDate(start, hours, days);
       setValue("endDate", result.isValid ? result.endDate : "", {
         shouldValidate: result.isValid,
       });
@@ -57,14 +71,37 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
   );
 
   useEffect(() => {
-    syncEndDate(getValues("startDate"), debouncedHoursPerDay);
-  }, [debouncedHoursPerDay, getValues, syncEndDate]);
+    syncEndDate(
+      getValues("startDate"),
+      debouncedHoursPerDay,
+      getValues("workDays"),
+    );
+
+    if (getValues("startDate")) {
+      trigger("startDate");
+    }
+  }, [debouncedHoursPerDay, workDays, getValues, syncEndDate, trigger]);
+
+  useEffect(() => {
+    if (!debouncedHoursPerDay) return;
+
+    const current = getValues("workSchedule");
+    if (!current) return;
+
+    setValue(
+      "workSchedule",
+      rebalanceForTotal(current, debouncedHoursPerDay * 60),
+      {
+        shouldValidate: true,
+      },
+    );
+  }, [debouncedHoursPerDay, getValues, setValue]);
 
   const startDateField = register("startDate");
 
   const periodInfo = useMemo(() => {
-    return getPeriodInfo(startDate, endDate, hoursPerDay);
-  }, [startDate, endDate, hoursPerDay]);
+    return getPeriodInfo(startDate, endDate, hoursPerDay, workDays);
+  }, [startDate, endDate, hoursPerDay, workDays]);
 
   const leadTimeWarning = useMemo(() => {
     return getLeadTimeWarning(startDate);
@@ -97,7 +134,11 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
             {...startDateField}
             onChange={(e) => {
               startDateField.onChange(e);
-              syncEndDate(e.target.value, getValues("hoursPerDay"));
+              syncEndDate(
+                e.target.value,
+                getValues("hoursPerDay"),
+                getValues("workDays"),
+              );
             }}
             error={errors.startDate?.message}
             hint="Não pode ser fim de semana ou feriado"
@@ -111,8 +152,8 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
               <Input
                 label="Horas por Dia"
                 type="number"
-                min={1}
-                max={8}
+                min={MIN_HOURS_PER_DAY}
+                max={MAX_HOURS_PER_DAY}
                 {...field}
                 onChange={(e) => field.onChange(Number(e.target.value))}
                 error={errors.hoursPerDay?.message}
@@ -201,31 +242,54 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Input
-          label="Dias de Trabalho"
-          placeholder="Ex: Segunda-feira a Sexta-feira"
-          {...register("workDays")}
-          error={errors.workDays?.message}
-          required
+      <div className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-lg p-6 space-y-6 border border-border dark:border-border-dark">
+        <Controller
+          name="workDays"
+          control={control}
+          render={({ field }) => (
+            <CheckboxGroup
+              name="workDays"
+              label="Dias de Trabalho"
+              options={WEEKDAY_OPTIONS}
+              value={field.value ?? []}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              ref={field.ref}
+              error={errors.workDays?.message}
+              hint="Desmarcar dias estende a data de término"
+              required
+            />
+          )}
         />
 
-        <Input
-          label="Horário de Trabalho"
-          placeholder="Ex: Das 9:00h às 12:00h e 13:00h às 18:00h"
-          {...register("workSchedule")}
-          error={errors.workSchedule?.message}
-          required
+        <Controller
+          name="workSchedule"
+          control={control}
+          render={({ field }) => (
+            <WorkScheduleField
+              label="Horário de Trabalho"
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              hoursPerDay={hoursPerDay}
+              error={errors.workSchedule?.message}
+              required
+            />
+          )}
         />
 
         <Controller
           name="modality"
           control={control}
           render={({ field }) => (
-            <Select
+            <RadioGroup
+              name="modality"
               label="Modalidade"
               options={modalityOptions}
-              {...field}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              ref={field.ref}
               error={errors.modality?.message}
               required
             />
