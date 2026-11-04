@@ -8,9 +8,9 @@ interface ProcessCardProps {
 export function ProcessCard({ stage }: ProcessCardProps) {
   return (
     <ChecklistCard title={stage.title} description={stage.description}>
-      {stage.steps.map((step, index) => (
+      {stage.steps.map((step) => (
         <ChecklistItem
-          key={`step-${index}-${step.label}`}
+          key={step.label}
           label={step.label}
           highlight={step.highlight}
         >

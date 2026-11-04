@@ -43,6 +43,7 @@ export function DynamicList({
       <div className="flex flex-col gap-3 md:gap-2">
         {items.map((item, index) => (
           <div
+            // eslint-disable-next-line react-x/no-array-index-key -- items are editable strings with no id, and keying by value would drop focus on every keystroke
             key={index}
             className="flex flex-col md:flex-row md:items-start gap-1 md:gap-2"
           >

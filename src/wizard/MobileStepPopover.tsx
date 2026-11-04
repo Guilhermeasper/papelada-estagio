@@ -186,9 +186,9 @@ export function MobileStepPopover({
                       </p>
                       {step.requirements && step.requirements.length > 0 && (
                         <ul className="mt-2 space-y-1">
-                          {step.requirements.map((req, i) => (
+                          {step.requirements.map((req) => (
                             <li
-                              key={i}
+                              key={req}
                               className="flex items-start gap-1.5 text-xs text-text-secondary dark:text-text-secondary-dark"
                             >
                               <span className="text-brand-accent mt-0.5">

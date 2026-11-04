@@ -1,3 +1,4 @@
+/* eslint-disable react-x/no-array-index-key -- read-only lists of user text, which may repeat */
 import { Button } from "@papelada-estagio/components";
 import { IScheduleItem, IStep7Props } from "@papelada-estagio/types";
 import {

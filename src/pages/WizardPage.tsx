@@ -8,7 +8,8 @@ import { useWizardData } from "@papelada-estagio/hooks";
 import { WizardContainer } from "@papelada-estagio/wizard/WizardContainer";
 
 export function WizardPage() {
-  const { state, actions, dialogs } = useWizardData();
+  const { state, actions, dialogs, fileInputRef, handleFileSelect } =
+    useWizardData();
 
   return (
     <AppLayout
@@ -37,9 +38,9 @@ export function WizardPage() {
 
       <input
         type="file"
-        ref={dialogs.fileInputRef}
+        ref={fileInputRef}
         accept=".json"
-        onChange={dialogs.handleFileSelect}
+        onChange={handleFileSelect}
         className="hidden"
       />
 

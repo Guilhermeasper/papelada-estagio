@@ -92,7 +92,6 @@ export interface WizardDataState {
   data: IInternshipData;
   currentStep: WizardStep;
   completedSteps: WizardStep[];
-  isInitialized: boolean;
   hasProgress: boolean;
 }
 
@@ -116,15 +115,28 @@ export interface WizardDialogState {
   importDialog: ImportDialogState;
   confirmImport: () => void;
   cancelImport: () => void;
-  fileInputRef: React.RefObject<HTMLInputElement | null>;
-  handleFileSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function useWizardData() {
-  const [data, setData] = useState<IInternshipData>(createInitialData);
-  const [currentStep, setCurrentStep] = useState<WizardStep>(1);
-  const [completedSteps, setCompletedSteps] = useState<WizardStep[]>([]);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const {
+    saveProgress,
+    loadProgress,
+    clearProgress,
+    hasProgress,
+    exportProgress,
+    importProgress,
+  } = useWizardPersistence();
+
+  const [saved] = useState(() => loadProgress());
+  const [data, setData] = useState<IInternshipData>(
+    () => saved?.data ?? createInitialData(),
+  );
+  const [currentStep, setCurrentStep] = useState<WizardStep>(
+    saved?.currentStep ?? 1,
+  );
+  const [completedSteps, setCompletedSteps] = useState<WizardStep[]>(
+    saved?.completedSteps ?? [],
+  );
 
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [importDialog, setImportDialog] = useState<ImportDialogState>({
@@ -135,31 +147,10 @@ export function useWizardData() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const {
-    saveProgress,
-    loadProgress,
-    clearProgress,
-    hasProgress,
-    exportProgress,
-    importProgress,
-  } = useWizardPersistence();
-
-  useEffect(() => {
-    const saved = loadProgress();
-    if (saved) {
-      setData(saved.data);
-      setCurrentStep(saved.currentStep);
-      setCompletedSteps(saved.completedSteps);
-    }
-    setIsInitialized(true);
-  }, [loadProgress]);
-
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (completedSteps.length > 0 || currentStep > 1) {
         e.preventDefault();
-        e.returnValue = "";
-        return "";
       }
     };
 
@@ -273,29 +264,29 @@ export function useWizardData() {
   }, []);
 
   const handleFileSelect = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
       if (!file) return;
 
-      const result = await importProgress(file);
+      void importProgress(file).then((result) => {
+        if (result.success && result.state) {
+          setImportDialog({
+            isOpen: true,
+            previewData: result.state,
+            error: undefined,
+          });
+        } else {
+          setImportDialog({
+            isOpen: true,
+            previewData: null,
+            error: result.error,
+          });
+        }
 
-      if (result.success && result.state) {
-        setImportDialog({
-          isOpen: true,
-          previewData: result.state,
-          error: undefined,
-        });
-      } else {
-        setImportDialog({
-          isOpen: true,
-          previewData: null,
-          error: result.error,
-        });
-      }
-
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+      });
     },
     [importProgress],
   );
@@ -322,7 +313,6 @@ export function useWizardData() {
     data,
     currentStep,
     completedSteps,
-    isInitialized,
     hasProgress: hasProgress(),
   };
 
@@ -346,9 +336,7 @@ export function useWizardData() {
     importDialog,
     confirmImport,
     cancelImport,
-    fileInputRef,
-    handleFileSelect,
   };
 
-  return { state, actions, dialogs };
+  return { state, actions, dialogs, fileInputRef, handleFileSelect };
 }

@@ -13,10 +13,12 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
   const { t } = useTranslation();
   const afterStage = useAfterStage();
   const [selectedDocs, setSelectedDocs] = useState<Set<DocumentType>>(
-    new Set(),
+    () => new Set(),
   );
   const [generating, setGenerating] = useState<DocumentType | null>(null);
-  const [generated, setGenerated] = useState<Set<DocumentType>>(new Set());
+  const [generated, setGenerated] = useState<Set<DocumentType>>(
+    () => new Set(),
+  );
   const [error, setError] = useState<string | null>(null);
 
   const documentOptions = pdfService.getDocumentOptions();

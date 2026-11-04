@@ -30,7 +30,6 @@ export type {
   IStepInfo,
   IStudentFormStepProps,
   ISupervisionFormStepProps,
-  StepPropsMap,
   WizardStep,
 } from "./wizard";
 

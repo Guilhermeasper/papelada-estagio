@@ -28,7 +28,7 @@ import {
   internshipGeneralSchema,
 } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useCallback, useEffect, useMemo } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
@@ -46,7 +46,6 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
   const {
     handleSubmit,
     control,
-    watch,
     setValue,
     getValues,
     trigger,
@@ -59,10 +58,10 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
     },
   });
 
-  const startDate = watch("startDate");
-  const hoursPerDay = watch("hoursPerDay");
-  const endDate = watch("endDate");
-  const workDays = watch("workDays");
+  const startDate = useWatch({ control, name: "startDate" });
+  const hoursPerDay = useWatch({ control, name: "hoursPerDay" });
+  const endDate = useWatch({ control, name: "endDate" });
+  const workDays = useWatch({ control, name: "workDays" });
 
   const debouncedHoursPerDay = useDebounce(hoursPerDay, 300);
 

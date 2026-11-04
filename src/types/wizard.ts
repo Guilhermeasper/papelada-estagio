@@ -63,17 +63,6 @@ export interface IDownloadStepProps {
   onBack: () => void;
 }
 
-export interface StepPropsMap {
-  1: IChecklistStepProps;
-  2: IStudentFormStepProps;
-  3: ICompanyFormStepProps;
-  4: IInternshipGeneralStepProps;
-  5: IInternshipContentStepProps;
-  6: ISupervisionFormStepProps;
-  7: IReviewStepProps;
-  8: IDownloadStepProps;
-}
-
 export type IStep1Props = IChecklistStepProps;
 export type IStep2Props = IStudentFormStepProps;
 export type IStep3Props = ICompanyFormStepProps;

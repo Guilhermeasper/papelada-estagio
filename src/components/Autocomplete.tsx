@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, ChangeEvent, FocusEvent } from "react";
+import { useState, useRef, ChangeEvent, FocusEvent } from "react";
 import { Input } from "./Input";
 
 interface AutocompleteProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -22,23 +22,17 @@ export function Autocomplete({
 }: AutocompleteProps & { ref?: React.Ref<HTMLInputElement> }) {
   const inputId = id || label.toLowerCase().replace(/\s+/g, "-");
   const [isOpen, setIsOpen] = useState(false);
-  const [inputValue, setInputValue] = useState(
-    props.value?.toString() || props.defaultValue?.toString() || "",
+  const [localValue, setLocalValue] = useState(
+    props.defaultValue?.toString() ?? "",
   );
+  const inputValue = props.value?.toString() ?? localValue;
   const [filteredOptions, setFilteredOptions] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const internalInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Sync inputValue if controlled from outside (though RHF is usually uncontrolled)
-  useEffect(() => {
-    if (props.value !== undefined) {
-      setInputValue(props.value.toString());
-    }
-  }, [props.value]);
-
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setInputValue(value);
+    setLocalValue(value);
 
     if (value) {
       const filtered = options.filter((option) =>
@@ -57,7 +51,7 @@ export function Autocomplete({
   };
 
   const handleSelectOption = (option: string) => {
-    setInputValue(option);
+    setLocalValue(option);
     setIsOpen(false);
 
     // Update the actual input value and trigger change event for RHF
@@ -128,9 +122,9 @@ export function Autocomplete({
 
         {isOpen && filteredOptions.length > 0 && (
           <ul className="absolute z-10 w-full mt-1 max-h-60 overflow-auto bg-surface-elevated dark:bg-surface-elevated-dark border border-border dark:border-border-dark rounded-md shadow-lg">
-            {filteredOptions.map((option, index) => (
+            {filteredOptions.map((option) => (
               <li
-                key={`opt-${index}-${option}`}
+                key={option}
                 className="px-4 py-2 text-sm text-text-primary dark:text-text-primary-dark hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 cursor-pointer transition-colors duration-150"
                 onClick={() => handleSelectOption(option)}
               >

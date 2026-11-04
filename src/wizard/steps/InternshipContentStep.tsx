@@ -24,7 +24,7 @@ import {
   makeInternshipContentSchema,
 } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useMemo, useState } from "react";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 const emptyScheduleItem: IScheduleItem = {
@@ -54,7 +54,7 @@ export function InternshipContentStep({
 }: IStep5Props) {
   const { t } = useTranslation();
 
-  const { startDate, endDate, workDays, hoursPerDay } = general ?? {};
+  const { startDate, endDate, workDays, hoursPerDay } = general;
 
   const hasGeneralPeriod = Boolean(startDate && endDate && workDays.length > 0);
 
@@ -71,7 +71,6 @@ export function InternshipContentStep({
     register,
     handleSubmit,
     control,
-    watch,
     setValue,
     getValues,
     formState: { errors, isSubmitting },
@@ -94,9 +93,9 @@ export function InternshipContentStep({
     name: "schedule",
   });
 
-  const activities = watch("activities");
-  const objectives = watch("objectives");
-  const schedule = watch("schedule");
+  const activities = useWatch({ control, name: "activities" });
+  const objectives = useWatch({ control, name: "objectives" });
+  const schedule = useWatch({ control, name: "schedule" });
 
   const lastScheduleItem = schedule?.[schedule.length - 1];
 

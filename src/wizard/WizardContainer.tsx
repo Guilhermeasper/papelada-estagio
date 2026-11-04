@@ -4,12 +4,21 @@ import type {
   WizardDataState,
 } from "@papelada-estagio/hooks";
 import type { WizardStep } from "@papelada-estagio/types";
-import { Suspense, useMemo } from "react";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { MobileStepPopover } from "./MobileStepPopover";
 import { StepIndicator } from "./StepIndicator";
 import { TOTAL_STEPS, useSteps } from "./data/steps";
-import { STEP_REGISTRY } from "./stepRegistry";
+import {
+  ChecklistStep,
+  CompanyFormStep,
+  DownloadStep,
+  InternshipContentStep,
+  InternshipGeneralStep,
+  ReviewStep,
+  StudentFormStep,
+  SupervisionFormStep,
+} from "./stepRegistry";
 
 function StepLoading() {
   const { t } = useTranslation();
@@ -33,7 +42,7 @@ interface WizardContainerProps {
 export function WizardContainer({ state, actions }: WizardContainerProps) {
   const { t } = useTranslation();
   const steps = useSteps();
-  const { data, currentStep, completedSteps, isInitialized } = state;
+  const { data, currentStep, completedSteps } = state;
   const {
     setCurrentStep,
     updateStudent,
@@ -45,64 +54,59 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
     prevStep,
   } = actions;
 
-  const goToStep = (step: WizardStep) => setCurrentStep(step);
-
-  const stepProps = useMemo(() => {
+  const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return { onNext: nextStep };
+        return <ChecklistStep onNext={nextStep} />;
       case 2:
-        return { data: data.student, onNext: updateStudent };
+        return <StudentFormStep data={data.student} onNext={updateStudent} />;
       case 3:
-        return { data: data.company, onNext: updateCompany, onBack: prevStep };
+        return (
+          <CompanyFormStep
+            data={data.company}
+            onNext={updateCompany}
+            onBack={prevStep}
+          />
+        );
       case 4:
-        return { data: data.general, onNext: updateGeneral, onBack: prevStep };
+        return (
+          <InternshipGeneralStep
+            data={data.general}
+            onNext={updateGeneral}
+            onBack={prevStep}
+          />
+        );
       case 5:
-        return {
-          data: data.content,
-          general: data.general,
-          onNext: updateContent,
-          onBack: prevStep,
-        };
+        return (
+          <InternshipContentStep
+            data={data.content}
+            general={data.general}
+            onNext={updateContent}
+            onBack={prevStep}
+          />
+        );
       case 6:
-        return {
-          data: data.supervision,
-          endDate: data.general.endDate,
-          onNext: updateSupervision,
-          onBack: prevStep,
-        };
+        return (
+          <SupervisionFormStep
+            data={data.supervision}
+            endDate={data.general.endDate}
+            onNext={updateSupervision}
+            onBack={prevStep}
+          />
+        );
       case 7:
-        return {
-          data,
-          onNext: nextStep,
-          onBack: prevStep,
-          onEdit: (step: number) => goToStep(step as WizardStep),
-        };
+        return (
+          <ReviewStep
+            data={data}
+            onNext={nextStep}
+            onBack={prevStep}
+            onEdit={(step) => setCurrentStep(step as WizardStep)}
+          />
+        );
       case 8:
-      default:
-        return { data, onBack: prevStep };
+        return <DownloadStep data={data} onBack={prevStep} />;
     }
-  }, [
-    currentStep,
-    data,
-    nextStep,
-    updateStudent,
-    updateCompany,
-    updateGeneral,
-    updateContent,
-    updateSupervision,
-    prevStep,
-  ]);
-
-  const StepComponent = STEP_REGISTRY[currentStep];
-
-  if (!isInitialized) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <StepLoading />
-      </div>
-    );
-  }
+  };
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -111,7 +115,7 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
           currentStep={currentStep}
           steps={steps}
           completedSteps={completedSteps}
-          onStepClick={goToStep}
+          onStepClick={setCurrentStep}
         />
       </div>
 
@@ -122,7 +126,7 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
               currentStep={currentStep}
               steps={steps}
               completedSteps={completedSteps}
-              onStepClick={goToStep}
+              onStepClick={setCurrentStep}
             />
           </div>
         </aside>
@@ -139,7 +143,7 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
             if (currentStep < workingStep && workingStepInfo) {
               return (
                 <Button
-                  onClick={() => goToStep(workingStep)}
+                  onClick={() => setCurrentStep(workingStep)}
                   variant="outline"
                   className="mb-4 w-full"
                 >
@@ -166,9 +170,7 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
             return null;
           })()}
           <div className="bg-surface-elevated dark:bg-surface-elevated-dark rounded-xl shadow-sm border border-border dark:border-border-dark p-6 md:p-8">
-            <Suspense fallback={<StepLoading />}>
-              <StepComponent {...(stepProps as any)} />
-            </Suspense>
+            <Suspense fallback={<StepLoading />}>{renderStep()}</Suspense>
           </div>
         </div>
       </div>

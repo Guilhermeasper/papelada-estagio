@@ -109,19 +109,17 @@ export function StepIndicator({
                               {step.title}
                             </p>
                             <ul className="space-y-0.5">
-                              {step.requirements.map(
-                                (req: string, i: number) => (
-                                  <li
-                                    key={i}
-                                    className="flex items-start gap-1.5"
-                                  >
-                                    <span className="text-brand-accent mt-0.5">
-                                      •
-                                    </span>
-                                    <span>{req}</span>
-                                  </li>
-                                ),
-                              )}
+                              {step.requirements.map((req: string) => (
+                                <li
+                                  key={req}
+                                  className="flex items-start gap-1.5"
+                                >
+                                  <span className="text-brand-accent mt-0.5">
+                                    •
+                                  </span>
+                                  <span>{req}</span>
+                                </li>
+                              ))}
                             </ul>
 
                             <div className="absolute right-full top-1/2 -translate-y-1/2 -mr-px">

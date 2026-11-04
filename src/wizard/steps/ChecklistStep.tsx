@@ -26,9 +26,9 @@ export function ChecklistStep({ onNext }: IStep1Props) {
       <ProcessCard stage={beforeStage} />
 
       <div className="space-y-4">
-        {checklistData.map((card, cardIndex) => (
+        {checklistData.map((card) => (
           <ChecklistCard
-            key={cardIndex}
+            key={card.title}
             title={card.title}
             description={card.description}
             badge={{
@@ -36,8 +36,8 @@ export function ChecklistStep({ onNext }: IStep1Props) {
               variant: card.source,
             }}
           >
-            {card.items.map((item, itemIndex) => (
-              <ChecklistItem key={itemIndex} label={item.label}>
+            {card.items.map((item) => (
+              <ChecklistItem key={item.content} label={item.label}>
                 {item.content}
               </ChecklistItem>
             ))}
