@@ -39,10 +39,14 @@ desatualizar. Em caso de divergência, **o site prevalece**.
 ```bash
 npm install
 npm run dev       # servidor local
-npm run lint
+npm test
+npm run check     # formatação, lint, tipos e testes
 npm run build
-npm run pdf:check # renderiza os PDFs e checa o layout
+npm run pdf:check # renderiza os PDFs e checa o layout (precisa do Poppler)
 ```
+
+Para contribuir, leia o [guia de contribuição](./CONTRIBUTING.md) e as
+[convenções de código](./CODING_STANDARDS.md).
 
 Stack: React 19, TypeScript, Vite, Tailwind 4, react-hook-form + Zod,
 @react-pdf/renderer.
