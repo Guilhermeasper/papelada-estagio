@@ -1,5 +1,5 @@
 import { toFieldId } from "@papelada-estagio/utils/fieldId";
-import { forwardRef, InputHTMLAttributes, ReactNode } from "react";
+import { InputHTMLAttributes, ReactNode } from "react";
 import { FormField } from "./FormField";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -9,23 +9,31 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   trailing?: ReactNode;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, hint, trailing, id, className = "", ...props }, ref) => {
-    const inputId = toFieldId(label, id);
+export function Input({
+  ref,
+  label,
+  error,
+  hint,
+  trailing,
+  id,
+  className = "",
+  ...props
+}: InputProps & { ref?: React.Ref<HTMLInputElement> }) {
+  const inputId = toFieldId(label, id);
 
-    return (
-      <FormField
-        id={inputId}
-        label={label}
-        required={props.required}
-        error={error}
-        hint={hint}
-      >
-        <div className="relative">
-          <input
-            ref={ref}
-            id={inputId}
-            className={`
+  return (
+    <FormField
+      id={inputId}
+      label={label}
+      required={props.required}
+      error={error}
+      hint={hint}
+    >
+      <div className="relative">
+        <input
+          ref={ref}
+          id={inputId}
+          className={`
             w-full px-4 py-2.5 text-sm md:text-base
             border border-border dark:border-border-dark rounded-md
             bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark
@@ -38,22 +46,19 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             ${trailing ? "pr-11" : ""}
             ${className}
           `}
-            aria-invalid={!!error}
-            aria-describedby={
-              error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined
-            }
-            {...props}
-          />
+          aria-invalid={!!error}
+          aria-describedby={
+            error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined
+          }
+          {...props}
+        />
 
-          {trailing && (
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2">
-              {trailing}
-            </div>
-          )}
-        </div>
-      </FormField>
-    );
-  },
-);
-
-Input.displayName = "Input";
+        {trailing && (
+          <div className="absolute inset-y-0 right-0 flex items-center pr-2">
+            {trailing}
+          </div>
+        )}
+      </div>
+    </FormField>
+  );
+}

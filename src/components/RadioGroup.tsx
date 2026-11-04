@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import { OptionGroup, OptionGroupOption } from "./OptionGroup";
 
 export type RadioGroupOption = OptionGroupOption<string>;
@@ -17,8 +16,13 @@ interface RadioGroupProps {
   className?: string;
 }
 
-export const RadioGroup = forwardRef<HTMLInputElement, RadioGroupProps>(
-  ({ value, onChange, ...props }, ref) => (
+export function RadioGroup({
+  ref,
+  value,
+  onChange,
+  ...props
+}: RadioGroupProps & { ref?: React.Ref<HTMLInputElement> }) {
+  return (
     <OptionGroup
       {...props}
       type="radio"
@@ -26,7 +30,5 @@ export const RadioGroup = forwardRef<HTMLInputElement, RadioGroupProps>(
       onSelect={onChange}
       inputRef={ref}
     />
-  ),
-);
-
-RadioGroup.displayName = "RadioGroup";
+  );
+}

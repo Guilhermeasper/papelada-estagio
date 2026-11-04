@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import { OptionGroup, OptionGroupOption } from "./OptionGroup";
 
 export type CheckboxGroupOption<T extends string | number> =
@@ -18,10 +17,12 @@ interface CheckboxGroupProps<T extends string | number> {
   className?: string;
 }
 
-function CheckboxGroupInner<T extends string | number>(
-  { value, onChange, ...props }: CheckboxGroupProps<T>,
-  ref: React.Ref<HTMLInputElement>,
-) {
+export function CheckboxGroup<T extends string | number>({
+  ref,
+  value,
+  onChange,
+  ...props
+}: CheckboxGroupProps<T> & { ref?: React.Ref<HTMLInputElement> }) {
   const toggle = (option: T) => {
     const next = value.includes(option)
       ? value.filter((entry) => entry !== option)
@@ -44,9 +45,3 @@ function CheckboxGroupInner<T extends string | number>(
     />
   );
 }
-
-export const CheckboxGroup = forwardRef(CheckboxGroupInner) as <
-  T extends string | number,
->(
-  props: CheckboxGroupProps<T> & { ref?: React.Ref<HTMLInputElement> },
-) => ReturnType<typeof CheckboxGroupInner>;

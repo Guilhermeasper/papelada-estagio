@@ -1,5 +1,5 @@
 import { toFieldId } from "@papelada-estagio/utils/fieldId";
-import { forwardRef, SelectHTMLAttributes } from "react";
+import { SelectHTMLAttributes } from "react";
 import { FormField } from "./FormField";
 
 interface SelectOption {
@@ -14,22 +14,30 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   hint?: string;
 }
 
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ label, options, error, hint, id, className = "", ...props }, ref) => {
-    const selectId = toFieldId(label, id);
+export function Select({
+  ref,
+  label,
+  options,
+  error,
+  hint,
+  id,
+  className = "",
+  ...props
+}: SelectProps & { ref?: React.Ref<HTMLSelectElement> }) {
+  const selectId = toFieldId(label, id);
 
-    return (
-      <FormField
+  return (
+    <FormField
+      id={selectId}
+      label={label}
+      required={props.required}
+      error={error}
+      hint={hint}
+    >
+      <select
+        ref={ref}
         id={selectId}
-        label={label}
-        required={props.required}
-        error={error}
-        hint={hint}
-      >
-        <select
-          ref={ref}
-          id={selectId}
-          className={`
+        className={`
             w-full px-4 py-2.5 text-sm md:text-base 
             border border-border dark:border-border-dark rounded-md
             bg-surface-elevated dark:bg-surface-elevated-dark text-text-primary dark:text-text-primary-dark
@@ -40,22 +48,19 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             disabled:bg-text-secondary/20 dark:disabled:bg-text-secondary-dark/20 disabled:cursor-not-allowed
             ${className}
           `}
-          aria-invalid={!!error}
-          aria-describedby={
-            error ? `${selectId}-error` : hint ? `${selectId}-hint` : undefined
-          }
-          {...props}
-        >
-          <option value="">Selecione...</option>
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </FormField>
-    );
-  },
-);
-
-Select.displayName = "Select";
+        aria-invalid={!!error}
+        aria-describedby={
+          error ? `${selectId}-error` : hint ? `${selectId}-hint` : undefined
+        }
+        {...props}
+      >
+        <option value="">Selecione...</option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </FormField>
+  );
+}
