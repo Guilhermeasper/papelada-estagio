@@ -169,7 +169,7 @@ export function ReportDocument({ data }: ReportDocumentProps) {
 
       {/* Avaliação */}
       <PDFSection title={report.sections.evaluation}>
-        <PDFTable columns={evalColumns} rows={evalRows as any} />
+        <PDFTable columns={evalColumns} rows={evalRows} />
       </PDFSection>
 
       {/* Conclusão */}

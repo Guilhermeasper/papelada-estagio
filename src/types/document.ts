@@ -16,14 +16,14 @@ export interface DocumentMetadata {
 }
 
 export interface IDocumentOption extends DocumentMetadata {
-  id: any; // Keep compatibility with existing usage if needed, or strictly use string/DocumentType
+  id: DocumentType;
 }
 
 export interface IDocumentGenerator extends DocumentMetadata {
   generate(data: IInternshipData): Promise<Uint8Array>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- the registry holds definitions for different data types
 export interface DocumentDefinition<T = any> extends DocumentMetadata {
   schema: z.ZodType<T>;
   Component: React.ComponentType<{ data: T }>;

@@ -14,10 +14,9 @@ import {
 } from "./dateUtils";
 import { isHoliday, isWorkday } from "./holidays";
 
-export interface DateValidationResult {
-  valid: boolean;
-  error?: string;
-}
+export type DateValidationResult =
+  | { valid: true }
+  | { valid: false; error: string };
 
 export interface DateCalculationResult {
   isValid: boolean;
@@ -123,7 +122,7 @@ export function calculateEndDate(
       totalWorkdays: 0,
       endDate: "",
       weeksNeeded: 0,
-      errors: [startValidation.error!],
+      errors: [startValidation.error],
     };
   }
 

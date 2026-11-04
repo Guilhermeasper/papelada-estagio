@@ -125,7 +125,7 @@ export const internshipGeneralSchema = z
 
     if (!isValidWorkSchedule(data.workSchedule, data.hoursPerDay * 60)) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         message: i18n.t("validation.scheduleTotalMismatch", {
           hours: data.hoursPerDay,
         }),
@@ -140,7 +140,7 @@ export const internshipGeneralSchema = z
       !data.workDays.includes(parseIsoDate(data.startDate).getDay())
     ) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         message: i18n.t("validation.startDateNotWorkDay"),
         path: ["startDate"],
       });
@@ -156,7 +156,7 @@ export const internshipGeneralSchema = z
 
     if (!validation.valid) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         message: validation.error || i18n.t("validation.invalidPeriod"),
         path: ["endDate"],
       });
@@ -176,7 +176,7 @@ export const scheduleItemSchema = z
 
     if (parseIsoDate(item.periodEnd) < parseIsoDate(item.periodStart)) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         message: i18n.t("validation.periodEndAfterStart"),
         path: ["periodEnd"],
       });
@@ -250,7 +250,7 @@ export function makeInternshipContentSchema({
 
         const addIssue = (message: string) =>
           ctx.addIssue({
-            code: z.ZodIssueCode.custom,
+            code: "custom",
             message,
             path: ["schedule", index, key],
           });

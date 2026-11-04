@@ -207,7 +207,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
 
         <PDFTable
           columns={evalColumns}
-          rows={activityPlan.evaluation.criteria as any}
+          rows={activityPlan.evaluation.criteria}
           marginLeft={35}
         />
 
@@ -249,7 +249,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
         <PDFSignatureLine
           label={activityPlan.signatures.coordinator}
           line="_________________________________"
-          subLabel={`                                                                                                  ${activityPlan.signatures.coordinatorNote}`}
+          subLabel={`\u00A0                                                                                                 ${activityPlan.signatures.coordinatorNote}`}
           style={{ marginTop: 10 }}
         />
       </PDFSignatureSection>

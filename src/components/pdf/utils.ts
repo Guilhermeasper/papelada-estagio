@@ -39,7 +39,7 @@ export function splitTextIntoLines(
   charsPerLine = 84,
 ): string[] {
   if (!text) {
-    return Array(numLines).fill("\u00A0");
+    return Array<string>(numLines).fill("\u00A0");
   }
 
   const lines: string[] = [];

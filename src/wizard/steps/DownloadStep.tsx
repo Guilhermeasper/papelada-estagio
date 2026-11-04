@@ -164,7 +164,7 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
                     size="sm"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleDownload(doc.id);
+                      void handleDownload(doc.id);
                     }}
                     isLoading={isGenerating}
                     disabled={isGenerating}

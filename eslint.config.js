@@ -40,6 +40,11 @@ export default defineConfig([
         "error",
         { argsIgnorePattern: "^_" },
       ],
+      // Forms treat "" as empty, so || is the correct fallback for strings.
+      "@typescript-eslint/prefer-nullish-coalescing": [
+        "error",
+        { ignorePrimitives: { boolean: true, string: true } },
+      ],
       "@typescript-eslint/restrict-template-expressions": [
         "error",
         { allowNumber: true },

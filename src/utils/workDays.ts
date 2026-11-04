@@ -21,7 +21,7 @@ function groupRuns(days: number[]): number[][] {
   const runs: number[][] = [];
 
   for (const day of days) {
-    const last = runs[runs.length - 1];
+    const last = runs.at(-1);
     if (last && day === last[last.length - 1] + 1) {
       last.push(day);
       continue;
@@ -75,8 +75,8 @@ export function parseLegacyWorkDays(value: string): number[] | null {
   WEEKDAY_PATTERNS.forEach((pattern, day) => {
     for (const match of normalized.matchAll(pattern)) {
       found.push({
-        start: match.index ?? 0,
-        end: (match.index ?? 0) + match[0].length,
+        start: match.index,
+        end: match.index + match[0].length,
         day,
       });
     }
@@ -90,8 +90,8 @@ export function parseLegacyWorkDays(value: string): number[] | null {
 
   found.forEach((entry, position) => {
     days.add(entry.day);
+    if (position === 0) return;
     const previous = found[position - 1];
-    if (!previous) return;
 
     const between = normalized.slice(previous.end, entry.start);
     if (!/\b(a|ate)\b/.test(between)) return;

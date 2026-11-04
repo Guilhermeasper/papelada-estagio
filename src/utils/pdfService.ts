@@ -7,6 +7,7 @@ import {
   IDocumentOption,
   IInternshipData,
 } from "@papelada-estagio/types";
+import type { DocumentProps } from "@react-pdf/renderer";
 import React from "react";
 
 export const documentOptions: IDocumentOption[] = getAllDocumentMetadata().map(
@@ -40,21 +41,22 @@ async function generateDocument(
   // Helper type guard/cast since we know our app only uses IInternshipData for now.
   // In a more complex app, we might check docDef.schema against data.
   // Using Zod to validate and parse data ensures strong typing at runtime.
-  const parsedData = docDef.schema.parse(data);
+  const parsedData: unknown = docDef.schema.parse(data);
 
   const documentElement = React.createElement(docDef.Component, {
     data: parsedData,
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const blob = await renderer.pdf(documentElement as any).toBlob();
+  const blob = await renderer
+    .pdf(documentElement as React.ReactElement<DocumentProps>)
+    .toBlob();
   const arrayBuffer = await blob.arrayBuffer();
 
   return new Uint8Array(arrayBuffer);
 }
 
 function downloadPdf(pdfBytes: Uint8Array, filename: string): void {
-  if (!pdfBytes || pdfBytes.length === 0) {
+  if (pdfBytes.length === 0) {
     throw new Error("Invalid PDF data: bytes array is empty or undefined");
   }
   if (!filename) {

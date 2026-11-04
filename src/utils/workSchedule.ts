@@ -205,7 +205,7 @@ export function defaultWorkSchedule(totalMinutes: number): IWorkSchedule {
 }
 
 export function isValidWorkSchedule(
-  schedule: IWorkSchedule | null | undefined,
+  schedule: Partial<IWorkSchedule> | null | undefined,
   totalMinutes: number,
 ): boolean {
   if (!schedule?.morning || !schedule.afternoon) return false;

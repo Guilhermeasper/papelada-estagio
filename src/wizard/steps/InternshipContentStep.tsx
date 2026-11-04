@@ -97,7 +97,7 @@ export function InternshipContentStep({
   const objectives = useWatch({ control, name: "objectives" });
   const schedule = useWatch({ control, name: "schedule" });
 
-  const lastScheduleItem = schedule?.[schedule.length - 1];
+  const lastScheduleItem = schedule.at(-1);
 
   const canSplitLast = Boolean(
     hasGeneralPeriod &&
@@ -114,7 +114,7 @@ export function InternshipContentStep({
     : t("forms.content.addPeriodNotEnoughDays");
 
   const scheduleMismatch = hasGeneralPeriod
-    ? getScheduleMismatch(schedule ?? [], startDate, endDate)
+    ? getScheduleMismatch(schedule, startDate, endDate)
     : null;
 
   const handleAddPeriod = () => {
@@ -263,7 +263,7 @@ export function InternshipContentStep({
 
         <div className="space-y-4">
           {scheduleFields.map((field, index) => {
-            const item = schedule?.[index];
+            const item = schedule.at(index);
             const itemInfo = item
               ? getPeriodInfo(
                   item.periodStart,
@@ -345,7 +345,7 @@ export function InternshipContentStep({
                   />
                   {errors.schedule?.[index]?.description && (
                     <p className="text-xs text-error-text">
-                      {errors.schedule[index]?.description?.message}
+                      {errors.schedule[index].description.message}
                     </p>
                   )}
                 </div>

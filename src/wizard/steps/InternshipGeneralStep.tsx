@@ -67,7 +67,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
 
   const syncEndDate = useCallback(
     (start: string, hours: number, days: number[]) => {
-      if (!start || !hours || !days?.length) return;
+      if (!start || !hours || !days.length) return;
 
       const result = calculateEndDate(start, hours, days);
       setValue("endDate", result.isValid ? result.endDate : "", {
@@ -85,19 +85,16 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
     );
 
     if (getValues("startDate")) {
-      trigger("startDate");
+      void trigger("startDate");
     }
   }, [debouncedHoursPerDay, workDays, getValues, syncEndDate, trigger]);
 
   useEffect(() => {
     if (!debouncedHoursPerDay) return;
 
-    const current = getValues("workSchedule");
-    if (!current) return;
-
     setValue(
       "workSchedule",
-      rebalanceForTotal(current, debouncedHoursPerDay * 60),
+      rebalanceForTotal(getValues("workSchedule"), debouncedHoursPerDay * 60),
       {
         shouldValidate: true,
       },
@@ -269,7 +266,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
               name="workDays"
               label={t("forms.general.workDaysLabel")}
               options={WEEKDAY_OPTIONS}
-              value={field.value ?? []}
+              value={field.value}
               onChange={field.onChange}
               onBlur={field.onBlur}
               ref={field.ref}
