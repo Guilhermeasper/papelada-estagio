@@ -6,8 +6,10 @@ import {
 import { forwardRef, InputHTMLAttributes, useRef } from "react";
 import { Input } from "./Input";
 
-interface MaskedInputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> {
+interface MaskedInputProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  "onChange"
+> {
   label: string;
   error?: string;
   hint?: string;
@@ -16,7 +18,10 @@ interface MaskedInputProps
 }
 
 export const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
-  ({ label, error, hint, mask, id, className = "", onChange, ...props }, ref) => {
+  (
+    { label, error, hint, mask, id, className = "", onChange, ...props },
+    ref,
+  ) => {
     const inputId = id || label.toLowerCase().replace(/\s+/g, "-");
     const prevValueRef = useRef<string>("");
 

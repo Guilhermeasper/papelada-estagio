@@ -3,7 +3,10 @@ import { Input, MaskedInput } from "@papelada-estagio/components";
 import { IStep3Props } from "@papelada-estagio/types";
 import { StepFooter } from "@papelada-estagio/wizard/StepFooter";
 import { StepHeader } from "@papelada-estagio/wizard/StepHeader";
-import { CompanyFormData, companySchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
+import {
+  CompanyFormData,
+  companySchema,
+} from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 

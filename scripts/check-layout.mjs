@@ -92,7 +92,10 @@ function checkPage(page, pageNumber, nextPage, doc) {
   const contentTop = lines.reduce((a, b) => (a.yMin < b.yMin ? a : b)).yMin;
   const contentHeight = lastLine.yMax - contentTop;
 
-  if (!doc.coverPages.includes(pageNumber) && contentHeight < MIN_PAGE_CONTENT) {
+  if (
+    !doc.coverPages.includes(pageNumber) &&
+    contentHeight < MIN_PAGE_CONTENT
+  ) {
     problems.push(
       `page ${pageNumber}: stray page — only ${contentHeight.toFixed(0)}pt of content ("${lastLine.text.slice(0, 40)}")`,
     );

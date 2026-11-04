@@ -15,10 +15,7 @@ interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 }
 
 export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  (
-    { label, error, hint, id, className = "", onInput, ...props },
-    ref,
-  ) => {
+  ({ label, error, hint, id, className = "", onInput, ...props }, ref) => {
     const textareaId = toFieldId(label, id);
     const localRef = useRef<HTMLTextAreaElement>(null);
     const lastWidthRef = useRef<number | null>(null);

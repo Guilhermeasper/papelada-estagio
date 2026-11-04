@@ -1,8 +1,10 @@
 import { forwardRef, InputHTMLAttributes, useRef, useState } from "react";
 import { Input } from "./Input";
 
-interface EmailInputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange" | "type"> {
+interface EmailInputProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  "onChange" | "type"
+> {
   label: string;
   error?: string;
   hint?: string;
@@ -89,7 +91,10 @@ export const EmailInput = forwardRef<HTMLInputElement, EmailInputProps>(
     };
 
     return (
-      <div className="flex flex-col gap-1.5 relative w-full min-w-0" ref={containerRef}>
+      <div
+        className="flex flex-col gap-1.5 relative w-full min-w-0"
+        ref={containerRef}
+      >
         <Input
           ref={ref}
           id={inputId}

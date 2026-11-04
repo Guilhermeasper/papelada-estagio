@@ -70,9 +70,7 @@ export const getPdfContent = () => ({
           weight: "1",
         },
         {
-          topic: i18n.t(
-            "pdf.activityPlan.evaluation.criteria.lideranca.topic",
-          ),
+          topic: i18n.t("pdf.activityPlan.evaluation.criteria.lideranca.topic"),
           description: i18n.t(
             "pdf.activityPlan.evaluation.criteria.lideranca.description",
           ),
@@ -184,18 +182,14 @@ export const getPdfContent = () => ({
     shared: {
       subtitle: i18n.t("pdf.evaluationDocument.shared.subtitle"),
       sections: {
-        identification: i18n.t(
-          "pdf.evaluationDocument.shared.identification",
-        ),
+        identification: i18n.t("pdf.evaluationDocument.shared.identification"),
         evaluation: i18n.t("pdf.evaluationDocument.shared.evaluation"),
       },
       intro: i18n.t("pdf.evaluationDocument.shared.intro"),
       criteria: [
         {
           key: "communication",
-          label: i18n.t(
-            "pdf.evaluationDocument.shared.criteria.communication",
-          ),
+          label: i18n.t("pdf.evaluationDocument.shared.criteria.communication"),
         },
         {
           key: "attendance",
@@ -207,9 +201,7 @@ export const getPdfContent = () => ({
         },
         {
           key: "independence",
-          label: i18n.t(
-            "pdf.evaluationDocument.shared.criteria.independence",
-          ),
+          label: i18n.t("pdf.evaluationDocument.shared.criteria.independence"),
         },
         {
           key: "knowledgeLevel",

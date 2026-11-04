@@ -191,7 +191,9 @@ export function MobileStepPopover({
                               key={i}
                               className="flex items-start gap-1.5 text-xs text-text-secondary dark:text-text-secondary-dark"
                             >
-                              <span className="text-brand-accent mt-0.5">•</span>
+                              <span className="text-brand-accent mt-0.5">
+                                •
+                              </span>
                               <span>{req}</span>
                             </li>
                           ))}

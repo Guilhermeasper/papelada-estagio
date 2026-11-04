@@ -1,5 +1,8 @@
 import { Button } from "@papelada-estagio/components";
-import type { WizardDataActions, WizardDataState } from "@papelada-estagio/hooks";
+import type {
+  WizardDataActions,
+  WizardDataState,
+} from "@papelada-estagio/hooks";
 import type { WizardStep } from "@papelada-estagio/types";
 import { Suspense, useMemo } from "react";
 import { useTranslation } from "react-i18next";

@@ -45,7 +45,8 @@ export function EvaluationDocument({
   const { evaluationDocument } = PDF_CONTENT;
   const config = evaluationDocument[type];
   const { student, company, general, supervision } = data;
-  const signatureDate = evaluation.evaluationDate || supervision.evaluationDeadline;
+  const signatureDate =
+    evaluation.evaluationDate || supervision.evaluationDeadline;
 
   const getPersonName = () => {
     return type === "supervisor"
@@ -141,8 +142,7 @@ export function EvaluationDocument({
 
       <View style={{ marginTop: 20 }} wrap={false}>
         <Text>
-          {evaluationDocument.shared.datePrefix}{" "}
-          {formatDateLong(signatureDate)}
+          {evaluationDocument.shared.datePrefix} {formatDateLong(signatureDate)}
         </Text>
         <PDFSignatureLine label={config.signatureLabel} centered />
       </View>

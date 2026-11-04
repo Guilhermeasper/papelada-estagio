@@ -1,9 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Autocomplete, EmailInput, Input, MaskedInput } from "@papelada-estagio/components";
+import {
+  Autocomplete,
+  EmailInput,
+  Input,
+  MaskedInput,
+} from "@papelada-estagio/components";
 import { IStep2Props } from "@papelada-estagio/types";
 import { StepFooter } from "@papelada-estagio/wizard/StepFooter";
 import { StepHeader } from "@papelada-estagio/wizard/StepHeader";
-import { StudentFormData, studentSchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
+import {
+  StudentFormData,
+  studentSchema,
+} from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 

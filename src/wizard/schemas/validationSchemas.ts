@@ -163,9 +163,7 @@ export const internshipGeneralSchema = z
     }
   });
 
-export type InternshipGeneralFormData = z.infer<
-  typeof internshipGeneralSchema
->;
+export type InternshipGeneralFormData = z.infer<typeof internshipGeneralSchema>;
 
 export const scheduleItemSchema = z
   .object({
@@ -214,10 +212,7 @@ export type ScheduleBounds = Pick<
   "startDate" | "endDate" | "workDays"
 >;
 
-function getScheduleDateIssue(
-  date: Date,
-  workDays: number[],
-): string | null {
+function getScheduleDateIssue(date: Date, workDays: number[]): string | null {
   const holiday = isHoliday(date);
   if (holiday.isHoliday) {
     return i18n.t("validation.holidayInvalid", { name: holiday.name });
@@ -287,9 +282,7 @@ export const evaluationSchema = z.object({
   recommendsPartnership: z.boolean(),
 });
 
-export type InternshipContentFormData = z.infer<
-  typeof internshipContentSchema
->;
+export type InternshipContentFormData = z.infer<typeof internshipContentSchema>;
 export type EvaluationFormData = z.infer<typeof evaluationSchema>;
 
 export const supervisionSchema = z.object({

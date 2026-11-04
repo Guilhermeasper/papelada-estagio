@@ -2,7 +2,10 @@ import {
   formatDateIso,
   formatDatePtBr,
 } from "@papelada-estagio/utils/dateUtils";
-import { getBackspacedMaskValue, maskDate } from "@papelada-estagio/utils/masks";
+import {
+  getBackspacedMaskValue,
+  maskDate,
+} from "@papelada-estagio/utils/masks";
 import { forwardRef, InputHTMLAttributes, useRef, useState } from "react";
 import { Button } from "./Button";
 import { Input } from "./Input";

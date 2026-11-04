@@ -40,8 +40,10 @@ const evaluationHeadings = [
 ];
 
 function withActivities(count: number, wordsPerItem: number): IInternshipData {
-  const items = Array.from({ length: count }, (_, index) =>
-    `Atividade ${index + 1}: ${"palavra ".repeat(wordsPerItem).trim()}.`,
+  const items = Array.from(
+    { length: count },
+    (_, index) =>
+      `Atividade ${index + 1}: ${"palavra ".repeat(wordsPerItem).trim()}.`,
   );
 
   return {

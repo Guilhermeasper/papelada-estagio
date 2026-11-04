@@ -25,7 +25,8 @@ export function DynamicList({
 }: DynamicListProps) {
   const { t } = useTranslation();
   const canRemove = items.length > minItems;
-  const itemPlaceholder = placeholder || t("components.dynamicList.defaultPlaceholder");
+  const itemPlaceholder =
+    placeholder || t("components.dynamicList.defaultPlaceholder");
 
   return (
     <div className="flex flex-col gap-3">

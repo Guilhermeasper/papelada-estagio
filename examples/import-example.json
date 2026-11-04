@@ -19,13 +19,7 @@
       "startDate": "2025-11-19",
       "endDate": "2026-01-14",
       "hoursPerDay": 8,
-      "workDays": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
+      "workDays": [1, 2, 3, 4, 5],
       "workSchedule": {
         "morning": {
           "start": 540,
@@ -120,13 +114,6 @@
     }
   },
   "currentStep": 7,
-  "completedSteps": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6
-  ],
+  "completedSteps": [1, 2, 3, 4, 5, 6],
   "savedAt": "2026-01-20T13:45:00.000Z"
 }

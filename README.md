@@ -49,14 +49,14 @@ Stack: React 19, TypeScript, Vite, Tailwind 4, react-hook-form + Zod,
 
 ### Estrutura
 
-| Caminho | Conteúdo |
-|---|---|
-| `src/wizard/steps/` | Os 8 passos do formulário |
-| `src/wizard/data/` | Checklist de documentos e etapas do processo |
-| `src/documents/` | Um diretório por documento gerado (metadata + definição + componente PDF) |
-| `src/components/pdf/` | Primitivas de layout de PDF compartilhadas |
-| `src/constants/pdf-content.ts` | Textos oficiais dos formulários |
-| `scripts/` | Renderização de PDFs e verificação de layout fora do browser |
+| Caminho                        | Conteúdo                                                                  |
+| ------------------------------ | ------------------------------------------------------------------------- |
+| `src/wizard/steps/`            | Os 8 passos do formulário                                                 |
+| `src/wizard/data/`             | Checklist de documentos e etapas do processo                              |
+| `src/documents/`               | Um diretório por documento gerado (metadata + definição + componente PDF) |
+| `src/components/pdf/`          | Primitivas de layout de PDF compartilhadas                                |
+| `src/constants/pdf-content.ts` | Textos oficiais dos formulários                                           |
+| `scripts/`                     | Renderização de PDFs e verificação de layout fora do browser              |
 
 Os documentos são registrados em `src/config/documentRegistry.ts` e carregados
 sob demanda. Para adicionar um documento novo, crie o diretório em
