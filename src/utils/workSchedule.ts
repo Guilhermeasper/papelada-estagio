@@ -208,7 +208,7 @@ export function isValidWorkSchedule(
   schedule: IWorkSchedule | null | undefined,
   totalMinutes: number,
 ): boolean {
-  if (!schedule || !schedule.morning || !schedule.afternoon) return false;
+  if (!schedule?.morning || !schedule.afternoon) return false;
 
   const values = [
     schedule.morning.start,

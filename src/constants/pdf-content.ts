@@ -30,7 +30,7 @@ export const getPdfContent = () => ({
       text2: i18n.t("pdf.activityPlan.evaluation.text2"),
       legends: i18n.t("pdf.activityPlan.evaluation.legends", {
         returnObjects: true,
-      }) as string[],
+      }),
       text3: i18n.t("pdf.activityPlan.evaluation.text3"),
       criteria: [
         {
@@ -166,7 +166,7 @@ export const getPdfContent = () => ({
     },
     evaluationQuestions: i18n.t("pdf.report.evaluationQuestions", {
       returnObjects: true,
-    }) as string[],
+    }),
   },
   evaluationDocument: {
     supervisor: {

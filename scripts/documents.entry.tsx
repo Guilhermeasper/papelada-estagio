@@ -9,18 +9,18 @@ import { pageStyles } from "@papelada-estagio/components/pdf/styles";
 import type { PageVariant } from "@papelada-estagio/components/pdf/PDFPage";
 import { PDF_CONTENT } from "@papelada-estagio/constants/pdf-content";
 import type { IInternshipData } from "@papelada-estagio/types";
-import { renderToFile } from "@react-pdf/renderer";
+import { renderToFile, type DocumentProps } from "@react-pdf/renderer";
 import { writeFile } from "node:fs/promises";
 import type { ReactElement } from "react";
 
-type Variant = {
+interface Variant {
   name: string;
   page: PageVariant;
   headings: string[];
   /** Pages that are deliberately short, e.g. a cover — exempt from the whitespace check. */
   coverPages?: number[];
-  element: ReactElement;
-};
+  element: ReactElement<DocumentProps>;
+}
 
 /** Headings a page must never end on — mirrors what PDFSection renders. */
 const activityPlanHeadings = [

@@ -54,12 +54,7 @@ export function InternshipContentStep({
 }: IStep5Props) {
   const { t } = useTranslation();
 
-  const {
-    startDate = "",
-    endDate = "",
-    workDays = [],
-    hoursPerDay = 0,
-  } = general ?? {};
+  const { startDate, endDate, workDays, hoursPerDay } = general ?? {};
 
   const hasGeneralPeriod = Boolean(startDate && endDate && workDays.length > 0);
 
