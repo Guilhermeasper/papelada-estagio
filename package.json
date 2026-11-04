@@ -7,13 +7,15 @@
     "dev": "vite --host 0.0.0.0",
     "build:dev": "tsc -b && vite build --mode development",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings=0",
     "pdf:snapshot": "node scripts/render-pdfs.mjs",
     "pdf:check": "node scripts/render-pdfs.mjs && node scripts/check-layout.mjs",
     "prettier": "prettier --write .",
     "preview": "vite preview",
     "test": "node --import ./scripts/test-resolver.mjs --test \"src/**/*.test.ts\"",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "check": "npm run format:check && npm run lint && tsc -b && npm test",
+    "prepare": "husky"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -39,9 +41,20 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "eslint-plugin-react-x": "^2.13.0",
     "globals": "^16.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix --max-warnings=0"
+    ],
+    "*.{js,mjs,json,css,md,yml,html}": [
+      "prettier --write"
+    ]
   }
 }
