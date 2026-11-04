@@ -22,6 +22,22 @@ export interface ImportResult {
   error?: string;
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function upgradeState(state: Record<string, unknown>): Record<string, unknown> {
+  // Saves from before versioning have no version field.
+  const version = typeof state.version === "number" ? state.version : 0;
+  if (version >= CURRENT_DATA_VERSION) return state;
+
+  return {
+    ...state,
+    version: CURRENT_DATA_VERSION,
+    data: migrateData(state.data, version),
+  };
+}
+
 export function useWizardPersistence() {
   const saveProgress = useCallback(
     (
@@ -50,31 +66,13 @@ export function useWizardPersistence() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (!saved) return null;
 
-      const parsed = JSON.parse(saved);
-
-      // Handle legacy data (without version)
-      // If version is missing, assume 0 or handle as legacy
-      // Ideally, we should check if 'version' key exists.
-      const version = typeof parsed.version === "number" ? parsed.version : 0;
-
-      let migratedData = parsed.data;
-      if (version < CURRENT_DATA_VERSION) {
-        try {
-          migratedData = migrateData(parsed.data, version);
-        } catch (error) {
-          console.error("Migration failed:", error);
-          // If migration fails, we might want to notify user or return null to reset
-          // For now, let's catch and maybe return null so app doesn't crash,
-          // or re-throw if we want UI to show "Reset Needed"
-          return null;
-        }
-      }
+      const parsed: unknown = JSON.parse(saved);
+      if (!isRecord(parsed)) return null;
 
       return {
-        ...parsed,
+        ...upgradeState(parsed),
         version: CURRENT_DATA_VERSION,
-        data: migratedData,
-      } as PersistedWizardState;
+      } as unknown as PersistedWizardState;
     } catch (error) {
       console.error("Failed to load wizard progress:", error);
       return null;
@@ -133,16 +131,13 @@ export function useWizardPersistence() {
     async (file: File): Promise<ImportResult> => {
       try {
         const text = await file.text();
-        const parsed = JSON.parse(text);
+        const parsed: unknown = JSON.parse(text);
 
-        // Check version and migrate if needed
-        const version = typeof parsed.version === "number" ? parsed.version : 0;
-
-        if (version < CURRENT_DATA_VERSION) {
+        let upgraded = parsed;
+        if (isRecord(parsed)) {
           try {
-            parsed.data = migrateData(parsed.data, version);
-            parsed.version = CURRENT_DATA_VERSION;
-          } catch (e) {
+            upgraded = upgradeState(parsed);
+          } catch {
             return {
               success: false,
               error: "Falha ao migrar dados de versão antiga.",
@@ -150,7 +145,7 @@ export function useWizardPersistence() {
           }
         }
 
-        const result = persistedStateSchema.safeParse(parsed);
+        const result = persistedStateSchema.safeParse(upgraded);
 
         if (!result.success) {
           const errorMessage = result.error.issues

@@ -1,4 +1,4 @@
-import { MAX_WEEKDAY, MIN_WEEKDAY } from "@papelada-estagio/constants";
+import { MAX_WEEKDAY, MIN_WEEKDAY } from "@papelada-estagio/constants/business";
 import { WEEKDAY_NAMES_PT_BR } from "./dateUtils";
 
 const WEEKDAY_PATTERNS = [

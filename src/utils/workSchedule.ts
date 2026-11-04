@@ -5,8 +5,8 @@ import {
   MIN_BREAK_MINUTES,
   MIN_PERIOD_MINUTES,
   SCHEDULE_STEP_MINUTES,
-} from "@papelada-estagio/constants";
-import { IWorkSchedule } from "@papelada-estagio/types";
+} from "@papelada-estagio/constants/business";
+import type { IWorkSchedule } from "@papelada-estagio/types";
 
 export type WorkScheduleThumb =
   | "morningStart"

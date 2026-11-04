@@ -62,7 +62,7 @@ export default defineConfig([
   },
   {
     // Migrations read data saved by old versions, whose shapes no longer have
-    // types. persistedStateSchema validates the result before the app uses it.
+    // types. migrateData returns unknown, so any stays inside this file.
     files: ["src/utils/migrations.ts"],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",

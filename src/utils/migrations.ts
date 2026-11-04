@@ -2,7 +2,7 @@ import {
   DEFAULT_WORK_DAYS,
   MAX_HOURS_PER_DAY,
   MIN_HOURS_PER_DAY,
-} from "@papelada-estagio/constants";
+} from "@papelada-estagio/constants/business";
 import { parseLegacyPeriod } from "./dateUtils";
 import { parseLegacyWorkDays, toWeekdayRange } from "./workDays";
 import { defaultWorkSchedule, parseLegacyWorkSchedule } from "./workSchedule";
@@ -13,7 +13,7 @@ export type MigrationFunction = (data: any) => any;
 
 export const CURRENT_DATA_VERSION = 4;
 
-export const MIGRATIONS: Record<number, MigrationFunction> = {
+export const MIGRATIONS: Partial<Record<number, MigrationFunction>> = {
   1: (data) => {
     const endDate = new Date(data.general.endDate);
     endDate.setDate(endDate.getDate() + 12);
@@ -93,7 +93,7 @@ export const MIGRATIONS: Record<number, MigrationFunction> = {
   },
 };
 
-export function migrateData(data: any, fromVersion: number): any {
+export function migrateData(data: unknown, fromVersion: number): unknown {
   let currentData = data;
   let currentVersion = fromVersion;
 
