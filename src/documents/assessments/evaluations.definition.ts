@@ -1,7 +1,6 @@
 import { AdvisorEvaluationDocument } from "@papelada-estagio/documents/advisor-eval/AdvisorEvaluationDocument";
 import { SupervisorEvaluationDocument } from "@papelada-estagio/documents/supervisor-eval/SupervisorEvaluationDocument";
 import { DocumentDefinition, IInternshipData } from "@papelada-estagio/types";
-import { fullInternshipSchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import React from "react";
 import { IEvaluationFormData } from "./EvaluationDocument";
 import {
@@ -37,16 +36,12 @@ function SupervisorEvalWrapper({ data }: { data: IInternshipData }) {
   });
 }
 
-export const advisorEvaluationDefinition: DocumentDefinition<IInternshipData> =
-  {
-    ...advisorEvaluationMetadata,
-    schema: fullInternshipSchema,
-    Component: AdvisorEvalWrapper,
-  };
+export const advisorEvaluationDefinition: DocumentDefinition = {
+  ...advisorEvaluationMetadata,
+  Component: AdvisorEvalWrapper,
+};
 
-export const supervisorEvaluationDefinition: DocumentDefinition<IInternshipData> =
-  {
-    ...supervisorEvaluationMetadata,
-    schema: fullInternshipSchema,
-    Component: SupervisorEvalWrapper,
-  };
+export const supervisorEvaluationDefinition: DocumentDefinition = {
+  ...supervisorEvaluationMetadata,
+  Component: SupervisorEvalWrapper,
+};

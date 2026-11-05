@@ -124,3 +124,22 @@ export function resolveInternshipRules(
 export function regimeHasSupervisor(regime: InternshipRegime | ""): boolean {
   return regime === "" || REGIME_RULES[regime].hasSupervisor;
 }
+
+export const EVALUATION_ANSWER_KEYS = [
+  "flexibleSchedule",
+  "reducedDuringExams",
+  "requiresCompensation",
+  "caresAboutAcademics",
+  "recommendsPartnership",
+] as const;
+
+export const SUPERVISOR_GRADE_ITEM = "Acompanhamento do supervisor";
+
+export function getApplicableGrades<T extends { item: string }>(
+  grades: T[],
+  regime: InternshipRegime | "",
+): T[] {
+  return regimeHasSupervisor(regime)
+    ? grades
+    : grades.filter((grade) => grade.item !== SUPERVISOR_GRADE_ITEM);
+}

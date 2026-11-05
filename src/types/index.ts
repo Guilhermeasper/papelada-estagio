@@ -2,6 +2,7 @@ export type {
   Course,
   CurriculumProfile,
   ICompanyData,
+  IEvaluationAnswer,
   IEvaluationData,
   IEvaluationGrade,
   IInternshipContent,

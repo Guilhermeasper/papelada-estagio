@@ -1,6 +1,7 @@
 import type { InternshipRules } from "@papelada-estagio/constants/internshipRules";
 import type {
   ICompanyData,
+  IEvaluationData,
   IInternshipContent,
   IInternshipData,
   IInternshipFraming,
@@ -45,8 +46,10 @@ export interface IInternshipGeneralStepProps {
 
 export interface IInternshipContentStepProps {
   data: IInternshipContent;
+  evaluation: IEvaluationData;
   general: IInternshipGeneral;
-  onNext: (data: IInternshipContent) => void;
+  rules: InternshipRules;
+  onNext: (data: IInternshipContent, evaluation: IEvaluationData) => void;
   onBack: () => void;
 }
 
@@ -70,6 +73,7 @@ export interface IReviewStepProps {
 
 export interface IDownloadStepProps {
   data: IInternshipData;
+  rules: InternshipRules;
   onBack: () => void;
 }
 

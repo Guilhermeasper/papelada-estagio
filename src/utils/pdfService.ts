@@ -7,8 +7,10 @@ import {
   IDocumentOption,
   IInternshipData,
 } from "@papelada-estagio/types";
+import { getDocumentStatus } from "@papelada-estagio/wizard/schemas/documentStatus";
 import type { DocumentProps } from "@react-pdf/renderer";
 import React from "react";
+import { toIsoString } from "./dateUtils";
 
 export const documentOptions: IDocumentOption[] = getAllDocumentMetadata().map(
   (def) => ({
@@ -38,14 +40,7 @@ async function generateDocument(
     throw new Error(`Document component not found: ${type}`);
   }
 
-  // Helper type guard/cast since we know our app only uses IInternshipData for now.
-  // In a more complex app, we might check docDef.schema against data.
-  // Using Zod to validate and parse data ensures strong typing at runtime.
-  const parsedData: unknown = docDef.schema.parse(data);
-
-  const documentElement = React.createElement(docDef.Component, {
-    data: parsedData,
-  });
+  const documentElement = React.createElement(docDef.Component, { data });
 
   const blob = await renderer
     .pdf(documentElement as React.ReactElement<DocumentProps>)
@@ -102,6 +97,11 @@ export const pdfService = {
     type: DocumentType,
     data: IInternshipData,
   ): Promise<GenerationResult> {
+    const { blocking } = getDocumentStatus(type, data, toIsoString(new Date()));
+    if (blocking.length > 0) {
+      return { success: false, error: blocking.join(" ") };
+    }
+
     try {
       const pdfBytes = await generateDocument(type, data);
       return { success: true, pdfBytes };
@@ -109,13 +109,6 @@ export const pdfService = {
       console.error(error);
       const message =
         error instanceof Error ? error.message : "Erro desconhecido";
-      // Enhance error message if it's a Zod error
-      if (error instanceof Error && error.name === "ZodError") {
-        return {
-          success: false,
-          error: `Dados inválidos para ${type}: ${message}`,
-        };
-      }
       return { success: false, error: `Falha ao gerar ${type}: ${message}` };
     }
   },

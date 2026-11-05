@@ -1,9 +1,11 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
+  getApplicableGrades,
   MANDATORY_INTERNSHIP_RULES,
   REGIME_RULES,
   resolveInternshipRules,
+  SUPERVISOR_GRADE_ITEM,
 } from "./internshipRules.ts";
 
 describe("MANDATORY_INTERNSHIP_RULES", () => {
@@ -94,5 +96,19 @@ describe("resolveInternshipRules", () => {
         ?.requiredHours,
       210,
     );
+  });
+});
+
+describe("getApplicableGrades", () => {
+  const grades = [{ item: "Ambiente" }, { item: SUPERVISOR_GRADE_ITEM }];
+
+  it("removes the supervisor grade for a managing partner", () => {
+    assert.deepEqual(getApplicableGrades(grades, "socio"), [
+      { item: "Ambiente" },
+    ]);
+  });
+
+  it("keeps every grade for the other regimes", () => {
+    assert.equal(getApplicableGrades(grades, "tce").length, 2);
   });
 });

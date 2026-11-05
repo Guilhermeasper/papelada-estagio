@@ -1,10 +1,8 @@
-import { DocumentDefinition, IInternshipData } from "@papelada-estagio/types";
-import { fullInternshipSchema } from "@papelada-estagio/wizard/schemas/validationSchemas";
+import { DocumentDefinition } from "@papelada-estagio/types";
 import { ReportDocument } from "./ReportDocument";
 import { reportMetadata } from "./report.meta";
 
-export const reportDefinition: DocumentDefinition<IInternshipData> = {
+export const reportDefinition: DocumentDefinition = {
   ...reportMetadata,
-  schema: fullInternshipSchema,
   Component: ReportDocument,
 };

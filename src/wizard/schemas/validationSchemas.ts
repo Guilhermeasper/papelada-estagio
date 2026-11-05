@@ -1,5 +1,4 @@
 import {
-  MAX_HOURS_PER_DAY,
   MAX_WEEKDAY,
   MIN_HOURS_PER_DAY,
   MIN_WEEKDAY,
@@ -10,7 +9,10 @@ import {
   INTERNSHIP_REGIMES,
   MANDATORY_INTERNSHIP_RULES,
 } from "@papelada-estagio/constants/internshipRules";
-import type { IInternshipGeneral } from "@papelada-estagio/types";
+import type {
+  IInternshipGeneral,
+  IScheduleItem,
+} from "@papelada-estagio/types";
 import {
   validateDate,
   validateInternshipPeriod,
@@ -212,6 +214,13 @@ export function makeInternshipGeneralSchema({
     });
 }
 
+// Os documentos finais repetem o período já aceito pela SecGrad. O calendário do
+// app é uma estimativa e não pode invalidar depois uma vigência já formalizada.
+export const acceptedPeriodSchema = z.object({
+  startDate: z.string().min(1, i18n.t("validation.startDateRequired")),
+  endDate: z.string().min(1, i18n.t("validation.endDateRequired")),
+});
+
 export type InternshipGeneralFormData = z.infer<
   ReturnType<typeof makeInternshipGeneralSchema>
 >;
@@ -234,13 +243,7 @@ export const scheduleItemSchema = z
     }
   });
 
-export const evaluationGradeSchema = z.object({
-  item: z.string(),
-  grade: z.number().min(0).max(10),
-  observation: z.string(),
-});
-
-export const internshipContentSchema = z.object({
+const planContentShape = {
   activities: z
     .array(z.string().min(5, i18n.t("validation.activitiesMin")))
     .min(1, i18n.t("validation.activitiesCount")),
@@ -250,13 +253,47 @@ export const internshipContentSchema = z.object({
   schedule: z
     .array(scheduleItemSchema)
     .min(1, i18n.t("validation.scheduleCount")),
+};
+
+export const reportContentSchema = z.object({
   introduction: z.string().min(50, i18n.t("validation.introMin")),
   generalObjectives: z.string().min(30, i18n.t("validation.generalObjMin")),
   specificObjectives: z.string().min(30, i18n.t("validation.specificObjMin")),
+  scheduleDiscussion: z
+    .string()
+    .min(30, i18n.t("validation.scheduleDiscussionMin")),
   methodology: z.string().min(30, i18n.t("validation.methodologyMin")),
   development: z.string().min(50, i18n.t("validation.developmentMin")),
   conclusion: z.string().min(30, i18n.t("validation.conclusionMin")),
 });
+
+const evaluationAnswerSchema = z.object({
+  answer: z.boolean().nullable(),
+  comment: z.string(),
+});
+
+const gradeOutOfRange = i18n.t("validation.gradeRange");
+
+export const evaluationGradeSchema = z.object({
+  item: z.string(),
+  grade: z
+    .number(gradeOutOfRange)
+    .min(0, gradeOutOfRange)
+    .max(10, gradeOutOfRange)
+    .nullable(),
+  observation: z.string(),
+});
+
+export const evaluationSchema = z.object({
+  grades: z.array(evaluationGradeSchema),
+  flexibleSchedule: evaluationAnswerSchema,
+  reducedDuringExams: evaluationAnswerSchema,
+  requiresCompensation: evaluationAnswerSchema,
+  caresAboutAcademics: evaluationAnswerSchema,
+  recommendsPartnership: evaluationAnswerSchema,
+});
+
+export type EvaluationFormData = z.infer<typeof evaluationSchema>;
 
 export type ScheduleBounds = Pick<
   IInternshipGeneral,
@@ -282,59 +319,80 @@ function getScheduleDateIssue(date: Date, workDays: number[]): string | null {
   return null;
 }
 
-export function makeInternshipContentSchema({
-  startDate,
-  endDate,
-  workDays,
-}: ScheduleBounds) {
-  return internshipContentSchema.superRefine((content, ctx) => {
-    if (!startDate || !endDate || workDays.length === 0) return;
+function addScheduleBoundIssues(
+  schedule: IScheduleItem[],
+  { startDate, endDate, workDays }: ScheduleBounds,
+  ctx: z.RefinementCtx,
+) {
+  if (!startDate || !endDate || workDays.length === 0) return;
 
-    const min = parseIsoDate(startDate);
-    const max = parseIsoDate(endDate);
-    const range = `${formatDatePtBr(startDate)} e ${formatDatePtBr(endDate)}`;
+  const min = parseIsoDate(startDate);
+  const max = parseIsoDate(endDate);
+  const range = `${formatDatePtBr(startDate)} e ${formatDatePtBr(endDate)}`;
 
-    content.schedule.forEach((item, index) => {
-      (["periodStart", "periodEnd"] as const).forEach((key) => {
-        const value = item[key];
-        if (!value) return;
+  schedule.forEach((item, index) => {
+    (["periodStart", "periodEnd"] as const).forEach((key) => {
+      const value = item[key];
+      if (!value) return;
 
-        const addIssue = (message: string) =>
-          ctx.addIssue({
-            code: "custom",
-            message,
-            path: ["schedule", index, key],
-          });
+      const addIssue = (message: string) =>
+        ctx.addIssue({
+          code: "custom",
+          message,
+          path: ["schedule", index, key],
+        });
 
-        const date = parseIsoDate(value);
-        if (Number.isNaN(date.getTime())) {
-          addIssue(i18n.t("validation.invalidDate"));
-          return;
-        }
+      const date = parseIsoDate(value);
+      if (Number.isNaN(date.getTime())) {
+        addIssue(i18n.t("validation.invalidDate"));
+        return;
+      }
 
-        if (date < min || date > max) {
-          addIssue(i18n.t("validation.dateMustBeBetween", { range }));
-          return;
-        }
+      if (date < min || date > max) {
+        addIssue(i18n.t("validation.dateMustBeBetween", { range }));
+        return;
+      }
 
-        const issue = getScheduleDateIssue(date, workDays);
-        if (issue) addIssue(issue);
-      });
+      const issue = getScheduleDateIssue(date, workDays);
+      if (issue) addIssue(issue);
     });
   });
 }
 
-export const evaluationSchema = z.object({
-  grades: z.array(evaluationGradeSchema),
-  flexibleSchedule: z.boolean(),
-  reducedDuringExams: z.boolean(),
-  requiresCompensation: z.boolean(),
-  caresAboutAcademics: z.boolean(),
-  recommendsPartnership: z.boolean(),
-});
+export const reportScheduleSchema = z.object(planContentShape);
 
-export type InternshipContentFormData = z.infer<typeof internshipContentSchema>;
-export type EvaluationFormData = z.infer<typeof evaluationSchema>;
+export function makePlanContentSchema(bounds: ScheduleBounds) {
+  return z
+    .object(planContentShape)
+    .superRefine(({ schedule }, ctx) =>
+      addScheduleBoundIssues(schedule, bounds, ctx),
+    );
+}
+
+// O passo 5 exige só o que o Plano usa. O conteúdo do relatório é escrito no fim
+// do estágio e é cobrado ao gerar o Relatório: ver getDocumentStatus.
+export function makeInternshipContentSchema(bounds: ScheduleBounds) {
+  return z
+    .object({
+      ...planContentShape,
+      introduction: z.string(),
+      generalObjectives: z.string(),
+      specificObjectives: z.string(),
+      scheduleDiscussion: z.string(),
+      methodology: z.string(),
+      development: z.string(),
+      conclusion: z.string(),
+      references: z.string(),
+      evaluation: evaluationSchema,
+    })
+    .superRefine(({ schedule }, ctx) =>
+      addScheduleBoundIssues(schedule, bounds, ctx),
+    );
+}
+
+export type InternshipContentFormData = z.infer<
+  ReturnType<typeof makeInternshipContentSchema>
+>;
 
 function normalizeName(name: string): string {
   return name.trim().toLowerCase();
@@ -415,21 +473,6 @@ export type SupervisionFormData = z.infer<
   ReturnType<typeof makeSupervisionSchema>
 >;
 
-export const fullInternshipSchema = z.object({
-  framing: framingSchema,
-  student: studentSchema,
-  company: companySchema,
-  general: makeInternshipGeneralSchema({
-    requiredHours: 0,
-    maxHoursPerDay: MAX_HOURS_PER_DAY,
-  }),
-  content: internshipContentSchema,
-  evaluation: evaluationSchema,
-  supervision: makeSupervisionSchema({ hasSupervisor: false, startDate: "" }),
-});
-
-export type FullInternshipData = z.infer<typeof fullInternshipSchema>;
-
 function stringShape<T extends z.ZodRawShape>(schema: z.ZodObject<T>) {
   const shape = {} as { [K in keyof T]: z.ZodString };
   for (const key of Object.keys(schema.shape) as (keyof T)[]) {
@@ -473,9 +516,11 @@ const contentImportSchema = z.object({
   introduction: z.string(),
   generalObjectives: z.string(),
   specificObjectives: z.string(),
+  scheduleDiscussion: z.string(),
   methodology: z.string(),
   development: z.string(),
   conclusion: z.string(),
+  references: z.string(),
 });
 
 const importDataSchema = z.object({

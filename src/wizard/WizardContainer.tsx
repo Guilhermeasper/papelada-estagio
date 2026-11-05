@@ -95,7 +95,9 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
         return (
           <InternshipContentStep
             data={data.content}
+            evaluation={data.evaluation}
             general={data.general}
+            rules={rules}
             onNext={updateContent}
             onBack={prevStep}
           />
@@ -123,7 +125,7 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
           />
         );
       case 8:
-        return <DownloadStep data={data} onBack={prevStep} />;
+        return <DownloadStep data={data} rules={rules} onBack={prevStep} />;
     }
   };
 

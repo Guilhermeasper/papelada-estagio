@@ -21,6 +21,56 @@ export const CURRENT_DATA_VERSION = 5;
 
 const FIRST_NEW_CURRICULUM_ENROLLMENT = "2024.1";
 
+function migrateAnswer(answer: unknown, isUntouchedDefault: boolean) {
+  return {
+    answer: !isUntouchedDefault && typeof answer === "boolean" ? answer : null,
+    comment: "",
+  };
+}
+
+function migrateEvaluation(evaluation: any) {
+  const grades: any[] = Array.isArray(evaluation?.grades)
+    ? evaluation.grades
+    : [];
+
+  // Antes da v5 o formulário não permitia editar a avaliação. Quando ela ainda é
+  // igual aos valores fixos antigos, o aluno nunca respondeu.
+  const isUntouchedDefault =
+    grades.every((grade) => grade.grade === 10 && !grade.observation) &&
+    evaluation?.flexibleSchedule === true &&
+    evaluation?.reducedDuringExams === false &&
+    evaluation?.requiresCompensation === false &&
+    evaluation?.caresAboutAcademics === true &&
+    evaluation?.recommendsPartnership === true;
+
+  return {
+    grades: grades.map((grade) => ({
+      ...grade,
+      grade: isUntouchedDefault ? null : grade.grade,
+    })),
+    flexibleSchedule: migrateAnswer(
+      evaluation?.flexibleSchedule,
+      isUntouchedDefault,
+    ),
+    reducedDuringExams: migrateAnswer(
+      evaluation?.reducedDuringExams,
+      isUntouchedDefault,
+    ),
+    requiresCompensation: migrateAnswer(
+      evaluation?.requiresCompensation,
+      isUntouchedDefault,
+    ),
+    caresAboutAcademics: migrateAnswer(
+      evaluation?.caresAboutAcademics,
+      isUntouchedDefault,
+    ),
+    recommendsPartnership: migrateAnswer(
+      evaluation?.recommendsPartnership,
+      isUntouchedDefault,
+    ),
+  };
+}
+
 function migrateEvaluationDeadline(
   deadline: unknown,
   endDate: unknown,
@@ -150,6 +200,12 @@ export const MIGRATIONS: Partial<Record<number, MigrationFunction>> = {
         declaredRequiredHours: null,
       },
       student,
+      content: {
+        ...content,
+        scheduleDiscussion: "",
+        references: "",
+      },
+      evaluation: migrateEvaluation(data.evaluation),
       supervision: {
         ...supervision,
         evaluationDeadline,

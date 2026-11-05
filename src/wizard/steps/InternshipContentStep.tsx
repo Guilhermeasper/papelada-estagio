@@ -3,9 +3,16 @@ import {
   Button,
   DateInput,
   DynamicList,
+  Input,
+  RadioGroup,
   TextArea,
 } from "@papelada-estagio/components";
 import { MAX_SCHEDULE_ITEMS } from "@papelada-estagio/constants";
+import {
+  EVALUATION_ANSWER_KEYS,
+  SUPERVISOR_GRADE_ITEM,
+} from "@papelada-estagio/constants/internshipRules";
+import { PDF_CONTENT } from "@papelada-estagio/constants/pdf-content";
 import { IScheduleItem, IStep5Props } from "@papelada-estagio/types";
 import { getPeriodInfo } from "@papelada-estagio/utils/dateCalculator";
 import {
@@ -48,7 +55,9 @@ function resolveInitialSchedule(
 
 export function InternshipContentStep({
   data,
+  evaluation,
   general,
+  rules,
   onNext,
   onBack,
 }: IStep5Props) {
@@ -78,6 +87,7 @@ export function InternshipContentStep({
     resolver: zodResolver(contentSchema),
     defaultValues: {
       ...data,
+      evaluation,
       activities: data.activities.length > 0 ? data.activities : [""],
       objectives: data.objectives.length > 0 ? data.objectives : [""],
       schedule: initialSchedule,
@@ -179,9 +189,17 @@ export function InternshipContentStep({
   const activityHandlers = createArrayFieldHandlers("activities", activities);
   const objectiveHandlers = createArrayFieldHandlers("objectives", objectives);
 
-  const onSubmit = (formData: InternshipContentFormData) => {
-    onNext(formData);
+  const onSubmit = ({
+    evaluation: evaluationData,
+    ...content
+  }: InternshipContentFormData) => {
+    onNext(content, evaluationData);
   };
+
+  const answerOptions = [
+    { value: "sim", label: t("forms.content.answerYes") },
+    { value: "nao", label: t("forms.content.answerNo") },
+  ];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -384,6 +402,9 @@ export function InternshipContentStep({
         <h3 className="text-base md:text-lg font-semibold text-text-primary dark:text-text-primary-dark">
           {t("forms.content.reportContentSection")}
         </h3>
+        <p className="text-sm text-text-secondary dark:text-text-secondary-dark">
+          {t("forms.content.reportContentNotice")}
+        </p>
 
         <TextArea
           label={t("forms.content.introLabel")}
@@ -391,7 +412,6 @@ export function InternshipContentStep({
           error={errors.introduction?.message}
           placeholder={t("forms.content.introPlaceholder")}
           rows={5}
-          required
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
@@ -401,7 +421,6 @@ export function InternshipContentStep({
             error={errors.generalObjectives?.message}
             placeholder={t("forms.content.generalObjPlaceholder")}
             rows={4}
-            required
           />
 
           <TextArea
@@ -410,9 +429,16 @@ export function InternshipContentStep({
             error={errors.specificObjectives?.message}
             placeholder={t("forms.content.specificObjPlaceholder")}
             rows={4}
-            required
           />
         </div>
+
+        <TextArea
+          label={t("forms.content.scheduleDiscussionLabel")}
+          {...register("scheduleDiscussion")}
+          error={errors.scheduleDiscussion?.message}
+          placeholder={t("forms.content.scheduleDiscussionPlaceholder")}
+          rows={4}
+        />
 
         <TextArea
           label={t("forms.content.methodologyLabel")}
@@ -420,7 +446,6 @@ export function InternshipContentStep({
           error={errors.methodology?.message}
           placeholder={t("forms.content.methodologyPlaceholder")}
           rows={4}
-          required
         />
 
         <TextArea
@@ -429,7 +454,6 @@ export function InternshipContentStep({
           error={errors.development?.message}
           placeholder={t("forms.content.developmentPlaceholder")}
           rows={6}
-          required
         />
 
         <TextArea
@@ -438,9 +462,84 @@ export function InternshipContentStep({
           error={errors.conclusion?.message}
           placeholder={t("forms.content.conclusionPlaceholder")}
           rows={4}
-          required
+        />
+
+        <TextArea
+          label={t("forms.content.referencesLabel")}
+          {...register("references")}
+          error={errors.references?.message}
+          placeholder={t("forms.content.referencesPlaceholder")}
+          rows={3}
         />
       </section>
+
+      <StepSection
+        title={t("forms.content.evaluationSection")}
+        className="p-4 md:p-6 space-y-6"
+        headerClassName="mb-3 md:mb-4"
+      >
+        <p className="text-sm text-text-secondary dark:text-text-secondary-dark">
+          {t("forms.content.evaluationNotice")}
+        </p>
+
+        {evaluation.grades.map((grade, index) =>
+          grade.item === SUPERVISOR_GRADE_ITEM &&
+          !rules.hasSupervisor ? null : (
+            <div
+              key={grade.item}
+              className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start"
+            >
+              <Input
+                id={`evaluation-grade-${index}`}
+                label={`${grade.item}: ${t("forms.content.gradeLabel")}`}
+                type="number"
+                min={0}
+                max={10}
+                step="0.1"
+                {...register(`evaluation.grades.${index}.grade`, {
+                  setValueAs: (value: unknown) =>
+                    value === "" || value === null ? null : Number(value),
+                })}
+                error={errors.evaluation?.grades?.[index]?.grade?.message}
+              />
+              <div className="md:col-span-2">
+                <Input
+                  id={`evaluation-observation-${index}`}
+                  label={t("forms.content.observationLabel")}
+                  {...register(`evaluation.grades.${index}.observation`)}
+                />
+              </div>
+            </div>
+          ),
+        )}
+
+        {EVALUATION_ANSWER_KEYS.map((key, index) => (
+          <div key={key} className="space-y-3">
+            <Controller
+              name={`evaluation.${key}.answer`}
+              control={control}
+              render={({ field }) => (
+                <RadioGroup
+                  name={`evaluation-${key}`}
+                  label={PDF_CONTENT.report.evaluationQuestions[index]}
+                  options={answerOptions}
+                  value={
+                    field.value === null ? "" : field.value ? "sim" : "nao"
+                  }
+                  onChange={(value) => field.onChange(value === "sim")}
+                  onBlur={field.onBlur}
+                  ref={field.ref}
+                />
+              )}
+            />
+            <Input
+              id={`evaluation-comment-${key}`}
+              label={t("forms.content.commentLabel")}
+              {...register(`evaluation.${key}.comment`)}
+            />
+          </div>
+        ))}
+      </StepSection>
 
       <StepFooter onBack={onBack} isSubmitting={isSubmitting} />
     </form>

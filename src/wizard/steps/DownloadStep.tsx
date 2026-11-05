@@ -1,17 +1,24 @@
 import { Button } from "@papelada-estagio/components";
 import { DocumentType, IStep8Props } from "@papelada-estagio/types";
+import { toIsoString } from "@papelada-estagio/utils/dateUtils";
 import { pdfService } from "@papelada-estagio/utils/pdfService";
 import { ProcessCard } from "@papelada-estagio/wizard/ProcessCard";
 import { StepFooter } from "@papelada-estagio/wizard/StepFooter";
 import { StepHeader } from "@papelada-estagio/wizard/StepHeader";
 import { StepSection } from "@papelada-estagio/wizard/StepSection";
 import { useAfterStage } from "@papelada-estagio/wizard/data/process";
-import { useState } from "react";
+import {
+  DOCUMENT_PHASES,
+  getDocumentStatus,
+  isDocumentApplicable,
+} from "@papelada-estagio/wizard/schemas/documentStatus";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-export function DownloadStep({ data, onBack }: IStep8Props) {
+export function DownloadStep({ data, rules, onBack }: IStep8Props) {
   const { t } = useTranslation();
   const afterStage = useAfterStage();
+  const [today] = useState(() => toIsoString(new Date()));
   const [selectedDocs, setSelectedDocs] = useState<Set<DocumentType>>(
     () => new Set(),
   );
@@ -21,9 +28,25 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
   );
   const [error, setError] = useState<string | null>(null);
 
-  const documentOptions = pdfService.getDocumentOptions();
+  const documentOptions = useMemo(
+    () =>
+      pdfService
+        .getDocumentOptions()
+        .filter(({ id }) => isDocumentApplicable(id, rules.regime))
+        .map((option) => ({
+          ...option,
+          status: getDocumentStatus(option.id, data, today),
+        })),
+    [data, rules.regime, today],
+  );
+
+  const availableDocuments = documentOptions.filter(
+    ({ status }) => status.blocking.length === 0,
+  );
 
   const toggleDocument = (id: DocumentType) => {
+    if (!availableDocuments.some((doc) => doc.id === id)) return;
+
     const newSelected = new Set(selectedDocs);
     if (newSelected.has(id)) {
       newSelected.delete(id);
@@ -34,10 +57,10 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
   };
 
   const selectAll = () => {
-    if (selectedDocs.size === documentOptions.length) {
+    if (selectedDocs.size === availableDocuments.length) {
       setSelectedDocs(new Set());
     } else {
-      setSelectedDocs(new Set(documentOptions.map((d) => d.id)));
+      setSelectedDocs(new Set(availableDocuments.map((d) => d.id)));
     }
   };
 
@@ -48,7 +71,8 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
     try {
       const result = await pdfService.generateDocument(type, data);
       if (!result.success || !result.pdfBytes) {
-        throw new Error(result.error || t("download.fetchError"));
+        setError(result.error || t("download.fetchError"));
+        return;
       }
       const info = pdfService.getDocumentInfo(type);
       const downloadResult = pdfService.downloadPdf(
@@ -85,7 +109,7 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
           <span className="text-sm text-text-secondary dark:text-text-secondary-dark">
             {t("download.selectedCount", {
               count: selectedDocs.size,
-              total: documentOptions.length,
+              total: availableDocuments.length,
             })}
           </span>
           <Button
@@ -95,7 +119,7 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
             onClick={selectAll}
             className="text-primary dark:text-cin-white hover:text-primary-hover dark:hover:text-cin-gray font-medium hover:bg-text-secondary/10 dark:hover:bg-text-secondary-dark/10 p-0 px-2 h-auto"
           >
-            {selectedDocs.size === documentOptions.length
+            {selectedDocs.size === availableDocuments.length
               ? t("download.deselectAll")
               : t("download.selectAll")}
           </Button>
@@ -106,12 +130,14 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
             const isSelected = selectedDocs.has(doc.id);
             const isGenerating = generating === doc.id;
             const isGenerated = generated.has(doc.id);
+            const isBlocked = doc.status.blocking.length > 0;
 
             return (
               <div
                 key={doc.id}
                 className={`
-                  relative rounded-lg border-2 p-4 cursor-pointer transition-all
+                  relative rounded-lg border-2 p-4 transition-all
+                  ${isBlocked ? "opacity-80" : "cursor-pointer"}
                   ${
                     isSelected
                       ? "border-brand-accent bg-brand-accent/5"
@@ -156,6 +182,31 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
                     <p className="text-xs md:text-sm text-text-secondary dark:text-text-secondary-dark mt-1">
                       {doc.description}
                     </p>
+                    <p className="text-xs font-medium text-text-secondary dark:text-text-secondary-dark mt-1">
+                      {DOCUMENT_PHASES[doc.id] === "initial"
+                        ? t("download.phaseInitial")
+                        : t("download.phaseFinal")}
+                    </p>
+                    {doc.status.warnings.map((warning) => (
+                      <p
+                        key={warning}
+                        className="text-xs text-warning dark:text-warning-dark mt-2"
+                      >
+                        {warning}
+                      </p>
+                    ))}
+                    {isBlocked && (
+                      <div className="text-xs text-error-text mt-2">
+                        <p className="font-medium">
+                          {t("download.status.blockedTitle")}
+                        </p>
+                        <ul className="list-disc pl-4 space-y-0.5">
+                          {doc.status.blocking.map((issue) => (
+                            <li key={issue}>{issue}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
 
                   <Button
@@ -167,7 +218,7 @@ export function DownloadStep({ data, onBack }: IStep8Props) {
                       void handleDownload(doc.id);
                     }}
                     isLoading={isGenerating}
-                    disabled={isGenerating}
+                    disabled={isGenerating || isBlocked}
                     className="flex-shrink-0"
                   >
                     {isGenerating

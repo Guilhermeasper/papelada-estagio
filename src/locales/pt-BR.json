@@ -415,7 +415,7 @@
     },
     "content": {
       "title": "Conteúdo do Estágio",
-      "subtitle": "Descreva as atividades, objetivos e detalhes do seu estágio.",
+      "subtitle": "Descreva as atividades e os objetivos do Plano. O relatório fica para o fim do estágio.",
       "activitiesSection": "Atividades a serem desenvolvidas",
       "activitiesLabel": "Atividades",
       "activitiesPlaceholder": "Descreva uma atividade...",
@@ -433,19 +433,31 @@
       "addPeriod": "Adicionar período",
       "addPeriodLimit": "Máximo de {{max}} períodos.",
       "addPeriodNotEnoughDays": "O último período não tem dias úteis suficientes para ser dividido.",
-      "reportContentSection": "Conteúdo do Relatório",
+      "reportContentSection": "Relatório final (preencha ao final do estágio)",
       "introLabel": "Introdução",
       "introPlaceholder": "Apresentação do estágio, empresa e objetivos...",
       "generalObjLabel": "Objetivos Gerais",
       "generalObjPlaceholder": "O objetivo geral do estágio foi...",
       "specificObjLabel": "Objetivos Específicos",
-      "specificObjPlaceholder": "Os objetivos específicos incluíram...",
+      "specificObjPlaceholder": "Relate os objetivos do Plano e se houve mudanças durante o estágio...",
       "methodologyLabel": "Material e Método",
       "methodologyPlaceholder": "Tecnologias, metodologias e ferramentas utilizadas...",
       "developmentLabel": "Desenvolvimento",
       "developmentPlaceholder": "Descrição detalhada das atividades realizadas...",
       "conclusionLabel": "Conclusão",
-      "conclusionPlaceholder": "Considerações finais sobre o estágio..."
+      "conclusionPlaceholder": "Considerações finais sobre o estágio...",
+      "reportContentNotice": "Esta seção é opcional agora. O Plano de Atividades não depende dela, mas o Relatório só é gerado com ela completa.",
+      "scheduleDiscussionLabel": "Cronograma realizado",
+      "scheduleDiscussionPlaceholder": "O cronograma do Plano foi cumprido? Se não, apresente o cronograma real...",
+      "referencesLabel": "Referências Bibliográficas (opcional)",
+      "referencesPlaceholder": "Liste as referências usadas no relatório...",
+      "evaluationSection": "Avaliação do Estágio",
+      "evaluationNotice": "Estas são as suas respostas. Nada vem preenchido: o Relatório só é gerado depois que você responder a tudo.",
+      "gradeLabel": "Nota de 0 a 10",
+      "observationLabel": "Observação",
+      "answerYes": "Sim",
+      "answerNo": "Não",
+      "commentLabel": "Comentário"
     },
     "supervision": {
       "title": "Supervisão e Orientação",
@@ -513,7 +525,7 @@
     "introMin": "Introdução deve ter pelo menos 50 caracteres",
     "generalObjMin": "Objetivos gerais devem ter pelo menos 30 caracteres",
     "specificObjMin": "Objetivos específicos devem ter pelo menos 30 caracteres",
-    "methodologyMin": "Metodologia deve ter pelo menos 30 caracteres",
+    "methodologyMin": "Material e Método deve ter pelo menos 30 caracteres",
     "developmentMin": "Desenvolvimento deve ter pelo menos 50 caracteres",
     "conclusionMin": "Conclusão deve ter pelo menos 30 caracteres",
     "holidayInvalid": "Data inválida: {{name}}",
@@ -535,7 +547,11 @@
     "supervisorMustDifferFromAdvisor": "Supervisor e orientador precisam ser pessoas diferentes",
     "evaluationBeforeStart": "O parecer não pode ser antes do início do estágio",
     "goalsCompletionDateRequired": "Informe a data do Termo de Cumprimento de Metas (DD/MM/AAAA)",
-    "goalsBeforeEvaluation": "O Termo de Cumprimento de Metas não pode ser antes do parecer"
+    "goalsBeforeEvaluation": "O Termo de Cumprimento de Metas não pode ser antes do parecer",
+    "scheduleDiscussionMin": "Cronograma realizado deve ter pelo menos 30 caracteres",
+    "gradeRange": "A nota deve ser de 0 a 10",
+    "gradeRequired": "Informe a nota de \"{{item}}\"",
+    "answerRequired": "Responda: {{question}}"
   },
   "review": {
     "title": "Revisão dos Dados",
@@ -582,7 +598,7 @@
   },
   "download": {
     "title": "Download dos Documentos",
-    "subtitle": "Selecione os documentos que deseja gerar e fazer download.",
+    "subtitle": "Gere o Plano antes de o estágio começar e os demais documentos depois que ele terminar.",
     "selectedCount": "{{count}} de {{total}} selecionados",
     "selectAll": "Selecionar todos",
     "deselectAll": "Desmarcar todos",
@@ -599,20 +615,28 @@
     "docOptions": {
       "activityPlan": {
         "label": "Plano de Atividades",
-        "desc": "Modelo CIn para formalização do estágio"
+        "desc": "Modelo CIn. Entregue antes do início do estágio"
       },
       "report": {
         "label": "Relatório Final de Estágio",
-        "desc": "Relatório completo com introdução, cronograma e conclusões"
+        "desc": "Relatório completo. Entregue depois do encerramento"
       },
       "advisorEval": {
         "label": "Avaliação do Professor Orientador",
-        "desc": "Ficha de avaliação a ser preenchida pelo orientador"
+        "desc": "Ficha que o orientador preenche no fim do estágio"
       },
       "supervisorEval": {
         "label": "Avaliação do Supervisor",
-        "desc": "Ficha de avaliação a ser preenchida pelo supervisor na empresa"
+        "desc": "Ficha que o supervisor preenche no fim do estágio"
       }
+    },
+    "phaseInitial": "Entrega inicial",
+    "phaseFinal": "Entrega final",
+    "status": {
+      "retroactive": "A data de início já passou, e a SecGrad não aceita vigência retroativa.",
+      "beforeEnd": "O estágio ainda não terminou. Esta documentação só deve ser enviada depois do encerramento.",
+      "framingIncomplete": "Complete o enquadramento no passo 1.",
+      "blockedTitle": "Falta resolver:"
     }
   },
   "components": {

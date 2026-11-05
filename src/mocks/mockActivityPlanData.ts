@@ -69,18 +69,22 @@ export const mockActivityPlanData: IInternshipData = {
     ],
     introduction: "",
     generalObjectives: "",
-    specificObjectives: "",
+    specificObjectives:
+      "Objetivos específicos de exemplo, mantidos sem mudanças em relação ao Plano de Atividades.",
+    scheduleDiscussion:
+      "Texto de exemplo informando que o cronograma do Plano de Atividades foi cumprido como previsto.",
     methodology: "",
     development: "",
     conclusion: "",
+    references: "",
   },
   evaluation: {
     grades: [],
-    flexibleSchedule: false,
-    reducedDuringExams: false,
-    requiresCompensation: false,
-    caresAboutAcademics: false,
-    recommendsPartnership: false,
+    flexibleSchedule: { answer: false, comment: "" },
+    reducedDuringExams: { answer: false, comment: "" },
+    requiresCompensation: { answer: false, comment: "" },
+    caresAboutAcademics: { answer: false, comment: "" },
+    recommendsPartnership: { answer: false, comment: "" },
   },
   supervision: {
     supervisorName: "Maria Oliveira",

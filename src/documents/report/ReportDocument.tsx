@@ -11,7 +11,11 @@ import {
   type ColumnConfig,
   type KeyValueItem,
 } from "@papelada-estagio/components/pdf";
-import { regimeHasSupervisor } from "@papelada-estagio/constants/internshipRules";
+import {
+  EVALUATION_ANSWER_KEYS,
+  getApplicableGrades,
+  regimeHasSupervisor,
+} from "@papelada-estagio/constants/internshipRules";
 import { PDF_CONTENT } from "@papelada-estagio/constants/pdf-content";
 import { IInternshipData } from "@papelada-estagio/types";
 import { formatPeriod } from "@papelada-estagio/utils/dateUtils";
@@ -19,6 +23,11 @@ import { View } from "@react-pdf/renderer";
 
 interface ReportDocumentProps {
   data: IInternshipData;
+}
+
+function formatAnswer(answer: boolean | null): string {
+  if (answer === null) return "";
+  return answer ? "sim" : "não";
 }
 
 export function ReportDocument({ data }: ReportDocumentProps) {
@@ -80,36 +89,16 @@ export function ReportDocument({ data }: ReportDocumentProps) {
   ];
 
   const evalRows = [
-    ...evaluation.grades.map((g) => ({
+    ...getApplicableGrades(evaluation.grades, framing.regime).map((g) => ({
       item: g.item,
-      grade: String(g.grade),
+      grade: g.grade === null ? "" : String(g.grade),
       observation: g.observation,
     })),
-    {
-      item: report.evaluationQuestions[0],
-      grade: evaluation.flexibleSchedule ? "sim" : "não",
-      observation: "",
-    },
-    {
-      item: report.evaluationQuestions[1],
-      grade: evaluation.reducedDuringExams ? "sim" : "não",
-      observation: "",
-    },
-    {
-      item: report.evaluationQuestions[2],
-      grade: evaluation.requiresCompensation ? "sim" : "não",
-      observation: "",
-    },
-    {
-      item: report.evaluationQuestions[3],
-      grade: evaluation.caresAboutAcademics ? "sim" : "não",
-      observation: "",
-    },
-    {
-      item: report.evaluationQuestions[4],
-      grade: evaluation.recommendsPartnership ? "sim" : "não",
-      observation: "",
-    },
+    ...EVALUATION_ANSWER_KEYS.map((key, index) => ({
+      item: report.evaluationQuestions[index],
+      grade: formatAnswer(evaluation[key].answer),
+      observation: evaluation[key].comment,
+    })),
   ];
 
   return (

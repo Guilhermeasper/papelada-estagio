@@ -71,7 +71,10 @@ export const mockInternshipData: IInternshipData = {
       "Texto de exemplo utilizado para preencher a seção de introdução do relatório e validar o comportamento do documento gerado. Este conteúdo não descreve nenhuma experiência real e existe apenas para que a paginação, o alinhamento e a quebra de parágrafos possam ser conferidos com um volume de texto semelhante ao de um relatório preenchido. Qualquer semelhança com uma organização, projeto ou pessoa é meramente coincidental, já que todos os campos deste arquivo são valores fictícios de demonstração.",
     generalObjectives:
       "Objetivo geral de exemplo, escrito apenas para ocupar o espaço reservado a esta seção no documento e permitir a conferência do layout com um texto de comprimento realista.",
-    specificObjectives: "",
+    specificObjectives:
+      "Objetivos específicos de exemplo, mantidos sem mudanças em relação ao Plano de Atividades.",
+    scheduleDiscussion:
+      "Texto de exemplo informando que o cronograma do Plano de Atividades foi cumprido como previsto.",
     methodology:
       "Metodologia de exemplo descrita somente para fins de demonstração do documento. O texto ocupa um volume semelhante ao de uma seção preenchida, permitindo verificar espaçamento entre linhas, margens e o comportamento das quebras de página. Nenhuma ferramenta, processo ou prática citada aqui corresponde a uma situação real, pois todo o conteúdo deste arquivo é um valor fictício mantido apenas para testes.",
     development: `Texto de exemplo para a seção de desenvolvimento, organizado em tópicos para reproduzir a estrutura de um relatório preenchido:
@@ -85,6 +88,7 @@ export const mockInternshipData: IInternshipData = {
 4. Quarto Tópico de Exemplo - Parágrafo final de preenchimento, encerrando a seção com um volume de texto equivalente ao dos demais tópicos e permitindo a validação do espaçamento antes da conclusão.`,
     conclusion:
       "Conclusão de exemplo utilizada apenas para preencher a última seção do relatório e permitir a conferência do layout do documento gerado. O texto tem comprimento semelhante ao de uma conclusão real, de modo que o espaçamento, as margens e a assinatura ao final da página possam ser avaliados. Nenhuma informação aqui apresentada corresponde a uma experiência, organização ou pessoa real, pois todos os campos deste arquivo são valores fictícios de demonstração.",
+    references: "",
   },
   evaluation: {
     grades: [
@@ -113,11 +117,11 @@ export const mockInternshipData: IInternshipData = {
           "Observação de exemplo para o quarto item de avaliação, com texto de preenchimento equivalente ao dos demais itens da lista.",
       },
     ],
-    flexibleSchedule: true,
-    reducedDuringExams: false,
-    requiresCompensation: false,
-    caresAboutAcademics: true,
-    recommendsPartnership: true,
+    flexibleSchedule: { answer: true, comment: "" },
+    reducedDuringExams: { answer: false, comment: "" },
+    requiresCompensation: { answer: false, comment: "" },
+    caresAboutAcademics: { answer: true, comment: "" },
+    recommendsPartnership: { answer: true, comment: "" },
   },
   supervision: {
     supervisorName: "Maria Oliveira",

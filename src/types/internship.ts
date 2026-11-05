@@ -60,24 +60,31 @@ export interface IInternshipContent {
   introduction: string;
   generalObjectives: string;
   specificObjectives: string;
+  scheduleDiscussion: string;
   methodology: string;
   development: string;
   conclusion: string;
+  references: string;
 }
 
 export interface IEvaluationGrade {
   item: string;
-  grade: number;
+  grade: number | null;
   observation: string;
+}
+
+export interface IEvaluationAnswer {
+  answer: boolean | null;
+  comment: string;
 }
 
 export interface IEvaluationData {
   grades: IEvaluationGrade[];
-  flexibleSchedule: boolean;
-  reducedDuringExams: boolean;
-  requiresCompensation: boolean;
-  caresAboutAcademics: boolean;
-  recommendsPartnership: boolean;
+  flexibleSchedule: IEvaluationAnswer;
+  reducedDuringExams: IEvaluationAnswer;
+  requiresCompensation: IEvaluationAnswer;
+  caresAboutAcademics: IEvaluationAnswer;
+  recommendsPartnership: IEvaluationAnswer;
 }
 
 export interface ISupervisionData {

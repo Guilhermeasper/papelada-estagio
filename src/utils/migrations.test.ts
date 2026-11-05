@@ -18,7 +18,15 @@ interface MigratedData {
   student: Record<string, unknown>;
   supervision: { evaluationDeadline: string; goalsCompletionDate: string };
   general: { workDays: number[]; workSchedule: unknown };
-  content: { schedule: { periodStart: string; periodEnd: string }[] };
+  content: {
+    schedule: { periodStart: string; periodEnd: string }[];
+    scheduleDiscussion: string;
+    references: string;
+  };
+  evaluation: {
+    grades: { grade: number | null }[];
+    flexibleSchedule: { answer: boolean | null; comment: string };
+  };
 }
 
 function readExample(name: string): ExampleFile {
@@ -134,6 +142,29 @@ describe("migration to v5", () => {
     assert.equal(framing.course, "");
   });
 
+  it("clears evaluation answers the student never gave", () => {
+    const { evaluation } = migrate(v4);
+
+    assert.equal(evaluation.grades[0].grade, null);
+    assert.deepEqual(evaluation.flexibleSchedule, {
+      answer: null,
+      comment: "",
+    });
+  });
+
+  it("keeps an evaluation the student edited", () => {
+    const { evaluation } = migrate({
+      ...v4,
+      evaluation: {
+        ...v4.evaluation,
+        grades: [{ item: "Ambiente", grade: 7, observation: "" }],
+      },
+    });
+
+    assert.equal(evaluation.grades[0].grade, 7);
+    assert.equal(evaluation.flexibleSchedule.answer, true);
+  });
+
   it("replaces the old default deadline with the end of the second period", () => {
     const { supervision } = migrate(v4);
 
@@ -149,5 +180,12 @@ describe("migration to v5", () => {
 
     assert.equal(supervision.evaluationDeadline, "2026-02-10");
     assert.equal(supervision.goalsCompletionDate, "2026-02-10");
+  });
+
+  it("adds the new report fields", () => {
+    const { content } = migrate(v4);
+
+    assert.equal(content.scheduleDiscussion, "");
+    assert.equal(content.references, "");
   });
 });

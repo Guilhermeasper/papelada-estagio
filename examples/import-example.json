@@ -74,7 +74,9 @@
       "specificObjectives": "Objetivos específicos de exemplo, listados apenas para ocupar esta seção do documento com um texto de comprimento realista e permitir a conferência do espaçamento e das quebras de linha.",
       "methodology": "Metodologia de exemplo descrita somente para fins de demonstração do documento. O texto ocupa um volume semelhante ao de uma seção preenchida, permitindo verificar espaçamento entre linhas, margens e o comportamento das quebras de página. Nenhuma ferramenta, processo ou prática citada aqui corresponde a uma situação real, pois todo o conteúdo deste arquivo é um valor fictício mantido apenas para testes.",
       "development": "Texto de exemplo para a seção de desenvolvimento, organizado em tópicos para reproduzir a estrutura de um relatório preenchido:\n\n1. Primeiro Tópico de Exemplo - Parágrafo de preenchimento utilizado para validar o alinhamento do texto, o recuo dos tópicos numerados e a quebra de linha dentro de blocos mais longos. O conteúdo não descreve nenhuma atividade real e serve apenas como massa de teste para a geração do PDF.\n\n2. Segundo Tópico de Exemplo - Parágrafo de preenchimento com comprimento semelhante ao anterior, mantido para que a distribuição do texto entre as páginas seja verificada em condições próximas às de um documento completo.\n\n3. Terceiro Tópico de Exemplo - Parágrafo de preenchimento destinado a conferir o comportamento do documento quando a seção se estende por mais de uma página, incluindo a repetição de cabeçalhos e a numeração das páginas.\n\n4. Quarto Tópico de Exemplo - Parágrafo final de preenchimento, encerrando a seção com um volume de texto equivalente ao dos demais tópicos e permitindo a validação do espaçamento antes da conclusão.",
-      "conclusion": "Conclusão de exemplo utilizada apenas para preencher a última seção do relatório e permitir a conferência do layout do documento gerado. O texto tem comprimento semelhante ao de uma conclusão real, de modo que o espaçamento, as margens e a assinatura ao final da página possam ser avaliados. Nenhuma informação aqui apresentada corresponde a uma experiência, organização ou pessoa real, pois todos os campos deste arquivo são valores fictícios de demonstração."
+      "conclusion": "Conclusão de exemplo utilizada apenas para preencher a última seção do relatório e permitir a conferência do layout do documento gerado. O texto tem comprimento semelhante ao de uma conclusão real, de modo que o espaçamento, as margens e a assinatura ao final da página possam ser avaliados. Nenhuma informação aqui apresentada corresponde a uma experiência, organização ou pessoa real, pois todos os campos deste arquivo são valores fictícios de demonstração.",
+      "scheduleDiscussion": "Texto de exemplo informando que o cronograma do Plano de Atividades foi cumprido como previsto.",
+      "references": ""
     },
     "evaluation": {
       "grades": [
@@ -99,11 +101,26 @@
           "observation": "Observação de exemplo para o quarto item de avaliação, com texto de preenchimento equivalente ao dos demais itens da lista."
         }
       ],
-      "flexibleSchedule": true,
-      "reducedDuringExams": false,
-      "requiresCompensation": false,
-      "caresAboutAcademics": true,
-      "recommendsPartnership": true
+      "flexibleSchedule": {
+        "answer": true,
+        "comment": ""
+      },
+      "reducedDuringExams": {
+        "answer": false,
+        "comment": ""
+      },
+      "requiresCompensation": {
+        "answer": false,
+        "comment": ""
+      },
+      "caresAboutAcademics": {
+        "answer": true,
+        "comment": ""
+      },
+      "recommendsPartnership": {
+        "answer": true,
+        "comment": ""
+      }
     },
     "supervision": {
       "supervisorName": "Maria Oliveira",

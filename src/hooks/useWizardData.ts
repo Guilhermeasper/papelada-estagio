@@ -1,6 +1,8 @@
 import { DEFAULT_WORK_DAYS } from "@papelada-estagio/constants";
+import { SUPERVISOR_GRADE_ITEM } from "@papelada-estagio/constants/internshipRules";
 import {
   ICompanyData,
+  IEvaluationData,
   IInternshipContent,
   IInternshipData,
   IInternshipFraming,
@@ -52,26 +54,32 @@ function createInitialData(): IInternshipData {
       introduction: "",
       generalObjectives: "",
       specificObjectives: "",
+      scheduleDiscussion: "",
       methodology: "",
       development: "",
       conclusion: "",
+      references: "",
     },
     evaluation: {
       grades: [
-        { item: "Aquisição de Novas Experiências", grade: 10, observation: "" },
-        { item: "Acompanhamento do supervisor", grade: 10, observation: "" },
         {
-          item: "Interação com colegas do Trabalho",
-          grade: 10,
+          item: "Aquisição de Novas Experiências",
+          grade: null,
           observation: "",
         },
-        { item: "Ambiente de Trabalho", grade: 10, observation: "" },
+        { item: SUPERVISOR_GRADE_ITEM, grade: null, observation: "" },
+        {
+          item: "Interação com colegas do Trabalho",
+          grade: null,
+          observation: "",
+        },
+        { item: "Ambiente de Trabalho", grade: null, observation: "" },
       ],
-      flexibleSchedule: true,
-      reducedDuringExams: false,
-      requiresCompensation: false,
-      caresAboutAcademics: true,
-      recommendsPartnership: true,
+      flexibleSchedule: { answer: null, comment: "" },
+      reducedDuringExams: { answer: null, comment: "" },
+      requiresCompensation: { answer: null, comment: "" },
+      caresAboutAcademics: { answer: null, comment: "" },
+      recommendsPartnership: { answer: null, comment: "" },
     },
     supervision: {
       supervisorName: "",
@@ -108,7 +116,10 @@ export interface WizardDataActions {
   updateStudent: (studentData: IStudentData) => void;
   updateCompany: (companyData: ICompanyData) => void;
   updateGeneral: (generalData: IInternshipGeneral) => void;
-  updateContent: (contentData: IInternshipContent) => void;
+  updateContent: (
+    contentData: IInternshipContent,
+    evaluationData: IEvaluationData,
+  ) => void;
   updateSupervision: (supervisionData: ISupervisionData) => void;
   nextStep: () => void;
   prevStep: () => void;
@@ -242,9 +253,13 @@ export function useWizardData() {
   );
 
   const updateContent = useCallback(
-    (contentData: IInternshipContent) => {
+    (contentData: IInternshipContent, evaluationData: IEvaluationData) => {
       setData((prev) => {
-        const newData = { ...prev, content: contentData };
+        const newData = {
+          ...prev,
+          content: contentData,
+          evaluation: evaluationData,
+        };
         const newCompleted = [...new Set([...completedSteps, 5 as WizardStep])];
         setCompletedSteps(newCompleted);
         persistProgress(newData, 6 as WizardStep, newCompleted);

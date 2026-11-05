@@ -10,8 +10,8 @@ import {
 } from "@papelada-estagio/types/document";
 
 export const DOCUMENT_METADATA: Record<string, DocumentMetadata> = {
-  [reportMetadata.id]: reportMetadata,
   [activityPlanMetadata.id]: activityPlanMetadata,
+  [reportMetadata.id]: reportMetadata,
   [advisorEvaluationMetadata.id]: advisorEvaluationMetadata,
   [supervisorEvaluationMetadata.id]: supervisorEvaluationMetadata,
 };
