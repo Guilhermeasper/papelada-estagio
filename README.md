@@ -8,8 +8,14 @@ coleta os dados uma única vez e produz os PDFs no formato dos modelos oficiais:
 - Avaliação do Professor Orientador
 - Avaliação do Supervisor
 
-A "Declaração da Empresa (Vínculo CLT)" e a cópia da CTPS **não** são geradas
-aqui — vêm da empresa e do próprio aluno.
+O app cobre todos os casos do estágio obrigatório: CLT, servidor público,
+sócio-administrador e estágio com Termo de Compromisso (TCE). A carga horária e os
+documentos dependem do curso, do perfil curricular e do regime, informados no
+passo 1. Ciência da Computação no perfil novo e Inteligência Artificial não têm
+estágio obrigatório.
+
+Os documentos externos, como o TCE, a declaração da empresa e a cópia da CTPS,
+**não** são gerados aqui. Eles vêm da empresa e do próprio aluno.
 
 ## Escopo: só a preparação dos documentos
 
@@ -25,14 +31,18 @@ O rodapé do Plano de Atividades — texto do formulário oficial, reproduzido s
 alteração — diz que o documento deve conter "obrigatoriamente, todas as
 assinaturas". Isso descreve o documento pronto, não a ordem em que assiná-lo.
 
-Comece o processo com **3 semanas de antecedência**.
+Comece o processo com **3 semanas de antecedência**. A documentação precisa chegar
+à SecGrad com no mínimo **8 dias úteis de antecedência**, e a vigência não pode ser
+retroativa.
 
 ## Fonte das regras
 
-<https://secgrad.cin.ufpe.br/perguntas-frequentes>
+<https://secgrad.cin.ufpe.br/estágio>
 
-O checklist e as regras deste app são derivados do site da SecGrad e podem
-desatualizar. Em caso de divergência, **o site prevalece**.
+As regras deste app vêm da Lei 11.788/2008, da Resolução CEPE 20/2015, da IN
+PROGRAD 1/2026 e do site da SecGrad, e podem desatualizar. Em caso de divergência,
+**o site prevalece**. O documento [regras de estágio](./docs/regras-de-estagio.md)
+liga cada regra à sua fonte, ao código e ao teste.
 
 ## Desenvolvimento
 
@@ -53,14 +63,15 @@ Stack: React 19, TypeScript, Vite, Tailwind 4, react-hook-form + Zod,
 
 ### Estrutura
 
-| Caminho                        | Conteúdo                                                                  |
-| ------------------------------ | ------------------------------------------------------------------------- |
-| `src/wizard/steps/`            | Os 8 passos do formulário                                                 |
-| `src/wizard/data/`             | Checklist de documentos e etapas do processo                              |
-| `src/documents/`               | Um diretório por documento gerado (metadata + definição + componente PDF) |
-| `src/components/pdf/`          | Primitivas de layout de PDF compartilhadas                                |
-| `src/constants/pdf-content.ts` | Textos oficiais dos formulários                                           |
-| `scripts/`                     | Renderização de PDFs e verificação de layout fora do browser              |
+| Caminho                            | Conteúdo                                                                  |
+| ---------------------------------- | ------------------------------------------------------------------------- |
+| `src/wizard/steps/`                | Os 8 passos do formulário                                                 |
+| `src/wizard/data/`                 | Checklist de documentos e etapas do processo                              |
+| `src/documents/`                   | Um diretório por documento gerado (metadata + definição + componente PDF) |
+| `src/components/pdf/`              | Primitivas de layout de PDF compartilhadas                                |
+| `src/constants/internshipRules.ts` | Regras por curso, perfil curricular e regime                              |
+| `src/constants/pdf-content.ts`     | Textos oficiais dos formulários                                           |
+| `scripts/`                         | Renderização de PDFs e verificação de layout fora do browser              |
 
 Os documentos são registrados em `src/config/documentRegistry.ts` e carregados
 sob demanda. Para adicionar um documento novo, crie o diretório em
