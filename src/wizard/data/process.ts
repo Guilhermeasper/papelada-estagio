@@ -1,3 +1,5 @@
+import { regimeHasSupervisor } from "@papelada-estagio/constants/internshipRules";
+import type { InternshipRegime } from "@papelada-estagio/types";
 import { useMemo } from "react";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
@@ -24,20 +26,24 @@ const getBeforeStage = (t: TFunction): ProcessStageData => ({
     {
       label: t("process.before.step1Label"),
       content: t("process.before.step1Content"),
-      highlight: true,
     },
     {
       label: t("process.before.step2Label"),
       content: t("process.before.step2Content"),
-      link: SECGRAD_INTERNSHIP_URL,
+      highlight: true,
     },
     {
       label: t("process.before.step3Label"),
       content: t("process.before.step3Content"),
+      link: SECGRAD_INTERNSHIP_URL,
     },
     {
       label: t("process.before.step4Label"),
       content: t("process.before.step4Content"),
+    },
+    {
+      label: t("process.before.step5Label"),
+      content: t("process.before.step5Content"),
     },
   ],
 });
@@ -47,13 +53,18 @@ export function useBeforeStage(): ProcessStageData {
   return useMemo(() => getBeforeStage(t), [t]);
 }
 
-const getAfterStage = (t: TFunction): ProcessStageData => ({
+const getAfterStage = (
+  t: TFunction,
+  regime: InternshipRegime,
+): ProcessStageData => ({
   title: t("process.after.title"),
   description: t("process.after.description"),
   steps: [
     {
       label: t("process.after.step1Label"),
-      content: t("process.after.step1Content"),
+      content: regimeHasSupervisor(regime)
+        ? t("process.after.step1ContentWithSupervisor")
+        : t("process.after.step1ContentWithoutSupervisor"),
       highlight: true,
     },
     {
@@ -75,7 +86,41 @@ const getAfterStage = (t: TFunction): ProcessStageData => ({
   ],
 });
 
-export function useAfterStage(): ProcessStageData {
+export function useAfterStage(regime: InternshipRegime): ProcessStageData {
   const { t } = useTranslation();
-  return useMemo(() => getAfterStage(t), [t]);
+  return useMemo(() => getAfterStage(t, regime), [t, regime]);
+}
+
+const getFinalStage = (
+  t: TFunction,
+  regime: InternshipRegime,
+): ProcessStageData => ({
+  title: t("process.final.title"),
+  description: t("process.final.description"),
+  steps: [
+    {
+      label: t("process.final.step1Label"),
+      content: t("process.final.step1Content"),
+    },
+    {
+      label: t("process.final.step2Label"),
+      content: regimeHasSupervisor(regime)
+        ? t("process.final.step2ContentWithSupervisor")
+        : t("process.final.step2ContentWithoutSupervisor"),
+      highlight: true,
+    },
+    {
+      label: t("process.final.step3Label"),
+      content: t("process.final.step3Content"),
+    },
+    {
+      label: t("process.final.step4Label"),
+      content: t("process.final.step4Content"),
+    },
+  ],
+});
+
+export function useFinalStage(regime: InternshipRegime): ProcessStageData {
+  const { t } = useTranslation();
+  return useMemo(() => getFinalStage(t, regime), [t, regime]);
 }

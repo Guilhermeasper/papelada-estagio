@@ -6,7 +6,10 @@ import { ProcessCard } from "@papelada-estagio/wizard/ProcessCard";
 import { StepFooter } from "@papelada-estagio/wizard/StepFooter";
 import { StepHeader } from "@papelada-estagio/wizard/StepHeader";
 import { StepSection } from "@papelada-estagio/wizard/StepSection";
-import { useAfterStage } from "@papelada-estagio/wizard/data/process";
+import {
+  useAfterStage,
+  useFinalStage,
+} from "@papelada-estagio/wizard/data/process";
 import {
   DOCUMENT_PHASES,
   getDocumentStatus,
@@ -17,7 +20,8 @@ import { useTranslation } from "react-i18next";
 
 export function DownloadStep({ data, rules, onBack }: IStep8Props) {
   const { t } = useTranslation();
-  const afterStage = useAfterStage();
+  const afterStage = useAfterStage(rules.regime);
+  const finalStage = useFinalStage(rules.regime);
   const [today] = useState(() => toIsoString(new Date()));
   const [selectedDocs, setSelectedDocs] = useState<Set<DocumentType>>(
     () => new Set(),
@@ -277,6 +281,7 @@ export function DownloadStep({ data, rules, onBack }: IStep8Props) {
       )}
 
       <ProcessCard stage={afterStage} />
+      <ProcessCard stage={finalStage} />
 
       <StepFooter
         onBack={onBack}
