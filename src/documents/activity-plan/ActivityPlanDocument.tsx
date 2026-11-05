@@ -14,6 +14,7 @@ import {
   PDFTable,
   type ColumnConfig,
 } from "@papelada-estagio/components/pdf";
+import { regimeHasSupervisor } from "@papelada-estagio/constants/internshipRules";
 import { PDF_CONTENT } from "@papelada-estagio/constants/pdf-content";
 import type { IInternshipData } from "@papelada-estagio/types";
 import { Text } from "@react-pdf/renderer";
@@ -29,6 +30,7 @@ interface ActivityPlanDocumentProps {
 export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
   const { framing, student, company, general, content, supervision } = data;
   const { activityPlan, header } = PDF_CONTENT;
+  const hasSupervisor = regimeHasSupervisor(framing.regime);
 
   const evalDate = supervision.evaluationDeadline;
 
@@ -154,22 +156,26 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
       </PDFSection>
 
       <PDFSection title={activityPlan.sections.supervision} number="4">
-        <Text
-          style={{ fontFamily: fonts.bold, marginLeft: 0, marginBottom: 8 }}
-        >
-          SUPERVISOR:
-        </Text>
-        <PDFFieldRow label="Nome" value={supervision.supervisorName} />
-        <PDFFieldRow label="E-mail" value={supervision.supervisorEmail} />
-        <PDFFieldRow label="Telefone" value={supervision.supervisorPhone} />
-        <PDFFieldRow label="Cargo" value={supervision.supervisorPosition} />
-        <PDFFieldRow label="CPF" value={supervision.supervisorCpf} />
+        {hasSupervisor && (
+          <>
+            <Text
+              style={{ fontFamily: fonts.bold, marginLeft: 0, marginBottom: 8 }}
+            >
+              SUPERVISOR:
+            </Text>
+            <PDFFieldRow label="Nome" value={supervision.supervisorName} />
+            <PDFFieldRow label="E-mail" value={supervision.supervisorEmail} />
+            <PDFFieldRow label="Telefone" value={supervision.supervisorPhone} />
+            <PDFFieldRow label="Cargo" value={supervision.supervisorPosition} />
+            <PDFFieldRow label="CPF" value={supervision.supervisorCpf} />
+          </>
+        )}
 
         <Text
           style={{
             fontFamily: fonts.bold,
             marginLeft: 0,
-            marginTop: 15,
+            marginTop: hasSupervisor ? 15 : 0,
             marginBottom: 8,
           }}
         >
@@ -189,7 +195,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
           {activityPlan.evaluation.text1}
         </PDFParagraph>
         <PDFFieldRow
-          label="Data para emissão do parecer"
+          label={activityPlan.evaluation.evaluationDeadlineLabel}
           value={formatDatePtBr(evalDate)}
         />
         <PDFParagraph marginLeft={35}>
@@ -217,6 +223,10 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
         <PDFParagraph marginLeft={35}>
           {activityPlan.evaluation.text5}
         </PDFParagraph>
+        <PDFFieldRow
+          label={activityPlan.evaluation.goalsCompletionDateLabel}
+          value={formatDatePtBr(supervision.goalsCompletionDate)}
+        />
       </PDFSection>
 
       <PDFSignatureSection>
@@ -232,12 +242,14 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
           style={{ marginTop: 20 }}
         />
 
-        <PDFSignatureLine
-          label={activityPlan.signatures.supervisor}
-          line="_______________________________________"
-          subLabel={`${activityPlan.signatures.fields.field}                                  (${supervision.supervisorName})`}
-          style={{ marginTop: 20 }}
-        />
+        {hasSupervisor && (
+          <PDFSignatureLine
+            label={activityPlan.signatures.supervisor}
+            line="_______________________________________"
+            subLabel={`${activityPlan.signatures.fields.field}                                  (${supervision.supervisorName})`}
+            style={{ marginTop: 20 }}
+          />
+        )}
 
         <PDFSignatureLine
           label={activityPlan.signatures.advisor}

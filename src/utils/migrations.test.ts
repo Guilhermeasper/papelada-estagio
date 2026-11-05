@@ -16,7 +16,7 @@ interface MigratedData {
     declaredRequiredHours: number | null;
   };
   student: Record<string, unknown>;
-  supervision: { evaluationDeadline: string };
+  supervision: { evaluationDeadline: string; goalsCompletionDate: string };
   general: { workDays: number[]; workSchedule: unknown };
   content: { schedule: { periodStart: string; periodEnd: string }[] };
 }
@@ -32,7 +32,8 @@ describe("migrateData", () => {
 
     const migrated = migrateData(legacy.data, legacy.version) as MigratedData;
 
-    assert.equal(migrated.supervision.evaluationDeadline, "2026-01-26");
+    assert.equal(migrated.supervision.evaluationDeadline, "2026-01-14");
+    assert.equal(migrated.supervision.goalsCompletionDate, "2026-01-14");
     assert.deepEqual(migrated.general.workDays, [1, 2, 3, 4, 5]);
     assert.deepEqual(migrated.general.workSchedule, {
       morning: { start: 540, end: 720 },
@@ -131,5 +132,22 @@ describe("migration to v5", () => {
     });
 
     assert.equal(framing.course, "");
+  });
+
+  it("replaces the old default deadline with the end of the second period", () => {
+    const { supervision } = migrate(v4);
+
+    assert.equal(supervision.evaluationDeadline, "2025-12-24");
+    assert.equal(supervision.goalsCompletionDate, "2026-01-15");
+  });
+
+  it("keeps a deadline chosen by the student", () => {
+    const { supervision } = migrate({
+      ...v4,
+      supervision: { evaluationDeadline: "2026-02-10" },
+    });
+
+    assert.equal(supervision.evaluationDeadline, "2026-02-10");
+    assert.equal(supervision.goalsCompletionDate, "2026-02-10");
   });
 });

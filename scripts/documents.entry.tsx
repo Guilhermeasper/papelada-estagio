@@ -8,7 +8,11 @@ import { mockSupervisorEvaluationData } from "@papelada-estagio/mocks/mockSuperv
 import { pageStyles } from "@papelada-estagio/components/pdf/styles";
 import type { PageVariant } from "@papelada-estagio/components/pdf/PDFPage";
 import { PDF_CONTENT } from "@papelada-estagio/constants/pdf-content";
-import type { IInternshipData } from "@papelada-estagio/types";
+import type {
+  IInternshipData,
+  InternshipRegime,
+} from "@papelada-estagio/types";
+
 import { renderToFile, type DocumentProps } from "@react-pdf/renderer";
 import { writeFile } from "node:fs/promises";
 import type { ReactElement } from "react";
@@ -38,6 +42,13 @@ const evaluationHeadings = [
   `3. ${PDF_CONTENT.evaluationDocument.shared.comments.title}`,
   "4. NOTA",
 ];
+
+function withRegime(regime: InternshipRegime): IInternshipData {
+  return {
+    ...mockInternshipData,
+    framing: { ...mockInternshipData.framing, regime },
+  };
+}
 
 function withActivities(count: number, wordsPerItem: number): IInternshipData {
   const items = Array.from(
@@ -91,6 +102,19 @@ export const variants: Variant[] = [
         evaluation={mockAdvisorEvaluationData}
       />
     ),
+  },
+  {
+    name: "activity-plan-socio",
+    page: "activityPlan",
+    headings: activityPlanHeadings,
+    element: <ActivityPlanDocument data={withRegime("socio")} />,
+  },
+  {
+    name: "report-socio",
+    page: "report",
+    headings: reportHeadings,
+    coverPages: [1],
+    element: <ReportDocument data={withRegime("socio")} />,
   },
   {
     name: "stress-activity-plan-short",

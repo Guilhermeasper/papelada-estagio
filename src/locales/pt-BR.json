@@ -95,9 +95,9 @@
     "step6": {
       "title": "Supervisão",
       "description": "Supervisor e orientador",
-      "req1": "Supervisor (Empresa): Nome, E-mail, Telefone, Cargo, CPF",
+      "req1": "Supervisor (Empresa): Nome, E-mail, Telefone, Cargo, CPF. Não se aplica a sócio-administrador",
       "req2": "Professor Orientador (CIn): Nome, E-mail, SIAPE, Cargo",
-      "req3": "Data para emissão do parecer"
+      "req3": "Datas do parecer e do Termo de Cumprimento de Metas"
     },
     "step7": {
       "title": "Revisão",
@@ -469,7 +469,13 @@
       "advisorSiapeLabel": "SIAPE",
       "advisorSiapePlaceholder": "Matrícula SIAPE",
       "evaluationDeadlineLabel": "Data para emissão do parecer",
-      "evaluationDeadlineHint": "Prazo para o professor orientador emitir o parecer"
+      "evaluationDeadlineHint": "Pelo modelo oficial, o parecer sai ao fim do segundo período do cronograma",
+      "supervisorHintWithBond": "O supervisor deve ser um profissional graduado, seu superior hierárquico na empresa.",
+      "supervisorHintTce": "O supervisor deve ser do quadro de pessoal da concedente, com formação na área, e pode supervisionar até 10 estagiários.",
+      "advisorHint": "O orientador pode ser qualquer professor do CIn e orienta no máximo 5 estagiários por semestre. Não pode ser a mesma pessoa que o supervisor.",
+      "advisorHintSi": "O orientador pode ser um professor do CIn ou um docente que tenha lecionado em Sistemas de Informação nos últimos 5 anos, e orienta no máximo 5 estagiários por semestre. Não pode ser a mesma pessoa que o supervisor.",
+      "goalsCompletionDateLabel": "Data para emissão do Termo de Cumprimento de Metas",
+      "goalsCompletionDateHint": "Pelo modelo oficial, ao fim do último período do cronograma"
     }
   },
   "validation": {
@@ -525,7 +531,11 @@
     "regimeRequired": "Selecione como você vai cumprir o estágio",
     "curriculumProfileRequired": "Selecione o perfil curricular",
     "noMandatoryInternship": "Este curso não tem estágio obrigatório neste perfil",
-    "declaredHoursRequired": "Informe a carga horária exigida"
+    "declaredHoursRequired": "Informe a carga horária exigida",
+    "supervisorMustDifferFromAdvisor": "Supervisor e orientador precisam ser pessoas diferentes",
+    "evaluationBeforeStart": "O parecer não pode ser antes do início do estágio",
+    "goalsCompletionDateRequired": "Informe a data do Termo de Cumprimento de Metas (DD/MM/AAAA)",
+    "goalsBeforeEvaluation": "O Termo de Cumprimento de Metas não pode ser antes do parecer"
   },
   "review": {
     "title": "Revisão dos Dados",
@@ -567,7 +577,8 @@
     "curriculumProfile": "Perfil curricular",
     "regime": "Regime",
     "requiredHours": "Carga horária exigida",
-    "requiredHoursValue": "{{hours}}h"
+    "requiredHoursValue": "{{hours}}h",
+    "goalsCompletionDate": "Data do Termo de Cumprimento de Metas"
   },
   "download": {
     "title": "Download dos Documentos",
@@ -715,7 +726,9 @@
           }
         },
         "text4": "O objetivo do terceiro período é a entrega das aplicações e a avaliação da técnica e clareza do código fonte.",
-        "text5": "Será objeto desta avaliação o cumprimento das fases de Levantamento dos Requisitos, Projeto, Especificação, Codificação, Testes e Integração."
+        "text5": "Será objeto desta avaliação o cumprimento das fases de Levantamento dos Requisitos, Projeto, Especificação, Codificação, Testes e Integração.",
+        "goalsCompletionDateLabel": "Data para emissão do Termo de Cumprimento de Metas",
+        "evaluationDeadlineLabel": "Data para emissão do parecer"
       },
       "signatures": {
         "title": "Assinaturas:",

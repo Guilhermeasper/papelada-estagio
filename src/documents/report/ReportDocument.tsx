@@ -11,6 +11,7 @@ import {
   type ColumnConfig,
   type KeyValueItem,
 } from "@papelada-estagio/components/pdf";
+import { regimeHasSupervisor } from "@papelada-estagio/constants/internshipRules";
 import { PDF_CONTENT } from "@papelada-estagio/constants/pdf-content";
 import { IInternshipData } from "@papelada-estagio/types";
 import { formatPeriod } from "@papelada-estagio/utils/dateUtils";
@@ -38,6 +39,20 @@ export function ReportDocument({ data }: ReportDocumentProps) {
 
   const weeklyHours = general.hoursPerDay * general.workDays.length;
 
+  const supervisorItems: KeyValueItem[] = regimeHasSupervisor(framing.regime)
+    ? [
+        {
+          label: "Supervisor na instituição concedente",
+          value: supervision.supervisorName,
+        },
+        { label: "Email do supervisor", value: supervision.supervisorEmail },
+        {
+          label: "Telefone para contato (supervisor)",
+          value: supervision.supervisorPhone,
+        },
+      ]
+    : [];
+
   const idItems: KeyValueItem[] = [
     { label: "Nome", value: student.fullName },
     {
@@ -45,15 +60,7 @@ export function ReportDocument({ data }: ReportDocumentProps) {
       value: student.enrollmentYear,
     },
     { label: "Instituição concedente do estágio", value: company.companyName },
-    {
-      label: "Supervisor na instituição concedente",
-      value: supervision.supervisorName,
-    },
-    { label: "Email do supervisor", value: supervision.supervisorEmail },
-    {
-      label: "Telefone para contato (supervisor)",
-      value: supervision.supervisorPhone,
-    },
+    ...supervisorItems,
     {
       label: "Data de início do estágio",
       value: formatDatePtBr(general.startDate),

@@ -93,6 +93,7 @@ export interface ISupervisionData {
   advisorPosition: string;
 
   evaluationDeadline: string;
+  goalsCompletionDate: string;
 }
 
 export interface IInternshipData {

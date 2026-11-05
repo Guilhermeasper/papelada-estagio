@@ -4,7 +4,12 @@ import {
   MIN_HOURS_PER_DAY,
 } from "@papelada-estagio/constants/business";
 import { COURSES } from "@papelada-estagio/constants/internshipRules";
-import { parseLegacyPeriod } from "./dateUtils";
+import {
+  addDays,
+  parseIsoDate,
+  parseLegacyPeriod,
+  toIsoString,
+} from "./dateUtils";
 import { parseLegacyWorkDays, toWeekdayRange } from "./workDays";
 import { defaultWorkSchedule, parseLegacyWorkSchedule } from "./workSchedule";
 
@@ -15,6 +20,25 @@ export type MigrationFunction = (data: any) => any;
 export const CURRENT_DATA_VERSION = 5;
 
 const FIRST_NEW_CURRICULUM_ENROLLMENT = "2024.1";
+
+function migrateEvaluationDeadline(
+  deadline: unknown,
+  endDate: unknown,
+  schedule: any[],
+): string {
+  if (typeof deadline !== "string") return "";
+  if (typeof endDate !== "string" || !endDate) return deadline;
+
+  // O padrão antigo era o término + 12 dias, sem fonte. O modelo oficial põe o
+  // parecer ao fim do segundo período.
+  const oldDefault = toIsoString(addDays(parseIsoDate(endDate), 12));
+  if (deadline !== oldDefault) return deadline;
+
+  const secondPeriodEnd: unknown = schedule.at(1)?.periodEnd;
+  return typeof secondPeriodEnd === "string" && secondPeriodEnd
+    ? secondPeriodEnd
+    : endDate;
+}
 
 export const MIGRATIONS: Partial<Record<number, MigrationFunction>> = {
   1: (data) => {
@@ -96,7 +120,20 @@ export const MIGRATIONS: Partial<Record<number, MigrationFunction>> = {
   },
   4: (data) => {
     const { course, ...student } = data.student ?? {};
+    const general = data.general ?? {};
+    const content = data.content ?? {};
+    const supervision = data.supervision ?? {};
+    const schedule: any[] = Array.isArray(content.schedule)
+      ? content.schedule
+      : [];
     const enrollmentYear: unknown = student.enrollmentYear;
+
+    const evaluationDeadline = migrateEvaluationDeadline(
+      supervision.evaluationDeadline,
+      general.endDate,
+      schedule,
+    );
+    const endDate = typeof general.endDate === "string" ? general.endDate : "";
 
     return {
       ...data,
@@ -113,6 +150,12 @@ export const MIGRATIONS: Partial<Record<number, MigrationFunction>> = {
         declaredRequiredHours: null,
       },
       student,
+      supervision: {
+        ...supervision,
+        evaluationDeadline,
+        goalsCompletionDate:
+          evaluationDeadline > endDate ? evaluationDeadline : endDate,
+      },
     };
   },
 };

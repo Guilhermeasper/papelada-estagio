@@ -5,6 +5,7 @@ import type {
   IInternshipData,
   IInternshipFraming,
   IInternshipGeneral,
+  IScheduleItem,
   IStudentData,
   ISupervisionData,
 } from "./internship";
@@ -51,7 +52,10 @@ export interface IInternshipContentStepProps {
 
 export interface ISupervisionFormStepProps {
   data: ISupervisionData;
+  rules: InternshipRules;
+  startDate: string;
   endDate: string;
+  schedule: IScheduleItem[];
   onNext: (data: ISupervisionData) => void;
   onBack: () => void;
 }

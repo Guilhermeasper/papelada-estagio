@@ -31,6 +31,12 @@ export const getPdfContent = () => ({
       legends: i18n.t("pdf.activityPlan.evaluation.legends", {
         returnObjects: true,
       }),
+      evaluationDeadlineLabel: i18n.t(
+        "pdf.activityPlan.evaluation.evaluationDeadlineLabel",
+      ),
+      goalsCompletionDateLabel: i18n.t(
+        "pdf.activityPlan.evaluation.goalsCompletionDateLabel",
+      ),
       text3: i18n.t("pdf.activityPlan.evaluation.text3"),
       criteria: [
         {

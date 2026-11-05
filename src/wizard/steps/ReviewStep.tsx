@@ -190,31 +190,33 @@ export function ReviewStep({
         onEdit={onEdit}
       >
         <div className="col-span-full grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-3 min-w-0">
-            <h4 className="text-sm font-semibold text-text-primary dark:text-text-primary-dark">
-              {t("review.supervisor")}
-            </h4>
-            <ReviewItem
-              label={t("review.name")}
-              value={data.supervision.supervisorName}
-            />
-            <ReviewItem
-              label={t("review.position")}
-              value={data.supervision.supervisorPosition}
-            />
-            <ReviewItem
-              label={t("review.email")}
-              value={data.supervision.supervisorEmail}
-            />
-            <ReviewItem
-              label={t("review.phone")}
-              value={data.supervision.supervisorPhone}
-            />
-            <ReviewItem
-              label={t("review.cpf")}
-              value={data.supervision.supervisorCpf}
-            />
-          </div>
+          {rules.hasSupervisor && (
+            <div className="space-y-3 min-w-0">
+              <h4 className="text-sm font-semibold text-text-primary dark:text-text-primary-dark">
+                {t("review.supervisor")}
+              </h4>
+              <ReviewItem
+                label={t("review.name")}
+                value={data.supervision.supervisorName}
+              />
+              <ReviewItem
+                label={t("review.position")}
+                value={data.supervision.supervisorPosition}
+              />
+              <ReviewItem
+                label={t("review.email")}
+                value={data.supervision.supervisorEmail}
+              />
+              <ReviewItem
+                label={t("review.phone")}
+                value={data.supervision.supervisorPhone}
+              />
+              <ReviewItem
+                label={t("review.cpf")}
+                value={data.supervision.supervisorCpf}
+              />
+            </div>
+          )}
           <div className="space-y-3 min-w-0">
             <h4 className="text-sm font-semibold text-text-primary dark:text-text-primary-dark">
               {t("review.advisor")}
@@ -238,6 +240,10 @@ export function ReviewStep({
             <ReviewItem
               label={t("review.evaluationDeadline")}
               value={formatDatePtBr(data.supervision.evaluationDeadline)}
+            />
+            <ReviewItem
+              label={t("review.goalsCompletionDate")}
+              value={formatDatePtBr(data.supervision.goalsCompletionDate)}
             />
           </div>
         </div>

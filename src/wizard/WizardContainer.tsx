@@ -104,7 +104,10 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
         return (
           <SupervisionFormStep
             data={data.supervision}
+            rules={rules}
+            startDate={data.general.startDate}
             endDate={data.general.endDate}
+            schedule={data.content.schedule}
             onNext={updateSupervision}
             onBack={prevStep}
           />

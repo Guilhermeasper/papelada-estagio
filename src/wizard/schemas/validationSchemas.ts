@@ -336,31 +336,84 @@ export const evaluationSchema = z.object({
 export type InternshipContentFormData = z.infer<typeof internshipContentSchema>;
 export type EvaluationFormData = z.infer<typeof evaluationSchema>;
 
-export const supervisionSchema = z.object({
-  supervisorName: z
-    .string()
-    .min(3, i18n.t("validation.supervisorNameRequired")),
-  supervisorEmail: emailSchema,
-  supervisorPhone: phoneSchema,
-  supervisorPosition: z
-    .string()
-    .min(2, i18n.t("validation.supervisorPositionRequired")),
-  supervisorCpf: cpfSchema,
+function normalizeName(name: string): string {
+  return name.trim().toLowerCase();
+}
 
-  advisorName: z.string().min(3, i18n.t("validation.advisorNameRequired")),
-  advisorEmail: emailSchema,
-  advisorSiape: z.string().min(5, i18n.t("validation.advisorSiapeRequired")),
-  advisorPosition: z
-    .string()
-    .min(2, i18n.t("validation.advisorPositionRequired")),
+export interface SupervisionRules {
+  hasSupervisor: boolean;
+  startDate: string;
+}
 
-  evaluationDeadline: z
-    .string()
-    .min(1, i18n.t("validation.evaluationDeadlineRequired"))
-    .refine(isValidIsoDate, i18n.t("validation.invalidDate")),
-});
+function makeSupervisionFields(hasSupervisor: boolean) {
+  return {
+    supervisorName: hasSupervisor
+      ? z.string().min(3, i18n.t("validation.supervisorNameRequired"))
+      : z.string(),
+    supervisorEmail: hasSupervisor ? emailSchema : z.string(),
+    supervisorPhone: hasSupervisor ? phoneSchema : z.string(),
+    supervisorPosition: hasSupervisor
+      ? z.string().min(2, i18n.t("validation.supervisorPositionRequired"))
+      : z.string(),
+    supervisorCpf: hasSupervisor ? cpfSchema : z.string(),
 
-export type SupervisionFormData = z.infer<typeof supervisionSchema>;
+    advisorName: z.string().min(3, i18n.t("validation.advisorNameRequired")),
+    advisorEmail: emailSchema,
+    advisorSiape: z.string().min(5, i18n.t("validation.advisorSiapeRequired")),
+    advisorPosition: z
+      .string()
+      .min(2, i18n.t("validation.advisorPositionRequired")),
+
+    evaluationDeadline: z
+      .string()
+      .min(1, i18n.t("validation.evaluationDeadlineRequired"))
+      .refine(isValidIsoDate, i18n.t("validation.invalidDate")),
+    goalsCompletionDate: z
+      .string()
+      .min(1, i18n.t("validation.goalsCompletionDateRequired"))
+      .refine(isValidIsoDate, i18n.t("validation.invalidDate")),
+  };
+}
+
+export function makeSupervisionSchema({
+  hasSupervisor,
+  startDate,
+}: SupervisionRules) {
+  return z
+    .object(makeSupervisionFields(hasSupervisor))
+    .superRefine((data, ctx) => {
+      if (
+        hasSupervisor &&
+        normalizeName(data.supervisorName) === normalizeName(data.advisorName)
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          message: i18n.t("validation.supervisorMustDifferFromAdvisor"),
+          path: ["advisorName"],
+        });
+      }
+
+      if (startDate && data.evaluationDeadline < startDate) {
+        ctx.addIssue({
+          code: "custom",
+          message: i18n.t("validation.evaluationBeforeStart"),
+          path: ["evaluationDeadline"],
+        });
+      }
+
+      if (data.goalsCompletionDate < data.evaluationDeadline) {
+        ctx.addIssue({
+          code: "custom",
+          message: i18n.t("validation.goalsBeforeEvaluation"),
+          path: ["goalsCompletionDate"],
+        });
+      }
+    });
+}
+
+export type SupervisionFormData = z.infer<
+  ReturnType<typeof makeSupervisionSchema>
+>;
 
 export const fullInternshipSchema = z.object({
   framing: framingSchema,
@@ -372,7 +425,7 @@ export const fullInternshipSchema = z.object({
   }),
   content: internshipContentSchema,
   evaluation: evaluationSchema,
-  supervision: supervisionSchema,
+  supervision: makeSupervisionSchema({ hasSupervisor: false, startDate: "" }),
 });
 
 export type FullInternshipData = z.infer<typeof fullInternshipSchema>;
@@ -394,7 +447,9 @@ const framingImportSchema = z.object({
 
 const studentImportSchema = stringShape(studentSchema);
 const companyImportSchema = stringShape(companySchema);
-const supervisionImportSchema = stringShape(supervisionSchema);
+const supervisionImportSchema = stringShape(
+  z.object(makeSupervisionFields(true)),
+);
 
 const generalImportSchema = z.object({
   startDate: z.string(),
