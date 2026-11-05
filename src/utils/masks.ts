@@ -23,7 +23,11 @@ export function maskPhone(value: string): string {
 }
 
 export function maskCnpj(value: string): string {
-  const digits = value.replace(/\D/g, "").slice(0, 14);
+  const characters = value.toUpperCase().replace(/[^A-Z0-9]/g, "");
+  // CNPJ alfanumérico: os 12 primeiros aceitam letras, os 2 dígitos verificadores não.
+  const digits =
+    characters.slice(0, 12) +
+    characters.slice(12).replace(/\D/g, "").slice(0, 2);
 
   if (digits.length < 2) {
     return digits;
@@ -129,14 +133,14 @@ export function getBackspacedMaskValue(
   currentRaw: string,
   prevFormatted: string,
 ): string {
-  const prevDigits = prevFormatted.replace(/\D/g, "");
-  const currentDigits = currentRaw.replace(/\D/g, "");
+  const prevCharacters = prevFormatted.replace(/[^A-Za-z0-9]/g, "");
+  const currentCharacters = currentRaw.replace(/[^A-Za-z0-9]/g, "");
 
   if (
-    currentDigits.length === prevDigits.length &&
+    currentCharacters.length === prevCharacters.length &&
     currentRaw.length < prevFormatted.length
   ) {
-    return prevDigits.slice(0, -1);
+    return prevCharacters.slice(0, -1);
   }
   return currentRaw;
 }

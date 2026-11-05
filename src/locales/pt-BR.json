@@ -336,7 +336,7 @@
     "studentIdRequired": "Matrícula é obrigatória",
     "companyNameRequired": "Nome da empresa é obrigatório",
     "companyAddressRequired": "Endereço da empresa é obrigatório",
-    "invalidCnpj": "CNPJ inválido. Ex: 00.000.000/0000-00",
+    "invalidCnpj": "CNPJ inválido. Ex: 00.000.000/0000-00 ou 12.ABC.345/01DE-35",
     "startDateRequired": "Informe a data de início (DD/MM/AAAA)",
     "startDateInvalid": "Data de início inválida (fim de semana ou feriado)",
     "endDateRequired": "Informe a data de término (DD/MM/AAAA)",
