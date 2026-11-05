@@ -7,6 +7,7 @@ import {
   PDFLayout,
   PDFParagraph,
   PDFSection,
+  PDFSignatureLine,
   PDFTable,
   type ColumnConfig,
   type KeyValueItem,
@@ -40,7 +41,7 @@ export function ReportDocument({ data }: ReportDocumentProps) {
     evaluation,
     supervision,
   } = data;
-  const { report } = PDF_CONTENT;
+  const { header, report } = PDF_CONTENT;
 
   const [endYear, endMonth] = general.endDate.split("-").map(Number);
   const coverMonth = getMonthName(endMonth);
@@ -106,6 +107,15 @@ export function ReportDocument({ data }: ReportDocumentProps) {
       {/* Cover Section */}
       <View style={{ marginTop: 50, marginBottom: 100, alignItems: "center" }}>
         <PDFParagraph
+          style={{ fontSize: 16, marginBottom: 5, fontFamily: fonts.bold }}
+          align="center"
+        >
+          {report.university}
+        </PDFParagraph>
+        <PDFParagraph style={{ fontSize: 14, marginBottom: 80 }} align="center">
+          {header.institution}
+        </PDFParagraph>
+        <PDFParagraph
           style={{ fontSize: 24, marginBottom: 40, fontFamily: fonts.bold }}
           align="center"
         >
@@ -118,6 +128,20 @@ export function ReportDocument({ data }: ReportDocumentProps) {
           Recife, {coverMonth} de {coverYear}
         </PDFParagraph>
       </View>
+
+      <View break />
+
+      {/* Índice */}
+      <PDFSection title={report.toc.title}>
+        {report.toc.items.map((item, index) => (
+          <PDFParagraph
+            key={index}
+            style={{ marginLeft: item.indent ? 20 : 0, marginBottom: 4 }}
+          >
+            {item.label}
+          </PDFParagraph>
+        ))}
+      </PDFSection>
 
       <View break />
 
@@ -149,6 +173,7 @@ export function ReportDocument({ data }: ReportDocumentProps) {
         </PDFParagraph>
         <PDFParagraph>{report.text.specificObjectivesIntro}</PDFParagraph>
         <PDFBulletList items={content.objectives} />
+        <PDFParagraph>{content.specificObjectives}</PDFParagraph>
       </PDFSection>
 
       {/* Cronograma */}
@@ -159,6 +184,7 @@ export function ReportDocument({ data }: ReportDocumentProps) {
             {formatPeriod(item.periodStart, item.periodEnd)}: {item.description}
           </PDFParagraph>
         ))}
+        <PDFParagraph>{content.scheduleDiscussion}</PDFParagraph>
       </PDFSection>
 
       {/* Metodologia */}
@@ -180,6 +206,17 @@ export function ReportDocument({ data }: ReportDocumentProps) {
       <PDFSection title={report.sections.conclusion}>
         <PDFParagraph>{content.conclusion}</PDFParagraph>
       </PDFSection>
+
+      {/* Referências */}
+      <PDFSection title={report.sections.references}>
+        <PDFParagraph>{content.references || report.noReferences}</PDFParagraph>
+      </PDFSection>
+
+      <PDFSignatureLine
+        label={report.studentSignature}
+        subLabel={`(${student.fullName})`}
+        style={{ marginTop: 40 }}
+      />
     </PDFLayout>
   );
 }

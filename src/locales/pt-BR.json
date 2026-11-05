@@ -770,7 +770,8 @@
         "fields": {
           "field": "(Campo de Estágio)",
           "ufpe": "(UFPE)"
-        }
+        },
+        "dateLine": "Recife, ____ de ___________________ de 20___"
       },
       "footer": "O Plano de Atividades deverá ser elaborado em conformidade com as especificidades do Curso e deve ser parte integrante do Termo de Compromisso e deverá conter, obrigatoriamente, todas as assinaturas."
     },
@@ -787,7 +788,8 @@
         "methodology": "Material e Método",
         "development": "Desenvolvimento",
         "evaluation": "Avaliação do Estágio",
-        "conclusion": "Conclusão"
+        "conclusion": "Conclusão",
+        "references": "Referências Bibliográficas"
       },
       "sections": {
         "identification": "Identificação",
@@ -799,11 +801,12 @@
         "methodology": "Material e Método",
         "development": "Desenvolvimento",
         "evaluation": "Avaliação do Estágio",
-        "conclusion": "Conclusão"
+        "conclusion": "Conclusão",
+        "references": "Referências Bibliográficas"
       },
       "text": {
         "specificObjectivesIntro": "Conforme estabelecido no Plano de Atividades, os objetivos específicos incluíram:",
-        "scheduleIntro": "O cronograma executado seguiu a dinâmica dos projetos da empresa, dividindo-se em três grandes fases:"
+        "scheduleIntro": "O cronograma previsto no Plano de Atividades foi:"
       },
       "evaluationQuestions": [
         "A concedente permite flexibilidade de horário?",
@@ -811,7 +814,10 @@
         "Quando reduz sua jornada de trabalho por causa de provas e/ou trabalhos, a concedente exige que você compense estas horas?",
         "A concedente se preocupa com seu desempenho acadêmico?",
         "Você considera que a UFPE deve manter o convênio com a instituição concedente para que outros estudantes façam estágio nela?"
-      ]
+      ],
+      "university": "Universidade Federal de Pernambuco",
+      "noReferences": "Não se aplica.",
+      "studentSignature": "Assinatura do aluno:"
     },
     "evaluationDocument": {
       "supervisorTitle": "Avaliação do Supervisor do Estágio",
@@ -834,7 +840,9 @@
           "overallPerformance": "Avaliação geral do desempenho do estagiário na execução das atividades"
         },
         "commentsTitle": "Caso deseje, utilize o espaço abaixo para uma avaliação mais detalhada sobre o estagiário.",
-        "datePrefix": "Data:"
+        "datePrefix": "Data:",
+        "gradeTitle": "Dê uma nota de 0 a 10 para o estagiário:",
+        "blankDate": "___ de ________________ de 20___"
       }
     }
   }

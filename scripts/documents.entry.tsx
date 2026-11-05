@@ -12,7 +12,6 @@ import type {
   IInternshipData,
   InternshipRegime,
 } from "@papelada-estagio/types";
-
 import { renderToFile, type DocumentProps } from "@react-pdf/renderer";
 import { writeFile } from "node:fs/promises";
 import type { ReactElement } from "react";
@@ -40,7 +39,7 @@ const evaluationHeadings = [
   `1. ${PDF_CONTENT.evaluationDocument.shared.sections.identification}`,
   `2. ${PDF_CONTENT.evaluationDocument.shared.sections.evaluation}`,
   `3. ${PDF_CONTENT.evaluationDocument.shared.comments.title}`,
-  "4. NOTA",
+  `4. ${PDF_CONTENT.evaluationDocument.shared.gradeTitle}`,
 ];
 
 function withRegime(regime: InternshipRegime): IInternshipData {
@@ -78,7 +77,7 @@ export const variants: Variant[] = [
     name: "report",
     page: "report",
     headings: reportHeadings,
-    coverPages: [1],
+    coverPages: [1, 2],
     element: <ReportDocument data={mockInternshipData} />,
   },
   {
@@ -113,7 +112,7 @@ export const variants: Variant[] = [
     name: "report-socio",
     page: "report",
     headings: reportHeadings,
-    coverPages: [1],
+    coverPages: [1, 2],
     element: <ReportDocument data={withRegime("socio")} />,
   },
   {

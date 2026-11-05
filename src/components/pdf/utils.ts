@@ -28,11 +28,6 @@ export function getMonthName(month: number): string {
   return MONTHS_PT[month - 1] || "";
 }
 
-export function formatFullDate(isoDate: string): string {
-  const [year, month, day] = isoDate.split("-").map(Number);
-  return `${day} de ${getMonthName(month)} de ${year}`;
-}
-
 export function splitTextIntoLines(
   text: string | undefined,
   numLines: number,

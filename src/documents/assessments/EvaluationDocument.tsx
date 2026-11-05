@@ -44,9 +44,7 @@ export function EvaluationDocument({
 }: EvaluationDocumentProps) {
   const { evaluationDocument } = PDF_CONTENT;
   const config = evaluationDocument[type];
-  const { framing, student, company, general, supervision } = data;
-  const signatureDate =
-    evaluation.evaluationDate || supervision.evaluationDeadline;
+  const { framing, student, company, general } = data;
 
   const getPersonName = () => {
     return type === "supervisor"
@@ -128,21 +126,22 @@ export function EvaluationDocument({
 
       <PDFSection
         number="4"
-        title="NOTA"
+        title={evaluationDocument.shared.gradeTitle}
         titleStyle={{
           fontSize: 11,
           fontFamily: fonts.bold,
           marginBottom: 10,
         }}
       >
-        <PDFParagraph>
-          Nota atribuída ao estagiário: {evaluation.finalGrade ?? ""}
-        </PDFParagraph>
+        <PDFParagraph>{evaluation.finalGrade ?? "________"}</PDFParagraph>
       </PDFSection>
 
       <View style={{ marginTop: 20 }} wrap={false}>
         <Text>
-          {evaluationDocument.shared.datePrefix} {formatDateLong(signatureDate)}
+          {evaluationDocument.shared.datePrefix}{" "}
+          {evaluation.evaluationDate
+            ? formatDateLong(evaluation.evaluationDate)
+            : evaluationDocument.shared.blankDate}
         </Text>
         <PDFSignatureLine label={config.signatureLabel} centered />
       </View>

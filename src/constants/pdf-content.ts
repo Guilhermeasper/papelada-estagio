@@ -114,6 +114,7 @@ export const getPdfContent = () => ({
       text5: i18n.t("pdf.activityPlan.evaluation.text5"),
     },
     signatures: {
+      dateLine: i18n.t("pdf.activityPlan.signatures.dateLine"),
       title: i18n.t("pdf.activityPlan.signatures.title"),
       student: i18n.t("pdf.activityPlan.signatures.student"),
       supervisor: i18n.t("pdf.activityPlan.signatures.supervisor"),
@@ -129,27 +130,29 @@ export const getPdfContent = () => ({
   },
   report: {
     title: i18n.t("pdf.report.title"),
+    university: i18n.t("pdf.report.university"),
+    noReferences: i18n.t("pdf.report.noReferences"),
+    studentSignature: i18n.t("pdf.report.studentSignature"),
     toc: {
       title: i18n.t("pdf.report.tocTitle"),
       items: [
-        { label: i18n.t("pdf.report.tocItems.identification"), page: 3 },
-        { label: i18n.t("pdf.report.tocItems.introduction"), page: 4 },
-        { label: i18n.t("pdf.report.tocItems.objectives"), page: 5 },
+        { label: i18n.t("pdf.report.tocItems.identification"), indent: false },
+        { label: i18n.t("pdf.report.tocItems.introduction"), indent: false },
+        { label: i18n.t("pdf.report.tocItems.objectives"), indent: false },
         {
           label: i18n.t("pdf.report.tocItems.generalObjectives"),
-          page: 5,
           indent: true,
         },
         {
           label: i18n.t("pdf.report.tocItems.specificObjectives"),
-          page: 5,
           indent: true,
         },
-        { label: i18n.t("pdf.report.tocItems.schedule"), page: 6 },
-        { label: i18n.t("pdf.report.tocItems.methodology"), page: 7 },
-        { label: i18n.t("pdf.report.tocItems.development"), page: 8 },
-        { label: i18n.t("pdf.report.tocItems.evaluation"), page: 9 },
-        { label: i18n.t("pdf.report.tocItems.conclusion"), page: 10 },
+        { label: i18n.t("pdf.report.tocItems.schedule"), indent: false },
+        { label: i18n.t("pdf.report.tocItems.methodology"), indent: false },
+        { label: i18n.t("pdf.report.tocItems.development"), indent: false },
+        { label: i18n.t("pdf.report.tocItems.evaluation"), indent: false },
+        { label: i18n.t("pdf.report.tocItems.conclusion"), indent: false },
+        { label: i18n.t("pdf.report.tocItems.references"), indent: false },
       ],
     },
     sections: {
@@ -163,6 +166,7 @@ export const getPdfContent = () => ({
       development: i18n.t("pdf.report.sections.development"),
       evaluation: i18n.t("pdf.report.sections.evaluation"),
       conclusion: i18n.t("pdf.report.sections.conclusion"),
+      references: i18n.t("pdf.report.sections.references"),
     },
     text: {
       specificObjectivesIntro: i18n.t(
@@ -225,7 +229,9 @@ export const getPdfContent = () => ({
       comments: {
         title: i18n.t("pdf.evaluationDocument.shared.commentsTitle"),
       },
+      gradeTitle: i18n.t("pdf.evaluationDocument.shared.gradeTitle"),
       datePrefix: i18n.t("pdf.evaluationDocument.shared.datePrefix"),
+      blankDate: i18n.t("pdf.evaluationDocument.shared.blankDate"),
     },
   },
 });

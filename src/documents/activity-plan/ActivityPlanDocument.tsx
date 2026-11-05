@@ -1,7 +1,6 @@
 import {
   fonts,
   formatDatePtBr,
-  formatFullDate,
   PDFFieldRow,
   PDFLayout,
   PDFLogoHeader,
@@ -17,7 +16,7 @@ import {
 import { regimeHasSupervisor } from "@papelada-estagio/constants/internshipRules";
 import { PDF_CONTENT } from "@papelada-estagio/constants/pdf-content";
 import type { IInternshipData } from "@papelada-estagio/types";
-import { Text } from "@react-pdf/renderer";
+import { Text, View } from "@react-pdf/renderer";
 import { getAssetPath } from "../../utils/asset";
 import { formatPeriod } from "../../utils/dateUtils";
 import { formatWorkDays } from "../../utils/workDays";
@@ -31,8 +30,6 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
   const { framing, student, company, general, content, supervision } = data;
   const { activityPlan, header } = PDF_CONTENT;
   const hasSupervisor = regimeHasSupervisor(framing.regime);
-
-  const evalDate = supervision.evaluationDeadline;
 
   const evalColumns: ColumnConfig[] = [
     { key: "topic", header: "TÓPICO", width: 98 },
@@ -196,7 +193,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
         </PDFParagraph>
         <PDFFieldRow
           label={activityPlan.evaluation.evaluationDeadlineLabel}
-          value={formatDatePtBr(evalDate)}
+          value={formatDatePtBr(supervision.evaluationDeadline)}
         />
         <PDFParagraph marginLeft={35}>
           {activityPlan.evaluation.text2}
@@ -229,17 +226,15 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
         />
       </PDFSection>
 
-      <PDFSignatureSection>
-        <PDFSignatureDate>
-          {`Recife, ${formatFullDate(evalDate)}`}
-        </PDFSignatureDate>
+      <PDFSignatureSection style={{ marginTop: 10 }}>
+        <PDFSignatureDate>{activityPlan.signatures.dateLine}</PDFSignatureDate>
         <Text style={{ fontFamily: fonts.bold }}>
           {activityPlan.signatures.title}
         </Text>
 
         <PDFSignatureLine
           label={activityPlan.signatures.student}
-          style={{ marginTop: 20 }}
+          style={{ marginTop: 14 }}
         />
 
         {hasSupervisor && (
@@ -247,7 +242,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
             label={activityPlan.signatures.supervisor}
             line="_______________________________________"
             subLabel={`${activityPlan.signatures.fields.field}                                  (${supervision.supervisorName})`}
-            style={{ marginTop: 20 }}
+            style={{ marginTop: 14 }}
           />
         )}
 
@@ -258,17 +253,18 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
           style={{ marginTop: 10 }}
         />
 
-        <PDFSignatureLine
-          label={activityPlan.signatures.coordinator}
-          line="_________________________________"
-          subLabel={`\u00A0                                                                                                 ${activityPlan.signatures.coordinatorNote}`}
-          style={{ marginTop: 10 }}
-        />
+        <View wrap={false}>
+          <PDFSignatureLine
+            label={activityPlan.signatures.coordinator}
+            line="_________________________________"
+            subLabel={`\u00A0                                                                                                 ${activityPlan.signatures.coordinatorNote}`}
+            style={{ marginTop: 10 }}
+          />
+          <PDFParagraph style={{ fontSize: 8, marginTop: 8, marginBottom: 0 }}>
+            {activityPlan.footer}
+          </PDFParagraph>
+        </View>
       </PDFSignatureSection>
-
-      <PDFParagraph style={{ fontSize: 8, marginTop: 8, marginBottom: 0 }}>
-        {activityPlan.footer}
-      </PDFParagraph>
     </PDFLayout>
   );
 }
