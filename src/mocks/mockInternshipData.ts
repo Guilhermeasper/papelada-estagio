@@ -18,7 +18,7 @@ export const mockInternshipData: IInternshipData = {
   },
   general: {
     startDate: "2025-11-19",
-    endDate: "2026-01-14",
+    endDate: "2026-01-15",
     hoursPerDay: 8,
     workDays: [1, 2, 3, 4, 5],
     workSchedule: {
@@ -50,14 +50,14 @@ export const mockInternshipData: IInternshipData = {
           "Descrição de exemplo para o primeiro período do cronograma, usada apenas para testes de layout.",
       },
       {
-        periodStart: "2025-12-08",
+        periodStart: "2025-12-09",
         periodEnd: "2025-12-24",
         description:
           "Descrição de exemplo para o segundo período do cronograma, com comprimento equivalente ao original.",
       },
       {
         periodStart: "2025-12-26",
-        periodEnd: "2026-01-14",
+        periodEnd: "2026-01-15",
         description:
           "Descrição de exemplo para o terceiro período do cronograma, mantida somente para validação visual.",
       },

@@ -13,12 +13,15 @@ const FIXED_HOLIDAYS: FixedHoliday[] = [
   { day: 12, month: 10, name: "Nossa Senhora Aparecida", scope: "nacional" },
   { day: 2, month: 11, name: "Finados", scope: "nacional" },
   { day: 15, month: 11, name: "Proclamação da República", scope: "nacional" },
+  { day: 20, month: 11, name: "Consciência Negra", scope: "nacional" },
   { day: 25, month: 12, name: "Natal", scope: "nacional" },
 
   { day: 6, month: 3, name: "Revolução Pernambucana", scope: "estadual" },
   { day: 24, month: 6, name: "São João", scope: "estadual" },
 
   { day: 12, month: 3, name: "Aniversário de Recife", scope: "municipal" },
+  { day: 16, month: 7, name: "Nossa Senhora do Carmo", scope: "municipal" },
+  { day: 8, month: 12, name: "Nossa Senhora da Conceição", scope: "municipal" },
 ];
 
 function calculateEaster(year: number): Date {
