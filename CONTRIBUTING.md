@@ -1,6 +1,6 @@
 # Como contribuir
 
-Este guia mostra como preparar o ambiente, fazer uma mudança e abrir um pull request.
+Prepare o ambiente antes de fazer uma mudança e abrir um pull request.
 
 ## Prepare o ambiente
 
@@ -32,7 +32,7 @@ Este guia mostra como preparar o ambiente, fazer uma mudança e abrir um pull re
 
 ## Faça o commit
 
-A cada commit, o hook de pré-commit roda o Prettier e o ESLint nos arquivos preparados. O hook corrige o que consegue. Se restar algum erro, o commit é abortado: corrija o erro e tente de novo.
+A cada commit, o hook de pré-commit roda o Prettier e o ESLint nos arquivos preparados. O hook corrige o que consegue. Se restar algum erro, o commit é abortado. Corrija o erro e tente de novo.
 
 Escreva as mensagens em inglês, no formato [Conventional Commits](https://www.conventionalcommits.org/):
 

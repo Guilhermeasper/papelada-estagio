@@ -1,6 +1,6 @@
 # Regras de estágio aplicadas pelo app
 
-Este documento liga cada regra do app à norma de origem, ao código e ao teste. Use-o para conferir se o app continua de acordo com as normas e para saber o que mudar quando uma norma mudar.
+Cada regra do app está ligada à norma de origem, ao código e ao teste. Consulte este documento ao conferir ou atualizar as regras.
 
 **Última conferência das fontes:** 04/11/2026.
 

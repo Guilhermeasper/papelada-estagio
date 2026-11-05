@@ -1,6 +1,6 @@
 # Convenções de código
 
-Este documento lista as regras de código do projeto. As regras da primeira seção são verificadas por ferramentas. As da segunda dependem de revisão.
+As ferramentas verificam as regras da primeira seção. As demais dependem de revisão.
 
 ## Regras verificadas por ferramentas
 

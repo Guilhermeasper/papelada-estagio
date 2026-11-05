@@ -1,7 +1,7 @@
 # Papelada Estágio
 
-Gerador de documentos de estágio obrigatório do CIn/UFPE. Um wizard de 8 passos
-coleta os dados uma única vez e produz os PDFs no formato dos modelos oficiais:
+Gerador de documentos de estágio obrigatório do CIn/UFPE. Um formulário de 8 passos
+coleta os dados e gera PDFs a partir dos modelos oficiais:
 
 - Plano de Atividades
 - Relatório de Estágio
@@ -19,17 +19,17 @@ Os documentos externos, como o TCE, a declaração da empresa e a cópia da CTPS
 
 ## Escopo: só a preparação dos documentos
 
-O processo oficial da SecGrad tem etapas antes e depois da geração dos PDFs.
-Este app cobre apenas "preparar a documentação". As demais etapas estão descritas
-dentro do próprio wizard (passo 1 e passo 8), e o ponto crítico é este:
+O processo da SecGrad inclui etapas antes e depois da geração dos PDFs.
+O app cobre a preparação dos documentos e descreve as demais etapas nos passos
+1 e 8. Para entregar os documentos:
 
 > Colha todas as assinaturas **exceto a da coordenação**, entregue à Secretaria
 > da Graduação para conferência, e é a SecGrad quem encaminha o documento à
 > Coordenação de Estágio para a assinatura final.
 
-O rodapé do Plano de Atividades — texto do formulário oficial, reproduzido sem
-alteração — diz que o documento deve conter "obrigatoriamente, todas as
-assinaturas". Isso descreve o documento pronto, não a ordem em que assiná-lo.
+O rodapé do Plano de Atividades reproduz o texto do formulário oficial. Ele diz
+que o documento deve conter "obrigatoriamente, todas as assinaturas". Isso
+descreve o documento pronto, não a ordem das assinaturas.
 
 Comece o processo com **3 semanas de antecedência**. A documentação precisa chegar
 à SecGrad com no mínimo **8 dias úteis de antecedência**, e a vigência não pode ser
@@ -40,7 +40,7 @@ retroativa.
 <https://secgrad.cin.ufpe.br/estágio>
 
 As regras deste app vêm da Lei 11.788/2008, da Resolução CEPE 20/2015, da IN
-PROGRAD 1/2026 e do site da SecGrad, e podem desatualizar. Em caso de divergência,
+PROGRAD 1/2026 e do site da SecGrad. Elas podem desatualizar. Em caso de divergência,
 **o site prevalece**. O documento [regras de estágio](./docs/regras-de-estagio.md)
 liga cada regra à sua fonte, ao código e ao teste.
 
