@@ -1,5 +1,4 @@
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
 import ptBR from "../locales/pt-BR.json";
 
 export const defaultNS = "translation";
@@ -9,7 +8,7 @@ export const resources = {
   },
 } as const;
 
-void i18n.use(initReactI18next).init({
+void i18n.init({
   lng: "pt-BR",
   fallbackLng: "pt-BR",
   resources,
