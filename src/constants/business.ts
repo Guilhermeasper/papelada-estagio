@@ -1,4 +1,7 @@
-export const MIN_LEAD_TIME_WEEKS = 3;
+export const RECOMMENDED_LEAD_TIME_DAYS = 21;
+export const MIN_SUBMISSION_WORKDAYS = 8;
+export const INSURANCE_SUBMISSION_DAY = 15;
+export const MAX_INTERNSHIP_YEARS = 2;
 export const MAX_HOURS_PER_DAY = 8;
 export const MIN_HOURS_PER_DAY = 2;
 export const WORKDAYS_PER_WEEK = 5;

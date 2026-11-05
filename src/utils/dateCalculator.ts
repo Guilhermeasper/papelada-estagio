@@ -1,8 +1,11 @@
 import {
   DEFAULT_WORK_DAYS,
+  INSURANCE_SUBMISSION_DAY,
   MAX_HOURS_PER_DAY,
+  MAX_INTERNSHIP_YEARS,
   MIN_HOURS_PER_DAY,
-  MIN_LEAD_TIME_WEEKS,
+  MIN_SUBMISSION_WORKDAYS,
+  RECOMMENDED_LEAD_TIME_DAYS,
 } from "@papelada-estagio/constants/business";
 import {
   addDays,
@@ -52,28 +55,73 @@ export function validateDate(isoDate: string): DateValidationResult {
   return { valid: true };
 }
 
-export function getLeadTimeWarning(startIso: string): string | null {
-  if (!startIso) return null;
+export type SubmissionStatus = "retroactive" | "late" | "tight" | "onTrack";
 
+export interface SubmissionTimeline {
+  status: SubmissionStatus;
+  recommendedStartBy: string;
+  submissionDeadline: string;
+  insuranceDeadline: string;
+}
+
+export function subtractWorkdays(isoDate: string, count: number): string {
+  let current = parseIsoDate(isoDate);
+  let remaining = count;
+
+  while (remaining > 0) {
+    current = addDays(current, -1);
+    if (isWorkday(current)) remaining--;
+  }
+
+  return toIsoString(current);
+}
+
+export function getSubmissionTimeline(
+  startIso: string,
+  todayIso: string,
+): SubmissionTimeline {
   const start = parseIsoDate(startIso);
-  const today = parseIsoDate(toIsoString(new Date()));
-  const daysAhead = Math.round(
-    (start.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+
+  const recommendedStartBy = toIsoString(
+    addDays(start, -RECOMMENDED_LEAD_TIME_DAYS),
+  );
+  const submissionDeadline = subtractWorkdays(
+    startIso,
+    MIN_SUBMISSION_WORKDAYS,
+  );
+  const insuranceDeadline = toIsoString(
+    new Date(
+      start.getFullYear(),
+      start.getMonth() - 1,
+      INSURANCE_SUBMISSION_DAY,
+    ),
   );
 
-  if (daysAhead >= MIN_LEAD_TIME_WEEKS * 7) return null;
+  const status: SubmissionStatus =
+    startIso < todayIso
+      ? "retroactive"
+      : todayIso > submissionDeadline
+        ? "late"
+        : todayIso > recommendedStartBy
+          ? "tight"
+          : "onTrack";
 
-  const antecedencia = `A SecGrad pede que o processo comece com ${MIN_LEAD_TIME_WEEKS} semanas de antecedência.`;
+  return {
+    status,
+    recommendedStartBy,
+    submissionDeadline,
+    insuranceDeadline,
+  };
+}
 
-  if (daysAhead < 0) {
-    return `A data de início já passou. ${antecedencia}`;
-  }
-
-  if (daysAhead === 0) {
-    return `A data de início é hoje. ${antecedencia}`;
-  }
-
-  return `Faltam ${daysAhead} ${daysAhead === 1 ? "dia" : "dias"} para o início. ${antecedencia}`;
+export function exceedsMaxDuration(startIso: string, endIso: string): boolean {
+  const start = parseIsoDate(startIso);
+  const limit = new Date(
+    start.getFullYear() + MAX_INTERNSHIP_YEARS,
+    start.getMonth(),
+    start.getDate(),
+  );
+  return parseIsoDate(endIso) > limit;
 }
 
 const MAX_CALENDAR_ITERATIONS = 20000;

@@ -398,7 +398,6 @@
       "workDaysHint": "Desmarcar dias estende a data de término",
       "workScheduleLabel": "Horário de Trabalho",
       "modalityLabel": "Modalidade",
-      "leadTimeWarningSuffix": "Você pode continuar mesmo assim.",
       "summaryTitle": "Resumo do Período",
       "summaryStart": "Início:",
       "summaryEnd": "Término:",
@@ -411,7 +410,14 @@
         "presential": "Presencial",
         "hybrid": "Híbrido"
       },
-      "hoursPerDayHint": "Máximo de {{max}}h por dia neste regime"
+      "hoursPerDayHint": "Máximo de {{max}}h por dia neste regime",
+      "timeline": {
+        "retroactive": "A data de início já passou. A SecGrad não aceita vigência retroativa, então o Plano de Atividades não será gerado com esta data. Se o seu Plano já foi entregue e você voltou para os documentos finais, pode continuar.",
+        "late": "O prazo para entregar a documentação à SecGrad era {{deadline}}. Com esta data de início, a entrega fica fora dos 8 dias úteis exigidos.",
+        "tight": "A SecGrad recomenda começar o processo 3 semanas antes do início, o que seria até {{recommended}}.",
+        "deadlines": "Entregue a documentação à SecGrad até {{deadline}}. Se for usar o seguro da UFPE, até {{insurance}}.",
+        "tooLong": "O estágio na mesma concedente não pode passar de 2 anos, exceto para pessoa com deficiência (Lei 11.788/2008, art. 11)."
+      }
     },
     "content": {
       "title": "Conteúdo do Estágio",

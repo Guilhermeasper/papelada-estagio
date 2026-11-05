@@ -10,10 +10,11 @@ import { useDebounce } from "@papelada-estagio/hooks";
 import { IStep4Props } from "@papelada-estagio/types";
 import {
   calculateEndDate,
-  getLeadTimeWarning,
+  exceedsMaxDuration,
   getPeriodInfo,
+  getSubmissionTimeline,
 } from "@papelada-estagio/utils/dateCalculator";
-import { formatDatePtBr } from "@papelada-estagio/utils/dateUtils";
+import { formatDatePtBr, toIsoString } from "@papelada-estagio/utils/dateUtils";
 import { WEEKDAY_OPTIONS } from "@papelada-estagio/utils/workDays";
 import { rebalanceForTotal } from "@papelada-estagio/utils/workSchedule";
 import { StepFooter } from "@papelada-estagio/wizard/StepFooter";
@@ -24,7 +25,7 @@ import {
   InternshipGeneralFormData,
   makeInternshipGeneralSchema,
 } from "@papelada-estagio/wizard/schemas/validationSchemas";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -36,6 +37,7 @@ export function InternshipGeneralStep({
 }: IStep4Props) {
   const { t } = useTranslation();
   const { requiredHours, maxHoursPerDay } = rules;
+  const [today] = useState(() => toIsoString(new Date()));
 
   const generalSchema = useMemo(
     () => makeInternshipGeneralSchema({ requiredHours, maxHoursPerDay }),
@@ -113,9 +115,32 @@ export function InternshipGeneralStep({
     return getPeriodInfo(startDate, endDate, hoursPerDay, workDays);
   }, [startDate, endDate, hoursPerDay, workDays]);
 
-  const leadTimeWarning = useMemo(() => {
-    return getLeadTimeWarning(startDate);
-  }, [startDate]);
+  const timeline = useMemo(
+    () => (startDate ? getSubmissionTimeline(startDate, today) : null),
+    [startDate, today],
+  );
+
+  const timelineWarning = useMemo(() => {
+    if (!timeline) return null;
+
+    switch (timeline.status) {
+      case "retroactive":
+        return t("forms.general.timeline.retroactive");
+      case "late":
+        return t("forms.general.timeline.late", {
+          deadline: formatDatePtBr(timeline.submissionDeadline),
+        });
+      case "tight":
+        return t("forms.general.timeline.tight", {
+          recommended: formatDatePtBr(timeline.recommendedStartBy),
+        });
+      case "onTrack":
+        return null;
+    }
+  }, [timeline, t]);
+
+  const isTooLong =
+    Boolean(startDate && endDate) && exceedsMaxDuration(startDate, endDate);
 
   const onSubmit = (formData: InternshipGeneralFormData) => {
     onNext(formData);
@@ -190,7 +215,7 @@ export function InternshipGeneralStep({
           />
         </div>
 
-        {leadTimeWarning && (
+        {timelineWarning && (
           <div className="bg-warning/10 border border-warning/40 rounded-md p-4 flex items-start gap-2 text-sm text-warning dark:text-warning-dark">
             <svg
               className="w-5 h-5 flex-shrink-0"
@@ -203,10 +228,34 @@ export function InternshipGeneralStep({
                 clipRule="evenodd"
               />
             </svg>
-            <span>
-              {leadTimeWarning} {t("forms.general.leadTimeWarningSuffix")}
-            </span>
+            <span>{timelineWarning}</span>
           </div>
+        )}
+
+        {isTooLong && (
+          <div className="bg-warning/10 border border-warning/40 rounded-md p-4 flex items-start gap-2 text-sm text-warning dark:text-warning-dark">
+            <svg
+              className="w-5 h-5 flex-shrink-0"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span>{t("forms.general.timeline.tooLong")}</span>
+          </div>
+        )}
+
+        {timeline && timeline.status !== "retroactive" && (
+          <p className="text-sm text-text-secondary dark:text-text-secondary-dark">
+            {t("forms.general.timeline.deadlines", {
+              deadline: formatDatePtBr(timeline.submissionDeadline),
+              insurance: formatDatePtBr(timeline.insuranceDeadline),
+            })}
+          </p>
         )}
 
         {periodInfo && (
