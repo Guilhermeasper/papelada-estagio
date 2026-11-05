@@ -44,7 +44,7 @@ export function EvaluationDocument({
 }: EvaluationDocumentProps) {
   const { evaluationDocument } = PDF_CONTENT;
   const config = evaluationDocument[type];
-  const { student, company, general, supervision } = data;
+  const { framing, student, company, general, supervision } = data;
   const signatureDate =
     evaluation.evaluationDate || supervision.evaluationDeadline;
 
@@ -56,7 +56,7 @@ export function EvaluationDocument({
 
   const idItems: KeyValueItem[] = [
     { label: "Nome do aluno", value: student.fullName },
-    { label: "Curso do Aluno", value: student.course },
+    { label: "Curso do Aluno", value: framing.course },
     { label: "Nome da empresa", value: company.companyName },
     {
       label: "Data de início do estágio",

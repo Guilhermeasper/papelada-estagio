@@ -3,6 +3,7 @@ import {
   MAX_HOURS_PER_DAY,
   MIN_HOURS_PER_DAY,
 } from "@papelada-estagio/constants/business";
+import { COURSES } from "@papelada-estagio/constants/internshipRules";
 import { parseLegacyPeriod } from "./dateUtils";
 import { parseLegacyWorkDays, toWeekdayRange } from "./workDays";
 import { defaultWorkSchedule, parseLegacyWorkSchedule } from "./workSchedule";
@@ -11,7 +12,9 @@ import { defaultWorkSchedule, parseLegacyWorkSchedule } from "./workSchedule";
 // We use 'any' here because old versions might not match current types
 export type MigrationFunction = (data: any) => any;
 
-export const CURRENT_DATA_VERSION = 4;
+export const CURRENT_DATA_VERSION = 5;
+
+const FIRST_NEW_CURRICULUM_ENROLLMENT = "2024.1";
 
 export const MIGRATIONS: Partial<Record<number, MigrationFunction>> = {
   1: (data) => {
@@ -89,6 +92,27 @@ export const MIGRATIONS: Partial<Record<number, MigrationFunction>> = {
           return { ...parseLegacyPeriod(item.period), description };
         }),
       },
+    };
+  },
+  4: (data) => {
+    const { course, ...student } = data.student ?? {};
+    const enrollmentYear: unknown = student.enrollmentYear;
+
+    return {
+      ...data,
+      framing: {
+        course: COURSES.find((known) => known === course) ?? "",
+        curriculumProfile:
+          typeof enrollmentYear === "string" && enrollmentYear
+            ? enrollmentYear >= FIRST_NEW_CURRICULUM_ENROLLMENT
+              ? "novo"
+              : "anterior"
+            : "",
+        // Até a v4 o app só atendia alunos com vínculo CLT.
+        regime: "clt",
+        declaredRequiredHours: null,
+      },
+      student,
     };
   },
 };

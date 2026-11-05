@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { calculateEndDate } from "./dateCalculator.ts";
+import {
+  calculateEndDate,
+  validateInternshipPeriod,
+} from "./dateCalculator.ts";
 import { isHoliday } from "./holidays.ts";
 import { parseIsoDate } from "./dateUtils.ts";
 
@@ -27,5 +30,29 @@ describe("calculateEndDate", () => {
     const result = calculateEndDate("2026-11-16", 8, WEEKDAYS, 40);
 
     assert.equal(result.endDate, "2026-11-23");
+  });
+});
+
+describe("validateInternshipPeriod", () => {
+  it("accepts a period that meets the required hours", () => {
+    const { endDate } = calculateEndDate("2027-03-01", 6, WEEKDAYS, 75);
+
+    assert.deepEqual(
+      validateInternshipPeriod("2027-03-01", endDate, 6, WEEKDAYS, 75),
+      { valid: true },
+    );
+  });
+
+  it("refuses a period below the required hours", () => {
+    const { endDate } = calculateEndDate("2027-03-01", 6, WEEKDAYS, 75);
+    const result = validateInternshipPeriod(
+      "2027-03-01",
+      endDate,
+      6,
+      WEEKDAYS,
+      300,
+    );
+
+    assert.equal(result.valid, false);
   });
 });

@@ -3,6 +3,7 @@ import {
   ICompanyData,
   IInternshipContent,
   IInternshipData,
+  IInternshipFraming,
   IInternshipGeneral,
   IStudentData,
   ISupervisionData,
@@ -17,12 +18,17 @@ import {
 
 function createInitialData(): IInternshipData {
   return {
+    framing: {
+      course: "",
+      curriculumProfile: "",
+      regime: "",
+      declaredRequiredHours: null,
+    },
     student: {
       fullName: "",
       email: "",
       address: "",
       phone: "",
-      course: "",
       enrollmentYear: "",
       studentId: "",
     },
@@ -97,6 +103,7 @@ export interface WizardDataState {
 
 export interface WizardDataActions {
   setCurrentStep: (step: WizardStep) => void;
+  updateFraming: (framingData: IInternshipFraming) => void;
   updateStudent: (studentData: IStudentData) => void;
   updateCompany: (companyData: ICompanyData) => void;
   updateGeneral: (generalData: IInternshipGeneral) => void;
@@ -176,6 +183,20 @@ export function useWizardData() {
   const prevStep = useCallback(() => {
     setCurrentStep((prev) => Math.max(prev - 1, 1) as WizardStep);
   }, []);
+
+  const updateFraming = useCallback(
+    (framingData: IInternshipFraming) => {
+      setData((prev) => {
+        const newData = { ...prev, framing: framingData };
+        const newCompleted = [...new Set([...completedSteps, 1 as WizardStep])];
+        setCompletedSteps(newCompleted);
+        persistProgress(newData, 2 as WizardStep, newCompleted);
+        return newData;
+      });
+      setCurrentStep(2);
+    },
+    [completedSteps, persistProgress],
+  );
 
   const updateStudent = useCallback(
     (studentData: IStudentData) => {
@@ -318,6 +339,7 @@ export function useWizardData() {
 
   const actions: WizardDataActions = {
     setCurrentStep,
+    updateFraming,
     updateStudent,
     updateCompany,
     updateGeneral,

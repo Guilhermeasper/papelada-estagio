@@ -1,12 +1,17 @@
 import type { IInternshipData } from "@papelada-estagio/types";
 
 export const mockActivityPlanData: IInternshipData = {
+  framing: {
+    course: "Ciência da Computação",
+    curriculumProfile: "anterior",
+    regime: "clt",
+    declaredRequiredHours: null,
+  },
   student: {
     fullName: "João da Silva",
     email: "joao.silva@exemplo.com",
     address: "Rua das Flores, 123 - Centro - Cidade - UF",
     phone: "(81) 99999-9999",
-    course: "Ciência da Computação",
     enrollmentYear: "2020.1",
     studentId: "12345678900",
   },

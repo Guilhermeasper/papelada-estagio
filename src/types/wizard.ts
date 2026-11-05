@@ -1,7 +1,9 @@
+import type { InternshipRules } from "@papelada-estagio/constants/internshipRules";
 import type {
   ICompanyData,
   IInternshipContent,
   IInternshipData,
+  IInternshipFraming,
   IInternshipGeneral,
   IStudentData,
   ISupervisionData,
@@ -17,12 +19,14 @@ export interface IStepInfo {
 }
 
 export interface IChecklistStepProps {
-  onNext: () => void;
+  data: IInternshipFraming;
+  onNext: (data: IInternshipFraming) => void;
 }
 
 export interface IStudentFormStepProps {
   data: IStudentData;
   onNext: (data: IStudentData) => void;
+  onBack: () => void;
 }
 
 export interface ICompanyFormStepProps {
@@ -33,6 +37,7 @@ export interface ICompanyFormStepProps {
 
 export interface IInternshipGeneralStepProps {
   data: IInternshipGeneral;
+  rules: InternshipRules;
   onNext: (data: IInternshipGeneral) => void;
   onBack: () => void;
 }
@@ -53,6 +58,7 @@ export interface ISupervisionFormStepProps {
 
 export interface IReviewStepProps {
   data: IInternshipData;
+  rules: InternshipRules;
   onNext: () => void;
   onBack: () => void;
   onEdit: (step: number) => void;

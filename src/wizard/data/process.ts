@@ -15,8 +15,7 @@ export interface ProcessStageData {
   steps: ProcessStepData[];
 }
 
-export const SECGRAD_FAQ_URL =
-  "https://secgrad.cin.ufpe.br/perguntas-frequentes";
+export const SECGRAD_INTERNSHIP_URL = "https://secgrad.cin.ufpe.br/estágio";
 
 const getBeforeStage = (t: TFunction): ProcessStageData => ({
   title: t("process.before.title"),
@@ -30,7 +29,7 @@ const getBeforeStage = (t: TFunction): ProcessStageData => ({
     {
       label: t("process.before.step2Label"),
       content: t("process.before.step2Content"),
-      link: SECGRAD_FAQ_URL,
+      link: SECGRAD_INTERNSHIP_URL,
     },
     {
       label: t("process.before.step3Label"),

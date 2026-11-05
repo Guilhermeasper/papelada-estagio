@@ -9,6 +9,13 @@ interface ExampleFile {
 }
 
 interface MigratedData {
+  framing: {
+    course: string;
+    curriculumProfile: string;
+    regime: string;
+    declaredRequiredHours: number | null;
+  };
+  student: Record<string, unknown>;
   supervision: { evaluationDeadline: string };
   general: { workDays: number[]; workSchedule: unknown };
   content: { schedule: { periodStart: string; periodEnd: string }[] };
@@ -53,12 +60,12 @@ describe("migrateData", () => {
   });
 
   it("skips versions without a migration", () => {
-    const data = { general: {}, content: {} };
+    const migrated = migrateData(
+      { general: { endDate: "2026-01-14" }, content: {} },
+      0,
+    ) as MigratedData;
 
-    assert.deepEqual(migrateData(data, 3), {
-      general: {},
-      content: { schedule: [] },
-    });
+    assert.deepEqual(migrated.content.schedule, []);
   });
 
   it("reports the version that failed", () => {
@@ -66,5 +73,63 @@ describe("migrateData", () => {
       () => migrateData({}, 1),
       /Falha na migração dos dados da versão 1/,
     );
+  });
+});
+
+describe("migration to v5", () => {
+  const v4 = {
+    student: {
+      fullName: "Aluno",
+      course: "Engenharia da Computação",
+      enrollmentYear: "2020.1",
+    },
+    general: { endDate: "2026-01-15" },
+    content: {
+      schedule: [
+        { periodStart: "2025-11-19", periodEnd: "2025-12-05" },
+        { periodStart: "2025-12-09", periodEnd: "2025-12-24" },
+      ],
+    },
+    evaluation: {
+      grades: [{ item: "Ambiente", grade: 10, observation: "" }],
+      flexibleSchedule: true,
+      reducedDuringExams: false,
+      requiresCompensation: false,
+      caresAboutAcademics: true,
+      recommendsPartnership: true,
+    },
+    supervision: { evaluationDeadline: "2026-01-27" },
+  };
+
+  const migrate = (data: unknown) => migrateData(data, 4) as MigratedData;
+
+  it("moves the course to the framing as a CLT student", () => {
+    const { framing, student } = migrate(v4);
+
+    assert.deepEqual(framing, {
+      course: "Engenharia da Computação",
+      curriculumProfile: "anterior",
+      regime: "clt",
+      declaredRequiredHours: null,
+    });
+    assert.equal("course" in student, false);
+  });
+
+  it("infers the new profile from the enrollment", () => {
+    const { framing } = migrate({
+      ...v4,
+      student: { ...v4.student, enrollmentYear: "2024.1" },
+    });
+
+    assert.equal(framing.curriculumProfile, "novo");
+  });
+
+  it("clears a free-text course it does not recognize", () => {
+    const { framing } = migrate({
+      ...v4,
+      student: { ...v4.student, course: "Computação" },
+    });
+
+    assert.equal(framing.course, "");
   });
 });

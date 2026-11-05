@@ -21,7 +21,15 @@ interface ReportDocumentProps {
 }
 
 export function ReportDocument({ data }: ReportDocumentProps) {
-  const { student, company, general, content, evaluation, supervision } = data;
+  const {
+    framing,
+    student,
+    company,
+    general,
+    content,
+    evaluation,
+    supervision,
+  } = data;
   const { report } = PDF_CONTENT;
 
   const [endYear, endMonth] = general.endDate.split("-").map(Number);
@@ -108,7 +116,7 @@ export function ReportDocument({ data }: ReportDocumentProps) {
           {report.title}
         </PDFParagraph>
         <PDFParagraph style={{ fontSize: 16 }} align="center">
-          Graduação em {student.course}
+          Graduação em {framing.course}
         </PDFParagraph>
         <PDFParagraph style={{ fontSize: 14, marginTop: 100 }} align="center">
           Recife, {coverMonth} de {coverYear}

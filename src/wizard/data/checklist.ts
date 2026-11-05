@@ -1,3 +1,5 @@
+import { regimeHasSupervisor } from "@papelada-estagio/constants/internshipRules";
+import type { InternshipRegime } from "@papelada-estagio/types";
 import { useMemo } from "react";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
@@ -26,7 +28,30 @@ export function useSourceLabels(): Record<ChecklistSource, string> {
   return useMemo(() => getSourceLabels(t), [t]);
 }
 
-const getChecklistData = (t: TFunction): ChecklistCardData[] => [
+const getRegimeCards = (
+  t: TFunction,
+  regime: InternshipRegime | "",
+): ChecklistCardData[] => {
+  if (!regime) return [];
+
+  const cards: readonly {
+    title: string;
+    description: string;
+    items: readonly ChecklistItemData[];
+  }[] = t(`checklist.regimes.${regime}`, { returnObjects: true });
+
+  return cards.map((card) => ({
+    title: card.title,
+    description: card.description,
+    source: "externo",
+    items: [...card.items],
+  }));
+};
+
+const getChecklistData = (
+  t: TFunction,
+  regime: InternshipRegime | "",
+): ChecklistCardData[] => [
   {
     title: t("checklist.items.planTitle"),
     description: t("checklist.items.planDesc"),
@@ -58,42 +83,7 @@ const getChecklistData = (t: TFunction): ChecklistCardData[] => [
       },
     ],
   },
-  {
-    title: t("checklist.items.declarationTitle"),
-    description: t("checklist.items.declarationDesc"),
-    source: "externo",
-    items: [
-      {
-        label: t("checklist.items.declarationItem1Label"),
-        content: t("checklist.items.declarationItem1Content"),
-      },
-      {
-        label: t("checklist.items.declarationItem2Label"),
-        content: t("checklist.items.declarationItem2Content"),
-      },
-      {
-        label: t("checklist.items.declarationItem3Label"),
-        content: t("checklist.items.declarationItem3Content"),
-      },
-      {
-        label: t("checklist.items.declarationItem4Label"),
-        content: t("checklist.items.declarationItem4Content"),
-      },
-      {
-        label: t("checklist.items.declarationItem5Label"),
-        content: t("checklist.items.declarationItem5Content"),
-      },
-    ],
-  },
-  {
-    title: t("checklist.items.ctpsTitle"),
-    description: t("checklist.items.ctpsDesc"),
-    source: "externo",
-    items: [
-      { content: t("checklist.items.ctpsItem1Content") },
-      { content: t("checklist.items.ctpsItem2Content") },
-    ],
-  },
+  ...getRegimeCards(t, regime),
   {
     title: t("checklist.items.reportTitle"),
     description: t("checklist.items.reportDesc"),
@@ -140,28 +130,34 @@ const getChecklistData = (t: TFunction): ChecklistCardData[] => [
       },
     ],
   },
-  {
-    title: t("checklist.items.supervisorEvalTitle"),
-    description: t("checklist.items.supervisorEvalDesc"),
-    source: "gerado",
-    items: [
-      {
-        label: t("checklist.items.supervisorEvalItem1Label"),
-        content: t("checklist.items.supervisorEvalItem1Content"),
-      },
-      {
-        label: t("checklist.items.supervisorEvalItem2Label"),
-        content: t("checklist.items.supervisorEvalItem2Content"),
-      },
-      {
-        label: t("checklist.items.supervisorEvalItem3Label"),
-        content: t("checklist.items.supervisorEvalItem3Content"),
-      },
-    ],
-  },
+  ...(regimeHasSupervisor(regime)
+    ? [
+        {
+          title: t("checklist.items.supervisorEvalTitle"),
+          description: t("checklist.items.supervisorEvalDesc"),
+          source: "gerado" as const,
+          items: [
+            {
+              label: t("checklist.items.supervisorEvalItem1Label"),
+              content: t("checklist.items.supervisorEvalItem1Content"),
+            },
+            {
+              label: t("checklist.items.supervisorEvalItem2Label"),
+              content: t("checklist.items.supervisorEvalItem2Content"),
+            },
+            {
+              label: t("checklist.items.supervisorEvalItem3Label"),
+              content: t("checklist.items.supervisorEvalItem3Content"),
+            },
+          ],
+        },
+      ]
+    : []),
 ];
 
-export function useChecklistData(): ChecklistCardData[] {
+export function useChecklistData(
+  regime: InternshipRegime | "",
+): ChecklistCardData[] {
   const { t } = useTranslation();
-  return useMemo(() => getChecklistData(t), [t]);
+  return useMemo(() => getChecklistData(t, regime), [t, regime]);
 }

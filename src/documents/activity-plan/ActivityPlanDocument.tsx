@@ -27,7 +27,7 @@ interface ActivityPlanDocumentProps {
 }
 
 export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
-  const { student, company, general, content, supervision } = data;
+  const { framing, student, company, general, content, supervision } = data;
   const { activityPlan, header } = PDF_CONTENT;
 
   const evalDate = supervision.evaluationDeadline;
@@ -77,7 +77,7 @@ export function ActivityPlanDocument({ data }: ActivityPlanDocumentProps) {
         <PDFFieldRow label="E-mail" value={student.email} />
         <PDFFieldRow label="Endereço" value={student.address} />
         <PDFFieldRow label="Telefone" value={student.phone} />
-        <PDFFieldRow label="Curso" value={student.course} />
+        <PDFFieldRow label="Curso" value={framing.course} />
         <PDFFieldRow label="Ano de Ingresso" value={student.enrollmentYear} />
         <PDFFieldRow label="Matrícula" value={student.studentId} />
       </PDFSection>

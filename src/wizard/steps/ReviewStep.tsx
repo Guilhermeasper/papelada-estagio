@@ -12,12 +12,42 @@ import { StepHeader } from "@papelada-estagio/wizard/StepHeader";
 import { StepSection } from "@papelada-estagio/wizard/StepSection";
 import { useTranslation } from "react-i18next";
 
-export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
+export function ReviewStep({
+  data,
+  rules,
+  onNext,
+  onBack,
+  onEdit,
+}: IStep7Props) {
   const { t } = useTranslation();
 
   return (
     <div className="space-y-8">
       <StepHeader title={t("review.title")} subtitle={t("review.subtitle")} />
+
+      <ReviewSection
+        title={t("review.framingSection")}
+        step={1}
+        onEdit={onEdit}
+      >
+        <ReviewItem label={t("review.course")} value={rules.course} />
+        {data.framing.curriculumProfile && (
+          <ReviewItem
+            label={t("review.curriculumProfile")}
+            value={t(
+              `checklist.framing.profiles.${data.framing.curriculumProfile}`,
+            )}
+          />
+        )}
+        <ReviewItem
+          label={t("review.regime")}
+          value={t(`checklist.framing.regimes.${rules.regime}`)}
+        />
+        <ReviewItem
+          label={t("review.requiredHours")}
+          value={t("review.requiredHoursValue", { hours: rules.requiredHours })}
+        />
+      </ReviewSection>
 
       <ReviewSection
         title={t("review.studentSection")}
@@ -28,7 +58,6 @@ export function ReviewStep({ data, onNext, onBack, onEdit }: IStep7Props) {
         <ReviewItem label={t("review.email")} value={data.student.email} />
         <ReviewItem label={t("review.phone")} value={data.student.phone} />
         <ReviewItem label={t("review.address")} value={data.student.address} />
-        <ReviewItem label={t("review.course")} value={data.student.course} />
         <ReviewItem
           label={t("review.enrollmentYear")}
           value={data.student.enrollmentYear}

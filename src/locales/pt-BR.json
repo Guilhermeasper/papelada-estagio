@@ -50,14 +50,14 @@
     "indicatorLabel": "Progresso",
     "backToStep": "Voltar para Passo {{step}}: {{title}}",
     "step1": {
-      "title": "Checklist",
-      "description": "Documentos necessários",
-      "req1": "Plano de Atividades (Modelo CIn)",
-      "req2": "Declaração da Empresa (Vínculo CLT)",
-      "req3": "Cópia da CTPS (foto e contrato)",
-      "req4": "Relatório Final de Estágio",
-      "req5": "Avaliação pelo Professor Orientador",
-      "req6": "Avaliação pelo Supervisor"
+      "title": "Enquadramento",
+      "description": "Curso, regime e documentos",
+      "req1": "Curso e perfil curricular",
+      "req2": "Regime: CLT, servidor, sócio ou TCE",
+      "req3": "Plano de Atividades (Modelo CIn)",
+      "req4": "Documentos do seu regime",
+      "req5": "Relatório Final de Estágio",
+      "req6": "Avaliações do orientador e do supervisor"
     },
     "step2": {
       "title": "Dados do Aluno",
@@ -66,7 +66,7 @@
       "req2": "E-mail",
       "req3": "Endereço residencial completo",
       "req4": "Telefone",
-      "req5": "Curso e Ano de Ingresso",
+      "req5": "Ano de Ingresso",
       "req6": "Matrícula"
     },
     "step3": {
@@ -80,10 +80,10 @@
       "title": "Info. Gerais",
       "description": "Período e carga horária",
       "req1": "Período de vigência (Início e Fim)",
-      "req2": "Carga horária diária (máx. 8h para CLT)",
+      "req2": "Carga horária diária (o limite depende do regime)",
       "req3": "Dias da semana",
       "req4": "Horário de trabalho (entrada, intervalo, saída)",
-      "req5": "Modalidade (Presencial ou Remoto)"
+      "req5": "Modalidade (Presencial, Remoto ou Híbrido)"
     },
     "step5": {
       "title": "Conteúdo",
@@ -114,15 +114,15 @@
   },
   "checklist": {
     "beforeTitle": "Antes de começar",
-    "beforeSubtitle": "Para gerar os documentos do estágio CLT, você precisará das seguintes informações. Confira cada documento:",
-    "readyButton": "Tenho tudo em mãos",
+    "beforeSubtitle": "Informe seu curso e como você vai cumprir o estágio obrigatório. As regras e os documentos dependem disso.",
+    "readyButton": "Continuar",
     "sources": {
       "gerado": "Gerado pelo Papelada",
       "externo": "Você providencia"
     },
     "items": {
       "planTitle": "Plano de Atividades (Modelo CIn)",
-      "planDesc": "Documento de formalização inicial do estágio",
+      "planDesc": "Documento de formalização inicial do estágio. A vigência não pode ser retroativa",
       "planItem1Label": "Dados do Estagiário",
       "planItem1Content": "Nome, E-mail, Endereço, Telefone, Curso, Ano de Ingresso, Matrícula",
       "planItem2Label": "Identificação da Empresa",
@@ -134,35 +134,19 @@
       "planItem5Label": "Supervisão",
       "planItem5Content": "Dados do Supervisor (empresa) e do Professor Orientador (CIn)",
       "planItem6Label": "Critérios de Avaliação",
-      "planItem6Content": "Data do parecer, Pesos (Assiduidade, Comprometimento, Independência, etc.)",
-      "declarationTitle": "Declaração da Empresa (Vínculo CLT)",
-      "declarationDesc": "Substitui o TCE para alunos com contrato CLT",
-      "declarationItem1Label": "Identificação do Vínculo",
-      "declarationItem1Content": "Nome do aluno, Matrícula, Regime CLT, Cargo, Data de início",
-      "declarationItem2Label": "Carga Horária",
-      "declarationItem2Content": "CH semanal (ex: 40 horas)",
-      "declarationItem3Label": "Atividades",
-      "declarationItem3Content": "Lista de tarefas técnicas com correlação a Ciência da Computação",
-      "declarationItem4Label": "Cláusula de Compatibilidade",
-      "declarationItem4Content": "Declaração de compatibilidade com o Projeto Pedagógico",
-      "declarationItem5Label": "Assinatura do Supervisor",
-      "declarationItem5Content": "Nome completo, Cargo, Data",
-      "ctpsTitle": "Cópia da Carteira de Trabalho (CTPS)",
-      "ctpsDesc": "Documento probatório exigido pela resolução",
-      "ctpsItem1Content": "Página com foto e dados de identificação do portador",
-      "ctpsItem2Content": "Página do contrato de trabalho com dados da empresa e data de admissão",
+      "planItem6Content": "Data do parecer, data do Termo de Cumprimento de Metas e Pesos (Assiduidade, Comprometimento, Independência, etc.)",
       "reportTitle": "Relatório Final de Estágio",
-      "reportDesc": "Relatório detalhado para conclusão da disciplina",
+      "reportDesc": "Entregue depois do encerramento, até o fim do semestre letivo em que você cumpriu o plano",
       "reportItem1Label": "Capa",
       "reportItem1Content": "UFPE, CIn, Título, Curso, Local, Mês/Ano",
       "reportItem2Label": "Identificação",
       "reportItem2Content": "Nome, Semestre, Empresa, Supervisor, Datas, CH, Orientador",
       "reportItem3Label": "Corpo do Texto",
-      "reportItem3Content": "Índice, Introdução, Objetivos (Gerais/Específicos), Cronograma, Metodologia, Desenvolvimento, Conclusão",
+      "reportItem3Content": "Índice, Introdução, Objetivos (Gerais/Específicos), Cronograma, Material e Método, Desenvolvimento, Conclusão, Referências",
       "reportItem4Label": "Autoavaliação",
-      "reportItem4Content": "Notas (0-10) para Aquisição de Experiências, Acompanhamento, Interação, Ambiente",
+      "reportItem4Content": "Suas notas (0-10) para Aquisição de Experiências, Acompanhamento, Interação, Ambiente",
       "reportItem5Label": "Questionário da Concedente",
-      "reportItem5Content": "Flexibilidade, Redução em provas, Preocupação acadêmica, Convênio",
+      "reportItem5Content": "Suas respostas e comentários sobre flexibilidade, redução em provas, compensação, preocupação acadêmica e convênio",
       "advisorEvalTitle": "Avaliação pelo Professor Orientador",
       "advisorEvalDesc": "Parecer e nota emitidos pelo orientador do CIn",
       "advisorEvalItem1Label": "Identificação",
@@ -179,6 +163,170 @@
       "supervisorEvalItem2Content": "Comunicação, Assiduidade, Cooperação, Independência, Conhecimento, Desempenho Geral",
       "supervisorEvalItem3Label": "Parecer e Nota",
       "supervisorEvalItem3Content": "Texto com elogios/pontos de melhoria e nota final (0-10)"
+    },
+    "framing": {
+      "courseLabel": "Curso",
+      "profileLabel": "Perfil curricular",
+      "profileHint": "Quem ingressou a partir de 2024.1 normalmente está no perfil novo (0001-2024.1). Confira no SIGAA.",
+      "profiles": {
+        "anterior": "Perfil anterior",
+        "novo": "Perfil novo (2024.1 em diante)"
+      },
+      "regimeLabel": "Como você vai cumprir o estágio",
+      "regimes": {
+        "clt": "Funcionário de empresa privada (CLT)",
+        "servidor": "Servidor público",
+        "socio": "Sócio-administrador",
+        "tce": "Estágio com Termo de Compromisso (TCE)"
+      },
+      "noMandatoryTitle": "Sem estágio obrigatório",
+      "noMandatoryBody": "O regulamento de {{course}} neste perfil prevê apenas estágio não obrigatório, que este app não cobre. Veja as regras na SecGrad:",
+      "requiredHours": "Carga horária exigida: {{hours}}h.",
+      "maxHours": "Jornada máxima neste regime: {{hours}}h por dia.",
+      "declaredNotice": "Não conseguimos confirmar a carga horária do estágio obrigatório de Sistemas de Informação no perfil anterior. Confira o regulamento com a SecGrad e informe o valor exigido.",
+      "declaredLabel": "Carga horária exigida (horas)",
+      "prerequisites": {
+        "ccAnterior": "Pré-requisito: ter concluído todas as disciplinas obrigatórias (1905h), exceto o Trabalho de Graduação.",
+        "ecAnterior": "Pré-requisito: ter integralizado pelo menos 63% da carga horária de disciplinas do curso.",
+        "ecNovo": "Pré-requisito: ter integralizado pelo menos 53% da carga horária de disciplinas do curso.",
+        "siAnterior": "Pré-requisito: ter cumprido 900h de disciplinas obrigatórias.",
+        "siNovo": "Pré-requisito: ter cumprido os créditos dos 3 primeiros períodos do curso."
+      }
+    },
+    "regimes": {
+      "clt": [
+        {
+          "title": "Declaração da Empresa",
+          "description": "Dispensa o TCE para quem tem vínculo (Res. CEPE 20/2015, art. 2º, §§ 2º e 3º)",
+          "items": [
+            {
+              "label": "Exigido",
+              "content": "Detalhamento da atividade exercida, em área correlata ao seu curso"
+            },
+            {
+              "label": "Recomendado",
+              "content": "Nome do aluno, matrícula, regime CLT, cargo, data de admissão, carga horária semanal e assinatura do responsável"
+            }
+          ]
+        },
+        {
+          "title": "Cópia do registro na Carteira de Trabalho (CTPS)",
+          "description": "Exigida pela Res. CEPE 20/2015, art. 2º, § 3º, I",
+          "items": [
+            {
+              "content": "Página com foto e dados de identificação do portador"
+            },
+            {
+              "content": "Página do contrato de trabalho com dados da empresa e data de admissão"
+            }
+          ]
+        }
+      ],
+      "servidor": [
+        {
+          "title": "Declaração do Órgão Público",
+          "description": "Dispensa o TCE para servidor público (Res. CEPE 20/2015, art. 2º, § 3º, II)",
+          "items": [
+            {
+              "label": "Exigido",
+              "content": "Detalhamento da atividade exercida, em área correlata ao seu curso"
+            }
+          ]
+        },
+        {
+          "title": "Cópia do ato de nomeação",
+          "description": "Exigida pela Res. CEPE 20/2015, art. 2º, § 3º, II",
+          "items": [
+            {
+              "content": "Ato ou portaria que comprova a nomeação no órgão"
+            }
+          ]
+        }
+      ],
+      "socio": [
+        {
+          "title": "Cópia do Contrato Social",
+          "description": "Dispensa o TCE para sócio-administrador (Res. CEPE 20/2015, art. 2º, § 3º, III)",
+          "items": [
+            {
+              "label": "Exigido",
+              "content": "Registro na Junta Comercial, comprovando atividades em áreas correlatas ao seu curso"
+            },
+            {
+              "label": "Sem supervisor",
+              "content": "O Plano de Atividades leva os dados e as assinaturas do aluno e do professor orientador"
+            }
+          ]
+        }
+      ],
+      "tce": [
+        {
+          "title": "Termo de Compromisso de Estágio (TCE)",
+          "description": "Use o modelo da empresa, do agente de integração ou da PROGRAD. O Plano de Atividades é anexo obrigatório",
+          "items": [
+            {
+              "label": "Modalidade",
+              "content": "Deve indicar que o estágio é obrigatório e o formato (presencial ou mediado por tecnologia)"
+            },
+            {
+              "label": "Jornada",
+              "content": "Até 6h por dia e 30h por semana, compatível com as aulas e reduzida pelo menos à metade nos períodos de avaliação (Lei 11.788/2008, art. 10)"
+            },
+            {
+              "label": "Seguro",
+              "content": "Responsável, nome da seguradora e número da apólice, com cópia anexada"
+            },
+            {
+              "label": "Supervisor",
+              "content": "Profissional do quadro da concedente, com formação na área, que supervisione até 10 estagiários"
+            },
+            {
+              "label": "Bolsa e recesso",
+              "content": "Bolsa e auxílio-transporte são opcionais no estágio obrigatório. O recesso é de 30 dias por ano, proporcional em estágios menores (Lei 11.788/2008, arts. 12 e 13)"
+            },
+            {
+              "label": "Assinaturas",
+              "content": "Estudante, concedente e UFPE, nessa ordem. O agente de integração não representa nenhuma das partes"
+            }
+          ]
+        },
+        {
+          "title": "Convênio com a UFPE",
+          "description": "A empresa ou o agente de integração precisa ter convênio de estágio vigente (Res. CEPE 20/2015, art. 2º)",
+          "items": [
+            {
+              "content": "Consulte a lista de conveniados na página de estágio da PROGRAD"
+            },
+            {
+              "content": "Unidades da própria UFPE dispensam convênio"
+            }
+          ]
+        },
+        {
+          "title": "Seguro contra acidentes pessoais",
+          "description": "Obrigatório em qualquer estágio (IN PROGRAD 1/2026, art. 15, § 2º)",
+          "items": [
+            {
+              "content": "Se a concedente não oferecer, o estágio obrigatório pode usar o seguro da UFPE"
+            },
+            {
+              "content": "Nesse caso, avise no e-mail à SecGrad e envie a documentação até o dia 15 do mês anterior ao início"
+            }
+          ]
+        },
+        {
+          "title": "Projetos internos do CIn",
+          "description": "Só se o seu estágio for em projeto ou unidade do CIn",
+          "items": [
+            {
+              "content": "Inclua uma declaração detalhando as atividades, assinada pelo coordenador do projeto"
+            },
+            {
+              "content": "Na concedente, informe o nome do projeto ou da unidade e os dados do CIn (endereço e CNPJ)"
+            }
+          ]
+        }
+      ]
     }
   },
   "process": {
@@ -221,8 +369,6 @@
       "phonePlaceholder": "(00) 00000-0000",
       "addressLabel": "Endereço",
       "addressPlaceholder": "Rua, número, bairro, cidade - UF",
-      "courseLabel": "Curso",
-      "coursePlaceholder": "Ex: Ciência da Computação",
       "enrollmentYearLabel": "Ano de Ingresso",
       "enrollmentYearPlaceholder": "Ex: 2018.2",
       "enrollmentYearHint": "Formato: AAAA.S (ano.semestre)",
@@ -247,7 +393,7 @@
       "startDateHint": "Não pode ser fim de semana ou feriado",
       "hoursPerDayLabel": "Horas por Dia",
       "endDateLabel": "Data de Término",
-      "endDateHint": "Calculada automaticamente (mín. 300h) Altere apenas se necessário",
+      "endDateHint": "Calculada automaticamente para {{hours}}h. Altere apenas se necessário",
       "workDaysLabel": "Dias de Trabalho",
       "workDaysHint": "Desmarcar dias estende a data de término",
       "workScheduleLabel": "Horário de Trabalho",
@@ -259,12 +405,13 @@
       "summaryWorkdays": "Dias úteis:",
       "summaryWorkdaysCount": "{{count}} dias",
       "summaryTotalHours": "Total de horas:",
-      "summaryMinHours": "(mín. 300h)",
+      "summaryMinHours": "(mín. {{hours}}h)",
       "modalities": {
         "remote": "Remoto",
         "presential": "Presencial",
         "hybrid": "Híbrido"
-      }
+      },
+      "hoursPerDayHint": "Máximo de {{max}}h por dia neste regime"
     },
     "content": {
       "title": "Conteúdo do Estágio",
@@ -331,7 +478,7 @@
     "invalidEmail": "E-mail inválido",
     "addressMin": "Endereço deve ter pelo menos 10 caracteres",
     "invalidPhone": "Telefone inválido. Ex: (81) 98888-7777",
-    "courseRequired": "Curso é obrigatório",
+    "courseRequired": "Selecione o curso",
     "invalidEnrollmentYear": "Formato inválido. Use: AAAA.S (ex: 2018.2)",
     "studentIdRequired": "Matrícula é obrigatória",
     "companyNameRequired": "Nome da empresa é obrigatório",
@@ -374,7 +521,11 @@
     "advisorNameRequired": "Nome do professor é obrigatório",
     "advisorPositionRequired": "Cargo é obrigatório",
     "advisorSiapeRequired": "SIAPE é obrigatório",
-    "evaluationDeadlineRequired": "Informe a data para emissão do parecer (DD/MM/AAAA)"
+    "evaluationDeadlineRequired": "Informe a data para emissão do parecer (DD/MM/AAAA)",
+    "regimeRequired": "Selecione como você vai cumprir o estágio",
+    "curriculumProfileRequired": "Selecione o perfil curricular",
+    "noMandatoryInternship": "Este curso não tem estágio obrigatório neste perfil",
+    "declaredHoursRequired": "Informe a carga horária exigida"
   },
   "review": {
     "title": "Revisão dos Dados",
@@ -411,7 +562,12 @@
     "evaluationDeadline": "Data para emissão do parecer",
     "edit": "Editar",
     "nextButton": "Continuar para Download",
-    "unspecified": "-"
+    "unspecified": "-",
+    "framingSection": "Enquadramento",
+    "curriculumProfile": "Perfil curricular",
+    "regime": "Regime",
+    "requiredHours": "Carga horária exigida",
+    "requiredHoursValue": "{{hours}}h"
   },
   "download": {
     "title": "Download dos Documentos",

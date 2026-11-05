@@ -2,7 +2,6 @@ import {
   DEFAULT_WORK_DAYS,
   MAX_HOURS_PER_DAY,
   MIN_HOURS_PER_DAY,
-  MIN_INTERNSHIP_HOURS,
   MIN_LEAD_TIME_WEEKS,
 } from "@papelada-estagio/constants/business";
 import {
@@ -109,8 +108,8 @@ export function countWorkdays(
 export function calculateEndDate(
   startIso: string,
   hoursPerDay: number,
-  workDays: number[] = DEFAULT_WORK_DAYS,
-  minTotalHours: number = MIN_INTERNSHIP_HOURS,
+  workDays: number[],
+  requiredHours: number,
 ): DateCalculationResult {
   const errors: string[] = [];
 
@@ -151,9 +150,9 @@ export function calculateEndDate(
     };
   }
 
-  const workdaysNeeded = Math.ceil(minTotalHours / hoursPerDay);
+  const workdaysNeeded = Math.ceil(requiredHours / hoursPerDay);
   const hoursPerWeek = hoursPerDay * workDays.length;
-  const weeksNeeded = Math.ceil(minTotalHours / hoursPerWeek);
+  const weeksNeeded = Math.ceil(requiredHours / hoursPerWeek);
 
   const start = parseIsoDate(startIso);
   let current = new Date(start);
@@ -197,7 +196,8 @@ export function validateInternshipPeriod(
   startIso: string,
   endIso: string,
   hoursPerDay: number,
-  workDays: number[] = DEFAULT_WORK_DAYS,
+  workDays: number[],
+  requiredHours: number,
 ): DateValidationResult {
   if (workDays.length === 0) {
     return { valid: false, error: "Selecione pelo menos 1 dia de trabalho" };
@@ -226,10 +226,10 @@ export function validateInternshipPeriod(
   const workdays = countWorkdays(startIso, endIso, workDays);
   const totalHours = workdays * hoursPerDay;
 
-  if (totalHours < MIN_INTERNSHIP_HOURS) {
+  if (totalHours < requiredHours) {
     return {
       valid: false,
-      error: `Período insuficiente: ${totalHours}h (mínimo ${MIN_INTERNSHIP_HOURS}h). Adicione mais ${MIN_INTERNSHIP_HOURS - totalHours}h.`,
+      error: `Período insuficiente: ${totalHours}h (mínimo ${requiredHours}h). Adicione mais ${requiredHours - totalHours}h.`,
     };
   }
 
@@ -240,7 +240,6 @@ export interface PeriodInfo {
   workdays: number;
   totalHours: number;
   formattedPeriod: string;
-  meetsMinimumHours: boolean;
 }
 
 export function getPeriodInfo(
@@ -259,6 +258,5 @@ export function getPeriodInfo(
     workdays,
     totalHours,
     formattedPeriod: `${formatDatePtBr(startDate)} a ${formatDatePtBr(endDate)}`,
-    meetsMinimumHours: totalHours >= MIN_INTERNSHIP_HOURS,
   };
 }

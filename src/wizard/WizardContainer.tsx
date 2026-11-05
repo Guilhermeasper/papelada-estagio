@@ -1,4 +1,5 @@
 import { Button } from "@papelada-estagio/components";
+import { resolveInternshipRules } from "@papelada-estagio/constants/internshipRules";
 import type {
   WizardDataActions,
   WizardDataState,
@@ -45,6 +46,7 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
   const { data, currentStep, completedSteps } = state;
   const {
     setCurrentStep,
+    updateFraming,
     updateStudent,
     updateCompany,
     updateGeneral,
@@ -54,12 +56,24 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
     prevStep,
   } = actions;
 
+  const rules = resolveInternshipRules(data.framing);
+
   const renderStep = () => {
+    // Todos os outros passos dependem das regras do enquadramento, como em dados
+    // salvos de um curso sem estágio obrigatório.
+    if (currentStep === 1 || !rules) {
+      return <ChecklistStep data={data.framing} onNext={updateFraming} />;
+    }
+
     switch (currentStep) {
-      case 1:
-        return <ChecklistStep onNext={nextStep} />;
       case 2:
-        return <StudentFormStep data={data.student} onNext={updateStudent} />;
+        return (
+          <StudentFormStep
+            data={data.student}
+            onNext={updateStudent}
+            onBack={prevStep}
+          />
+        );
       case 3:
         return (
           <CompanyFormStep
@@ -72,6 +86,7 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
         return (
           <InternshipGeneralStep
             data={data.general}
+            rules={rules}
             onNext={updateGeneral}
             onBack={prevStep}
           />
@@ -98,6 +113,7 @@ export function WizardContainer({ state, actions }: WizardContainerProps) {
         return (
           <ReviewStep
             data={data}
+            rules={rules}
             onNext={nextStep}
             onBack={prevStep}
             onEdit={(step) => setCurrentStep(step as WizardStep)}

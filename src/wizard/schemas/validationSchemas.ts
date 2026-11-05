@@ -3,7 +3,13 @@ import {
   MAX_WEEKDAY,
   MIN_HOURS_PER_DAY,
   MIN_WEEKDAY,
-} from "@papelada-estagio/constants";
+} from "@papelada-estagio/constants/business";
+import {
+  COURSES,
+  CURRICULUM_PROFILES,
+  INTERNSHIP_REGIMES,
+  MANDATORY_INTERNSHIP_RULES,
+} from "@papelada-estagio/constants/internshipRules";
 import type { IInternshipGeneral } from "@papelada-estagio/types";
 import {
   validateDate,
@@ -50,6 +56,50 @@ export const cpfSchema = z
   .string()
   .regex(cpfRegex, i18n.t("validation.invalidCpf"));
 
+export const framingSchema = z
+  .object({
+    course: z
+      .enum([...COURSES, ""])
+      .refine(Boolean, i18n.t("validation.courseRequired")),
+    curriculumProfile: z.enum([...CURRICULUM_PROFILES, ""]),
+    regime: z
+      .enum([...INTERNSHIP_REGIMES, ""])
+      .refine(Boolean, i18n.t("validation.regimeRequired")),
+    declaredRequiredHours: z.number().int().positive().nullable(),
+  })
+  .superRefine(({ course, curriculumProfile, declaredRequiredHours }, ctx) => {
+    if (!course) return;
+
+    if (!curriculumProfile) {
+      ctx.addIssue({
+        code: "custom",
+        message: i18n.t("validation.curriculumProfileRequired"),
+        path: ["curriculumProfile"],
+      });
+      return;
+    }
+
+    const rule = MANDATORY_INTERNSHIP_RULES[course][curriculumProfile];
+
+    if (rule.kind === "none") {
+      ctx.addIssue({
+        code: "custom",
+        message: i18n.t("validation.noMandatoryInternship"),
+        path: ["course"],
+      });
+    }
+
+    if (rule.kind === "declared" && !declaredRequiredHours) {
+      ctx.addIssue({
+        code: "custom",
+        message: i18n.t("validation.declaredHoursRequired"),
+        path: ["declaredRequiredHours"],
+      });
+    }
+  });
+
+export type FramingFormData = z.infer<typeof framingSchema>;
+
 export const studentSchema = z.object({
   fullName: z
     .string()
@@ -58,7 +108,6 @@ export const studentSchema = z.object({
   email: emailSchema,
   address: z.string().min(10, i18n.t("validation.addressMin")),
   phone: phoneSchema,
-  course: z.string().min(3, i18n.t("validation.courseRequired")),
   enrollmentYear: z
     .string()
     .regex(/^[0-9]{4}\.[1-2]$/, i18n.t("validation.invalidEnrollmentYear")),
@@ -77,94 +126,95 @@ export const companySchema = z.object({
 
 export type CompanyFormData = z.infer<typeof companySchema>;
 
-export const internshipGeneralSchema = z
-  .object({
-    startDate: z
-      .string()
-      .min(1, i18n.t("validation.startDateRequired"))
-      .refine(
-        (date) => {
-          const validation = validateDate(date);
-          return validation.valid;
-        },
-        {
+export interface GeneralRules {
+  requiredHours: number;
+  maxHoursPerDay: number;
+}
+
+export function makeInternshipGeneralSchema({
+  requiredHours,
+  maxHoursPerDay,
+}: GeneralRules) {
+  return z
+    .object({
+      startDate: z
+        .string()
+        .min(1, i18n.t("validation.startDateRequired"))
+        .refine((date) => validateDate(date).valid, {
           message: i18n.t("validation.startDateInvalid"),
-        },
-      ),
-    endDate: z
-      .string()
-      .min(1, i18n.t("validation.endDateRequired"))
-      .refine(
-        (date) => {
-          const validation = validateDate(date);
-          return validation.valid;
-        },
-        {
-          message: i18n.t("validation.endDateInvalid"),
-        },
-      ),
-    hoursPerDay: z
-      .number()
-      .min(
-        MIN_HOURS_PER_DAY,
-        i18n.t("validation.hoursMin", { min: MIN_HOURS_PER_DAY }),
-      )
-      .max(
-        MAX_HOURS_PER_DAY,
-        i18n.t("validation.hoursMax", { max: MAX_HOURS_PER_DAY }),
-      ),
-    workDays: z
-      .array(z.number().int().min(MIN_WEEKDAY).max(MAX_WEEKDAY))
-      .min(1, i18n.t("validation.workDaysMin")),
-    workSchedule: workScheduleSchema,
-    modality: z.enum(["Remoto", "Presencial", "Híbrido"], {
-      message: i18n.t("validation.modalityRequired"),
-    }),
-  })
-  .superRefine((data, ctx) => {
-    if (!data.hoursPerDay) return;
-
-    if (!isValidWorkSchedule(data.workSchedule, data.hoursPerDay * 60)) {
-      ctx.addIssue({
-        code: "custom",
-        message: i18n.t("validation.scheduleTotalMismatch", {
-          hours: data.hoursPerDay,
         }),
-        path: ["workSchedule"],
-      });
-    }
+      endDate: z
+        .string()
+        .min(1, i18n.t("validation.endDateRequired"))
+        .refine((date) => validateDate(date).valid, {
+          message: i18n.t("validation.endDateInvalid"),
+        }),
+      hoursPerDay: z
+        .number()
+        .min(
+          MIN_HOURS_PER_DAY,
+          i18n.t("validation.hoursMin", { min: MIN_HOURS_PER_DAY }),
+        )
+        .max(
+          maxHoursPerDay,
+          i18n.t("validation.hoursMax", { max: maxHoursPerDay }),
+        ),
+      workDays: z
+        .array(z.number().int().min(MIN_WEEKDAY).max(MAX_WEEKDAY))
+        .min(1, i18n.t("validation.workDaysMin")),
+      workSchedule: workScheduleSchema,
+      modality: z.enum(["Remoto", "Presencial", "Híbrido"], {
+        message: i18n.t("validation.modalityRequired"),
+      }),
+    })
+    .superRefine((data, ctx) => {
+      if (!data.hoursPerDay) return;
 
-    if (!data.startDate || !data.endDate) return;
+      if (!isValidWorkSchedule(data.workSchedule, data.hoursPerDay * 60)) {
+        ctx.addIssue({
+          code: "custom",
+          message: i18n.t("validation.scheduleTotalMismatch", {
+            hours: data.hoursPerDay,
+          }),
+          path: ["workSchedule"],
+        });
+      }
 
-    if (
-      data.workDays.length > 0 &&
-      !data.workDays.includes(parseIsoDate(data.startDate).getDay())
-    ) {
-      ctx.addIssue({
-        code: "custom",
-        message: i18n.t("validation.startDateNotWorkDay"),
-        path: ["startDate"],
-      });
-      return;
-    }
+      if (!data.startDate || !data.endDate) return;
 
-    const validation = validateInternshipPeriod(
-      data.startDate,
-      data.endDate,
-      data.hoursPerDay,
-      data.workDays,
-    );
+      if (
+        data.workDays.length > 0 &&
+        !data.workDays.includes(parseIsoDate(data.startDate).getDay())
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          message: i18n.t("validation.startDateNotWorkDay"),
+          path: ["startDate"],
+        });
+        return;
+      }
 
-    if (!validation.valid) {
-      ctx.addIssue({
-        code: "custom",
-        message: validation.error || i18n.t("validation.invalidPeriod"),
-        path: ["endDate"],
-      });
-    }
-  });
+      const validation = validateInternshipPeriod(
+        data.startDate,
+        data.endDate,
+        data.hoursPerDay,
+        data.workDays,
+        requiredHours,
+      );
 
-export type InternshipGeneralFormData = z.infer<typeof internshipGeneralSchema>;
+      if (!validation.valid) {
+        ctx.addIssue({
+          code: "custom",
+          message: validation.error || i18n.t("validation.invalidPeriod"),
+          path: ["endDate"],
+        });
+      }
+    });
+}
+
+export type InternshipGeneralFormData = z.infer<
+  ReturnType<typeof makeInternshipGeneralSchema>
+>;
 
 export const scheduleItemSchema = z
   .object({
@@ -313,9 +363,13 @@ export const supervisionSchema = z.object({
 export type SupervisionFormData = z.infer<typeof supervisionSchema>;
 
 export const fullInternshipSchema = z.object({
+  framing: framingSchema,
   student: studentSchema,
   company: companySchema,
-  general: internshipGeneralSchema,
+  general: makeInternshipGeneralSchema({
+    requiredHours: 0,
+    maxHoursPerDay: MAX_HOURS_PER_DAY,
+  }),
   content: internshipContentSchema,
   evaluation: evaluationSchema,
   supervision: supervisionSchema,
@@ -330,6 +384,13 @@ function stringShape<T extends z.ZodRawShape>(schema: z.ZodObject<T>) {
   }
   return z.object(shape);
 }
+
+const framingImportSchema = z.object({
+  course: z.enum([...COURSES, ""]).catch(""),
+  curriculumProfile: z.enum([...CURRICULUM_PROFILES, ""]).catch(""),
+  regime: z.enum([...INTERNSHIP_REGIMES, ""]).catch(""),
+  declaredRequiredHours: z.number().nullable().catch(null),
+});
 
 const studentImportSchema = stringShape(studentSchema);
 const companyImportSchema = stringShape(companySchema);
@@ -363,6 +424,7 @@ const contentImportSchema = z.object({
 });
 
 const importDataSchema = z.object({
+  framing: framingImportSchema,
   student: studentImportSchema,
   company: companyImportSchema,
   general: generalImportSchema,

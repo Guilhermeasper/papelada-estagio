@@ -1,9 +1,23 @@
+import type {
+  Course,
+  CurriculumProfile,
+  InternshipRegime,
+} from "@papelada-estagio/constants/internshipRules";
+
+export type { Course, CurriculumProfile, InternshipRegime };
+
+export interface IInternshipFraming {
+  course: Course | "";
+  curriculumProfile: CurriculumProfile | "";
+  regime: InternshipRegime | "";
+  declaredRequiredHours: number | null;
+}
+
 export interface IStudentData {
   fullName: string;
   email: string;
   address: string;
   phone: string;
-  course: string;
   enrollmentYear: string;
   studentId: string;
 }
@@ -82,6 +96,7 @@ export interface ISupervisionData {
 }
 
 export interface IInternshipData {
+  framing: IInternshipFraming;
   student: IStudentData;
   company: ICompanyData;
   general: IInternshipGeneral;

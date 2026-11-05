@@ -1,10 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Autocomplete,
-  EmailInput,
-  Input,
-  MaskedInput,
-} from "@papelada-estagio/components";
+import { EmailInput, Input, MaskedInput } from "@papelada-estagio/components";
 import { IStep2Props } from "@papelada-estagio/types";
 import { StepFooter } from "@papelada-estagio/wizard/StepFooter";
 import { StepHeader } from "@papelada-estagio/wizard/StepHeader";
@@ -15,7 +10,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-export function StudentFormStep({ data, onNext }: IStep2Props) {
+export function StudentFormStep({ data, onNext, onBack }: IStep2Props) {
   const { t } = useTranslation();
   const {
     register,
@@ -75,20 +70,6 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
           />
         </div>
 
-        <Autocomplete
-          label={t("forms.student.courseLabel")}
-          placeholder={t("forms.student.coursePlaceholder")}
-          options={[
-            "Ciência da Computação",
-            "Engenharia da Computação",
-            "Sistemas de Informação",
-            "Inteligência Artificial",
-          ]}
-          {...register("course")}
-          error={errors.course?.message}
-          required
-        />
-
         <MaskedInput
           label={t("forms.student.enrollmentYearLabel")}
           mask="enrollmentYear"
@@ -108,7 +89,7 @@ export function StudentFormStep({ data, onNext }: IStep2Props) {
         />
       </div>
 
-      <StepFooter isSubmitting={isSubmitting} />
+      <StepFooter onBack={onBack} isSubmitting={isSubmitting} />
     </form>
   );
 }

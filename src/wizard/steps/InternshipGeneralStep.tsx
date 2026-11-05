@@ -5,10 +5,7 @@ import {
   Input,
   RadioGroup,
 } from "@papelada-estagio/components";
-import {
-  MAX_HOURS_PER_DAY,
-  MIN_HOURS_PER_DAY,
-} from "@papelada-estagio/constants";
+import { MIN_HOURS_PER_DAY } from "@papelada-estagio/constants";
 import { useDebounce } from "@papelada-estagio/hooks";
 import { IStep4Props } from "@papelada-estagio/types";
 import {
@@ -25,14 +22,25 @@ import { StepSection } from "@papelada-estagio/wizard/StepSection";
 import { WorkScheduleField } from "@papelada-estagio/wizard/WorkScheduleField";
 import {
   InternshipGeneralFormData,
-  internshipGeneralSchema,
+  makeInternshipGeneralSchema,
 } from "@papelada-estagio/wizard/schemas/validationSchemas";
 import { useCallback, useEffect, useMemo } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
+export function InternshipGeneralStep({
+  data,
+  rules,
+  onNext,
+  onBack,
+}: IStep4Props) {
   const { t } = useTranslation();
+  const { requiredHours, maxHoursPerDay } = rules;
+
+  const generalSchema = useMemo(
+    () => makeInternshipGeneralSchema({ requiredHours, maxHoursPerDay }),
+    [requiredHours, maxHoursPerDay],
+  );
 
   const modalityOptions = useMemo(
     () => [
@@ -51,7 +59,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
     trigger,
     formState: { errors, isSubmitting },
   } = useForm<InternshipGeneralFormData>({
-    resolver: zodResolver(internshipGeneralSchema),
+    resolver: zodResolver(generalSchema),
     defaultValues: {
       ...data,
       hoursPerDay: data.hoursPerDay || 6,
@@ -69,12 +77,12 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
     (start: string, hours: number, days: number[]) => {
       if (!start || !hours || !days.length) return;
 
-      const result = calculateEndDate(start, hours, days);
+      const result = calculateEndDate(start, hours, days, requiredHours);
       setValue("endDate", result.isValid ? result.endDate : "", {
         shouldValidate: result.isValid,
       });
     },
-    [setValue],
+    [setValue, requiredHours],
   );
 
   useEffect(() => {
@@ -155,10 +163,13 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
                 label={t("forms.general.hoursPerDayLabel")}
                 type="number"
                 min={MIN_HOURS_PER_DAY}
-                max={MAX_HOURS_PER_DAY}
+                max={maxHoursPerDay}
                 {...field}
                 onChange={(e) => field.onChange(Number(e.target.value))}
                 error={errors.hoursPerDay?.message}
+                hint={t("forms.general.hoursPerDayHint", {
+                  max: maxHoursPerDay,
+                })}
                 required
               />
             )}
@@ -172,7 +183,7 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
                 label={t("forms.general.endDateLabel")}
                 {...field}
                 error={errors.endDate?.message}
-                hint={t("forms.general.endDateHint")}
+                hint={t("forms.general.endDateHint", { hours: requiredHours })}
                 required
               />
             )}
@@ -244,12 +255,12 @@ export function InternshipGeneralStep({ data, onNext, onBack }: IStep4Props) {
                   {t("forms.general.summaryTotalHours")}
                 </span>
                 <p
-                  className={`font-medium ${periodInfo.totalHours >= 300 ? "text-success" : "text-error-text"}`}
+                  className={`font-medium ${periodInfo.totalHours >= requiredHours ? "text-success" : "text-error-text"}`}
                 >
                   {periodInfo.totalHours}h
-                  {periodInfo.totalHours >= 300
+                  {periodInfo.totalHours >= requiredHours
                     ? " ✓"
-                    : ` ${t("forms.general.summaryMinHours")}`}
+                    : ` ${t("forms.general.summaryMinHours", { hours: requiredHours })}`}
                 </p>
               </div>
             </div>
