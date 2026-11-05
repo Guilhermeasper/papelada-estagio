@@ -21,7 +21,7 @@ export interface IWorkPeriod {
 
 export interface IWorkSchedule {
   morning: IWorkPeriod;
-  afternoon: IWorkPeriod;
+  afternoon: IWorkPeriod | null;
 }
 
 export interface IInternshipGeneral {

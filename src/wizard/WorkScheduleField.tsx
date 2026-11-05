@@ -6,9 +6,12 @@ import {
 } from "@papelada-estagio/constants";
 import { IWorkSchedule } from "@papelada-estagio/types";
 import {
+  canBeContinuous,
   formatDuration,
   formatMinutes,
+  resolveContinuousSchedule,
   resolveWorkSchedule,
+  setContinuous,
 } from "@papelada-estagio/utils/workSchedule";
 import { useTranslation } from "react-i18next";
 
@@ -34,29 +37,9 @@ export function WorkScheduleField({
   const { t } = useTranslation();
   const totalMinutes = hoursPerDay * 60;
 
-  const morningMinutes = value.morning.end - value.morning.start;
-  const afternoonMinutes = value.afternoon.end - value.afternoon.start;
-  const breakMinutes = value.afternoon.start - value.morning.end;
-
-  const handleMorning = (next: RangeValue) => {
-    onChange(
-      resolveWorkSchedule(
-        value,
-        { morning: next, afternoon: value.afternoon },
-        totalMinutes,
-      ),
-    );
-  };
-
-  const handleAfternoon = (next: RangeValue) => {
-    onChange(
-      resolveWorkSchedule(
-        value,
-        { morning: value.morning, afternoon: next },
-        totalMinutes,
-      ),
-    );
-  };
+  const { morning, afternoon } = value;
+  const morningMinutes = morning.end - morning.start;
+  const continuousAllowed = canBeContinuous(totalMinutes);
 
   return (
     <div className="flex flex-col gap-4 w-full min-w-0">
@@ -65,46 +48,103 @@ export function WorkScheduleField({
           {label}
           {required && <span className="text-destructive ml-0.5">*</span>}
         </span>
-        <span className="text-xs text-text-secondary dark:text-text-secondary-dark">
-          {t("components.workSchedule.interval", {
-            duration: formatDuration(breakMinutes),
-          })}
-        </span>
+        {afternoon && (
+          <span className="text-xs text-text-secondary dark:text-text-secondary-dark">
+            {t("components.workSchedule.interval", {
+              duration: formatDuration(afternoon.start - morning.end),
+            })}
+          </span>
+        )}
       </div>
 
-      <RangeSlider
-        name="work-schedule-morning"
-        label={t("components.workSchedule.morning")}
-        min={DAY_START_MINUTES}
-        max={DAY_END_MINUTES}
-        step={SCHEDULE_STEP_MINUTES}
-        value={value.morning}
-        onChange={handleMorning}
-        onBlur={onBlur}
-        formatValue={formatMinutes}
-        summary={formatDuration(morningMinutes)}
-      />
+      <label
+        className={`flex items-center gap-2 text-xs md:text-sm text-text-primary dark:text-text-primary-dark ${continuousAllowed ? "cursor-pointer" : "opacity-60"}`}
+      >
+        <input
+          type="checkbox"
+          className="w-4 h-4 accent-primary"
+          checked={afternoon === null}
+          disabled={!continuousAllowed}
+          onChange={(event) =>
+            onChange(setContinuous(value, event.target.checked, totalMinutes))
+          }
+          onBlur={onBlur}
+        />
+        {t("components.workSchedule.continuous")}
+      </label>
 
-      <RangeSlider
-        name="work-schedule-afternoon"
-        label={t("components.workSchedule.afternoon")}
-        min={DAY_START_MINUTES}
-        max={DAY_END_MINUTES}
-        step={SCHEDULE_STEP_MINUTES}
-        value={value.afternoon}
-        onChange={handleAfternoon}
-        onBlur={onBlur}
-        formatValue={formatMinutes}
-        summary={formatDuration(afternoonMinutes)}
-      />
+      {afternoon ? (
+        <>
+          <RangeSlider
+            name="work-schedule-morning"
+            label={t("components.workSchedule.morning")}
+            min={DAY_START_MINUTES}
+            max={DAY_END_MINUTES}
+            step={SCHEDULE_STEP_MINUTES}
+            value={morning}
+            onChange={(next: RangeValue) =>
+              onChange(
+                resolveWorkSchedule(
+                  { morning, afternoon },
+                  { morning: next, afternoon },
+                  totalMinutes,
+                ),
+              )
+            }
+            onBlur={onBlur}
+            formatValue={formatMinutes}
+            summary={formatDuration(morningMinutes)}
+          />
+
+          <RangeSlider
+            name="work-schedule-afternoon"
+            label={t("components.workSchedule.afternoon")}
+            min={DAY_START_MINUTES}
+            max={DAY_END_MINUTES}
+            step={SCHEDULE_STEP_MINUTES}
+            value={afternoon}
+            onChange={(next: RangeValue) =>
+              onChange(
+                resolveWorkSchedule(
+                  { morning, afternoon },
+                  { morning, afternoon: next },
+                  totalMinutes,
+                ),
+              )
+            }
+            onBlur={onBlur}
+            formatValue={formatMinutes}
+            summary={formatDuration(afternoon.end - afternoon.start)}
+          />
+        </>
+      ) : (
+        <RangeSlider
+          name="work-schedule-continuous"
+          label={t("components.workSchedule.continuousPeriod")}
+          min={DAY_START_MINUTES}
+          max={DAY_END_MINUTES}
+          step={SCHEDULE_STEP_MINUTES}
+          value={morning}
+          onChange={(next: RangeValue) =>
+            onChange(resolveContinuousSchedule(morning, next, totalMinutes))
+          }
+          onBlur={onBlur}
+          formatValue={formatMinutes}
+          summary={formatDuration(morningMinutes)}
+        />
+      )}
 
       {error ? (
         <p className="text-xs text-error-text font-medium">{error}</p>
       ) : (
         <p className="text-xs text-text-secondary dark:text-text-secondary-dark">
-          {t("components.workSchedule.summaryText", {
-            duration: formatDuration(totalMinutes),
-          })}
+          {continuousAllowed
+            ? t("components.workSchedule.summaryText", {
+                duration: formatDuration(totalMinutes),
+              })
+            : t("components.workSchedule.summaryBreakRequired", {
+                duration: formatDuration(totalMinutes),
+              })}
         </p>
       )}
     </div>

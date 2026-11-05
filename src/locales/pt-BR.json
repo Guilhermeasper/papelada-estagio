@@ -459,7 +459,10 @@
       "interval": "Intervalo: {{duration}}",
       "morning": "Manhã",
       "afternoon": "Tarde",
-      "summaryText": "Os dois períodos sempre somam {{duration}}. Arraste o fim da manhã para mudar a divisão."
+      "summaryText": "O horário sempre soma {{duration}} por dia.",
+      "continuous": "Jornada contínua, sem dois turnos",
+      "continuousPeriod": "Jornada",
+      "summaryBreakRequired": "O horário sempre soma {{duration}} por dia. Acima de 6h, a CLT exige intervalo de pelo menos 1h."
     }
   },
   "pages": {

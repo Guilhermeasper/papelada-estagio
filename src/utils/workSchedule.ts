@@ -2,11 +2,14 @@ import {
   DAY_END_MINUTES,
   DAY_START_MINUTES,
   DEFAULT_SCHEDULE_START_MINUTES,
+  MAX_CONTINUOUS_MINUTES,
   MIN_BREAK_MINUTES,
   MIN_PERIOD_MINUTES,
   SCHEDULE_STEP_MINUTES,
 } from "@papelada-estagio/constants/business";
-import type { IWorkSchedule } from "@papelada-estagio/types";
+import type { IWorkPeriod, IWorkSchedule } from "@papelada-estagio/types";
+
+export type SplitWorkSchedule = IWorkSchedule & { afternoon: IWorkPeriod };
 
 export type WorkScheduleThumb =
   | "morningStart"
@@ -44,7 +47,10 @@ function normalizeTotal(totalMinutes: number): number {
   return clamp(snap(totalMinutes), MIN_PERIOD_MINUTES * 2, MAX_TOTAL_MINUTES);
 }
 
-function readThumb(schedule: IWorkSchedule, thumb: WorkScheduleThumb): number {
+function readThumb(
+  schedule: SplitWorkSchedule,
+  thumb: WorkScheduleThumb,
+): number {
   switch (thumb) {
     case "morningStart":
       return schedule.morning.start;
@@ -57,7 +63,7 @@ function readThumb(schedule: IWorkSchedule, thumb: WorkScheduleThumb): number {
   }
 }
 
-function toFrame(schedule: IWorkSchedule): IScheduleFrame {
+function toFrame(schedule: SplitWorkSchedule): IScheduleFrame {
   return {
     start: schedule.morning.start,
     morningMinutes: schedule.morning.end - schedule.morning.start,
@@ -65,7 +71,7 @@ function toFrame(schedule: IWorkSchedule): IScheduleFrame {
   };
 }
 
-function fromFrame(frame: IScheduleFrame, total: number): IWorkSchedule {
+function fromFrame(frame: IScheduleFrame, total: number): SplitWorkSchedule {
   const morningEnd = frame.start + frame.morningMinutes;
   const afternoonStart = morningEnd + frame.breakMinutes;
 
@@ -99,8 +105,8 @@ function sanitizeFrame(frame: IScheduleFrame, total: number): IScheduleFrame {
 }
 
 function detectMovedThumb(
-  current: IWorkSchedule,
-  next: IWorkSchedule,
+  current: SplitWorkSchedule,
+  next: SplitWorkSchedule,
 ): WorkScheduleThumb | null {
   let moved: WorkScheduleThumb | null = null;
   let largest = 0;
@@ -132,8 +138,8 @@ function translateTo(
 }
 
 export function resolveWorkSchedule(
-  current: IWorkSchedule,
-  next: IWorkSchedule,
+  current: SplitWorkSchedule,
+  next: SplitWorkSchedule,
   totalMinutes: number,
 ): IWorkSchedule {
   const total = normalizeTotal(totalMinutes);
@@ -182,12 +188,76 @@ export function resolveWorkSchedule(
   }
 }
 
+export function canBeContinuous(totalMinutes: number): boolean {
+  return totalMinutes <= MAX_CONTINUOUS_MINUTES;
+}
+
+function continuousFrom(start: number, total: number): IWorkSchedule {
+  const safeStart = clamp(
+    snap(start),
+    DAY_START_MINUTES,
+    DAY_END_MINUTES - total,
+  );
+
+  return {
+    morning: { start: safeStart, end: safeStart + total },
+    afternoon: null,
+  };
+}
+
+export function resolveContinuousSchedule(
+  current: IWorkPeriod,
+  next: IWorkPeriod,
+  totalMinutes: number,
+): IWorkSchedule {
+  const total = normalizeTotal(totalMinutes);
+  const start = next.start !== current.start ? next.start : next.end - total;
+
+  return continuousFrom(start, total);
+}
+
+function splitFrom(start: number, total: number): IWorkSchedule {
+  return fromFrame(
+    sanitizeFrame(
+      {
+        start,
+        morningMinutes: snap(total / 2),
+        breakMinutes: MIN_BREAK_MINUTES,
+      },
+      total,
+    ),
+    total,
+  );
+}
+
+export function setContinuous(
+  schedule: IWorkSchedule,
+  continuous: boolean,
+  totalMinutes: number,
+): IWorkSchedule {
+  const total = normalizeTotal(totalMinutes);
+  return continuous && canBeContinuous(total)
+    ? continuousFrom(schedule.morning.start, total)
+    : splitFrom(schedule.morning.start, total);
+}
+
 export function rebalanceForTotal(
   schedule: IWorkSchedule,
   totalMinutes: number,
 ): IWorkSchedule {
   const total = normalizeTotal(totalMinutes);
-  return fromFrame(sanitizeFrame(toFrame(schedule), total), total);
+
+  if (!schedule.afternoon) {
+    return setContinuous(schedule, true, total);
+  }
+
+  return fromFrame(
+    sanitizeFrame(
+      toFrame({ ...schedule, afternoon: schedule.afternoon }),
+      total,
+    ),
+    total,
+  );
 }
 
 export function defaultWorkSchedule(totalMinutes: number): IWorkSchedule {
@@ -208,17 +278,27 @@ export function isValidWorkSchedule(
   schedule: Partial<IWorkSchedule> | null | undefined,
   totalMinutes: number,
 ): boolean {
-  if (!schedule?.morning || !schedule.afternoon) return false;
+  if (!schedule?.morning || schedule.afternoon === undefined) return false;
 
   const values = [
     schedule.morning.start,
     schedule.morning.end,
-    schedule.afternoon.start,
-    schedule.afternoon.end,
+    ...(schedule.afternoon
+      ? [schedule.afternoon.start, schedule.afternoon.end]
+      : []),
   ];
 
   if (values.some((value) => !Number.isInteger(value))) return false;
   if (values.some((value) => value % SCHEDULE_STEP_MINUTES !== 0)) return false;
+
+  if (!schedule.afternoon) {
+    return (
+      canBeContinuous(totalMinutes) &&
+      schedule.morning.start >= DAY_START_MINUTES &&
+      schedule.morning.end <= DAY_END_MINUTES &&
+      schedule.morning.end - schedule.morning.start === totalMinutes
+    );
+  }
 
   const morningMinutes = schedule.morning.end - schedule.morning.start;
   const afternoonMinutes = schedule.afternoon.end - schedule.afternoon.start;
@@ -249,6 +329,11 @@ export function formatDuration(minutes: number): string {
 export function formatWorkSchedule(schedule: IWorkSchedule): string {
   const morningStart = formatMinutes(schedule.morning.start);
   const morningEnd = formatMinutes(schedule.morning.end);
+
+  if (!schedule.afternoon) {
+    return `Das ${morningStart}h às ${morningEnd}h`;
+  }
+
   const afternoonStart = formatMinutes(schedule.afternoon.start);
   const afternoonEnd = formatMinutes(schedule.afternoon.end);
 

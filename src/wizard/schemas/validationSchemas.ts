@@ -28,7 +28,7 @@ const workPeriodSchema = z.object({
 
 const workScheduleSchema = z.object({
   morning: workPeriodSchema,
-  afternoon: workPeriodSchema,
+  afternoon: workPeriodSchema.nullable(),
 });
 
 const phoneRegex = /^\(?[0-9]{2}\)?[\s]?[0-9]{4,5}[-\s]?[0-9]{4}$/;

@@ -12,6 +12,7 @@ export const DAY_END_MINUTES = 1320;
 export const SCHEDULE_STEP_MINUTES = 30;
 export const MIN_PERIOD_MINUTES = 60;
 export const MIN_BREAK_MINUTES = 60;
+export const MAX_CONTINUOUS_MINUTES = 360;
 export const DEFAULT_SCHEDULE_START_MINUTES = 540;
 export const MAX_NUMBERED_LIST_ITEMS = 10;
 export const MAX_SCHEDULE_ITEMS = 10;
